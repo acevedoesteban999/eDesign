@@ -11,18 +11,85 @@
         </field>
     </record>
 
+    <record id="view_e_sublimation_category_kanban" model="ir.ui.view">
+        <field name="name">e_sublimation.category.kanban</field>
+        <field name="model">e_sublimation.category</field>
+        <field name="arch" type="xml">
+            <kanban sample="1">
+                <field name="name"/>
+                <field name="image"/>
+                <field name="child_count" />
+                <templates>
+                    <!-- <t t-name="menu">
+                        <div name="card_menu_view">
+                            <div role="menuitem">
+                                <div class="text-center">
+                                    <a class="h6 link" name="action_open_product_template" type="object"><small>Open Product</small></a>
+                                </div>
+                            </div>
+                        </div>
+                    </t> -->
+                    <t t-name="card" >
+                        <a class="text-decoration-none text-reset h-100" name="action_open_product_childs_category" type="object">
+                            <div class="card h-100 border-0 shadow-0">
+                                <div class="card-img-top text-center p-2">
+                                    <field
+                                        name="image"
+                                        widget="image"
+                                        alt="Product"
+                                        options="{'img_class': 'img-fluid rounded', 'max_width': 192, 'max_height': 192}"
+                                    />
+                                </div>
+                                
+                                <div class="card-body d-flex flex-column justify-content-between p-3">
+                                    <div class="mb-2">
+                                        <h2 class="mb-1 text-truncate text-center">
+                                            <field name="name"/>
+                                        </h2>
+                                    </div>
+
+                                    <div class="row g-2 text-muted small text-center">
+                                        <div class="col">
+                                            <i class="fa fa-sitemap me-1" title="total"></i>
+                                            <field name="child_count"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
     <record id="view_e_sublimation_category_form" model="ir.ui.view">
         <field name="name">view.e_sublimation.category.form</field>
         <field name="model">e_sublimation.category</field>
         <field name="arch" type="xml">
             <form string="E_sublimation Category">
                 <sheet>
+                    <field
+                        name="image"
+                        widget="image"
+                        class="oe_avatar"
+                        options="{'convert_to_webp': True}"
+                    />
                     <div class="oe_title">
                         <label for="name"/>
                         <h1>
                             <field name="name" placeholder="Name..."/>
                         </h1>
                     </div>
+                    <group>
+                        <field name="description"></field>
+                        <field name="child_ids">
+                            <list limit="10" create="0">
+                                <field name="name"></field>
+                                <field name="product_tmpl_sublimation_id" string="Parent"></field>
+                            </list>
+                        </field>
+                    </group>
                 </sheet>
             </form>
         </field>
@@ -40,6 +107,27 @@
                 There is no examples click here to add new E_sublimation Category.
             </p>
         </field>
+    </record>
+
+    <record id="action_e_sublimation_category_kanban" model="ir.actions.act_window">
+        <field name="name">E_sublimation Category Kanban</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">e_sublimation.category</field>
+        <field name="view_mode">kanban</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                There is no examples click here to add new E_sublimation Category.
+            </p>
+        </field>
+    </record>
+
+    <record id="ref_action_category_kanban" model="ir.actions.act_window.view">
+        <field name="sequence" eval="0" />
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="view_e_sublimation_category_kanban"/>
+        <field name="act_window_id" ref="action_e_sublimation_category_kanban"/>
     </record>
 
 </odoo>

@@ -12,6 +12,9 @@
             <xpath expr="//field[@name='list_price']" position="attributes">
                 <attribute name="readonly">sublimation_ok and product_tmpl_sublimation_id</attribute>
             </xpath>
+            <xpath expr="//field[@name='categ_id']" position="after">
+                <field name="category_sublimation_id" invisible="not sublimation_ok"></field>
+            </xpath>
             <xpath expr="//label[@for='standard_price']" position="before">
                 <field name="sublimation_price_extra" invisible="not product_tmpl_sublimation_id"/>
             </xpath>
