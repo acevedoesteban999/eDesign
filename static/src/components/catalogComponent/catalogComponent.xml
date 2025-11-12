@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates xml:space="preserve">
     <t t-name="e_sublimation.CatalogComponent" owl="1">
-        <section class="splide" aria-label="Basic Structure Example">
-            <div class="splide__track">
-                <ul class="splide__list">
-                <li class="splide__slide">Slide 01</li>
-                <li class="splide__slide">Slide 02</li>
-                <li class="splide__slide">Slide 03</li>
-                </ul>
+        
+        <div class="catalog-swiper-main">
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <t t-foreach="this.state.catalogs" t-as="catalog" t-key="catalog.id">
+                        <div class="swiper-slide">
+                            <div class="slide-background"
+                                 t-attf-style="background-image: url(/web/image/e_sublimation.category/{{catalog.id}}/image);">
+                            </div>
+                            <div class="slide-content">
+                                <h2 class="catalog-title" t-esc="catalog.name"/>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+                
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-scrollbar"></div>
             </div>
-        </section>
+        </div>
+
+
     </t>
 </templates>
