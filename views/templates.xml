@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
   <data>
-    <template id="e_sublimation.catalog">
+    <template id="e_sublimation.MainComponent">
       <t t-call="website.layout">
-        <owl-component name="e_sublimation.catalogComponent"/>
+        <owl-component name="e_sublimation.MainComponent"/>
       </t>
     </template>
   </data>

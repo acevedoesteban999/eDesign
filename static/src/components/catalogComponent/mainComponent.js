@@ -6,8 +6,8 @@ import { loadCSS , loadJS } from "@web/core/assets";
 import { useService } from "@web/core/utils/hooks";
 
 
-export class CatalogComponent extends Component {
-    static template = "e_sublimation.CatalogComponent";
+export class MainComponent extends Component {
+    static template = "e_sublimation.MainComponent";
     static components = {};
     static props = {};
 
@@ -102,5 +102,5 @@ export class CatalogComponent extends Component {
   }
 }
 
-registry.category("public_components").add("e_sublimation.catalogComponent", CatalogComponent);
+registry.category("public_components").add("e_sublimation.MainComponent", MainComponent);
   

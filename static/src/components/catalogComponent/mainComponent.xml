@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates xml:space="preserve">
-    <t t-name="e_sublimation.CatalogComponent" owl="1">
+    <t t-name="e_sublimation.MainComponent" owl="1">
         
         <div class="category-swiper-main">
             <div class="swiper">
@@ -25,7 +25,6 @@
             </div>
         </div>
         
-
         <div class="banner-sublimaciones position-relative overflow-hidden" style="height: 500px;">
     
             <div class="position-absolute top-0 start-0 w-100 h-100" 
@@ -54,9 +53,6 @@
                 </div>
             </div>
         </div>
-
-
-
 
         <div class="swiper swiper-products">
             <div class="swiper-wrapper">

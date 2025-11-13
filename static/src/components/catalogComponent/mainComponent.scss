@@ -120,10 +120,10 @@
 }
 
 .swiper-products {
-    height: 500px; // Desktop
+    height: 500px;
     
     @media (max-width: 768px) {
-        height: 70vh; // Mobile - usa viewport height
+        height: 70vh;
     }
 }
 

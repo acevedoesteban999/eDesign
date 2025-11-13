@@ -11,7 +11,7 @@
         "security/ir.model.access.csv",
         "views/category_views.xml",
         "views/product_template.xml",
-        "views/catalog.xml",
+        "views/templates.xml",
         "wizard/sublimation_attachment_wizard.xml",
         "wizard/sublimation_wizard.xml",
         
