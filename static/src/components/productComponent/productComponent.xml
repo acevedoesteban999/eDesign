@@ -11,7 +11,7 @@
                     </a>
                     
                     <a class="lg-item" t-attf-href="/web/content/{{attachment}}">
-                        <div class="row justify-content-center">
+                        <div class="row justify-content-center h-100 align-items-center">
                             <t t-foreach="attachments" t-as="attachment" t-key="attachment">
                                 <t t-if="attachments.length != 3">
                                     <t t-set="_class" t-value="'col-12'"/>
@@ -25,7 +25,7 @@
                                     <t t-set="_class" t-value="'col-6'"/>
                                 </t>
                                 
-                                <div t-attf-class="{{_class}}">
+                                <div t-attf-class="p-1 {{_class}}">
                                     <img class="product-image" t-attf-src="/web/content/{{attachment}}" 
                                             t-att-alt="product.name"/>
                                 </div>
