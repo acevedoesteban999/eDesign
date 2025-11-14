@@ -10,28 +10,31 @@
                         <i class="fa fa-external-link"></i>
                     </a>
                     
-                    <a class="lg-item" t-attf-href="/web/content/{{attachment}}">
-                        <div class="row justify-content-center h-100 align-items-center">
-                            <t t-foreach="attachments" t-as="attachment" t-key="attachment">
-                                <t t-if="attachments.length != 3">
-                                    <t t-set="_class" t-value="'col-12'"/>
-                                </t>
-                                
-                                <t t-elif="attachments.length == 3 and attachment_first">
-                                    <t t-set="_class" t-value="'col-auto my-2'"/>
-                                </t>
-                                
-                                <t t-else="">
-                                    <t t-set="_class" t-value="'col-6'"/>
-                                </t>
-                                
-                                <div t-attf-class="p-1 {{_class}}">
+                    <div class="row justify-content-center h-100 align-items-center">
+                        <t t-foreach="attachments" t-as="attachment" t-key="attachment">
+                            <t t-if="attachments.length != 3">
+                                <t t-set="_class" t-value="'col-12'"/>
+                            </t>
+                            
+                            <t t-elif="attachments.length == 3 and attachment_first">
+                                <t t-set="_class" t-value="'col-auto my-2'"/>
+                            </t>
+                            
+                            <t t-else="">
+                                <t t-set="_class" t-value="'col-6'"/>
+                            </t>
+                            
+                            <div t-attf-class="p-1 {{_class}}">
+                                <a class="lg-item" 
+                                    t-attf-href="/web/content/{{attachment}}" 
+                                    t-att-data-lg-id="product.id"
+                                    t-att-alt="product.name">
                                     <img class="product-image" t-attf-src="/web/content/{{attachment}}" 
                                             t-att-alt="product.name"/>
-                                </div>
-                            </t>
-                        </div>
-                    </a>
+                                </a>
+                            </div>
+                        </t>
+                    </div>
                 </div>
             </t>
         </div>
