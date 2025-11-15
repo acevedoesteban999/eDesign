@@ -6,22 +6,22 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': '',
     'category': '',
-    'depends': ['base', 'product','stock'],
+    'depends': [
+        'base', 
+        'product',
+        'stock',
+        'website',
+    ],
     "data": [
         "security/ir.model.access.csv",
         
+        "data/data.xml",
+        
         "views/product_template.xml",
 
-        "wizard/sublimation_wizard.xml",
-        "wizard/sublimation_attachment_wizard.xml",
         
-        "views/menu.xml",
+        #"views/menu.xml",
     ],
-    "assets": {
-        "web.assets_backend": [
-            "e_sublimation/static/src/js/*.js",
-        ],
-    },
     
     'application': True,
     'installable': True,

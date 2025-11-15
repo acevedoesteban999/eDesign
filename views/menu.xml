@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-    <menuitem id="menu_sublimation_root"
+    <!-- <menuitem id="menu_sublimation_root"
             name="Sublimations"
             action="action_product_template_sublimation"
             web_icon="e_sublimation,static/description/icon.png"
@@ -19,5 +19,5 @@
                 groups="product.group_product_variant"
                 sequence="20"/>
         </menuitem>
-    </menuitem>
+    </menuitem> -->
 </odoo>
