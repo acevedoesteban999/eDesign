@@ -9,7 +9,14 @@
                 <field name="sublimation_ok"/>
                 <label for="sublimation_ok"/>
             </xpath>
-            
+            <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']//field[@name='value_ids']" position="attributes">
+                <attribute name="readonly">attribute_id.sublimation_ok</attribute>
+            </xpath>
+            <xpath expr="//page[@name='variants']" position="after">
+                <page name="sublimation" string="Sublimations" invisible="not sublimation_ok">
+                    <field name="attribute_line_ids" widget="sublimation_attr_values"></field>
+                </page>
+            </xpath>
         </field>
     </record>
 </odoo>

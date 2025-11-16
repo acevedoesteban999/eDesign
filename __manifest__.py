@@ -22,7 +22,11 @@
         
         #"views/menu.xml",
     ],
-    
+    "assets": {
+        "web.assets_backend": [
+            "e_sublimation/static/src/components/**/*",
+        ],
+    },
     'application': True,
     'installable': True,
     'auto_install': False,
