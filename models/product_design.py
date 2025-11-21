@@ -1,4 +1,4 @@
-from odoo import models , fields , api
+from odoo import models , fields , api , Command
 
 class ProductDesign(models.Model):
     _name = 'product.design'
@@ -59,10 +59,9 @@ class ProductDesign(models.Model):
             'default_extra_price':self.extra_price
         })
         
-        self.env['product.template.attribute.value'].create({
-            'attribute_line_id': line_id,
-            'product_attribute_value_id' : new_attr_value.id
-            
-        })
+        line_id.value_ids = [Command.link(new_attr_value.id)]
+        
+        
         record =  super().create(vals_list)
         new_attr_value.product_design_id = record.id
+        return record
