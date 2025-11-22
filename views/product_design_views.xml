@@ -35,24 +35,20 @@
         <field name="arch" type="xml">
             <kanban>
                 <templates>
-                    <t t-name="card" >
-                        <div class="flex-row">
-                            <main class="pe-2">
-                                <div class="mb-1">
-                                    <span t-if="record.default_code.value">
-                                        [<field name="default_code"/>]
-                                    </span>
-                                    <field name="name"></field>
-                                </div>
-                                <span>
-                                    Extra Price: <field name="extra_price"/>
+                    <div class="flex-row sublimation-style">
+                        <field name="image" widget="image" alt="Image" options="{'img_class': 'w-100 object-fit-contain'}" invisible="not image"/>
+                        <main class="card pe-2">
+                            <div class="mb-1">
+                                <span t-if="record.default_code.value">
+                                    [<field name="default_code"/>]
                                 </span>
-                            </main>
-                            <aside>
-                                <field name="image" widget="image" alt="Image" options="{'img_class': 'w-100 object-fit-contain'}" invisible="not image"/>
-                            </aside>
-                        </div>
-                    </t>
+                                <field name="name"></field>
+                            </div>
+                            <span>
+                                Extra Price: <field name="extra_price"/>
+                            </span>
+                        </main>
+                    </div>
                 </templates>
             </kanban>
         </field>
