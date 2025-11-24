@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record id="pos_order_form_inherit_pos_order" model="ir.ui.view">
+            <field name="name">pos.order.form.pos.sale</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_stock_picking']" position="after">
+                    <button type="object"
+                        name="action_view_mrp_production"
+                        class="oe_stat_button"
+                        icon="fa-fw fa-wrench"
+                        invisible="mrp_production_count == 0" groups="point_of_sale.group_pos_user">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value d-flex">
+                                <field name="mrp_production_count" widget="statinfo" nolabel="1" class="mr4" /> Fabrication
+                            </span>
+                        </div>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
