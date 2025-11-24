@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
+
     <record id="e_sublimation_inherit_product_template" model="ir.ui.view">
         <field name="name">product.template.view.form.inherit</field>
         <field name="model">product.template</field>
@@ -17,6 +18,29 @@
                 <page name="sublimation" string="Sublimations" invisible="not sublimation_ok">
                     <field name="attribute_line_ids" widget="sublimation_attr_values"></field>
                 </page>
+            </xpath>
+
+            
+        </field>
+    </record>
+
+    <record id="inherit_view_id_inherit_module_name" model="ir.ui.view">
+        <field name="name">product.template.view.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_open_documents']" position="before">
+                <button type="object"
+                    name="action_view_designs"
+                    class="oe_stat_button"
+                    icon="fa-fw fa-tint"
+                    invisible="not sublimation_ok or design_counter == 0">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value d-flex">
+                            <field name="design_counter" widget="statinfo" nolabel="1" class="mr4" /> Designs
+                        </span>
+                    </div>
+                </button>
             </xpath>
         </field>
     </record>

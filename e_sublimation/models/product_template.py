@@ -5,6 +5,39 @@ class ProductProduct(models.Model):
 
     sublimation_ok = fields.Boolean(string='Sublimation')
     
+    design_counter = fields.Integer("Designs",compute="_compute_design_ids")
+    design_ids = fields.Many2many(
+        'product.design',
+        string="Designs linked to Product Template",
+        compute="_compute_design_ids",
+    )
+    
+    def action_view_designs(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Designs',   
+            'res_model': 'product.design',   
+            'view_type': 'form',    
+            'view_mode': 'kanban,list,form',   
+            'views':[(False,'list'),(False,'form'),(False,'kanban')],
+            'target': 'current',
+            'domain':[],
+            'context':{
+                'create': False,
+                'edit':False,
+            } 
+        }
+    
+    @api.depends('attribute_line_ids.value_ids')
+    def _compute_design_ids(self):
+        for rec in self:
+            if rec.sublimation_ok:
+                rec.design_ids = [Command.link(design.id) for design in rec.attribute_line_ids.filtered_domain([('attribute_id.sublimation_ok','=',True)]).value_ids.product_design_id]
+                rec.design_counter = len(rec.design_ids)
+            else:
+                rec.design_ids = False
+                rec.design_counter = 0
+                
     @api.constrains('sublimation_ok')
     def _check_sublimation_ok(self):
         for rec in self:

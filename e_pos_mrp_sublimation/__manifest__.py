@@ -9,7 +9,6 @@
     'depends': ['sale_mrp', 'e_pos_mrp','e_sublimation'],
     "data": [
         "views/mrp_production.xml",
-        "views/product_design.xml",
     ],
     
     'application': False,

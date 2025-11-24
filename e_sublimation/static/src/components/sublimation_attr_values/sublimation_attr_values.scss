@@ -1,26 +1,36 @@
 // Variables configurables
 $card-bg: white;
 $card-border-radius: 12px;
-$card-padding: 20px;
 $focus-color: #3b82f6;
 $scale-hover: 1.05;
 $transition-speed: 0.3s;
-.sublimation-style{
-    .card {
-    background: $card-bg;
-    border-radius: $card-border-radius;
-    padding: $card-padding;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
-    transform: scale(1);
-    position: relative;
-    cursor: pointer;
+$img-height: 200px; // Altura fija para imagen
 
-    &:hover {
-        transform: scale($scale-hover);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-        border: 2px solid $focus-color;
-        z-index: 10;
-    }
+.sublimation-style {
+    .card {
+        background: $card-bg;
+        border-radius: $card-border-radius;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: all $transition-speed cubic-bezier(0.4, 0, 0.2, 1);
+        transform: scale(1);
+        cursor: pointer;
+        overflow: hidden;
+
+        .card-img-top {
+            height: $img-height;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .card-body {
+            flex-grow: 1;
+        }
+
+        &:hover {
+            transform: scale($scale-hover);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            border: 2px solid $focus-color;
+            z-index: 10;
+        }
     }
 }

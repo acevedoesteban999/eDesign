@@ -11,7 +11,7 @@
                       invisible="not design_id"
                       context="{
                         'action_target':'new',
-                        'view_form':'e_pos_mrp_sublimation.product_design_view_form_no_edit'}"
+                        'edit':False}"
                       >
               </field>
             </xpath>
