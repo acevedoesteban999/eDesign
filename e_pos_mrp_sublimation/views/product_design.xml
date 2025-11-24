@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_design_view_form_no_edit" model="ir.ui.view">
+        <field name="name">product.design.view.form</field>
+        <field name="model">product.design</field>
+        <field name="arch" type="xml">
+            <form edit="0">
+                <sheet>
+                    <group>
+                        <field name="name"></field>
+                        <field name="product_id" required="not context.get('product_id') and not id" invisible="context.get('product_id') or id"></field>
+                        <field name="default_code"></field>
+                        <field name="image" widget="image"></field>
+                        <field name="extra_price"></field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

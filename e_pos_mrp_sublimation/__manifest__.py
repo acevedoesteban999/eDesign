@@ -6,9 +6,10 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': '',
     'category': '',
-    'depends': ['base', 'e_pos_mrp','e_sublimation'],
-    'data': [
-    
+    'depends': ['sale_mrp', 'e_pos_mrp','e_sublimation'],
+    "data": [
+        "views/mrp_production.xml",
+        "views/product_design.xml",
     ],
     
     'application': False,
