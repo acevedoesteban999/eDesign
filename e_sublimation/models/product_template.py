@@ -6,10 +6,10 @@ class ProductProduct(models.Model):
     sublimation_ok = fields.Boolean(string='Sublimation')
     
     design_counter = fields.Integer("Designs",compute="_compute_design_ids")
-    design_ids = fields.One2many(
+    design_ids = fields.Many2many(
         'product.design',
-        'product_id',
         string="Designs linked to Product Template",
+        compute="_compute_design_ids",
     )
     
     def action_view_designs(self):
@@ -31,6 +31,7 @@ class ProductProduct(models.Model):
     def _compute_design_ids(self):
         for rec in self:
             if rec.sublimation_ok:
+                rec.design_ids = [Command.link(design.id) for design in self.attribute_line_ids.filtered_domain([('attribute_id.sublimation_ok','=',True)]).value_ids.product_design_id]
                 rec.design_counter = len(rec.design_ids)
             else:
                 rec.design_counter = 0
