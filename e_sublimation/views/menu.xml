@@ -5,5 +5,11 @@
             action="product_design_action"
             web_icon="e_sublimation,static/description/icon.png"
             sequence="10">
+
+            <menuitem
+                id="product_menu"
+                name="Products"
+                action="e_sublimation_product_template_action"
+                sequence="10"/>
     </menuitem>
 </odoo>
