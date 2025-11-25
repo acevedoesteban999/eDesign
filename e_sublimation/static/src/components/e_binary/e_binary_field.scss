@@ -1,0 +1,165 @@
+// Variables
+$o-binary-field-height: 60px;
+$o-binary-field-border-radius: 8px;
+$o-binary-field-bg: map-get($theme-colors, 'light');
+$o-binary-field-border: 1px solid map-get($theme-colors, 'gray-300');
+$o-binary-field-hover-bg: map-get($theme-colors, 'white');
+$o-binary-field-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+$o-file-icon-size: 32px;
+$o-file-icon-color: map-get($theme-colors, 'primary');
+$o-file-name-color: map-get($theme-colors, 'dark');
+$o-file-meta-color: map-get($theme-colors, 'gray-600');
+$o-file-meta-size: 0.875rem;
+
+// Contenedor principal del campo binario
+.o_binary_field_container {
+    min-height: $o-binary-field-height;
+    background: $o-binary-field-bg;
+    border: $o-binary-field-border;
+    border-radius: $o-binary-field-border-radius;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+
+    // Layout flex para alineación horizontal
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    // Hover effect
+    &:hover {
+        background: $o-binary-field-hover-bg;
+        box-shadow: $o-binary-field-hover-shadow;
+        text-decoration: none;
+    }
+
+    // Modo readonly (solo descarga)
+    &.o_form_uri {
+        &:hover {
+            .o_file_action .fa-download {
+                color: map-get($theme-colors, 'primary');
+                transform: translateY(-1px);
+            }
+        }
+    }
+}
+
+// Icono del tipo de archivo
+.o_file_icon {
+    flex-shrink: 0;
+    
+    i {
+        font-size: $o-file-icon-size;
+        color: $o-file-icon-color;
+        
+        // Iconos específicos por formato
+        &.fa-file-pdf { color: #dc3545; } // Rojo para PDF
+        &.fa-file-image { color: #28a745; } // Verde para imágenes
+        &.fa-file-word { color: #007bff; } // Azul para Word
+        &.fa-file-excel { color: #28a745; } // Verde para Excel
+        &.fa-file-archive { color: #ffc107; } // Amarillo para ZIP
+    }
+}
+
+// Contenedor de información del archivo
+.o_file_info {
+    flex-grow: 1;
+    min-width: 0; // Permite truncamiento en flexbox
+
+    .o_file_name {
+        font-weight: 500;
+        color: $o-file-name-color;
+        margin-bottom: 0.125rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .o_file_meta {
+        display: flex;
+        gap: 0.5rem;
+        font-size: $o-file-meta-size;
+        color: $o-file-meta-color;
+
+        .o_file_format {
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .o_file_size {
+            &::before {
+                content: "•";
+                margin-right: 0.5rem;
+            }
+        }
+    }
+}
+
+// Acciones (botones de reemplazar/eliminar)
+.o_file_actions {
+    display: flex;
+    gap: 0.25rem;
+    margin-left: auto;
+
+    .btn-link {
+        padding: 0.25rem;
+        font-size: 1rem;
+        transition: color 0.2s;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+}
+
+// Botón de subida inicial
+.o_select_file_button {
+    min-height: $o-binary-field-height;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+// Responsive
+@media (max-width: 768px) {
+    .o_binary_field_container {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: $o-binary-field-height;
+    }
+
+    .o_file_info {
+        width: 100%;
+        
+        .o_file_name {
+            white-space: normal;
+        }
+    }
+
+    .o_file_actions {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: 0.5rem;
+    }
+}
+
+// Modo oscuro (Odoo dark mode)
+.o_dark_theme {
+    .o_binary_field_container {
+        background: mix(map-get($theme-colors, 'dark'), map-get($theme-colors, 'light'), 80%);
+        border-color: map-get($theme-colors, 'gray-700');
+
+        &:hover {
+            background: mix(map-get($theme-colors, 'dark'), map-get($theme-colors, 'light'), 70%);
+        }
+    }
+
+    .o_file_name {
+        color: map-get($theme-colors, 'white');
+    }
+
+    .o_file_meta {
+        color: map-get($theme-colors, 'gray-400');
+    }
+}

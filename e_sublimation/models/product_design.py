@@ -23,7 +23,7 @@ class ProductDesign(models.Model):
         store=True,
         readonly=False,
     )
-    
+    file_id = fields.Binary("File")
     def _compute_attachment_ids(self):
         for rec in self:
             rec.attachment_ids = self.env['ir.attachment'].search([

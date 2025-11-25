@@ -13,7 +13,7 @@
                         options="{'convert_to_webp': True, 'preview_image': 'image'}"
                     />
                     <div class="oe_title">
-                        <label for="name" string="Product"/>
+                        <label for="name" string="Name"/>
                         <h1>
                             <div class="d-flex">
                                 <field class="text-break" name="name" options="{'line_breaks': False}" widget="text" placeholder="Design Name..."/>
@@ -29,6 +29,9 @@
                     <notebook>
                         <page name="images" string="Images">
                             <field name="attachment_ids" widget="many2many_image"></field>
+                        </page>
+                        <page name="file" string="File">
+                            <field name="file_id" widget="e_binary_field"></field>
                         </page>
                     </notebook>
                 </sheet>
