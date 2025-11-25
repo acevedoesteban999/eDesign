@@ -6,10 +6,21 @@
             web_icon="e_sublimation,static/description/icon.png"
             sequence="10">
 
+            
             <menuitem
-                id="product_menu"
+                id="menu_products_root"
                 name="Products"
-                action="e_sublimation_product_template_action"
-                sequence="10"/>
+                sequence="10">
+                    <menuitem
+                        id="product_menu"
+                        name="Products"
+                        action="e_sublimation_product_template_action"
+                        sequence="10"/>
+                    <menuitem
+                        id="product_design_category_menu"
+                        name="Categories"
+                        action="action_product_design_category"
+                        sequence="20"/>
+                </menuitem>
     </menuitem>
 </odoo>

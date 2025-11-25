@@ -13,13 +13,14 @@ class ProductDesign(models.Model):
     
     attr_value_ids = fields.One2many('product.attribute.value','product_design_id',"Attr Value Lines")
     product_ids = fields.Many2many('product.template',compute="_compute_product_ids",readonly=False,domain=[('sublimation_ok','=',True)])
-    
+    products_counter = fields.Integer("In Porducts",compute="_compute_product_ids")
+    category_id = fields.Many2one('product.design.category',"Design")
     
     def _compute_product_ids(self):
         for rec in self:
             products = self.env['product.template.attribute.value'].search([('product_attribute_value_id','in',rec.attr_value_ids.ids)]).attribute_line_id.product_tmpl_id
             rec.product_ids = [Command.link(product.id) for product in products]
-    
+            rec.products_counter = len(rec.product_ids)
     @api.model
     def get_data_for_product_template_view(self,*args,**kwargs):
         line_id = self.env['product.template.attribute.line'].browse(args).filtered_domain([('attribute_id.sublimation_ok','=',True)])

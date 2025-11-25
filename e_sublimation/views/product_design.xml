@@ -6,11 +6,24 @@
         <field name="arch" type="xml">
             <form string="">
                 <sheet>
+                    <field
+                        name="image"
+                        widget="image"
+                        class="oe_avatar"
+                        options="{'convert_to_webp': True, 'preview_image': 'image'}"
+                    />
+                    <div class="oe_title">
+                        <label for="name" string="Product"/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="text-break" name="name" options="{'line_breaks': False}" widget="text" placeholder="Design Name..."/>
+                            </div>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name"></field>
                         <field name="product_ids" widget="many2many_tags"></field>
+                        <field name="category_id"></field>
                         <field name="default_code"></field>
-                        <field name="image" widget="image"></field>
                         <field name="extra_price"></field>
                     </group>
                 </sheet>
@@ -25,6 +38,8 @@
             <list string="">
                 <field name="name"></field>
                 <field name="default_code"></field>
+                <field name="category_id"></field>
+                <field name="products_counter"></field>
             </list>
         </field>
     </record>

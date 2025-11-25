@@ -14,8 +14,10 @@
     "data": [
         "data/data.xml",
         "security/ir.model.access.csv",
+        "views/product_design_category.xml",
         "views/product_design.xml",
         "views/product_template.xml",
+        
         "views/menu.xml",
     ],
     "assets": {
