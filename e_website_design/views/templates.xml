@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data>
+
+    <template id="e_design.designs">
+      <t t-call="website.layout">
+          <div class="container py-5">
+              <div class="row g-4 public-design-style">
+                  <t t-foreach="objects" t-as="design">
+                      <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                          <div class="card h-100">
+                              <img t-if="design.image"
+                                  t-attf-src="/web/image/product.design/#{design.id}/image"
+                                  class="card-img-top"
+                                  t-att-alt="design.name"/>
+                              <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
+                                  <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
+                              </div>
+                              <div class="card-body d-flex flex-column">
+                                  <h5 class="card-title fw-bold text-truncate">
+                                      <t t-esc="design.name"/>
+                                  </h5>
+                                  <p t-if="design.default_code" class="card-text flex-grow-1 text-muted">
+                                      [<t t-esc="design.default_code" t-options='{"widget": "text"}'/>]
+                                  </p>
+                              </div>
+                          </div>
+                      </div>
+                  </t>
+              </div>
+          </div>
+      </t>
+    </template>
+    
+    <template id="e_design.design">
+        <owl-component name="e_design.CatalogDesignComponent"/>
+    </template>
+    
+  </data>
+</odoo>

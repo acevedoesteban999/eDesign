@@ -18,7 +18,6 @@
         "views/product_design_category.xml",
         "views/product_design.xml",
         "views/product_template.xml",
-        "views/templates.xml"
     ],
     "assets": {
         "web.assets_backend": [
