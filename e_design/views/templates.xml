@@ -2,11 +2,11 @@
   <data>
 
     <template id="designs">
-
+      
     </template>
 
     <template id="design">
-      
+        <owl-component name="e_design.CatalogDesignComponent"/>
     </template>
     
   </data>

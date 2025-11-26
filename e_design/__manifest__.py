@@ -22,7 +22,7 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "e_design/static/src/components/**/*",
+            "e_design/static/src/components/**/**/*",
         ],
     },
     'application': True,
