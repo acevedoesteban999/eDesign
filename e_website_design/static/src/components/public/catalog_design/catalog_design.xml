@@ -23,7 +23,7 @@
             </div>
 
             <div class="container py-3">
-                <Breadcrumb back_url="this.back_url" breadcrumbs="this.breadcrumbs"/>
+                <BreadcrumbComponent back_url="this.back_url" breadcrumbs="this.breadcrumbs"/>
                 
                 <div class="row g-4 public-design-style mt-3">
                     <t t-foreach="this.state.designs" t-as="design" t-key="design.id">

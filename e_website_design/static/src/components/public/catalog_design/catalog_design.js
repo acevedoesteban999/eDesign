@@ -4,11 +4,11 @@ import { Component , onWillStart , useState } from "@odoo/owl";
 import { registry } from "@web/core/registry";
 import { loadCSS , loadJS } from "@web/core/assets";
 import { useService } from "@web/core/utils/hooks";
-import { Breadcrumb } from "../breadcrumb/breadcrumb"
+import { BreadcrumbComponent } from "../breadcrumb/breadcrumb"
 
   export class CatalogDesignComponent extends Component {
       static template = "e_website_design.CatalogDesignComponent";
-      static components = {Breadcrumb};
+      static components = {BreadcrumbComponent};
       static props = ['back_url?','breadcrumbs?']
 
       setup() {

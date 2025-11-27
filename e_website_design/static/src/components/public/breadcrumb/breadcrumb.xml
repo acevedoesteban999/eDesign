@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates xml:space="preserve">
-    <t t-name="e_website_design.Breadcrumb">
+    <t t-name="e_website_design.BreadcrumbComponent">
         <div class="d-flex align-items-center mb-4" t-if="this.props">
             <a t-att-href="this.props.back_url" class="me-3">
                 <i class="fa fa-arrow-circle-left fa-2x back-arrow"></i>
