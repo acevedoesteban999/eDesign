@@ -12,15 +12,15 @@
             <div class="offcanvas offcanvas-end" id="filterSidebar" tabindex="-1">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title">Filter</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+                    <button t-ref="buttonCloseFilter" type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
                 </div>
                 <div class="offcanvas-body">
                     <div class="mb-3">
                         <label class="form-label">Category</label>
                         <SearchComponent 
                             model="'product.design.category'"
-                            fields="['id', 'name', 'display_name']"
-                            onSelect="this.onSelectCategory"
+                            fields="['id', 'name']"
+                            onSelect="(record) => this.onSelectCategory(record)"
                             placeholder="'Search Category...'"
                             limit="5"/>
                     </div>
@@ -29,7 +29,9 @@
 
             <div class="container py-3">
                 <BreadcrumbComponent back_url="this.back_url" breadcrumbs="this.breadcrumbs"/>
-                
+                <div t-if="this.state.category" class="row text-muted">
+                    Category: <t t-esc="this.state.category.name"/>
+                </div>
                 <div class="row g-4 public-design-style mt-3">
                     <t t-foreach="this.state.designs" t-as="design" t-key="design.id">
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">

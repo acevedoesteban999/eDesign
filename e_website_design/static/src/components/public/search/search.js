@@ -28,10 +28,13 @@ export class SearchComponent extends Component {
     }
 
     async searchRecords(query) {
-        const domain = [
-            ...(this.props.domain || []),
-            ['name', 'ilike', query]
+        var domain;
+        domain = [
+          ...(this.props.domain || []),
         ];
+        if (query){
+          domain.push(['name', 'ilike', query])
+        }
         
         const limit = this.props.limit || 5;
         
@@ -53,12 +56,6 @@ export class SearchComponent extends Component {
             clearTimeout(this.searchTimeout);
         }
 
-        if (query.length < 2) {
-            this.state.showDropdown = false;
-            this.state.results = [];
-            return;
-        }
-
         this.state.showDropdown = true;
         this.state.isSearching = true;
 
@@ -71,14 +68,17 @@ export class SearchComponent extends Component {
             } finally {
                 this.state.isSearching = false;
             }
-        }, 300);
+        }, 500);
     }
 
     
+    clearSearch(){
+      this.selectOption(false);
+    }
+
     selectOption(record) {
         this.props.onSelect(record);
-        
-        this.state.searchQuery = record.name || record.display_name;
+        this.state.searchQuery = record.name;
         this.state.showDropdown = false;
         
     }

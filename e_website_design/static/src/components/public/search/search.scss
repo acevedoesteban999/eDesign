@@ -1,0 +1,11 @@
+.search-component{    
+    .btn-link {
+        transition: color 0.2s;
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+    .dropdown-menu{
+        position: inherit !important;
+    }
+}

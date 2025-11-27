@@ -1,7 +1,6 @@
 .catalog-design-component {
     position: relative;
-
-    // Botón FILTER - Fijo en el centro derecho
+    
     .filter-toggle-btn {
         position: fixed;
         right: 0;
@@ -9,7 +8,6 @@
         transform: translateY(-50%);
         z-index: 1050;
         
-        // Texto vertical
         writing-mode: vertical-rl;
         text-orientation: mixed;
         padding: 15px 8px;
@@ -17,13 +15,11 @@
         border: none;
         box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
         
-        // Estilos tipográficos
         font-weight: bold;
         letter-spacing: 2px;
         font-size: 14px;
         text-transform: uppercase;
         
-        // Efecto hover
         transition: transform 0.3s ease;
         &:hover {
             transform: translateY(-50%) scale(1.05);
