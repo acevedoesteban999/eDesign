@@ -54,7 +54,7 @@
       <t t-call="website.layout">
           <t t-call="e_website_design.loaderComponent"/>
           <owl-component 
-            name="e_website_design.CatalogDesignComponent"
+            name="e_website_design.CatalogDesignsComponent"
             t-att-props='controller_context'
             />
           

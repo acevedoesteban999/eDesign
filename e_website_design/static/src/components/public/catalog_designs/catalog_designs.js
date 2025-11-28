@@ -8,8 +8,8 @@ import { BreadcrumbComponent } from "../breadcrumb/breadcrumb"
 import { SearchComponent } from "../search/search"
 import { removeLoader } from "../../../js/public_designs"
 
-  export class CatalogDesignComponent extends Component {
-      static template = "e_website_design.CatalogDesignComponent";
+  export class CatalogDesignsComponent extends Component {
+      static template = "e_website_design.CatalogDesignsComponent";
       static components = {BreadcrumbComponent,SearchComponent};
       static props = ['back_url?','breadcrumbs?','product_id?']
 
@@ -55,5 +55,5 @@ import { removeLoader } from "../../../js/public_designs"
 
   }
 
-  registry.category("public_components").add("e_website_design.CatalogDesignComponent", CatalogDesignComponent);
+  registry.category("public_components").add("e_website_design.CatalogDesignsComponent", CatalogDesignsComponent);
   
