@@ -55,7 +55,7 @@
           <t t-call="e_website_design.loaderComponent"/>
           <owl-component 
             name="e_website_design.CatalogDesignComponent"
-            t-att-props='breadcrumb_object'
+            t-att-props='controller_context'
             />
           
       </t>

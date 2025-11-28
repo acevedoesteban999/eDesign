@@ -7,20 +7,19 @@ class ProductDesign(http.Controller):
         "/catalog",
     ], type='http', auth='public',website=True)    
     def products(self,category=False, **kw):
+        products = http.request.env['product.template'].search([('design_ok','=',True)])
         return http.request.render(
             'e_website_design.CatalogProducts',
             {
-                'products': http.request.env['product.template'].search(
-                    [('design_ok','=',True)]),
+                'products': products
             },
         )
     @http.route([
         "/catalog/product/<model('product.template'):product>",
     ], type='http', auth='public',website=True)    
     def designs(self,product,**kw):
-        #product._compute_design_ids()
         referer = http.request.httprequest.headers.get('Referer', '/')
-        breadcrumb_object = {
+        controller_context = {
             'back_url': referer if referer != http.request.httprequest.url else '/catalog',
             'breadcrumbs':[
                 {
@@ -32,11 +31,12 @@ class ProductDesign(http.Controller):
                     'href':False
                 }
             ],
+            'product_id':product.id
         }
         return http.request.render(
             'e_website_design.CatalogDesigns',
             {
-                'breadcrumb_object':  json.dumps(breadcrumb_object), 
+                'controller_context': json.dumps(controller_context), 
             },
         )
     

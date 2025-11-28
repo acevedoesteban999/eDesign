@@ -11,12 +11,13 @@ import { removeLoader } from "../../../js/public_designs"
   export class CatalogDesignComponent extends Component {
       static template = "e_website_design.CatalogDesignComponent";
       static components = {BreadcrumbComponent,SearchComponent};
-      static props = ['back_url?','breadcrumbs?']
+      static props = ['back_url?','breadcrumbs?','product_id?']
 
       setup() {
           this.state = useState({
             'designs': [],
             'category': false,
+            'product_id': this.props.product_id
           })
           this.back_url = this.props.back_url || ''
           this.breadcrumbs = this.props.breadcrumbs || []
@@ -31,6 +32,8 @@ import { removeLoader } from "../../../js/public_designs"
 
       async searchDesigns(){
         let domain = [];
+        if (this.state.product_id)
+          domain.push(['product_ids','=',this.state.product_id]);
         if (this.state.category)
           domain.push(['category_id','=',this.state.category.id]);
         
