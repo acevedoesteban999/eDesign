@@ -19,6 +19,7 @@ import { removeLoader } from "../../../js/public_designs"
             'product': this.props.product,
             'category': this.props.category,
             'loadingData':false,
+            'searchQuery':'',
           })
         
           this.buttonCloseFilter = useRef('buttonCloseFilter')
@@ -31,17 +32,31 @@ import { removeLoader } from "../../../js/public_designs"
       }
 
       async searchDesigns(){
+        this.loadingTimeOut = setTimeout(() => {
+          this.state.loadingData = true;
+        }, 500);
+
         let domain = [];
         if (this.state.product)
           domain.push(['product_ids','=',this.state.product.id]);
         if (this.state.category)
           domain.push(['category_id','=',this.state.category.id]);
-        
+        if (this.state.searchQuery)
+          domain.push(
+              '|',
+              ['name','ilike',this.state.searchQuery],
+              ['default_code','ilike',this.state.searchQuery],
+          );
         this.state.designs = await this.orm.searchRead(
           'product.design',
           domain,
           ['id','name','default_code']
         );
+
+        if (this.loadingTimeOut)
+          clearTimeout(this.loadingTimeOut)
+        this.state.loadingData = false
+      
       }
 
       onSelectCategory(category){
@@ -53,21 +68,24 @@ import { removeLoader } from "../../../js/public_designs"
       }
 
       applyFilter(){
+        this.state.searchQuery =  ''
         this.state.product = this.temp_product
         this.state.category = this.temp_category
-        
-        this.loadingTimeOut = setTimeout(() => {
-          this.state.loadingData = true;
-        }, 500);
-        
-        this.searchDesigns().then(()=>{
-          if (this.loadingTimeOut)
-            clearTimeout(this.loadingTimeOut)
-          this.state.loadingData = false
-        })
+        this.searchDesigns()
         this.buttonCloseFilter.el.click() 
       }
 
+      
+
+      onSearchInput() {
+        if (this.searchTimeout) {
+            clearTimeout(this.searchTimeout);
+        }
+
+        this.searchTimeout = setTimeout(async () => {
+            await this.searchDesigns()
+        }, 500);
+      }
 
 
   }

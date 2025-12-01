@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates xml:space="preserve">
-    <t t-name="e_website_design.filterSidebar">
+    <t t-name="e_website_design.filterSidebar"> 
         <button class="btn btn-primary filter-toggle-btn" 
                 data-bs-toggle="offcanvas" 
                 data-bs-target=".filterSidebar">
@@ -42,29 +42,56 @@
             </div>
         </div>
     </t>
+
     <t t-name="e_website_design.CatalogDesignsComponent">
         <div>
             <div class="catalog-design-component ">
                 <t t-call="e_website_design.filterSidebar"/>
             
                 <div class="container mt-4">
-                    <div class="row justify-content-end">
-                        <div class="col-12 col-sm-6 col-md-4">
-                            <SearchComponent 
-                                model="'product.design'"
-                                fields="['id', 'name']"
-                                onSelect="(record) => this.onSelectDesign(record)"
-                                placeholder="'Search Design...'"
-                                limit="5"/>
+                    <div class="row justify-content-between">
+                        <div class="col-12 col-sm-6 order-2 order-sm-1">
+                            <div class="h5">
+                                <div t-if="this.state.category" class="text-muted badge badge-pill bg-primary">
+                                    Category: <t t-esc="this.state.category.name"/>
+                                </div>
+                                <br/>
+                                <div t-if="this.state.product" class="text-muted badge badge-pill bg-secondary">
+                                    Product: <t t-esc="this.state.product.name"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 order-1 order-sm-2">
+                            <div class="search-component">
+                                <div class="dropdown-search">
+                                    <div class="row px-2">
+                                        <div class="col px-0">
+                                            <input type="text" 
+                                                class="form-control" 
+                                                placeholder="Search Design"
+                                                t-model="state.searchQuery"
+                                                t-ref="searchInput"
+                                                t-on-input="onSearchInput"
+                                                />
+                                            
+                                            <div class="dropdown-menu show w-100 p-0" t-if="state.showDropdown" t-ref="dropdown">
+                                                <div class="text-center py-3" t-if="state.isSearching">
+                                                    <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                                        <span class="visually-hidden">Search...</span>
+                                                    </div>
+                                                    <small class="d-block text-muted mt-1">Search...</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </div>
                             
                         </div>
                     </div>
-                    <div t-if="this.state.category" class="text-muted badge badge-pill badge-primary">
-                        Category: <t t-esc="this.state.category.name"/>
-                    </div>
-                    <div t-if="this.state.product" class="text-muted badge badge-pill badge-secondary">
-                        Product: <t t-esc="this.state.product.name"/>
-                    </div>
+                    
                     <div class="row g-4 public-design-style mt-3">
                         <t t-if="!this.state.loadingData" >
                             <t t-if="this.state.designs">
