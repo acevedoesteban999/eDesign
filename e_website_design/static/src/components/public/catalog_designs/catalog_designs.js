@@ -18,6 +18,7 @@ import { removeLoader } from "../../../js/public_designs"
             'category': false,
             'product': this.props.product,
             'category': this.props.category,
+            'loadingData':false,
           })
         
           this.buttonCloseFilter = useRef('buttonCloseFilter')
@@ -54,9 +55,17 @@ import { removeLoader } from "../../../js/public_designs"
       applyFilter(){
         this.state.product = this.temp_product
         this.state.category = this.temp_category
+        
+        this.loadingTimeOut = setTimeout(() => {
+          this.state.loadingData = true;
+        }, 500);
+        
         this.searchDesigns().then(()=>{
-          this.buttonCloseFilter. el.click() 
+          if (this.loadingTimeOut)
+            clearTimeout(this.loadingTimeOut)
+          this.state.loadingData = false
         })
+        this.buttonCloseFilter.el.click() 
       }
 
 
