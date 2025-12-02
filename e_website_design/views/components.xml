@@ -1,6 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
   <data>
+    
+    <template id="designLayout" inherit_id="website.layout">
+        <xpath expr="//head/link[last()]" position="after">
+          <link rel="stylesheet" href="/e_website_design/static/src/lib/fancybox/fancybox.css"/>
+        </xpath>
+        <xpath expr="//script[@id='web.layout.odooscript']" position="after">
+          <script src="/e_website_design/static/src/lib/fancybox/fancybox.js"></script>
+        </xpath>
+    </template>
+    
     <template id="listJsSearchComponent">
       <div class="search-component">
         <div class="dropdown-search">

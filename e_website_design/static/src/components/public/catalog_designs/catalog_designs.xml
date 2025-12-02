@@ -92,11 +92,11 @@
                                                     class="card-img-top"
                                                     t-att-alt="design.name"/>
                                                 <div class="card-body d-flex flex-column">
-                                                    <h5 class="card-title fw-bold text-truncate">
-                                                        <t t-esc="design.name"/>
+                                                    <h5 t-if="design.default_code" class="card-title fw-bold text-truncate">
+                                                        <t t-esc="design.default_code"/>
                                                     </h5>
-                                                    <p t-if="design.default_code" class="card-text flex-grow-1 text-muted">
-                                                        [<t t-esc="design.default_code" t-options='{"widget": "text"}'/>]
+                                                    <p  class="card-text flex-grow-1 text-muted">
+                                                        [<t t-esc="design.name" t-options='{"widget": "text"}'/>]
                                                     </p>
                                                 </div>
                                             </a>
