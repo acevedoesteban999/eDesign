@@ -20,7 +20,7 @@
                         fields="['id', 'name']"
                         domain="[['design_ok','=',true]]"
                         onSelect="(record) => this.onSelectProduct(record)"
-                        placeholder="'Search Product...'"
+                        placeholder="'Search'"
                         searchQuery="state.product?state.product.name:''"
                         limit="5"/>
                 </div>
@@ -30,7 +30,7 @@
                         model="'product.design.category'"
                         fields="['id', 'name']"
                         onSelect="(record) => this.onSelectCategory(record)"
-                        placeholder="'Search Category...'"
+                        placeholder="'Search'"
                         searchQuery="state.category?state.category.name:''"
                         limit="5"/>
                 </div>
@@ -68,7 +68,7 @@
                                         <div class="col px-0">
                                             <input type="text" 
                                                 class="form-control" 
-                                                placeholder="Search Design"
+                                                placeholder="Search"
                                                 t-model="state.searchQuery"
                                                 t-ref="searchInput"
                                                 t-on-input="onSearchInput"
@@ -96,7 +96,7 @@
                                                         <t t-esc="design.default_code"/>
                                                     </h5>
                                                     <p  class="card-text flex-grow-1 text-muted">
-                                                        [<t t-esc="design.name" t-options='{"widget": "text"}'/>]
+                                                        <t t-esc="design.name" t-options='{"widget": "text"}'/>
                                                     </p>
                                                 </div>
                                             </a>

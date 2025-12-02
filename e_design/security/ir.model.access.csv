@@ -3,5 +3,6 @@ access_product_design_manager,product_design_manager,model_product_design,base.g
 access_product_design_category_manager,product_design_category_manager,model_product_design_category,base.group_user,1,1,1,1
 
 
-access_product_design_public,product_design_manager,model_product_design,base.group_public,1,0,0,0
-access_product_design_category_public,product_design_category_manager,model_product_design_category,base.group_public,1,0,0,0
+access_product_design_public,product_design_public,model_product_design,base.group_public,1,0,0,0
+access_product_design_category_public,product_design_category_public,model_product_design_category,base.group_public,1,0,0,0
+access_product_template_public,product_template_public,model_product_template,base.group_public,1,0,0,0

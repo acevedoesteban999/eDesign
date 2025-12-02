@@ -21,8 +21,8 @@ class ProductDesign(http.Controller):
         breadcrumbs_context = {
             'back_url': referer if referer != http.request.httprequest.url else '/catalog',
             'breadcrumbs':[
-                {'name':'Catalog',      'href':'/catalog'},
-                {'name':'Products',     'href':False},
+                {'name':_('Catalog'),      'href':'/catalog'},
+                {'name':_('Products'),     'href':False},
             ],
         }
         return http.request.render(
@@ -41,8 +41,8 @@ class ProductDesign(http.Controller):
         breadcrumbs_context = {
             'back_url': referer if referer != http.request.httprequest.url else '/catalog',
             'breadcrumbs':[
-                {'name':'Catalog',      'href':'/catalog'},
-                {'name':'Categories',   'href':False},
+                {'name':_('Catalog'),      'href':'/catalog'},
+                {'name':_('Categories'),   'href':False},
             ],
         }
         return http.request.render(
@@ -70,10 +70,10 @@ class ProductDesign(http.Controller):
         breadcrumbs_context = {
             'back_url': referer if referer != http.request.httprequest.url else '/catalog',
             'breadcrumbs':[
-                {'name':'Catalog',                                  'href':'/catalog'},
+                {'name':_('Catalog'),                                  'href':'/catalog'},
                 {'name':product.get('name'),     'href':('/catalog/product/%s' % product.get('id'))} if product else {},
                 {'name':category.get('name'),   'href':('/catalog/categories/%s' % category.get('id'))} if category else {},
-                {'name':'Designs',                                  'href':False,},
+                {'name':_('Designs'),                                  'href':False,},
             ],
         }
             
@@ -105,7 +105,7 @@ class ProductDesign(http.Controller):
             breadcrumbs_context = {
                 'back_url': referer if referer != http.request.httprequest.url else '/catalog',
                 'breadcrumbs':[
-                    {'name':'Catalog',              'href':'/catalog'},
+                    {'name':_('Catalog'),              'href':'/catalog'},
                     {'name':product.get('name'),    'href':f'/catalog/designs?pid={product.get('id')}'} if product else {},
                     {'name':category.get('name'),    'href':f'/catalog/designs?cid={category.get('id')}'} if category else {},
                     {'name':design.name,            'href':False },
