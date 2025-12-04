@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data>
+    
+    <template id="designLayout" inherit_id="website.layout">
+        <xpath expr="//head/link[last()]" position="after">
+          <link rel="stylesheet" href="/e_website_design/static/src/lib/fancybox/fancybox.css"/>
+        </xpath>
+        <xpath expr="//script[@id='web.layout.odooscript']" position="after">
+          <script src="/e_website_design/static/src/lib/fancybox/fancybox.js"></script>
+        </xpath>
+    </template>
+    
+    <template id="listJsSearchComponent">
+      <div class="search-component">
+        <div class="dropdown-search">
+            <div class="row px-2">
+                <div class="col px-0">
+                    <input type="text" 
+                        class="form-control fuzzy-search" 
+                        placeholder="Search"
+                        />
+                </div>
+            </div>
+        </div>
+        <script src="/e_website_design/static/src/lib/listjs/listjs.js"/>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var listjs = new List('<t t-raw="list_js_id"/>', { 
+              valueNames: <t t-raw="list_js_valueNames"/>
+            });
+          });
+        </script>
+    </div>
+  </template>
+    
+    <template id="loaderComponent">
+      <div class="position-relative">
+        <div class="row align-items-center loader-component text-center">
+            <div class="col">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        </div>
+      </div>
+    </template>
+
+    <template id="breadcrumbComponent">
+        <div class="d-flex align-items-center mb-2" t-if="breadcrumbs_context">
+            <a t-att-href="breadcrumbs_context['back_url']" class="me-3">
+                <i class="fa fa-arrow-circle-left fa-2x back-arrow"></i>
+            </a>
+            <nav aria-label="breadcrumb" class="flex-grow-1">
+            <ol class="breadcrumb breadcrumb-custom mb-0">
+                <t t-foreach="breadcrumbs_context['breadcrumbs']" t-as="breadcrumb">
+
+                  <t t-if="breadcrumb and breadcrumb['name']">
+                      <t t-if="not breadcrumb_first">
+                          <span class="mx-2">/</span>
+                      </t>
+                      <li class="breadcrumb-item" t-att-class="{active:breadcrumb_last}">
+                          <a t-if="breadcrumb['href']" t-att-href="breadcrumb['href']" t-esc="breadcrumb['name']"></a>
+                          <t t-else="" t-esc="breadcrumb['name']"/>
+                      </li>
+                  </t>
+                </t>
+            </ol>
+            </nav>
+        </div>
+    </template>
+
+    
+  </data>
+</odoo>
