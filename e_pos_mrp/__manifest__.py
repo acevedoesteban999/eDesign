@@ -15,6 +15,6 @@
     
     'application': False,
     'installable': True,
-    'auto_install': ['pos_mrp','e_design'],
+    'auto_install': True,
     'license': 'LGPL-3',
 }

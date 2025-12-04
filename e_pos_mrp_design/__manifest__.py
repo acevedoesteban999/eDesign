@@ -10,7 +10,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eDesign',
     'category': 'Customizations',
-    'depends': ['sale_mrp', 'e_pos_mrp','e_design'],
+    'depends': ['mrp','point_of_sale','e_pos_mrp','e_design'],
     "data": [
         "views/mrp_production.xml",
     ],
