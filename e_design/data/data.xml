@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="default_attr_design" model="product.attribute">
+        <field name="name">Design</field>
+        <field name="display_type">select</field>
+        <field name="create_variant">no_variant</field>
+        <field name="design_ok">1</field>
+    </record>
+
+    <record id="default_attr_value_no_design" model="product.attribute.value">
+        <field name="name">Without Desaign</field>
+        <field name="is_custom">1</field>
+        <field name="without_design_ok">1</field>
+        <field name="attribute_id" ref="default_attr_design"></field>
+        <field name="default_extra_price">0</field>
+    </record>
+
+</odoo>

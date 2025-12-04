@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="e_design.ProductDesign">
+        <t t-if="this.props.record.resId">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <button  class="m-2 btn btn-secondary" t-on-click="this.addDesign">
+                        Add Design
+                    </button>
+                </div>
+                <div class="col">
+                    <small class="text-muted fst-italic"  t-if="this.state.designs_attr_values">
+                        This Widget only show some itmes. If you wana see all , check top button 'Designs'
+                    </small >
+                </div>
+            </div>
+            
+            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3 design-style bg-design">
+                <t t-foreach="this.state.designs_attr_values" t-as="design" t-key="design.id">        
+                    <div class="col">
+                        <div t-on-click="()=> this.openDesign(design.id)" class="card card-widget h-100 d-flex flex-column">
+                            <img class="card-img-top img-fluid" t-attf-src="http://localhost:8068/web/image/product.design/{{design.id}}/image"/>
+                            <div class="card-body p-2 mt-auto">
+                                <h5 class="card-title mb-1">
+                                    <t t-if="design.default_code">
+                                        [<t t-esc="design.default_code"/>]
+                                    </t>
+                                    <t t-esc="design.name"/>
+                                </h5>
+                                <small class="text-muted">Extra Price: <t t-esc="design.extra_price"/></small>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+        <t t-else="">
+            <small class="text-muted fst-italic">
+                This section need to crete model first.
+            </small >
+        </t>
+    </t>
+</templates>
