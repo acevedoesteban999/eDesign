@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'E-Design',
+    'name': 'eDesign',
     'version': '18.0.0.1',
     'summary': "Add Design to Products",
     'description':"""
