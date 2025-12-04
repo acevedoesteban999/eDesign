@@ -2,10 +2,14 @@
 {
     'name': 'E-Design',
     'version': '1.1.0',
-    'summary': """ E-Design Summary """,
+    'summary': "Add Design to Products",
+    'description':"""
+                    It allows you to add designs to products, 
+                    creating non-real variants to select as an additional attribute.
+                """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': '',
-    'category': '',
+    'website': 'https://github.com/acevedoesteban999/eDesign',
+    'category': 'Customizations',
     'depends': [
         'base', 
         'product',

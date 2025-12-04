@@ -2,10 +2,13 @@
 {
     'name': 'e_website_design',
     'version': '18.0.0.1',
-    'summary': """Integration Website with EDesign""",
+    'summary': "Integration eDesign with Website",
+    'description':"""
+                    It allows you to view the design catalog from the website.
+                """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': '',
-    'category': '',
+    'website': 'https://github.com/acevedoesteban999/eDesign',
+    'category': 'Customizations',
     'depends': ['base','e_design','website'],
     'data': [
         "views/components.xml",

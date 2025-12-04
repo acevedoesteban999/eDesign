@@ -2,10 +2,14 @@
 {
     'name': 'e_pos_mrp_design',
     'version': '18.0.0.1',
-    'summary': """Integration POS-MRP with E_Design""",
+    'summary': """Integration POS-MRP with eDesign""",
+    'description':"""
+                    It allows you to view the designs of the product 
+                    to be manufactured in the manufacturing orders.
+                """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': '',
-    'category': '',
+    'website': 'https://github.com/acevedoesteban999/eDesign',
+    'category': 'Customizations',
     'depends': ['sale_mrp', 'e_pos_mrp','e_design'],
     "data": [
         "views/mrp_production.xml",

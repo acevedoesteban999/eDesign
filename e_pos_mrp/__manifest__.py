@@ -2,10 +2,11 @@
 {
     'name': 'e_pos_mrp',
     'version': '18.0.0.1',
-    'summary': """Integration PdV with MRP""",
+    'summary': "Integration POS with MRP",
+    'description':"It allows you to create manufacturing orders for Point of Sale",
     'author': 'acevedoesteban999@gmail.com',
-    'website': '',
-    'category': '',
+    'website': 'https://github.com/acevedoesteban999/eDesign',
+    'category': 'Customizations',
     'depends': ['base', 'pos_mrp'],
     'data': [
         "views/pos_order.xml",
@@ -14,6 +15,6 @@
     
     'application': False,
     'installable': True,
-    'auto_install': False,
+    'auto_install': ['pos_mrp','e_design'],
     'license': 'LGPL-3',
 }
