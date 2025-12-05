@@ -53,7 +53,7 @@
                     <t t-set-slot="toggler">Upload your file</t>
                 </FileUploader>
             </label>
-            <div t-else="" class="text-muted fst-italic">
+            <div t-else="" class="text-muted fst-italic p-2">
                 No file uploaded
             </div>
         </t>

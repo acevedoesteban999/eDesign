@@ -35,7 +35,7 @@
             </div>
         </t>
         <t t-else="">
-            <small class="text-muted fst-italic">
+            <small class="text-muted fst-italic p-2">
                 This section need to crete model first.
             </small >
         </t>
