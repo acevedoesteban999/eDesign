@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-
-from collections import defaultdict
 from odoo import api, fields, models, _ , Command
 
 
@@ -11,12 +8,11 @@ class PosOrder(models.Model):
     mrp_production_count = fields.Integer(
         "Count of MO generated",
         compute='_compute_mrp_production_ids',
-        groups='mrp.group_mrp_user')
+        )
     
     mrp_production_ids = fields.Many2many(
         'mrp.production',
         string='Manufacturing orders associated with this pos order line.',
-        groups='mrp.group_mrp_user',
         compute="_compute_mrp_production_ids"
         )
     
@@ -116,6 +112,5 @@ class PosOrderLine(models.Model):
     mrp_production_ids = fields.One2many(
         'mrp.production',
         'pos_order_line_id',
-        string='Manufacturing orders associated with this pos order line.',
-        groups='mrp.group_mrp_user')
+        string='Manufacturing orders associated with this pos order line.')
     

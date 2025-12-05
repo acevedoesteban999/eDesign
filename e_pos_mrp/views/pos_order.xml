@@ -11,7 +11,7 @@
                         name="action_view_mrp_production"
                         class="oe_stat_button"
                         icon="fa-fw fa-wrench"
-                        invisible="mrp_production_count == 0" groups="point_of_sale.group_pos_user">
+                        invisible="mrp_production_count == 0">
                         <div class="o_field_widget o_stat_info">
                             <span class="o_stat_value d-flex">
                                 <field name="mrp_production_count" widget="statinfo" nolabel="1" class="mr4" /> Fabrication
