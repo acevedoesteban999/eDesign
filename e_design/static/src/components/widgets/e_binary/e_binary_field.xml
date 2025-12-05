@@ -48,11 +48,14 @@
             </div>
         </t>
         <t t-else="">
-            <label class="btn btn-primary">
+            <label t-if="!props.readonly" class="btn btn-primary">
                 <FileUploader acceptedFileExtensions="props.acceptedFileExtensions" onUploaded.bind="update">
                     <t t-set-slot="toggler">Upload your file</t>
                 </FileUploader>
             </label>
+            <div t-else="" class="text-muted fst-italic p-2">
+                No file uploaded
+            </div>
         </t>
     </t>
 

@@ -28,9 +28,14 @@
             </div>
             
             <div class="row g-3 many2many_image-style">
-                <t t-foreach="files" t-as="file" t-key="file.id">
-                    <t t-call="e_design.Many2ManyImage.attachment_preview"/>
+                <t t-if="files.length > 0">
+                    <t t-foreach="files" t-as="file" t-key="file.id">
+                        <t t-call="e_design.Many2ManyImage.attachment_preview"/>
+                    </t>
                 </t>
+                <div t-else="" class="text-muted fst-italic p-2">
+                    No data uploaded
+                </div>
             </div>
         </div>
     </t>

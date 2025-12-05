@@ -3,7 +3,7 @@
     <t t-name="e_design.ProductDesign">
         <t t-if="this.props.record.resId">
             <div class="row align-items-center">
-                <div class="col-auto">
+                <div t-if="!props.readonly" class="col-auto">
                     <button  class="m-2 btn btn-secondary" t-on-click="this.addDesign">
                         Add Design
                     </button>
@@ -19,7 +19,7 @@
                 <t t-foreach="this.state.designs_attr_values" t-as="design" t-key="design.id">        
                     <div class="col">
                         <div t-on-click="()=> this.openDesign(design.id)" class="card card-widget h-100 d-flex flex-column">
-                            <img class="card-img-top img-fluid" t-attf-src="http://localhost:8068/web/image/product.design/{{design.id}}/image"/>
+                            <img class="card-img-top img-fluid" t-attf-src="/web/image/product.design/{{design.id}}/image"/>
                             <div class="card-body p-2 mt-auto">
                                 <h5 class="card-title mb-1">
                                     <t t-if="design.default_code">
@@ -35,7 +35,7 @@
             </div>
         </t>
         <t t-else="">
-            <small class="text-muted fst-italic">
+            <small class="text-muted fst-italic p-2">
                 This section need to crete model first.
             </small >
         </t>
