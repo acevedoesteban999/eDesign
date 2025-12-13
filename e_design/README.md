@@ -12,7 +12,7 @@ This module enables you to create design variants without generating traditional
 ![IMAGE](static/description/assets/screenshots/2.png)
 
 These designs are selectable from Sales, POS, and other Odoo modules as they function as native Odoo variants.
-
+![IMAGE](static/description/assets/screenshots/1-1.png)
 ### Features
 
 - **Design Categories**: Organize designs into customizable categories for better management
