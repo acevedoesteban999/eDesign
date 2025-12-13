@@ -9,5 +9,5 @@ This repository contains a suite of Odoo modules designed to extend product cust
 | ------------------------------------- | ------------------ | -------------------------------------------------| 
 | [eDesign](#e_design)                  | `e_design`         | Create Design for products                       |
 | [ePosMRP](#e_pos_mrp)                 | `e_pos_mrp`        | Allow create MO in POS                           |
-| [ePOSMrpDesign](#e_pos_mrp_design)    | `e_pos_mrp_design` | Allow see designs in MO for designable product   |
+| [ePOSMrpDesign](#e_pos_mrp_design)    | `e_pos_mrp_design` | Allow displaying  designs in MO for designable product   |
 | [eWebsiteDesign](#e_website_design)   | `e_website_design` | Add web page for catalog od fesigns              | 
