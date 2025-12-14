@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eDesign',
-    'version': '18.0.0.1',
+    'version': '18.0.1.0',
     'summary': "Add Design to Products",
     'description':"""
                     It allows you to add designs to products, 
@@ -16,6 +16,8 @@
         'stock',
     ],
     "data": [
+        "security/e_design.xml",
+        
         "data/data.xml",
         "security/ir.model.access.csv",
         "views/product_design_category.xml",

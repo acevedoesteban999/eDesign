@@ -4,23 +4,22 @@
             name="Designs"
             action="product_design_action"
             web_icon="e_design,static/description/icon.png"
-            sequence="50">
-
-            
-            <menuitem
-                id="menu_products_root"
-                name="Products"
-                sequence="20">
-                    <menuitem
-                        id="product_menu"
-                        name="Products"
-                        action="e_design_product_template_action"
-                        sequence="10"/>
-                    <menuitem
-                        id="product_design_category_menu"
-                        name="Categories"
-                        action="action_product_design_category"
-                        sequence="20"/>
-                </menuitem>
+            sequence="50"
+            groups="group_edesign_user,group_edesign_manager">
+                <menuitem
+                    id="design_menu"
+                    name="Designs"
+                    action="product_design_action"
+                    sequence="10"/>
+                <menuitem
+                    id="product_menu"
+                    name="Products"
+                    action="e_design_product_template_action"
+                    sequence="20"/>
+                <menuitem
+                    id="product_design_category_menu"
+                    name="Categories"
+                    action="action_product_design_category"
+                    sequence="30"/>
     </menuitem>
 </odoo>

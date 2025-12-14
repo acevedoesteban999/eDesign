@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.module.category" id="module_category_e_design">
+        <field name="name">eDesign</field>
+        <field name="description">Helps you to manage eDesigns.</field>
+        <field name="sequence">22</field>
+    </record>
+
+    <record id="group_edesign_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_e_design"/>
+    </record>
+    <record id="group_edesign_manager" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="category_id" ref="module_category_e_design"/>
+        <field name="implied_ids" eval="[(4, ref('group_edesign_user'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+</odoo>
