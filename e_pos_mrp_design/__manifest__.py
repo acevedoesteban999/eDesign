@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'e_pos_mrp_design',
+    'name': 'ePosMrpDesign',
     'version': '18.0.0.1',
     'summary': """Integration POS-MRP with eDesign""",
     'description':"""
