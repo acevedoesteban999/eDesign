@@ -43,33 +43,60 @@ class ProductDesign(models.Model):
             order='id desc',
         )
     
-    @api.model
-    def get_design_action(self,*args,**kwargs):
+    def _get_base_design_action(self):
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Designs',   
+            'name': 'Crete Design',   
             'res_model': 'product.design',   
             'view_type': 'form',    
             'view_mode': 'form',   
-            'res_id': kwargs.get('product_design_id'),
+            'res_id': False,
             'views':[(self.env.ref('e_design.product_design_view_form').id,'form')],
+            'target': 'new',
+            'domain':[], 
+            'context':{},
+        }
+    @api.model
+    def get_open_design_action(self,*args,**kwargs):
+        return {
+            **self._get_base_design_action(),
+            'res_id': kwargs.get('product_design_id'),
+        }
+    @api.model
+    def get_create_design_action(self,*args,**kwargs):
+        return {
+            **self._get_base_design_action(),
+            'context':{
+                'default_product_ids':[Command.link(kwargs.get('product_id'))],
+            } 
+        }
+        
+    @api.model
+    def get_attach_design_action(self,*args,**kwargs):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Attach Design',   
+            'res_model': 'e_design.product_design_attach_widget',   
+            'view_type': 'form',    
+            'view_mode': 'form',   
+            'res_id': False,
+            'views':[(self.env.ref('e_design.product_design_attach_view_form').id,'form')],
             'target': 'new',
             'domain':[],
             'context':{
-                'default_product_ids':[Command.link(kwargs.get('product_id'))],
-                **kwargs
+                **kwargs,
             } 
         }
     
     def _process_m2m(self,m2m):
         add = []
         sub = []
-        if m2m:
-            for command,value in m2m:
-                if command == Command.LINK:
-                    add.append(value)
-                elif command == Command.UNLINK:
-                    sub.append(value)
+        for _m2m in m2m:
+            command , value = len(_m2m) > 2 and (_m2m[0],_m2m[1]) or _m2m
+            if command == Command.LINK:
+                add.append(value)
+            elif command == Command.UNLINK:
+                sub.append(value)
         return add , sub
     
             

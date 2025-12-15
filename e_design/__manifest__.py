@@ -24,6 +24,8 @@
         "views/product_design.xml",
         "views/product_template.xml",
         
+        "widget/product_design_attach_widget.xml",
+        
         "views/menu.xml",
     ],
     "assets": {

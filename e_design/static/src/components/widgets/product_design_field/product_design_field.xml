@@ -4,8 +4,11 @@
         <t t-if="this.props.record.resId">
             <div class="row align-items-center">
                 <div t-if="!props.readonly" class="col-auto">
-                    <button  class="m-2 btn btn-secondary" t-on-click="this.addDesign">
-                        Add Design
+                    <button  class="m-2 btn btn-secondary" t-on-click="this.createDesign">
+                        Create Design
+                    </button>
+                    <button  class="m-2 btn btn-secondary" t-on-click="this.attachDesign">
+                        Attach Design
                     </button>
                 </div>
                 <div class="col">

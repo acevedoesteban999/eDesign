@@ -35,10 +35,24 @@ export class ProductDesign extends Component {
     }
     
 
-    addDesign(){
+    createDesign(){
       return this.action.doAction(
         this.orm.call(
-          'product.design','get_design_action',[],{'product_id':this.props.record.data.id}
+          'product.design','get_create_design_action',[],{'product_id':this.props.record.data.id}
+        ),
+        {
+          onClose: (infos) => {
+            this.getData();
+            this.props.record.model.load();
+            this.render(true);
+          },
+        }
+      )
+    }
+    attachDesign(){
+      return this.action.doAction(
+        this.orm.call(
+          'product.design','get_attach_design_action',[],{'default_product_id':this.props.record.data.id}
         ),
         {
           onClose: (infos) => {
@@ -53,7 +67,7 @@ export class ProductDesign extends Component {
     openDesign(record){
       return this.action.doAction(
         this.orm.call(
-          'product.design','get_design_action',[],{'product_design_id':record}
+          'product.design','get_open_design_action',[],{'product_design_id':record}
         ),
         {
           onClose: (infos) => {

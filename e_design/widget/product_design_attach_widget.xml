@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+<record id="product_design_attach_view_form" model="ir.ui.view">
+    <field name="name">e_design.product_design_attach_widget.view.form</field>
+    <field name="model">e_design.product_design_attach_widget</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group>
+                    <field name="product_id"></field>
+                    <field name="domain" invisible="1"></field>
+                    <field name="design_id" domain="domain"></field>
+                </group>
+            </sheet>
+            <footer>
+                <button name="attach_design" string="Attach" type="object" class="oe_highlight"/>
+                <button string="Cancel" special="cancel" class="oe_link"/>
+            </footer>
+        </form>
+    </field>
+</record>
+</odoo>
