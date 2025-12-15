@@ -150,12 +150,12 @@
       </t>
     </template>
     
-    <template id="e_website_design.CatalogDesign">
+    <template id="e_website_design.CatalogDesign" name="Design">
       <t t-call="e_website_design.designLayout">
         <div class="container py-4">
             <t t-call="e_website_design.breadcrumbComponent"/>
             <div class="row g-4 catalog-design ">
-              <div class="col-12 col-md-6 ">
+              <div class="col-12 col-md-8">
                 <div class="row design-gallery">
                   <a href="#" data-fancybox="gallery" t-attf-data-src="/web/image/product.design/#{design.id}/image" 
                     class="d-block mb-3">
@@ -164,41 +164,43 @@
                         style="max-height: 400px; object-fit: contain;"/>
                   </a>
                 </div>
-                <div class="row">
-                  <div class="design-header mb-4">
-                      <div class="badge bg-dark text-uppercase fs-6 px-3 py-2 h2" 
-                            t-out="design.name"/>
-                      <div class="display-5 fw-bold mt-3 mb-0 h5" 
-                          t-if="design.default_code" t-out="design.default_code"/>
-                    </div>
-                </div>
+                
               </div>
               
-              <div class="col-12 col-md-6">
-                  <div class="row justify-content-center thumbnails-grid" >
-                    <t t-if="design.attachment_ids">
-                      <t t-foreach="design.attachment_ids" t-as="img">
-                        <a href="#" data-fancybox="gallery" t-attf-data-src="/web/content/#{img.id}"
-                          class="col-4 d-inline-block p-2">
-                          <img t-attf-src="/web/content/#{img.id}" 
-                              class="rounded-2 border w-100" 
-                              style="aspect-ratio: 1; object-fit: cover;"/>
-                        </a>
-                      </t>
-                    </t>
-                    <div t-else="" class="card-img-top row align-items-center justify-content-center">
-                      <div class="col-auto bg-light text-center p-4">
-                        <i class="fa fa-picture-o text-muted pb-2" style="font-size: 3rem;"></i>
-                        <br/>
-                        <span class="text-muted py-1">
-                          No Images Found
-                        </span>
+              <div class="col-12 col-md-4">
+                  <div class="row">
+                    <div class="design-header text-center mb-4">
+                        <div class="badge bg-dark text-uppercase fs-6 px-3 py-2 h2" 
+                              t-out="design.name"/>
+                        <div class="display-5 fw-bold mt-3 mb-0 h5" 
+                            t-if="design.default_code" t-out="design.default_code"/>
                       </div>
-                    </div>
-                    
                   </div>
+                  
               </div>
                 
+            </div>
+            <div class="row justify-content-center thumbnails-grid" >
+              <t t-if="design.attachment_ids">
+                <t t-foreach="design.attachment_ids" t-as="img">
+                  <a href="#" data-fancybox="gallery" t-attf-data-src="/web/content/#{img.id}"
+                    class="col-4 col-sm-3 col-md d-inline-block p-2">
+                    <img t-attf-src="/web/content/#{img.id}" 
+                        class="rounded-2 border w-100" 
+                        style="aspect-ratio: 1; object-fit: cover;"/>
+                  </a>
+                </t>
+              </t>
+              <!-- <div t-else="" class="card-img-top row align-items-center justify-content-center">
+                <div class="col-auto bg-light text-center p-4">
+                  <i class="fa fa-picture-o text-muted pb-2" style="font-size: 3rem;"></i>
+                  <br/>
+                  <span class="text-muted py-1">
+                    No Images Found
+                  </span>
+                </div>
+              </div> -->
+              
             </div>
             
         </div>

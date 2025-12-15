@@ -118,9 +118,10 @@ class ProductDesign(http.Controller):
             breadcrumbs_context = {
                 'back_url': referer if referer != http.request.httprequest.url else '/catalog',
                 'breadcrumbs':[
-                    {'name':_('Catalog'),              'href':'/catalog'},
+                    {'name':_('Catalog'),           'href':'/catalog'},
                     {'name':product.get('name'),    'href':f'/catalog/designs?pid={product.get('id')}'} if product else {},
-                    {'name':category.get('name'),    'href':f'/catalog/designs?cid={category.get('id')}'} if category else {},
+                    {'name':category.get('name'),   'href':f'/catalog/designs?cid={category.get('id')}'} if category else {},
+                    {'name':_("Designs"),           'href':'/catalog/designs' } if (not product and not category) else {},
                     {'name':design.name,            'href':False },
                 ],
             }
