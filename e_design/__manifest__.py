@@ -10,6 +10,9 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eDesign',
     'category': 'Customizations',
+    'images': [
+        'static/description/banner.png',
+    ],
     'depends': [
         'base', 
         'product',
