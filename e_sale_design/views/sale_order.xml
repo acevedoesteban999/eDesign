@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="e_design_view_sale_order_form" model="ir.ui.view">
+        <field name="name">view.sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='order_lines']//list//field[@name='product_no_variant_attribute_value_ids']" position="after">
+                <field name="design_id" insivible="not design_id" context="{'edit':False}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

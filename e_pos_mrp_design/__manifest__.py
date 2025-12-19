@@ -8,13 +8,15 @@
                     to be manufactured in the manufacturing orders.
                 """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign',
+    'website': 'https://github.com/acevedoesteban999/eDesign/blob/master/e_pos_mrp_design',
     'category': 'Customizations',
     'depends': ['sale_mrp','e_pos_mrp','e_design'],
     "data": [
         "views/mrp_production.xml",
     ],
-    
+    'images': [
+        'static/description/banner.png',
+    ],
     'application': False,
     'installable': True,
     'auto_install': True,
