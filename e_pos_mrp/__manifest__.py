@@ -13,7 +13,9 @@
         "views/product_template.xml",
         "views/mrp_production.xml",
     ],
-    
+    'images': [
+        'static/description/banner.png',
+    ],
     'application': False,
     'installable': True,
     'auto_install': True,

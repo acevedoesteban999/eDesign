@@ -21,6 +21,9 @@
             "e_website_design/static/src/js/*js",
         ],
     },
+    'images': [
+        'static/description/banner.png',
+    ],
     'application': False,
     'installable': True,
     'auto_install': True,
