@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <odoo>
+      <record id="e_design_bundle_module_filter_apps_inherit" model="ir.ui.view">
+            <field name="name">Search eDesign Modules</field>
+            <field name="model">ir.module.module</field>
+            <field name="inherit_id" ref="base.view_module_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='not_installed']" position="after">
+                    <separator/>
+                    <filter name="e_design" string="eDesign" domain="[('name', '=ilike', 'e\\_%')]" />
+                </xpath>
+            </field>
+        </record>
+  </odoo>
