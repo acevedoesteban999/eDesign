@@ -1,8 +1,8 @@
 from odoo import models, fields, api, _
 
-class SaleOrder(models.Model):
+class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
-    _description = 'SaleOrderLine eDesign'
+    _description = 'AccountMove eDesign'
 
     design_id = fields.Many2one('product.design',"Design",compute='_compute_design_id')
     
