@@ -8,7 +8,7 @@
                     creating non-real variants to select as an additional attribute.
                 """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign/blob/master/e_design',
+    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_design',
     'category': 'Customizations',
     'images': [
         'static/description/banner.png',

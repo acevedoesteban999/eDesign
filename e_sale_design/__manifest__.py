@@ -4,13 +4,15 @@
     'version': '18.0.0.0',
     'summary': """ Add design to sale's lines """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign/blob/master/e_sale_design',
+    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_sale_design',
     'category': 'Sales',
     'depends': ['base','sale','e_design'],
     "data": [
         "views/sale_order.xml"
     ],
-    
+    'images': [
+        'static/description/banner.png',
+    ],
     'application': False,
     'installable': True,
     'auto_install': True,
