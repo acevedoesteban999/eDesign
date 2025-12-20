@@ -8,7 +8,7 @@
                     to be manufactured in the manufacturing orders.
                 """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_pos_mrp_design',
+    'website': 'https://github.com/acevedoesteban999/eDesign/blob/19.0/e_pos_mrp_design',
     'category': 'Customizations',
     'depends': ['sale_mrp','e_pos_mrp','e_design'],
     "data": [

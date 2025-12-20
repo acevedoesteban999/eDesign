@@ -5,7 +5,7 @@
     'summary': "Integration POS with MRP",
     'description':"It allows you to create manufacturing orders for Point of Sale",
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_pos_mrp',
+    'website': 'https://github.com/acevedoesteban999/eDesign/blob/19.0/e_pos_mrp',
     'category': 'Customizations',
     'depends': ['base', 'pos_mrp'],
     'data': [
