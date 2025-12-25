@@ -1,5 +1,6 @@
 from odoo import models , fields , api , Command
 from odoo.exceptions import ValidationError
+from ..utils.utils import get_datas_m2m
 
 class ProductDesign(models.Model):
     _name = 'product.design'
@@ -97,23 +98,13 @@ class ProductDesign(models.Model):
         
         
     
-    def _process_m2m(self,m2m):
-        add = []
-        sub = []
-        if m2m:
-            for _m2m in m2m:
-                command , value = len(_m2m) > 2 and (_m2m[0],_m2m[1]) or _m2m
-                if command == Command.LINK:
-                    add.append(value)
-                elif command == Command.UNLINK:
-                    sub.append(value)
-        return add , sub
+    
     
             
     def write(self,vals):
         
         if _att := vals.get('attachment_ids'):
-            att_add, att_sub = self._process_m2m(_att)
+            att_add, att_sub = get_datas_m2m(_att)
             if att_add:
                 self.env['ir.attachment'].browse(att_add).public=True
             if att_sub:
@@ -126,7 +117,7 @@ class ProductDesign(models.Model):
             value_id = value_id and value_id[0] or value_id
             return line_id, value_id
         
-        product_add, product_sub = self._process_m2m(vals.get('product_ids'))
+        product_add, product_sub = get_datas_m2m(vals.get('product_ids'))
 
         
 
@@ -156,11 +147,11 @@ class ProductDesign(models.Model):
     
     def create(self,vals_list:dict):
         if _att := vals_list.get('attachment_ids'):
-            att_add, _ = self._process_m2m(_att)
+            att_add, _ = get_datas_m2m(_att)
             if att_add:
                 self.env['ir.attachment'].browse(att_add).public=True
                 
-        products , _ = self._process_m2m(vals_list.get('product_ids'))
+        products , _ = get_datas_m2m(vals_list.get('product_ids'))
         if products:
             attr_value = self._create_value(vals_list.get('name'),vals_list.get('default_code'),vals_list.get('extra_price'))
             
