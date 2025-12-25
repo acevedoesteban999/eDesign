@@ -1,5 +1,6 @@
 from odoo import fields,models,api , Command , _
 from odoo.exceptions import UserError
+from ..utils.utils import get_datas_m2m
 class ProductProduct(models.Model):
     _inherit = 'product.template'
 
@@ -50,13 +51,4 @@ class ProductProduct(models.Model):
                     rec._create_variant_ids()
                     
     
-    
-    def write(self,vals):
-        if (attr_lines := vals.get('attribute_line_ids')):
-            for attr_line in attr_lines:
-                command, attr_line_id = attr_line
-                if command == Command.DELETE:
-                    if (self.design_ok or vals.get('design_ok')) and self.env['product.template.attribute.line'].browse(attr_line_id).design_ok:
-                        raise UserError("Can not delete Design Line with Design Product")
-        return super().write(vals)
         
