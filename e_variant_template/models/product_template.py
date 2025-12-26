@@ -11,8 +11,12 @@ class ProductTemplate(models.Model):
     product_variant_template = fields.Many2one('product.template',"Product Variant Template")
     child_variant_template_ids = fields.One2many('product.template','product_variant_template')
     auto_create_variants = fields.Boolean("Autocreate variant from Parent")
-    auto_create_boms = fields.Boolean("Autocreate Bom from Parent")
+    # auto_create_boms = fields.Boolean("Autocreate Bom from Parent")
     
+    # @api.onchange('auto_create_boms')
+    # def onchenge_auto_create_boms(self):
+    #     if self.auto_create_boms:
+            
     
     @api.onchange('product_variant_template')
     def onchange_product_variant_template(self):
