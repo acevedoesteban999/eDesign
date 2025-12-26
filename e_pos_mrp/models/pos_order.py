@@ -53,7 +53,7 @@ class PosOrder(models.Model):
                     if not bom_id:
                         bom_id = self.env['mrp.bom'].search([
                             ('product_tmpl_id', '=', line.product_id.product_tmpl_id.id),
-                            ('product_id', '=', False),
+                            ('product_id','=',line.product_id.id),
                         ],limit=1)
                         if not bom_id:
                             continue
@@ -70,20 +70,23 @@ class PosOrder(models.Model):
                         'pos_order_line_id': line.id
                     })
         
-                    list_value = []
+                    material_moves = self.env['stock.move']
                     for bom_line in mrp_order.bom_id.bom_line_ids:
-                        list_value.append((0, 0, {
+                        material_moves += material_moves.create({    
                             'raw_material_production_id': mrp_order.id,
                             'name': mrp_order.name,
                             'product_id': bom_line.product_id.id,
                             'product_uom': bom_line.product_uom_id.id,
-                            'product_uom_qty': (bom_line.product_qty * mrp_order.product_qty)/self.env['mrp.bom'].search([("product_tmpl_id", "=", line.product_id.product_tmpl_id.id)]).product_qty,
+                            'product_uom_qty': bom_line.product_qty,
                             'picking_type_id': mrp_order.picking_type_id.id,
                             'location_id': mrp_order.location_src_id.id,
                             'location_dest_id': bom_line.product_id.with_company(self.company_id.id).property_stock_production.id,
                             'company_id': mrp_order.company_id.id,
-                        }))
-                    finished_vals = {
+                        })
+                        
+                        
+                    
+                    finish_move = self.env['stock.move'].create({
                         'product_id': line.product_id.id,
                         'product_uom_qty': line.qty,
                         'product_uom': line.product_id.uom_id.id,
@@ -98,11 +101,10 @@ class PosOrder(models.Model):
                         'origin': mrp_order.name,
                         'group_id': mrp_order.procurement_group_id.id,
                         'propagate_cancel': mrp_order.propagate_cancel,
-                    }
+                    })
                     mrp_order.update({
-                        'move_raw_ids': list_value,
-                        'move_finished_ids': [
-                            (0, 0, finished_vals)]
+                        'move_raw_ids': [Command.link(m.id) for m in material_moves],
+                        'move_finished_ids': [Command.link(finish_move.id)]
                     })
         return records
     
