@@ -11,13 +11,9 @@
                 <page name="variant_page" string="Variants"/>
                 <page string="Variant Template"> 
                   <group>
-                    <group>
+                    <group name="variant_group" colspan="2">
                       <field name="has_variant_template" />
-                      <field name="product_variant_template" 
-                        required="has_variant_template"
-                        invisible="not has_variant_template" />  
-                    </group>
-                    <group invisible="not has_variant_template" >
+                      <field name="product_variant_template" required="has_variant_template" invisible="not has_variant_template" />  
                       <field name="auto_create_variants" />
                     </group>
                   </group>

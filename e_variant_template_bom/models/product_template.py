@@ -7,7 +7,7 @@ from odoo.exceptions import UserError, ValidationError
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    auto_create_boms = fields.Boolean("Autocreate Bom from Parent", help="Important!. Only work for same variant's combination in parent template and self")
+    auto_create_boms = fields.Boolean("Autocreate Bom from Parent", help="'Auto create bom' only work for same variant's combination in parent template and self")
     extra_products_create_boms = fields.Many2many('product.product','rel_variant_bom_tamplate',string="Extra products for automatic bum creation")
         
     def _create_auto_bom(self):
