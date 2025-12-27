@@ -19,7 +19,6 @@
                     </group>
                     <group invisible="not has_variant_template" >
                       <field name="auto_create_variants" />
-                      <!-- <field name="auto_create_boms" /> -->
                     </group>
                   </group>
                 </page>
