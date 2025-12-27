@@ -10,7 +10,7 @@ class ProductTemplate(models.Model):
     has_variant_template = fields.Boolean("Variant Template")
     product_variant_template = fields.Many2one('product.template',"Product Variant Template")
     child_variant_template_ids = fields.One2many('product.template','product_variant_template')
-    auto_create_variants = fields.Boolean("Autocreate variant from Parent")
+    auto_create_variants = fields.Boolean("Autocreate variant from Parent",help='Autocreate variant only when parent ADD new attribute')
 
             
   
@@ -37,7 +37,7 @@ class ProductTemplate(models.Model):
     
     def write(self,vals):
         resp = super().write(vals)
-        if 'attribute_line_ids' in vals:
+        if not self.is_product_variant and 'attribute_line_ids' in vals:
             for child in self.child_variant_template_ids.filtered_domain([('auto_create_variants','=',True)]):
                 child.onchange_product_variant_template()
         return resp
