@@ -2,7 +2,7 @@ from odoo import http , _
 import json
 
 class ProductDesign(http.Controller):
-    @http.route('/e_website_design/searchRead', type='json', auth='public', website=True)
+    @http.route('/e_design_website/searchRead', type='json', auth='public', website=True)
     def search_read_public(self, model, domain=None, fields=None, limit=None, **kwargs):
         allowed_models = ['product.template','product.design','product.design.category'] 
         if model not in allowed_models:
@@ -22,7 +22,7 @@ class ProductDesign(http.Controller):
     def catalog(self, **kw):
         
         return http.request.render(
-            'e_website_design.CatalogPage',
+            'e_design_website.CatalogPage',
             {
                 'title':_("Catalog"),
             },
@@ -41,7 +41,7 @@ class ProductDesign(http.Controller):
             ],
         }
         return http.request.render(
-            'e_website_design.CatalogProducts',
+            'e_design_website.CatalogProducts',
             {
                 'title':_("Products"),
                 'breadcrumbs_context':breadcrumbs_context,
@@ -63,7 +63,7 @@ class ProductDesign(http.Controller):
             ],
         }
         return http.request.render(
-            'e_website_design.CatalogCategories',
+            'e_design_website.CatalogCategories',
             {
                 'title':_("Categories"),
                 'breadcrumbs_context':breadcrumbs_context,
@@ -100,7 +100,7 @@ class ProductDesign(http.Controller):
             'category':category,
         }
         return http.request.render(
-            'e_website_design.CatalogDesigns',
+            'e_design_website.CatalogDesigns',
             {
                 'title':_("Designs"),
                 'breadcrumbs_context':breadcrumbs_context,
@@ -133,7 +133,7 @@ class ProductDesign(http.Controller):
             }
             
             return http.request.render(
-                'e_website_design.CatalogDesign',
+                'e_design_website.CatalogDesign',
                 {
                     'title':_("Design %s" % design.name),
                     'design': design,

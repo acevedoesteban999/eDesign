@@ -7,7 +7,7 @@
                     It allows you to view the design catalog from the website.
                 """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_website_design',
+    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_design_website',
     'category': 'Customizations',
     'depends': ['base','e_design','website'],
     'data': [
@@ -16,9 +16,9 @@
     ],
     "assets": {
         "web.assets_frontend": [
-            "e_website_design/static/src/components/public/**/*",
-            "e_website_design/static/src/scss/*.scss",
-            "e_website_design/static/src/js/*js",
+            "e_design_website/static/src/components/public/**/*",
+            "e_design_website/static/src/scss/*.scss",
+            "e_design_website/static/src/js/*js",
         ],
     },
     'images': [

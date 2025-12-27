@@ -3,7 +3,7 @@
   <data>
 
 
-    <template id="e_website_design.CatalogPage" >
+    <template id="e_design_website.CatalogPage" >
       <t t-call="website.layout">
           <div class="container py-5 my-5">
             <div class="row g-4 public-design-style justify-content-center">
@@ -45,14 +45,14 @@
       </t>
     </template>
     
-    <template id="e_website_design.CatalogProducts">
+    <template id="e_design_website.CatalogProducts">
       <t t-call="website.layout">
           <div class="container py-5">
-            <t t-call="e_website_design.breadcrumbComponent"/>
+            <t t-call="e_design_website.breadcrumbComponent"/>
             <div id="listjs-search-component" class="row g-4 public-design-style">
                 <div class="row my-2 justify-content-end">
                   <div class="col-12 col-sm-6">
-                    <t t-call="e_website_design.listJsSearchComponent">
+                    <t t-call="e_design_website.listJsSearchComponent">
                       <t t-set="list_js_id" t-value="'listjs-search-component'"/>
                       <t t-set="list_js_valueNames" t-value="['listjs-name', 'listjs-default-code']" />
                     </t>
@@ -94,14 +94,14 @@
       </t>
     </template>
 
-    <template id="e_website_design.CatalogCategories">
+    <template id="e_design_website.CatalogCategories">
       <t t-call="website.layout">
           <div class="container py-5">
-            <t t-call="e_website_design.breadcrumbComponent"/>
+            <t t-call="e_design_website.breadcrumbComponent"/>
             <div id="listjs-search-component" class="row g-4 public-design-style">
                 <div class="row my-2 justify-content-end">
                   <div class="col-12 col-sm-6">
-                    <t t-call="e_website_design.listJsSearchComponent">
+                    <t t-call="e_design_website.listJsSearchComponent">
                       <t t-set="list_js_id" t-value="'listjs-search-component'"/>
                       <t t-set="list_js_valueNames" t-value="['listjs-name']" />
                     </t>
@@ -137,23 +137,23 @@
       </t>
     </template>
     
-    <template id="e_website_design.CatalogDesigns">
+    <template id="e_design_website.CatalogDesigns">
       <t t-call="website.layout">
           <div class="container py-3">
-            <t t-call="e_website_design.breadcrumbComponent"/>
-            <t t-call="e_website_design.loaderComponent"/>
+            <t t-call="e_design_website.breadcrumbComponent"/>
+            <t t-call="e_design_website.loaderComponent"/>
               <owl-component 
-                name="e_website_design.CatalogDesignsComponent"
+                name="e_design_website.CatalogDesignsComponent"
                 t-att-props='controller_context'
             />
           </div>
       </t>
     </template>
     
-    <template id="e_website_design.CatalogDesign">
-      <t t-call="e_website_design.designLayout">
+    <template id="e_design_website.CatalogDesign">
+      <t t-call="e_design_website.designLayout">
         <div class="container py-4">
-            <t t-call="e_website_design.breadcrumbComponent"/>
+            <t t-call="e_design_website.breadcrumbComponent"/>
             <div class="row g-4 catalog-design ">
               <div class="col-12 col-md-8">
                 <div class="row design-gallery">

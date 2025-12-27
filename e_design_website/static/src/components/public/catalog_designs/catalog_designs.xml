@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates xml:space="preserve">
-    <t t-name="e_website_design.filterSidebar"> 
+    <t t-name="e_design_website.filterSidebar"> 
         <button class="btn btn-primary filter-toggle-btn" 
                 data-bs-toggle="offcanvas" 
                 data-bs-target=".filterSidebar">
@@ -43,10 +43,10 @@
         </div>
     </t>
 
-    <t t-name="e_website_design.CatalogDesignsComponent">
+    <t t-name="e_design_website.CatalogDesignsComponent">
         <div>
             <div class="catalog-design-component ">
-                <t t-call="e_website_design.filterSidebar"/>
+                <t t-call="e_design_website.filterSidebar"/>
             
                 <div class="container mt-4">
                     <div class="row justify-content-between">

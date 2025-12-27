@@ -8,7 +8,7 @@ import { SearchComponent } from "../search/search"
 import { removeLoader } from "../../../js/public_designs"
 
   export class CatalogDesignsComponent extends Component {
-      static template = "e_website_design.CatalogDesignsComponent";
+      static template = "e_design_website.CatalogDesignsComponent";
       static components = {SearchComponent};
       static props = ['product?','category?']
 
@@ -48,7 +48,7 @@ import { removeLoader } from "../../../js/public_designs"
               ['default_code','ilike',this.state.searchQuery],
           );
           
-        this.state.designs = await this.orm.rpc("/e_website_design/searchRead", {
+        this.state.designs = await this.orm.rpc("/e_design_website/searchRead", {
             model: 'product.design',
             domain: domain,
             fields: ['id','name','default_code'],
@@ -91,5 +91,5 @@ import { removeLoader } from "../../../js/public_designs"
 
   }
 
-  registry.category("public_components").add("e_website_design.CatalogDesignsComponent", CatalogDesignsComponent);
+  registry.category("public_components").add("e_design_website.CatalogDesignsComponent", CatalogDesignsComponent);
   

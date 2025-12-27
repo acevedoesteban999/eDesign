@@ -4,10 +4,10 @@
     
     <template id="designLayout" inherit_id="website.layout">
         <xpath expr="//head/link[last()]" position="after">
-          <link rel="stylesheet" href="/e_website_design/static/src/lib/fancybox/fancybox.css"/>
+          <link rel="stylesheet" href="/e_design_website/static/src/lib/fancybox/fancybox.css"/>
         </xpath>
         <xpath expr="//script[@id='web.layout.odooscript']" position="after">
-          <script src="/e_website_design/static/src/lib/fancybox/fancybox.js"></script>
+          <script src="/e_design_website/static/src/lib/fancybox/fancybox.js"></script>
         </xpath>
     </template>
     
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <script src="/e_website_design/static/src/lib/listjs/listjs.js"/>
+        <script src="/e_design_website/static/src/lib/listjs/listjs.js"/>
         <script>
           document.addEventListener('DOMContentLoaded', function() {
             var listjs = new List('<t t-raw="list_js_id"/>', { 

@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* e_pos_mrp_design
+# 	* e_design_pos_mrp
 #
 msgid ""
 msgstr ""
@@ -15,17 +15,17 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: e_pos_mrp_design
-#: model:ir.model.fields,field_description:e_pos_mrp_design.field_mrp_production__design_id
+#. module: e_design_pos_mrp
+#: model:ir.model.fields,field_description:e_design_pos_mrp.field_mrp_production__design_id
 msgid "Design"
 msgstr ""
 
-#. module: e_pos_mrp_design
-#: model:ir.model,name:e_pos_mrp_design.model_mrp_production
+#. module: e_design_pos_mrp
+#: model:ir.model,name:e_design_pos_mrp.model_mrp_production
 msgid "Manufacturing Order"
 msgstr ""
 
-#. module: e_pos_mrp_design
-#: model:ir.model,name:e_pos_mrp_design.model_product_design
+#. module: e_design_pos_mrp
+#: model:ir.model,name:e_design_pos_mrp.model_product_design
 msgid "product.design"
 msgstr ""

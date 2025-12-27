@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates xml:space="preserve">
-    <t t-name="e_website_design.SearchComponent">
+    <t t-name="e_design_website.SearchComponent">
         <div class="search-component position-relative">
             <label class="form-label" t-if="props.label" t-esc="props.label"/>
             <div class="dropdown-search">

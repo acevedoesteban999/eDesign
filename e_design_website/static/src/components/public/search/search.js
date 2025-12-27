@@ -5,7 +5,7 @@ import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 
 export class SearchComponent extends Component {
-    static template = "e_website_design.SearchComponent";
+    static template = "e_design_website.SearchComponent";
     static props = {
         'model': String, 
         'domain': { type: Array, optional: true }, 
@@ -40,7 +40,7 @@ export class SearchComponent extends Component {
         
         const limit = this.props.limit || 5;
         
-        const records = await this.orm.rpc("/e_website_design/searchRead", {
+        const records = await this.orm.rpc("/e_design_website/searchRead", {
             model: this.props.model,
             domain: domain,
             fields: this.props.fields,
@@ -91,4 +91,4 @@ export class SearchComponent extends Component {
     }
 }
 
-registry.category("public_components").add("e_website_design.SearchComponent", SearchComponent);
+registry.category("public_components").add("e_design_website.SearchComponent", SearchComponent);
