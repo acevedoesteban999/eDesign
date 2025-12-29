@@ -20,8 +20,10 @@
             <form>
                 <header>
                     <button name="action_check_version" type="object" string="Check Version" class="oe_highlight"/>
-                    <button name="action_update_module" type="object" string="Update Module" class="oe_highlight" 
-                            invisible="is_uptodate"/>
+                    <button name="action_confirm_and_update" type="object" string="Update Module" class="oe_highlight" 
+                            invisible="remote_state == 'uptodate'" confirm="This will REPLACE all local files. Continue?"/>
+                    <button name="action_confirm_and_update" type="object" string="Update Module" class="oe_highlight" 
+                            confirm="This will REPLACE all local files. Continue?"/>
                 </header>
                 <sheet>
                     <group>
@@ -36,7 +38,11 @@
                             <field name="local_version" readonly="1"/>
                             <button string="Update Local Module" name="action_update_local_module" type="object" class="oe_highlight" invisible="installed_version == local_version"/>
                             <field name="remote_version" readonly="1"/>
-                            <field name="is_uptodate" readonly="1"/>
+                            <field name="remote_state" widget="badge" readonly="1"
+                                decoration-success="remote_state == 'uptodate'"
+                                decoration-info="remote_state  == 'to_update'"
+                                decoration-danger="remote_state == 'error'"/>
+                            <field name="error" readonly="1" invisible="remote_state != 'error'" decoration-danger="True"></field>
                             <field name="last_check" readonly="1"/>
                         </group>
                     </group>

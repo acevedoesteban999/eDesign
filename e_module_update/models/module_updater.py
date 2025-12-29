@@ -33,8 +33,12 @@ class EGithubModuleUpdater(models.Model):
     last_check = fields.Datetime("Last Check")
     
     # ESTADO
-    is_uptodate = fields.Boolean("Is Up-to-date", compute="_compute_versions")
-
+    remote_state = fields.Selection([
+        ('uptodate',"Uptodate"),
+        ('to_update',"To Update"),
+        ('error',"Error"),
+        ], compute="_compute_versions",default="error")
+    error = fields.Char("Error")
     _sql_constraints = [
         ('unique_module', 'unique(module_name)', 'Module must be unique!')
     ]
@@ -60,31 +64,30 @@ class EGithubModuleUpdater(models.Model):
         owner, repo = url_parts[-2], url_parts[-1].replace('.git', '')
         
         # Intentar __manifest__.py primero
-        for manifest_name in ['__manifest__.py', '__openerp__.py']:
-            api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{self.subfolder_path or self.module_name}/{manifest_name}"
-            params = {'ref': self.branch}
-            
-            try:
-                response = requests.get(
-                    api_url, 
-                    headers=self._get_github_api_headers(),
-                    params=params,
-                    timeout=30
-                )
-                
-                if response.status_code == 200:
-                    file_data = response.json()
-                    # El contenido está en base64
-                    content = base64.b64decode(file_data['content']).decode('utf-8')
-                    # Evaluar de forma segura
-                    manifest_dict = eval(content, {'__builtins__': {}}, {})
-                    return manifest_dict.get('version', 'Unknown')
-                    
-            except requests.exceptions.RequestException as e:
-                _logger.error("GitHub API error for %s: %s", self.module_name, e)
-                return 'Error'
+        api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{self.subfolder_path or self.module_name}/__manifest__.py"
+        params = {'ref': self.branch}
         
-        return 'Not found'
+        try:
+            response = requests.get(
+                api_url, 
+                headers=self._get_github_api_headers(),
+                params=params,
+                timeout=5
+            )
+            
+            if response.status_code == 200:
+                file_data = response.json()
+                # El contenido está en base64
+                content = base64.b64decode(file_data['content']).decode('utf-8')
+                # Evaluar de forma segura
+                manifest_dict = eval(content, {'__builtins__': {}}, {})
+                return manifest_dict.get('version', False) , False
+                
+        except requests.exceptions.RequestException as e:
+            _logger.error("GitHub API error for %s: %s", self.module_name, e)
+            return False , str(e)
+        
+        return False , f"Code: {response.status_code} ; Reason: {response.reason}"
 
     def _get_module_local_path(self):
         self.ensure_one()
@@ -169,24 +172,37 @@ class EGithubModuleUpdater(models.Model):
                     'local_version': 'Unknown',
                     'remote_version': 'Unknown',
                     'installed_version': 'Unknown',
-                    'is_uptodate': False,
                 })
                 continue
             
             # local_path = record._get_module_local_path()
-            local_version = record._get_module_local_version() or "Not found"
+            local_version = record._get_module_local_version()
             installed_version = self.env['ir.module.module'].search([('name','=',self.module_name)]).installed_version
-            try:
-                remote_version = record._get_module_git_version()
-            except Exception as e:
-                remote_version = 'Error'
-                _logger.error("Error checking remote version for %s: %s", record.module_name, e)
+            
+            remote_version , remote_error = record._get_module_git_version()
+            
+            if not remote_version and remote_error:
+                remote_state = 'error'
+                error = remote_error
+            elif not local_version:
+                remote_state = 'error'
+                error = "Unknown Local Version"
+            elif not installed_version:
+                remote_state = 'error'
+                error = "Unknown Installed Version"
+            elif local_version == remote_version:
+                remote_state = 'uptodate'
+                error = ""
+            else:
+                remote_state = 'to_update'
+                error = ""
             
             record.update({
-                'local_version': local_version,
-                'installed_version':installed_version,
-                'remote_version': remote_version,
-                'is_uptodate': local_version == remote_version and local_version not in ['Not found'],
+                'local_version': local_version or "Unknown",
+                'installed_version':installed_version or "Unknown",
+                'remote_version': remote_version or "Unknown",
+                'error': error,
+                'remote_state': remote_state,
                 'last_check': fields.Datetime.now(),
             })
 
@@ -205,48 +221,11 @@ class EGithubModuleUpdater(models.Model):
             'tag': 'display_notification',
             'params': {
                 'title': _('Version Check'),
-                'message': _("Local: %s\nRemote: %s\nUp-to-date: %s") % (
-                    self.local_version,
-                    self.remote_version,
-                    _('Yes') if self.is_uptodate else _('No')
-                ),
                 'type': 'info',
-                'sticky': True,
+                'sticky': False,
             }
         }
-
-    def action_update_module(self):
         
-        self.ensure_one()
-        
-        
-        if self.is_uptodate:
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': _('Info'),
-                    'message': _('Module is already up-to-date'),
-                    'type': 'info',
-                }
-            }
-        
-        # Confirmación
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Confirm Update'),
-                'message': _('This will REPLACE all local files. Continue?'),
-                'type': 'warning',
-                'sticky': True,
-                'next': {
-                    'type': 'ir.actions.server',
-                    'id': self.env.ref('e_github_update.action_confirm_update').id,
-                    'context': {'active_id': self.id}
-                }
-            }
-        }
 
     def action_confirm_and_update(self):
         """Confirma y ejecuta la actualización"""
