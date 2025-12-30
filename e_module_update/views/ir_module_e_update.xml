@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_e_git_update_module_list" model="ir.ui.view">
-        <field name="name">view.e_module_update.module.updater.list</field>
-        <field name="model">e_module_update.module.updater</field>
+    <record id="view_ir_module_e_update_list" model="ir.ui.view">
+        <field name="name">ir.module.e_update.list</field>
+        <field name="model">ir.module.e_update</field>
         <field name="arch" type="xml">
             <list>
                 <field name="module_name"/>
@@ -13,9 +13,9 @@
         </field>
     </record>
 
-    <record id="view_e_git_update_module_form" model="ir.ui.view">
-        <field name="name">view.e_module_update.module.updater.form</field>
-        <field name="model">e_module_update.module.updater</field>
+    <record id="view_ir_module_e_update_form" model="ir.ui.view">
+        <field name="name">ir.module.e_update.form</field>
+        <field name="model">ir.module.e_update</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -56,10 +56,10 @@
         </field>
     </record>
 
-    <record id="action_e_git_update_module" model="ir.actions.act_window">
+    <record id="action_ir_module_e_update" model="ir.actions.act_window">
         <field name="name">E_git_update Module</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">e_module_update.module.updater</field>
+        <field name="res_model">ir.module.e_update</field>
         <field name="view_mode">list,form</field>
         <field name="domain">[]</field>
         <field name="context">{}</field>

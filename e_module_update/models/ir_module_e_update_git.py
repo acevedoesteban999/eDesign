@@ -3,67 +3,40 @@
 # License LGPL-3
 
 import os
-import shutil
 import requests
 import base64
 import zipfile
 import io
-from odoo import models, fields, api, _ , modules
-from odoo.modules import get_manifest
-import hashlib
+from odoo import models, fields, api, _ 
 from odoo.exceptions import UserError
 import logging
-
+from ..utils.util import process_zip , make_backup , remove_backup , restore_backup
 _logger = logging.getLogger(__name__)
 
-class EGithubModuleUpdater(models.Model):
-    _name = 'e_module_update.module.updater'
+class eIrModuleUpdateGit(models.Model):
+    _name = 'ir.module.e_update.git'
+    _inherit = 'ir.module.e_update'
     _description = 'GitHub Module Updater'
-    _rec_name = 'module_name'
 
-    module_name = fields.Char("Module Technical Name", required=True)
-    repo_url = fields.Char("GitHub Repo URL", 
-                          help="e.g., https://github.com/odoo/odoo", required=True)
-    subfolder_path = fields.Char("Subfolder Path", 
-                                help="e.g., addons/mail", required=True)
-    branch = fields.Char("Branch", default="main", required=True)
+    repo_url = fields.Char("GitHub Repo URL",help="e.g., https://github.com/odoo/odoo", required=True)
     
-    local_version = fields.Char("Local Version", compute="_compute_versions")
-    installed_version = fields.Char("Installed Version", compute="_compute_versions")
+    subfolder_path = fields.Char("Subfolder Path", required=True)
+    branch = fields.Char("Branch", default="main", required=True)
     remote_version = fields.Char("Remote Version", compute="_compute_versions")
     last_check = fields.Datetime("Last Check")
-    
     remote_state = fields.Selection([
         ('uptodate',"Uptodate"),
         ('to_update',"To Update"),
         ('error',"Error"),
         ], compute="_compute_versions",default="error")
     error = fields.Char("Error")
-    _sql_constraints = [
-        ('unique_module', 'unique(module_name)', 'Module must be unique!')
-    ]
-    method = fields.Selection([
-        # ('repository',"Git Repository"),
-        ('download',"Git Download"),
-        # ('store',"Odoo App Store"),
-        ('manual',"Manual Upload"),
-    ],default="download",required=True)
     
-    def _get_github_api_headers(self):
-        return {
-            'Accept': 'application/vnd.github.v3+json',
-            'User-Agent': 'Odoo-GitHub-Updater'
-        }
-
-    def _get_module_git_version(self):
+    def _get_remote_git_version(self):
         self.ensure_one()
         
-        # Construir URL de la API para el archivo
-        # Formato: /repos/{owner}/{repo}/contents/{path}
         url_parts = self.repo_url.rstrip('/').split('/')
         owner, repo = url_parts[-2], url_parts[-1].replace('.git', '')
         
-        # Intentar __manifest__.py primero
         api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{self.subfolder_path or self.module_name}/__manifest__.py"
         params = {'ref': self.branch}
         
@@ -77,9 +50,7 @@ class EGithubModuleUpdater(models.Model):
             
             if response.status_code == 200:
                 file_data = response.json()
-                # El contenido está en base64
                 content = base64.b64decode(file_data['content']).decode('utf-8')
-                # Evaluar de forma segura
                 manifest_dict = eval(content, {'__builtins__': {}}, {})
                 return manifest_dict.get('version', False) , False
                 
@@ -88,33 +59,7 @@ class EGithubModuleUpdater(models.Model):
             return False , str(e)
         
         return False , f"Code: {response.status_code} ; Reason: {response.reason}"
-
-    def _get_module_local_path(self):
-        self.ensure_one()
-        return  modules.get_module_path(self.module_name)
     
-    def _get_module_local_version(self):
-        self.ensure_one()
-        return get_manifest(self.module_name).get('version')
-    
-    def _process_zip(self,zip_file,prefix,local_path):
-        count_files = 0
-        for zip_info in zip_file.infolist():
-            if (prefix and zip_info.filename.startswith(prefix)) and not zip_info.is_dir():
-                relative_path = zip_info.filename[len(prefix):]
-                if relative_path: 
-                    target_path = os.path.join(local_path, relative_path)
-                    os.makedirs(os.path.dirname(target_path), exist_ok=True)
-                    
-                    with zip_file.open(zip_info) as source, open(target_path, 'wb') as target:
-                        shutil.copyfileobj(source, target)
-                    count_files += 1
-        
-         
-        return count_files
-    
-    def _get_backup_path(self,local_path,module_name):
-        return local_path + '.backup_'+ module_name + fields.Datetime.now().strftime('%Y%m%d_%H%M%S')
     
     def _download_entire_subfolder_zip(self):
         self.ensure_one()
@@ -126,9 +71,7 @@ class EGithubModuleUpdater(models.Model):
         if not local_path:
             raise UserError(_("Local module path not found. Is the module installed?"))
         
-        backup_path = self._get_backup_path(local_path,self.module_name)
-        shutil.move(local_path, backup_path)
-        os.makedirs(local_path, exist_ok=True)
+        backup_path = make_backup(local_path,self.module_name)
         
         try:
             zip_url = f"https://github.com/{owner}/{repo}/archive/refs/heads/{self.branch}.zip"
@@ -140,18 +83,16 @@ class EGithubModuleUpdater(models.Model):
             
             with zipfile.ZipFile(io.BytesIO(response.content)) as zip_file:
                 prefix = f"{repo}-{self.branch}/{self.subfolder_path}/"
-                extracted_files = self._process_zip(zip_file,prefix,local_path)
+                extracted_files = process_zip(zip_file,prefix,local_path)
                 if extracted_files == 0:
                     raise UserError(_("No files found in subfolder: %s") % self.subfolder_path)
                 _logger.info("Extracted %d files to %s", extracted_files, local_path)   
-            shutil.rmtree(backup_path)
+            remove_backup(backup_path)
             _logger.info("Successfully updated module %s from GitHub", self.module_name)
             return extracted_files
         except Exception as e:
             _logger.error("Update failed for %s: %s. Restoring backup.", self.module_name, e)
-            if os.path.exists(local_path):
-                shutil.rmtree(local_path)
-            shutil.move(backup_path, local_path)
+            restore_backup(backup_path,local_path)
             raise UserError(_("Update failed: %s") % str(e))
     
     def _download_entire_subfolder_optimized(self):
@@ -164,9 +105,7 @@ class EGithubModuleUpdater(models.Model):
         if not local_path:
             raise UserError(_("Local module path not found. Is the module installed?"))
         
-        backup_path = self._get_backup_path(local_path , self.module_name)
-        shutil.move(local_path, backup_path)
-        os.makedirs(local_path, exist_ok=True)
+        backup_path = make_backup(local_path , self.module_name)
         
         try:
             api_url = f"https://api.github.com/repos/{owner}/{repo}/git/trees/{self.branch}?recursive=1"
@@ -211,42 +150,30 @@ class EGithubModuleUpdater(models.Model):
             
             _logger.info("Downloaded %d files to %s", downloaded_files, local_path)
             
-            shutil.rmtree(backup_path)
+            remove_backup(backup_path)
             return downloaded_files
             
         except Exception as e:
             _logger.error("Update failed for %s: %s. Restoring backup.", self.module_name, e)
-            if os.path.exists(local_path):
-                shutil.rmtree(local_path)
-            shutil.move(backup_path, local_path)
+            restore_backup(backup_path, local_path)
             raise UserError(_("Update failed: %s") % str(e))
 
-    @api.depends('module_name', 'repo_url', 'subfolder_path', 'branch')
+    @api.depends('repo_url', 'subfolder_path', 'branch')
     def _compute_versions(self):
         for record in self:
-            if not record.module_name:
-                record.update({
-                    'local_version': 'Unknown',
-                    'remote_version': 'Unknown',
-                    'installed_version': 'Unknown',
-                })
-                continue
-            
-            local_version = record._get_module_local_version()
-            installed_version = self.env['ir.module.module'].search([('name','=',self.module_name)]).installed_version
-            
-            remote_version , remote_error = record._get_module_git_version()
+            super(record,eIrModuleUpdateGit)._compute_versions()
+            remote_version , remote_error = record._get_remote_git_version()
             
             if not remote_version and remote_error:
                 remote_state = 'error'
                 error = remote_error
-            elif not local_version:
+            elif not self.local_version:
                 remote_state = 'error'
                 error = "Unknown Local Version"
-            elif not installed_version:
+            elif not self.installed_version:
                 remote_state = 'error'
                 error = "Unknown Installed Version"
-            elif local_version == remote_version:
+            elif self.local_version == self.remote_version:
                 remote_state = 'uptodate'
                 error = ""
             else:
@@ -254,8 +181,6 @@ class EGithubModuleUpdater(models.Model):
                 error = ""
             
             record.update({
-                'local_version': local_version or "Unknown",
-                'installed_version':installed_version or "Unknown",
                 'remote_version': remote_version or "Unknown",
                 'error': error,
                 'remote_state': remote_state,
@@ -265,22 +190,6 @@ class EGithubModuleUpdater(models.Model):
     # ===================================================================
     # ACTIONS
     # ===================================================================
-
-    def action_check_version(self):
-        self.ensure_one()
-        self._compute_versions()
-        
-        
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': _('Version Check'),
-                'type': 'info',
-                'sticky': False,
-            }
-        }
-        
 
     def action_confirm_and_update(self):
         self.ensure_one()
@@ -309,20 +218,17 @@ class EGithubModuleUpdater(models.Model):
     def action_check_repositiry(self):
         pass
     
-    def action_update_local_module(self):
-        pass
-    
-    def action_open_manual_upload(self):
-        return {
-            'name': 'Upload Manual Zip',
-            'type': 'ir.actions.act_window',
-            'res_model': 'e_module_update.module_update_manual_wizard',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_ids':[('e_module_update_module_update_manual_wizard_view_form','form')],
-            'target': 'new',
-            'domain': [],
-            'context': {
-                'default_module_update_id':self.id
-            },
-        }
+    # def action_open_manual_upload(self):
+    #     return {
+    #         'name': 'Upload Manual Zip',
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': 'e_module_update.module_update_manual_wizard',
+    #         'view_type': 'form',
+    #         'view_mode': 'form',
+    #         'view_ids':[('e_module_update_module_update_manual_wizard_view_form','form')],
+    #         'target': 'new',
+    #         'domain': [],
+    #         'context': {
+    #             'default_module_update_id':self.id
+    #         },
+    #     }

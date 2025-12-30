@@ -3,4 +3,4 @@
 # License LGPL-3
 
 # -*- coding: utf-8 -*-
-from . import module_updater
+from . import ir_module_e_update
