@@ -113,8 +113,8 @@ class EGithubModuleUpdater(models.Model):
          
         return count_files
     
-    def _get_backup_path(self,local_path):
-        return local_path + '.backup_' + fields.Datetime.now().strftime('%Y%m%d_%H%M%S')
+    def _get_backup_path(self,local_path,module_name):
+        return local_path + '.backup_'+ module_name + fields.Datetime.now().strftime('%Y%m%d_%H%M%S')
     
     def _download_entire_subfolder_zip(self):
         self.ensure_one()
@@ -126,7 +126,7 @@ class EGithubModuleUpdater(models.Model):
         if not local_path:
             raise UserError(_("Local module path not found. Is the module installed?"))
         
-        backup_path = self._get_backup_path(local_path)
+        backup_path = self._get_backup_path(local_path,self.module_name)
         shutil.move(local_path, backup_path)
         os.makedirs(local_path, exist_ok=True)
         
@@ -164,7 +164,7 @@ class EGithubModuleUpdater(models.Model):
         if not local_path:
             raise UserError(_("Local module path not found. Is the module installed?"))
         
-        backup_path = local_path + '.backup_' + fields.Datetime.now().strftime('%Y%m%d_%H%M%S')
+        backup_path = self._get_backup_path(local_path , self.module_name)
         shutil.move(local_path, backup_path)
         os.makedirs(local_path, exist_ok=True)
         
