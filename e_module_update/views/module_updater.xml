@@ -21,9 +21,9 @@
                 <header>
                     <button name="action_check_version" type="object" string="Check Version" class="oe_highlight"/>
                     <button name="action_confirm_and_update" type="object" string="Update Module" class="oe_highlight" 
-                            invisible="remote_state == 'uptodate'" confirm="This will REPLACE all local files. Continue?"/>
-                    <button name="action_confirm_and_update" type="object" string="Update Module" class="oe_highlight" 
-                            confirm="This will REPLACE all local files. Continue?"/>
+                            invisible="remote_state  != 'to_update'" confirm="This will REPLACE all local files. Continue?"/>
+                    <button name="action_confirm_and_update" type="object" string="Update Module (By ZIP)" 
+                            invisible="remote_state  != 'to_update'" confirm="This will REPLACE all local files and download all zip repository. Continue?" context="{'download_by_zip':True}"/>
                 </header>
                 <sheet>
                     <group>
