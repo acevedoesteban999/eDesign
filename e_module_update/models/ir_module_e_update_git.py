@@ -10,26 +10,19 @@ import io
 from odoo import models, fields, api, _ 
 from odoo.exceptions import UserError
 import logging
-from ..utils.util import process_zip , make_backup , remove_backup , restore_backup
+from ..utils.util import copy_zip , make_backup , remove_backup , restore_backup , get_zip_by_prefix
 _logger = logging.getLogger(__name__)
 
 class eIrModuleUpdateGit(models.Model):
     _name = 'ir.module.e_update.git'
     _inherit = 'ir.module.e_update'
-    _description = 'GitHub Module Updater'
+    _description = 'Git Module Updater'
 
     repo_url = fields.Char("GitHub Repo URL",help="e.g., https://github.com/odoo/odoo", required=True)
     
     subfolder_path = fields.Char("Subfolder Path", required=True)
     branch = fields.Char("Branch", default="main", required=True)
-    remote_version = fields.Char("Remote Version", compute="_compute_versions")
-    last_check = fields.Datetime("Last Check")
-    remote_state = fields.Selection([
-        ('uptodate',"Uptodate"),
-        ('to_update',"To Update"),
-        ('error',"Error"),
-        ], compute="_compute_versions",default="error")
-    error = fields.Char("Error")
+    remote_version = fields.Char("Remote Version", compute="_compute_versions",store=True)
     
     def _get_remote_git_version(self):
         self.ensure_one()
@@ -83,7 +76,8 @@ class eIrModuleUpdateGit(models.Model):
             
             with zipfile.ZipFile(io.BytesIO(response.content)) as zip_file:
                 prefix = f"{repo}-{self.branch}/{self.subfolder_path}/"
-                extracted_files = process_zip(zip_file,prefix,local_path)
+                zip_for_extraction = get_zip_by_prefix(zip_file,prefix)
+                extracted_files = copy_zip(zip_for_extraction,prefix,local_path)
                 if extracted_files == 0:
                     raise UserError(_("No files found in subfolder: %s") % self.subfolder_path)
                 _logger.info("Extracted %d files to %s", extracted_files, local_path)   
@@ -92,7 +86,7 @@ class eIrModuleUpdateGit(models.Model):
             return extracted_files
         except Exception as e:
             _logger.error("Update failed for %s: %s. Restoring backup.", self.module_name, e)
-            restore_backup(backup_path,local_path)
+            restore_backup(backup_path,local_path,True)
             raise UserError(_("Update failed: %s") % str(e))
     
     def _download_entire_subfolder_optimized(self):
@@ -164,27 +158,10 @@ class eIrModuleUpdateGit(models.Model):
             super(record,eIrModuleUpdateGit)._compute_versions()
             remote_version , remote_error = record._get_remote_git_version()
             
-            if not remote_version and remote_error:
-                remote_state = 'error'
-                error = remote_error
-            elif not self.local_version:
-                remote_state = 'error'
-                error = "Unknown Local Version"
-            elif not self.installed_version:
-                remote_state = 'error'
-                error = "Unknown Installed Version"
-            elif self.local_version == self.remote_version:
-                remote_state = 'uptodate'
-                error = ""
-            else:
-                remote_state = 'to_update'
-                error = ""
+            self.compute_update_state(remote_version,self.local_version,remote_error)
             
             record.update({
                 'remote_version': remote_version or "Unknown",
-                'error': error,
-                'remote_state': remote_state,
-                'last_check': fields.Datetime.now(),
             })
 
     # ===================================================================
@@ -218,17 +195,3 @@ class eIrModuleUpdateGit(models.Model):
     def action_check_repositiry(self):
         pass
     
-    # def action_open_manual_upload(self):
-    #     return {
-    #         'name': 'Upload Manual Zip',
-    #         'type': 'ir.actions.act_window',
-    #         'res_model': 'e_module_update.module_update_manual_wizard',
-    #         'view_type': 'form',
-    #         'view_mode': 'form',
-    #         'view_ids':[('e_module_update_module_update_manual_wizard_view_form','form')],
-    #         'target': 'new',
-    #         'domain': [],
-    #         'context': {
-    #             'default_module_update_id':self.id
-    #         },
-    #     }

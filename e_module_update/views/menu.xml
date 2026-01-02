@@ -1,9 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <menuitem
-        id="e_git_update_menu_root"
+        id="e_module_update_menu_root"
         name="eModule Update"
-        action="action_e_git_update_module"
         parent="base.menu_management"
-        sequence="100"/>
+        sequence="100">
+        <menuitem
+            id="e_module_update_manual_menu"
+            name="Manual"
+            action="action_ir_module_e_update_manual"
+            sequence="10"/>
+        <menuitem
+            id="e_module_update_git_menu"
+            name="Git"
+            action="action_ir_module_e_update_git"
+            sequence="20"/>
+    </menuitem>
+
 </odoo>

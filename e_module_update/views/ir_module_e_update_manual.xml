@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_ir_module_e_update_manual_list" model="ir.ui.view">
+        <field name="name">ir.module.e_update.manual.list</field>
+        <field name="model">ir.module.e_update.manual</field>
+        <field name="inherit_id" ref="e_module_update.view_ir_module_e_update_list"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <!-- <list position="inside">
+                <field name="file_zip"></field>
+            </list> -->
+        </field>
+    </record>
+    <record id="view_ir_module_e_update_manual_form" model="ir.ui.view">
+        <field name="name">ir.module.e_update.manual.form</field>
+        <field name="model">ir.module.e_update.manual</field>
+        <field name="inherit_id" ref="e_module_update.view_ir_module_e_update_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+                <header position="inside">
+                    <button name="action_upload_zip" type="object" string="Upload Zip" class="oe_highlight" 
+                            confirm="This will REPLACE all local files. Continue?"/>
+                </header>
+                <!-- <xpath expr="//field[@name='module_name']" position="after">
+                    <field name="file_zip" widget="file"/>
+                </xpath> -->
+        </field>
+    </record>
+
+    <record id="action_ir_module_e_update_manual" model="ir.actions.act_window">
+        <field name="name">Manual Update</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ir.module.e_update.manual</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                There is no examples click here to add new E_git_update Module.
+            </p>
+        </field>
+    </record>
+
+</odoo>

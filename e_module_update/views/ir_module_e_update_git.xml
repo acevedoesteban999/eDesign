@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_ir_module_e_update_git_list" model="ir.ui.view">
+        <field name="name">ir.module.e_update.git.list</field>
+        <field name="model">ir.module.e_update.git</field>
+        <field name="inherit_id" ref="e_module_update.view_ir_module_e_update_list"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <list position="inside">
+                <field name="subfolder_path"></field>
+                <field name="branch"></field>
+                <field name="remote_version"></field>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_ir_module_e_update_git_form" model="ir.ui.view">
+        <field name="name">ir.module.e_update.git.form</field>
+        <field name="model">ir.module.e_update.git</field>
+        <field name="inherit_id" ref="e_module_update.view_ir_module_e_update_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+                <header position="inside">
+                    <button name="action_check_repositiry" type="object" string="Check Repository" class="oe_highlight"/>
+                    <button name="action_confirm_and_update" type="object" string="Update Module" class="oe_highlight" 
+                            invisible="update_state  != 'to_update'" confirm="This will REPLACE all local files. Continue?"/>
+                
+                </header>
+                <xpath expr="//field[@name='module_name']" position="after">
+                    <field name="subfolder_path" invisible="update_state=='error'"/>
+                    <field name="branch" invisible="update_state=='error'"/>
+                </xpath>
+        </field>
+    </record>
+
+    <record id="action_ir_module_e_update_git" model="ir.actions.act_window">
+        <field name="name">Git Update</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ir.module.e_update.git</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                There is no examples click here to add new E_git_update Module.
+            </p>
+        </field>
+    </record>
+
+</odoo>

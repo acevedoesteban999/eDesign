@@ -7,8 +7,6 @@
         <field name="arch" type="xml">
             <list>
                 <field name="module_name"/>
-                <field name="repo_url" />
-                <field name="subfolder_path" />
             </list>
         </field>
     </record>
@@ -20,53 +18,28 @@
             <form>
                 <header>
                     <button name="action_check_version" type="object" string="Check Version" class="oe_highlight"/>
-                    <button name="action_confirm_and_update" type="object" string="Update Module" class="oe_highlight" 
-                            invisible="method != 'download' or remote_state  != 'to_update'" confirm="This will REPLACE all local files. Continue?"/>
-                    <button name="action_confirm_and_update" type="object" string="Update Module (By ZIP)" 
-                            invisible="method != 'download' or remote_state  != 'to_update'" confirm="This will REPLACE all local files and download all zip repository. Continue?" context="{'download_by_zip':True}"/>
-                    <!-- <button name="action_check_repositiry" type="object" string="Check Local Git Repository" 
-                            invisible="method != 'repository'" confirm="This will pull changes and REPLACE all files. Continue?"/> -->
-                
                 </header>
                 <sheet>
                     <group>
                         <group>
                             <field name="module_name" placeholder="ej: module"/>
-                            <field name="repo_url" placeholder="https://github.com/user/repo"/>
-                            <field name="subfolder_path" placeholder="/module_in_main_repo"/>
-                            <field name="branch" placeholder="main"/>
-                            <field name="method"></field>
                         </group>
                         <group>
                             <field name="installed_version" readonly="1"/>
                             <field name="local_version" readonly="1"/>
-                            <button string="Update Local Module" name="action_update_local_module" type="object" class="oe_highlight" invisible="installed_version == local_version"/>
-                            <field name="remote_version" readonly="1" invisible="method!='download'"/>
-                            <field name="remote_state" widget="badge" readonly="1" invisible="method!='download'"
-                                decoration-success="remote_state == 'uptodate'"
-                                decoration-info="remote_state  == 'to_update'"
-                                decoration-danger="remote_state == 'error'"/>
-                            <field name="error" readonly="1" invisible="method!='download' or  remote_state != 'error'" decoration-danger="True"></field>
-                            <button string="Upload Zip" name="action_open_manual_upload" type="object" class="oe_highlight" invisible="method!='manual'"/>
+                            <button string="Update Local Module" name="action_update_module" type="object" class="oe_highlight" invisible="installed_version == local_version"/>
+                            <field name="update_state" widget="badge" readonly="1"
+                                decoration-success="update_state == 'uptodate'"
+                                decoration-info="update_state  == 'to_update'"
+                                decoration-danger="update_state == 'error'"
+                                invisible="not update_state"
+                                />
+                            <field name="error_msg" readonly="1" invisible="not update_state or update_state != 'error'" decoration-danger="True"></field>
                             <field name="last_check" readonly="1"/>
                         </group>
                     </group>
                 </sheet>
             </form>
-        </field>
-    </record>
-
-    <record id="action_ir_module_e_update" model="ir.actions.act_window">
-        <field name="name">E_git_update Module</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">ir.module.e_update</field>
-        <field name="view_mode">list,form</field>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
-        <field name="help" type="html">
-            <p class="oe_view_nocontent_create">
-                There is no examples click here to add new E_git_update Module.
-            </p>
         </field>
     </record>
 
