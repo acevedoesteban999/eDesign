@@ -98,29 +98,17 @@ class eIrModuleUpdateManual(models.Model):
                         'error_msg': _("Error reading ZIP: %s") % str(e),
                     })
 
-    def _update_from_zip(self):
+    # ===================================================================
+    # ACTIONS
+    # ===================================================================
+
+    def action_store_version(self):
         self.ensure_one()
         
         if not self.file_zip:
             raise UserError(_("No ZIP file provided"))
-        
-        if self.update_state != 'to_update':
-            raise UserError(_("Cannot update: %s") % (self.error or _("Invalid state")))
-        
-        if not self.local_version:
-            raise UserError(_("No local version provided"))
-        
-        local_path = self._get_module_local_path()
-        
-        if not local_path:
-            raise UserError(_("No local path provided"))
-        
-        backup_path = make_backup(
-            local_path=local_path,
-            module_name=self.module_name,
-            version=self.local_version
-        )
-        
+
+        local_path , backup_path = super().action_store_version()
         try:
             zip_data = base64.b64decode(self.file_zip)
             zip_file = zipfile.ZipFile(io.BytesIO(zip_data), 'r')
@@ -131,57 +119,37 @@ class eIrModuleUpdateManual(models.Model):
             else:
                 zip_for_extraction = zip_file
             
-            extracted_files = copy_zip(zip_for_extraction,local_path)
+            upload_files = copy_zip(zip_for_extraction,local_path)
             
-            if extracted_files == 0:
+            if upload_files == 0:
                 raise UserError(_("No files were extracted from the ZIP"))
             
-            _logger.info("Module %s updated successfully: %d files extracted", self.module_name, extracted_files)
-            
-            # remove_backup(backup_path)
-            
-            return extracted_files
-            
+            _logger.info("Module %s updated successfully: %d files extracted", self.module_name, upload_files)
+                    
         except Exception as e:
             _logger.error("Update failed for %s: %s. Restoring backup from ZIP.", self.module_name, e)
             if backup_path and os.path.exists(backup_path):
                 try:
-                    restore_backup(backup_path, local_path)
+                    restore_backup(backup_path, local_path,True)
                     _logger.info("Backup restored successfully from ZIP")
                 except Exception as restore_error:
                     _logger.error("Failed to restore backup: %s", restore_error)
             
             raise UserError(_("Update failed: %s") % str(e))
         
-        finally:
-            zip_file.close()
-
-    # ===================================================================
-    # ACTIONS
-    # ===================================================================
-
-    def action_store_version(self):
-        self.ensure_one()
+        self._compute_versions()
         
-        try:
-            downloaded_files = self._update_from_zip()
-            self._compute_versions()
-            
-            return {
-                'type': 'ir.actions.client',
-                'tag': 'display_notification',
-                'params': {
-                    'title': _('Success'),
-                    'message': _('Module %s updated successfully!\nNew version: %s\nFiles updated: %d') % 
-                              (self.module_name, self.zip_version, downloaded_files),
-                    'type': 'success',
-                    'sticky': False,
-                    'next': {'type': 'ir.actions.act_window_close'},
-                }
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Success'),
+                'message': _('Module %s updated successfully!\nNew version: %s\nFiles updated: %d') % 
+                            (self.module_name, self.zip_version, upload_files),
+                'type': 'success',
+                'sticky': False,
+                'next': {'type': 'ir.actions.act_window_close'},
             }
-        except Exception as e:
-            _logger.exception("Update failed for module %s", self.module_name)
-            self._compute_versions()
-            raise UserError(_("Update failed: %s") % str(e))
+        }
 
     

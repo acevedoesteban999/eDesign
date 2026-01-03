@@ -2,8 +2,10 @@
 # Copyright 2025 
 # License LGPL-3
 
-from odoo import models, fields, api, _ , modules , exceptions
+from odoo import models, fields, api, _ , modules 
+from odoo.exceptions import UserError
 from odoo.modules import get_manifest
+from ..utils.util import make_backup
 
 class EGithubModuleUpdater(models.AbstractModel):
     _name = 'ir.module.e_update'
@@ -134,7 +136,26 @@ class EGithubModuleUpdater(models.AbstractModel):
         }
     
     def action_store_version(self):
-        pass    
+        "Generate Backup"
+        if self.update_state != 'to_update':
+            raise UserError(_("Cannot update: %s") % (self.error or _("Invalid state")))
+        
+        if not self.local_version:
+            raise UserError(_("No local version provided"))
+        
+        local_path = self._get_module_local_path()
+        
+        if not local_path:
+            raise UserError(_("No local path provided"))
+        
+        backup_path = make_backup(
+            local_path=local_path,
+            module_name=self.module_name,
+            version=self.local_version
+        )
+        "The inherit model replace the local module folder"
+        return local_path,backup_path
+    
 
     def action_install_local_version(self):
         self.ensure_one()
