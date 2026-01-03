@@ -22,7 +22,7 @@ class eIrModuleUpdateManual(models.Model):
     zip_version = fields.Char("ZIP Version", compute="_compute_versions",store=True)
     file_zip = fields.Binary("File ZIP", required=True)
     
-    @api.depends('module_name')
+    @api.depends('module_name','file_zip')
     def _compute_versions(self):
         for record in self:
             super(eIrModuleUpdateManual, record)._compute_versions()
@@ -36,9 +36,8 @@ class eIrModuleUpdateManual(models.Model):
                 continue
             
             try:
-                zip_data = base64.b64decode(record.file_zip)
+                zip_data = base64.b64decode(record.with_context(bin_size=False).file_zip)
                 zip_file = zipfile.ZipFile(io.BytesIO(zip_data), 'r')
-                
                 manifest_content = None
                 manifest_name_in_zip = None
                 
@@ -85,11 +84,11 @@ class eIrModuleUpdateManual(models.Model):
                 })
                 zip_file.close()
                 
-            except zipfile.BadZipFile:
+            except zipfile.BadZipFile as e:
                 record.update({
                     'zip_version': _("Unknown"),
                     'update_state': 'error',
-                    'error_msg': _("Invalid ZIP file format"),
+                    'error_msg': _("Invalid ZIP file format: %s") % e,
                 })
             except Exception as e:
                 _logger.error("Error processing ZIP for module %s: %s", record.module_name, str(e))
