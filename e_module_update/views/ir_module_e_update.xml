@@ -7,6 +7,8 @@
         <field name="arch" type="xml">
             <list>
                 <field name="module_name"/>
+                <field name="installed_version"></field>
+                <field name="local_version"></field>
             </list>
         </field>
     </record>
@@ -32,10 +34,10 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="module_name" placeholder="ej: module"/>
+                            <field name="module_name" placeholder="ex: e_module"/>
                         </group>
                         <group>
-                            <field name="module_name" widget="module_icon"/>
+                            <field name="module_icon" widget="image_url"/>
                         </group>
                     </group>
                     <notebook>

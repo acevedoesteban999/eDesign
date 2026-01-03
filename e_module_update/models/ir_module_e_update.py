@@ -11,6 +11,8 @@ class EGithubModuleUpdater(models.AbstractModel):
     _rec_name = 'module_name'
 
     module_name = fields.Char("Module Technical Name", required=True)
+    module_icon = fields.Char(compute="_compute_module_icon")
+    module_exist = fields.Boolean("Module Exist",compute="_compute_module_exist")
     local_version = fields.Char("Local Version", compute="_compute_versions",store=True)
     installed_version = fields.Char("Installed Version", compute="_compute_versions",store=True)
     update_state = fields.Selection([
@@ -22,14 +24,23 @@ class EGithubModuleUpdater(models.AbstractModel):
     error_msg = fields.Char("Error")
     last_check = fields.Datetime("Last Check")
     backup_ids = fields.One2many('ir.module.e_update.backup','e_update_module_id',"Backups",compute="_compute_backup_ids")
-    
     _sql_constraints = [
         ('unique_module', 'unique(module_name)', 'Module must be unique!')
     ]
     
+    @api.onchange('module_name')
+    def _compute_module_icon(self):
+        for rec in self:
+            rec.module_icon = f"/{self.module_name}/static/description/icon.png"
+    
     def _compute_backup_ids(self):
         for rec in self:
             rec.backup_ids = False
+    
+    @api.depends('module_name')
+    def _compute_module_exist(self):
+        for rec in self:
+            rec.module_exist = rec.module_name and  rec.env['ir.module.module'].search_count([('name','=',rec.module_name)]) != 0 or False
     
     @api.depends('local_version','installed_version')
     def _compute_update_local(self):
@@ -58,13 +69,17 @@ class EGithubModuleUpdater(models.AbstractModel):
         self.ensure_one()
         return get_manifest(self.module_name).get('version')
     
+    
+    
     @api.depends('module_name')
     def _compute_versions(self):
         for record in self:
-            if not record.module_name:
+            if not record.module_exist:
                 record.update({
                     'local_version': _("Unknown"),
                     'installed_version': _("Unknown"),
+                    'update_state': 'error' if record.module_name else False,
+                    'error_msg': _('Module not found') if record.module_name else False,
                 })
                 continue
             

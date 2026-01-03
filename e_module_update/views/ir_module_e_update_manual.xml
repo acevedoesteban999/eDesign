@@ -8,7 +8,7 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <list position="inside">
-                <field name="file_zip"></field>
+                <field name="zip_version"></field>
             </list>
         </field>
     </record>
@@ -19,7 +19,7 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
                 <xpath expr="//field[@name='module_name']" position="after">
-                    <field name="file_zip" widget="binary"/>
+                    <field name="file_zip" widget="binary" readonly="not module_exist"/>
                 </xpath>
                 <xpath expr="//field[@name='local_version']" position="after">
                     <field name="zip_version"></field>
