@@ -118,7 +118,23 @@ class eIrModuleUpdateManual(models.Model):
         if not self.file_zip:
             raise UserError(_("No ZIP file provided"))
 
-        local_path , backup_path = super().action_store_version()
+        if self.update_state != 'to_update':
+            raise UserError(_("Cannot update: %s") % (self.error_msg or _("Invalid state")))
+        
+        if not self.local_version:
+            raise UserError(_("No local version provided"))
+        
+        local_path = self._get_module_local_path()
+        
+        if not local_path:
+            raise UserError(_("No local path provided"))
+        
+        backup_path = make_backup(
+            local_path=local_path,
+            module_name=self.module_name,
+            version=self.local_version
+        )
+        
         try:
             zip_data = base64.b64decode(self.with_context(bin_size=False).file_zip)
             zip_file = zipfile.ZipFile(io.BytesIO(zip_data), 'r')

@@ -166,27 +166,6 @@ class EGithubModuleUpdater(models.AbstractModel):
             }
         }
     
-    def action_store_version(self):
-        "Generate Backup"
-        if self.update_state != 'to_update':
-            raise UserError(_("Cannot update: %s") % (self.error_msg or _("Invalid state")))
-        
-        if not self.local_version:
-            raise UserError(_("No local version provided"))
-        
-        local_path = self._get_module_local_path()
-        
-        if not local_path:
-            raise UserError(_("No local path provided"))
-        
-        backup_path = make_backup(
-            local_path=local_path,
-            module_name=self.module_name,
-            version=self.local_version
-        )
-        "The inherit model replace the local module folder"
-        return local_path,backup_path
-    
     def action_install_local_version(self):
         self.ensure_one()
         
