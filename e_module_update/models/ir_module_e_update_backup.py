@@ -10,5 +10,8 @@ class EUpdateBackup(models.TransientModel):
     size = fields.Char("Size")
     
     
-    def action_backup(self):
+    def action_restore_backup(self):
+        pass
+    
+    def action_delete_backup(self):
         pass

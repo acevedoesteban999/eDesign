@@ -19,11 +19,12 @@ class eIrModuleUpdateManual(models.Model):
     _inherit = 'ir.module.e_update'
     _description = 'Manual Module Updater'
 
+    store_local = fields.Boolean(compute="_compute_store_local")
     zip_version = fields.Char("ZIP Version", compute="_compute_versions")
     file_zip = fields.Binary("File ZIP")
     
     
-    @api.depends('zip_version')
+    @api.depends('repository_version','zip_version')
     def _compute_store_local(self):
         for rec in self:
             rec.store_local = self.compare_versions(rec.zip_version,rec.repository_version) 

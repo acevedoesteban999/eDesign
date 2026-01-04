@@ -32,7 +32,7 @@ class EGithubModuleUpdater(models.AbstractModel):
     ], compute="_compute_versions",default=False,)
     
     update_local = fields.Boolean(compute="_compute_update_local")
-    store_local = fields.Boolean(compute="_compute_store_local")
+    
     restart_local = fields.Boolean(compute="_compute_restart_local")
     
     error_msg = fields.Char("Error")
@@ -77,13 +77,7 @@ class EGithubModuleUpdater(models.AbstractModel):
     def _compute_restart_local(self):
         for rec in self:
             rec.restart_local = self.compare_versions(rec.local_version,rec.repository_version) 
-    
-    @api.depends('repository_version')
-    def _compute_store_local(self):
-        for rec in self:
-            rec.store_local = False
             
-    
     
     @staticmethod
     def compare_versions(_v1,_v2):

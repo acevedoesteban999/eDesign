@@ -20,10 +20,7 @@
             <form>
                 <header>
                     <button name="action_check_version" type="object" string="Check Version"/>
-                    
-                    <button name="action_store_version" string="Store Version" type="object" class="oe_highlight"
-                            invisible="not store_local" confirm="This will REPLACE all local files. Continue?"/>
-                    
+                                        
                     <button name="action_restart_server" type="object" string="Restart Server" class="oe_highlight"
                             invisible="not restart_local" />
                             
@@ -65,7 +62,8 @@
                                     <field name="name"></field>
                                     <field name="version"></field>
                                     <field name="size"></field>                                   
-                                    <button string="Backup" name="action_backup" type="object" class="oe_highlight"/>
+                                    <button string="Restore" confirm="This will REPLACE all local files. Continue?" name="action_restore_backup" type="object" class="oe_highlight"/>
+                                    <button string="Delete" confirm="This will DELETE the backup. Continue?" name="action_delete_backup" type="object" />
                                 </list>
                             </field>
                         </page>

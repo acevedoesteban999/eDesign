@@ -19,6 +19,11 @@
         <field name="inherit_id" ref="e_module_update.view_ir_module_e_update_form"/>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='action_restart_server']" position="before">
+                    <button name="action_store_version" string="Store Version" type="object" class="oe_highlight"
+                            invisible="not store_local" confirm="This will REPLACE all local files. Continue?"/>
+                </xpath>
                 <xpath expr="//field[@name='module_name']" position="after">
                     <field name="file_zip" widget="binary" readonly="not module_exist"/>
                 </xpath>
