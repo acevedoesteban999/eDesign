@@ -38,12 +38,16 @@ class EGithubModuleUpdater(models.AbstractModel):
     error_msg = fields.Char("Error")
     last_check = fields.Datetime("Last Check")
     
-    backup_ids = fields.Many2many('ir.module.e_update.backup','rel_backups_e_update',string="Backups",compute="_compute_backup_ids")
+    backup_ids = fields.Many2many('ir.module.e_update.backup','rel_backups_e_update',string="Backups",compute="_compute_backup_ids",readonly=False)
     
     _sql_constraints = [
         ('unique_module', 'unique(module_name)', 'Module must be unique!')
     ]
     
+    # ===================================================================
+    # API
+    # ===================================================================
+
     @api.onchange('module_name')
     def _compute_module_icon(self):
         for rec in self:
@@ -51,16 +55,22 @@ class EGithubModuleUpdater(models.AbstractModel):
     
     @api.depends('module_name','module_exist')
     def _compute_backup_ids(self):
+        
+        def search_or_create_Command(model,vals:dict):
+            existing = model.search([(key,'=',value) for key,value in vals.items()] , limit=1)
+            return Command.link(existing.id) if existing else Command.create(vals)
+        
         for rec in self:
             rec.backup_ids = False
             if rec.module_exist:
                 backups = get_backup_list(rec.module_name,rec._get_module_local_path())
                 backups.reverse()
-                rec.backup_ids = [Command.create({
+                rec.backup_ids = [search_or_create_Command(rec.backup_ids,{
                         'name':backup_name,
                         'version': backup_version,
                         'size':backup_size,
-                    }) for backup_name,backup_version,backup_size in backups]
+                        'path':backup_path,
+                    }) for backup_name,backup_version,backup_size,backup_path in backups]
                     
                 
     @api.depends('module_name')
@@ -77,8 +87,11 @@ class EGithubModuleUpdater(models.AbstractModel):
     def _compute_restart_local(self):
         for rec in self:
             rec.restart_local = self.compare_versions(rec.local_version,rec.repository_version) 
-            
-    
+   
+    # ===================================================================
+    # METHODS
+    # ===================================================================
+
     @staticmethod
     def compare_versions(_v1,_v2):
         v1 = EGithubModuleUpdater.version_to_tuple(_v1)
@@ -150,6 +163,15 @@ class EGithubModuleUpdater(models.AbstractModel):
     # ===================================================================
     # ACTIONS
     # ===================================================================
+
+    def action_select_all_backups(self):
+        self.backup_ids.selected = True
+    
+    def action_unselect_all_backups(self):
+        self.backup_ids.selected = False
+    
+    def action_remove_selected_backups(self):
+        self.backup_ids.filtered_domain([('selected','=',True)]).action_delete_backup()
 
     def action_check_version(self):
         self.ensure_one()

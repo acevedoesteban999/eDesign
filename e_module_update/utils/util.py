@@ -146,6 +146,7 @@ def get_backup_list(module_name,local_path):
                 backups.append((
                     zip_file.name,
                     _extract_version(zip_file.name),
-                    _bits_to_human(os.path.getsize(zip_file))
+                    _bits_to_human(os.path.getsize(zip_file)),
+                    zip_file.path,
                 ))
     return backups

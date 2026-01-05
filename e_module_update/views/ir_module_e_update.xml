@@ -57,11 +57,15 @@
                             </group>
                         </page>
                         <page name="backups" string="Backups">
+                            <button string="Select All" name="action_select_all_backups" type="object" class="oe_highlight m-2"/>
+                            <button string="Unselect All" name="action_unselect_all_backups" type="object" class="oe_highlight m-2"/>
+                            <button string="Delete Selected" name="action_remove_selected_backups" confirm="This will DELETE the backups. Continue?" type="object" class="m-2"/>
                             <field name="backup_ids">
-                                <list>
-                                    <field name="name"></field>
-                                    <field name="version"></field>
-                                    <field name="size"></field>                                   
+                                <list create="0" editable="top" delete="0">
+                                    <field name="selected" nolabel="1"></field>
+                                    <field name="name" readonly="1"></field>
+                                    <field name="version" readonly="1"></field>
+                                    <field name="size" readonly="1"></field>                                   
                                     <button string="Restore" confirm="This will REPLACE all local files. Continue?" name="action_restore_backup" type="object" class="oe_highlight"/>
                                     <button string="Delete" confirm="This will DELETE the backup. Continue?" name="action_delete_backup" type="object" />
                                 </list>
