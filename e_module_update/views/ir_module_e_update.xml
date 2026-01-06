@@ -61,7 +61,7 @@
                             <button string="Unselect All" name="action_unselect_all_backups" type="object" class="oe_highlight m-2"/>
                             <button string="Delete Selected" name="action_remove_selected_backups" confirm="This will DELETE the backups. Continue?" type="object" class="m-2"/>
                             <field name="backup_ids">
-                                <list create="0" editable="top" delete="0">
+                                <list create="0" editable="top" delete="0" link="0">
                                     <field name="selected" nolabel="1"></field>
                                     <field name="name" readonly="1"></field>
                                     <field name="version" readonly="1"></field>

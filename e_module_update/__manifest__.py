@@ -16,7 +16,11 @@
         
         "views/menu.xml",
     ],
-    
+    "assets": {
+        "web.assets_backend": [
+            "e_module_update/static/src/view/list/list_arch_parser.js",
+        ],
+    },
     'application': True,
     'installable': True,
     'auto_install': False,
