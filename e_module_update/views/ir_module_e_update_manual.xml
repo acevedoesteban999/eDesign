@@ -47,4 +47,17 @@
         </field>
     </record>
 
+    <record id="action_e_update_create_backups" model="ir.actions.server">
+        <field name="name">Create Repository Version Backup</field>
+        <field name="model_id" ref="model_ir_module_e_update_manual"/>
+        <field name="binding_model_id" ref="model_ir_module_e_update_manual"></field>
+        <field name="binding_type">action</field>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+            records.action_create_backup()
+        </field>
+    </record>
+    
+
 </odoo>

@@ -233,3 +233,12 @@ class EGithubModuleUpdater(models.AbstractModel):
                 'default_commands': self.env['ir.config_parameter'].get_param('e_module_update.command_restart_server',''),
             },
         }
+        
+    def action_create_backup(self):
+        for rec in self:
+            if rec.module_exist:
+                make_backup(
+                    rec._get_module_local_path(),
+                    rec.module_name,
+                    rec.repository_version
+                )
