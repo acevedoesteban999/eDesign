@@ -9,6 +9,7 @@ patch(ListArchParser.prototype,{
         visitXML(xmlDoc,(node) => {
             if ("list" === node.tagName && _parse.activeActions)
                 _parse.activeActions['link'] = exprToBoolean(xmlDoc.getAttribute("link"), true) 
+                _parse.activeActions['unlink'] = exprToBoolean(xmlDoc.getAttribute("unlink"), true) 
             return {..._parse}
         })
         return _parse

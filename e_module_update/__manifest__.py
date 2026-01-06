@@ -6,7 +6,7 @@
     'author': '',
     'website': '',
     'category': '',
-    'depends': ['base', ],
+    'depends': ['base', 'web'],
     "data": [
         "security/ir.model.access.csv",
         "views/ir_module_e_update.xml",
@@ -19,6 +19,8 @@
     "assets": {
         "web.assets_backend": [
             "e_module_update/static/src/view/list/list_arch_parser.js",
+            "e_module_update/static/src/view/list/list_renderer.xml",
+            "e_module_update/static/src/view/list/list_renderer.js",
         ],
     },
     'application': True,

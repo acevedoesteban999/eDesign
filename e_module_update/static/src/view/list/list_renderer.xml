@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="e_module_update.ListRenderer.RecordRow" t-inherit="web.ListRenderer.RecordRow">
+        <xpath expr="//t[@t-if='hasX2ManyAction']" position="attributes">
+            <attribute name="t-if">hasX2ManyAction and canUnlink</attribute>
+        </xpath>
+    </t>
+</templates>
