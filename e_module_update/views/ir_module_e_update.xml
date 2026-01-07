@@ -22,10 +22,10 @@
                     <button name="action_check_version" type="object" string="Check Version"/>
                                         
                     <button name="action_restart_server" type="object" string="Restart Server" class="oe_highlight"
-                            invisible="not restart_local" />
+                            invisible="not restart_local or update_state == 'error'" />
                             
                     <button name="action_install_local_version" string="Update Module"  type="object" class="oe_highlight" 
-                            invisible="not update_local" confirm="This will update this module in the server. Continue?"/>
+                            invisible="not update_local or update_state == 'error'" confirm="This will update this module in the server. Continue?"/>
                     
                 </header>
                 <sheet>
@@ -49,9 +49,14 @@
                                     <field name="update_state" widget="badge" readonly="1"
                                         decoration-success="update_state == 'uptodate'"
                                         decoration-info="update_state  == 'to_update'"
+                                        decoration-warning="update_state == 'to_downgrade'"
                                         decoration-danger="update_state == 'error'"
                                         />
-                                    <field name="error_msg" readonly="1" invisible="update_state != 'error'" decoration-danger="True"></field>
+                                    <field name="error_msg" readonly="1" invisible="update_state not in  ['error','to_downgrade']" 
+                                        decoration-danger="update_state == 'error'"
+                                        decoration-warning="update_state == 'to_downgrade'"
+                                        >
+                                    </field>
                                     <field name="last_check" readonly="1"/>
                                 </group>
                             </group>
@@ -66,7 +71,7 @@
                                     <field name="name" readonly="1"></field>
                                     <field name="version" readonly="1"></field>
                                     <field name="size" readonly="1"></field>                                   
-                                    <button string="Restore" confirm="This will REPLACE all local files. Continue?" name="action_restore_backup" type="object" class="oe_highlight"/>
+                                    <button string="Restore" confirm="This will REPLACE all local files. Make sure you have a backup of the version you are going to replace. Continue?" name="action_restore_backup" type="object" class="oe_highlight"/>
                                     <button string="Delete" confirm="This will DELETE the backup. Continue?" name="action_delete_backup" type="object" />
                                 </list>
                             </field>

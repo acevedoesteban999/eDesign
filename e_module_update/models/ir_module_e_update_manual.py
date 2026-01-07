@@ -118,7 +118,7 @@ class eIrModuleUpdateManual(models.Model):
         if not self.file_zip:
             raise UserError(_("No ZIP file provided"))
 
-        if self.update_state != 'to_update':
+        if self.update_state not in ['to_update','to_downgrade']:
             raise UserError(_("Cannot update: %s") % (self.error_msg or _("Invalid state")))
         
         if not self.local_version:

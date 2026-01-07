@@ -21,11 +21,13 @@
         <field name="arch" type="xml">
 
                 <xpath expr="//button[@name='action_restart_server']" position="before">
-                    <button name="action_store_version" string="Store Version" type="object" class="oe_highlight"
-                            invisible="not store_local" confirm="This will REPLACE all local files. Continue?"/>
+                    <button name="action_store_version" string="Store Up Version" type="object" class="oe_highlight"
+                            invisible="not store_local or update_state != 'to_update'" confirm="This will REPLACE all local files. Continue?"/>
+                    <button name="action_store_version" string="Store Downgrade Version" type="object" class="oe_highlight"
+                            invisible="not store_local or update_state != 'to_downgrade'" confirm="This will REPLACE all local files and store downgrade version. Continue?"/>
                 </xpath>
                 <xpath expr="//field[@name='module_name']" position="after">
-                    <field name="file_zip" widget="binary" readonly="not module_exist"/>
+                    <field name="file_zip" force_save="1" widget="binary" readonly="not module_exist"/>
                 </xpath>
                 <xpath expr="//group[@name='versions']" position="inside">
                     <field name="zip_version"></field>
@@ -55,7 +57,7 @@
         <field name="binding_view_types">form</field>
         <field name="state">code</field>
         <field name="code">
-            records.action_create_backup()
+            action = records.action_create_backup()
         </field>
     </record>
     

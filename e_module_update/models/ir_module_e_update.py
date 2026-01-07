@@ -28,6 +28,7 @@ class EGithubModuleUpdater(models.AbstractModel):
     update_state = fields.Selection([
         ('uptodate', "Up to date"),
         ('to_update', "To Update"),
+        ('to_downgrade',"To Downgrade"),
         ('error', "Error"),
     ], compute="_compute_versions",default=False,)
     
@@ -70,6 +71,7 @@ class EGithubModuleUpdater(models.AbstractModel):
                         'version': backup_version,
                         'size':backup_size,
                         'path':backup_path,
+                        'e_update_id':f"{rec._name},{rec.id}",
                     }) for backup_name,backup_version,backup_size,backup_path in backups]
                     
                 
@@ -148,7 +150,7 @@ class EGithubModuleUpdater(models.AbstractModel):
                 update_state = 'uptodate'
                 error_msg = _("Versions are identical")
             else:
-                update_state = 'error'
+                update_state = 'to_downgrade'
                 error_msg = _("Version is older than module's version")
         else:
             update_state = False
@@ -242,3 +244,16 @@ class EGithubModuleUpdater(models.AbstractModel):
                     rec.module_name,
                     rec.repository_version
                 )
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': _('Backup'),
+                    'message': _("Success backup created for '%s' !") % self.module_name,
+                    'type': 'success',
+                    'sticky': False,
+                    'next': {
+                        'type': 'ir.actions.act_window_close'
+                    },
+                }
+            }
