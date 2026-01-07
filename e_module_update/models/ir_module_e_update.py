@@ -273,7 +273,22 @@ class EGitModuleUpdater(models.AbstractModel):
                     },
                 }
             }
-            
+    
+    def action_reload_backups(self):
+        self._compute_backup_ids()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Backup'),
+                'message': _("Success backup reload for '%s' !") % self.module_name,
+                'type': 'success',
+                'sticky': False,
+                'next': {
+                    'type': 'ir.actions.act_window_close'
+                },
+            }
+        }
             
             
     # ===================================================================
