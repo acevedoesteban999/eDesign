@@ -140,7 +140,7 @@ class eIrModuleUpdateManual(models.Model):
             zip_file = zipfile.ZipFile(io.BytesIO(zip_data), 'r')
             
             top_items = set(name.split('/')[0] for name in zip_file.namelist() if name)
-            if len(top_items) == 1 and list(top_items)[0] == self.module_name:
+            if self.module_name in top_items:
                 zip_for_extraction = get_zip_by_prefix(zip_file,self.module_name)
             else:
                 zip_for_extraction = zip_file

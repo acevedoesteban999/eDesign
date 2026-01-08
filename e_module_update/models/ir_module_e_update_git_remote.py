@@ -94,7 +94,7 @@ class eIrModuleUpdateGitRemote(models.Model):
                 raise UserError(_("Failed to download ZIP: HTTP %s") % response.status_code)
             
             with zipfile.ZipFile(io.BytesIO(response.content)) as zip_file:
-                prefix = f"{repo}-{self.branch}/{self.subfolder_path}/"
+                prefix = f"{repo}-{self.branch}/{self.subfolder_path}"
                 extracted_files = extract_zip_by_prefix(zip_file,local_path,prefix)
                 if extracted_files == 0:
                     raise UserError(_("No files found in subfolder: %s") % self.subfolder_path)
@@ -206,10 +206,10 @@ class eIrModuleUpdateGitRemote(models.Model):
                     'message': _('Module updated successfully from GitHub!\nNew version: %s! Downloaded : %s files') % (self.remote_version,str(downloaded_files)),
                     'type': 'success',
                     'sticky': False,
+                    'next':{
+                        'type': 'ir.actions.act_window_close'
+                    }
                 },
-                'next':{
-                    'type': 'ir.actions.act_window_close'
-                }
             }
         except Exception as e:
             _logger.exception("Update failed for module %s", self.module_name)
