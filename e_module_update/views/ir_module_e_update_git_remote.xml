@@ -23,17 +23,17 @@
         <field name="arch" type="xml">
                 <xpath expr="//button[@name='action_check_version']" position="after">
                     
-                    <button name="action_download_optimized_version" string="Download Up Version (OPT)" type="object" class="oe_highlight"
-                            invisible="not download_local or update_state != 'to_update'" confirm="This will REPLACE all local files with optimized method. Continue?"/>
+                    <button name="action_download_raw_version" string="Download Up Version (RAW)" type="object" class="oe_highlight"
+                            invisible="not download_local or update_state != 'to_update'" confirm="This will REPLACE all local files with raw method. Continue?"/>
                     
-                    <button name="action_download_optimized_version" string="Download Downgrade Version (OPT)" type="object" class="oe_highlight"
+                    <button name="action_download_raw_version" string="Download Downgrade Version (RAW)" type="object" class="oe_highlight"
                             invisible="not download_local or update_state != 'to_downgrade'" confirm="This will REPLACE all local files and store with zip method the downgrade version. Continue?"/>
 
                     <button name="action_download_zip_version" string="Download Up Version (ZIP)" type="object" class="oe_highlight"
                             invisible="not download_local or update_state != 'to_update'" confirm="This will REPLACE all local files with zip method. Continue?"/>
                     
                     <button name="action_download_zip_version" string="Download Downgrade Version (ZIP)" type="object" class="oe_highlight"
-                            invisible="not download_local or update_state != 'to_downgrade'" confirm="This will REPLACE all local files and store with optimized method the downgrade version. Continue?"/>
+                            invisible="not download_local or update_state != 'to_downgrade'" confirm="This will REPLACE all local files and store with raw method the downgrade version. Continue?"/>
                 </xpath>
                 <xpath expr="//field[@name='module_name']" position="after">
                     <field name="git_remote"></field>

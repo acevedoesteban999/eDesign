@@ -107,7 +107,7 @@ class eIrModuleUpdateGitRemote(models.Model):
             restore_backup(backup_path,local_path,True)
             raise UserError(_("Update failed: %s") % str(e))
     
-    def _download_entire_subfolder_optimized(self):
+    def _download_entire_subfolder_raw(self):
         self.ensure_one()
 
         url_parts = self.repo_url.rstrip('/').split('/')
@@ -215,11 +215,11 @@ class eIrModuleUpdateGitRemote(models.Model):
             _logger.exception("Update failed for module %s", self.module_name)
             raise UserError(_("Update failed: %s") % str(e))
 
-    def action_download_optimized_version(self):
+    def action_download_raw_version(self):
         self.ensure_one()
         
         try:
-            downloaded_files = self._download_entire_subfolder_optimized()
+            downloaded_files = self._download_entire_subfolder_raw()
             self._compute_versions()
             
             return {
