@@ -4,7 +4,7 @@ This module lets you import a module into Odoo via manual ZIP or GitHub.
 
 **Important: Not recommended for production environments; the module downloads and imports third-party code – verify the sites and modules to import; ensuring their safety is the user's responsibility.**
 
-***Required: write permissions on the addons directory that contains this module and on the directories of the modules you plan to update (needed to edit modules and handle backups).***
+***Required: Write permissions on the addons directory that contains this module and on the directories of the modules you plan to update (needed to edit modules and handle backups).***
 
 ### Basic Flow:
 - Access the module from Apps → eModuleUpdate
@@ -48,4 +48,4 @@ This module lets you import a module into Odoo via manual ZIP or GitHub.
     ![IMAGE](static/description/assets/screenshots/8.png)
 - A server action on the form lets you generate a backup of the current version on demand
 - From the eUpdateModule menu in Apps you can browse all backups, grouped by module, and delete or restore them (opens the same manual form for editing)
-![IMAGE](static/description/assets/screenshots/9.png)
+    ![IMAGE](static/description/assets/screenshots/9.png)
