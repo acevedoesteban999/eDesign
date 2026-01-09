@@ -39,10 +39,13 @@ This module lets you import a module into Odoo via manual ZIP or GitHub.
 - Checks the selected module's version in a remote repo (GitHub) and updates from it
 - You must supply the URL, sub-folder (required) and branch
 - Two download options: 'ZIP' downloads the entire repo and processes only the target folder; 'RAW' uses the GitHub API/raw mode to fetch just the module's files. Both create a zip internally and process it
+    ![IMAGE](static/description/assets/screenshots/7.png)
 
 ### Backups
 - Every operation creates a backup of the module's current code before replacing it
 - Backups are stored inside the 'e_module_update' module directory under '.backups', grouped by module, using the format: **"v{{version}}-{{%y%m%d_%H%M%S}}"**
 - You can delete backups or restore a version (restoring does NOT create an extra backup beforehand)
+    ![IMAGE](static/description/assets/screenshots/8.png)
 - A server action on the form lets you generate a backup of the current version on demand
 - From the eUpdateModule menu in Apps you can browse all backups, grouped by module, and delete or restore them (opens the same manual form for editing)
+![IMAGE](static/description/assets/screenshots/9.png)
