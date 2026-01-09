@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    
-    <record id="e_design_pos_pos_category_form" model="ir.ui.view">
-        <field name="name">view.product.category.form</field>
-        <field name="model">pos.category</field>
-        <field name="inherit_id" ref="point_of_sale.product_pos_category_form_view"/>
-        <field name="arch" type="xml">
-            <xpath expr="//field[@name='color']" position="after">
-                    <field name="show_pos_outofstock"/>
-            </xpath>
-        </field>
-    </record>
+    <data noupdate="1">
+        <record id="e_design_pos_pos_category_form" model="ir.ui.view">
+            <field name="active">0</field>
+            <field name="model">pos.category</field>
+            <field name="inherit_id" ref="point_of_sale.product_pos_category_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='color']" position="after">
+                    <field name="show_pos_outofstock" groups="e_design_pos.group_hide_out_stock"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
 
 </odoo>

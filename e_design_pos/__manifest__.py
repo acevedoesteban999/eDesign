@@ -8,9 +8,12 @@
     'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_design_pos',
     'category': 'Customizations',
     'depends': ['base',"point_of_sale"],
-    "data": [
+    'data': [
+        'security/groups.xml',
+        
         "views/pos_category.xml",
-        "views/product_template.xml"
+        "views/product_template.xml",
+        "views/res_config.xml",
     ],
     'images': [
         'static/description/banner.png',
