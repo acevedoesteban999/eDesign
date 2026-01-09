@@ -49,7 +49,7 @@
         </field>
     </record>
 
-    <record id="action_e_update_create_backups" model="ir.actions.server">
+    <record id="action_e_update_manual_create_backups" model="ir.actions.server">
         <field name="name">Create Repository Version Backup</field>
         <field name="model_id" ref="model_ir_module_e_update_manual"/>
         <field name="binding_model_id" ref="model_ir_module_e_update_manual"></field>
@@ -61,5 +61,4 @@
         </field>
     </record>
     
-
 </odoo>
