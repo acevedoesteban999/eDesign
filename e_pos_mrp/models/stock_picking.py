@@ -37,4 +37,9 @@ class StockPicking(models.Model):
                 'product_id',
                 'quantity',
         ])
-            
+        
+    @api.model
+    def confirm_picking(self,picking_id):
+        self.env['stock.picking'].browse(picking_id).button_validate()
+    
+    

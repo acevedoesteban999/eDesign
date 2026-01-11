@@ -3,7 +3,7 @@ import { useService } from "@web/core/utils/hooks";
 import { formatDateTime, parseDateTime } from "@web/core/l10n/dates";
 import { parseFloat } from "@web/views/fields/parsers";
 import { _t } from "@web/core/l10n/translation";
-import { AlertDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
+import { AlertDialog , ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { ActionpadWidget } from "@point_of_sale/app/screens/product_screen/action_pad/action_pad";
 import { BackButton } from "@point_of_sale/app/screens/product_screen/action_pad/back_button/back_button";
 import { InvoiceButton } from "@point_of_sale/app/screens/ticket_screen/invoice_button/invoice_button";
@@ -13,6 +13,7 @@ import { CenteredIcon } from "@point_of_sale/app/generic_components/centered_ico
 import { SearchBar } from "@point_of_sale/app/screens/ticket_screen/search_bar/search_bar";
 import { usePos } from "@point_of_sale/app/store/pos_hook";
 import { Component, onMounted, onWillStart, useState } from "@odoo/owl";
+
 import {
     BACKSPACE,
     Numpad,
@@ -44,7 +45,7 @@ export class PickingScreen extends Component {
     setup() {
         this.pos = usePos();
         this.ui = useState(useService("ui"));
-        
+        this.dialog = useService("dialog");
         this.state = useState({
             page: 1,
             nbrPage: 1,
@@ -144,7 +145,14 @@ export class PickingScreen extends Component {
 
 
     onConfirmPicking(){
-        
+        this.dialog.add(ConfirmationDialog, {
+            title: _t("Confirm Picking ?"),
+            body: _t("Are you sure that the customer wants to recive the picking?"),
+            confirm: () => this.ConfirmPicking(this.state.selectedPicking),
+        });
+    }
+    async ConfirmPicking(pickingLine){
+        await this._confirmPicking(pickingLine)
     }
 
     //#region PAGE
@@ -186,7 +194,7 @@ export class PickingScreen extends Component {
             ),
             filter: { show: true, options: this._getFilterOptions() },
             defaultSearchDetails: this.state.search,
-            defaultFilter: 'done',
+            defaultFilter: this.state.filter,
         };
     }
 
@@ -286,6 +294,16 @@ export class PickingScreen extends Component {
             [],
             {picking_id: pickingLine.id}
         ); 
+    }
+
+    async _confirmPicking(pickingLine) {
+        await this.pos.data.call(
+            "stock.picking",
+            "confirm_picking",
+            [],
+            {picking_id: pickingLine.id}
+        ); 
+        this.closePickingScreen();
     }
 }
 
