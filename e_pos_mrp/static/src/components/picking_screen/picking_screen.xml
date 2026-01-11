@@ -35,7 +35,7 @@
                                 <div class="col p-2">Picking Name</div>
                                 <div class="col p-2">Partner</div>
                                 <div class="col p-2">Create Date</div>
-                                <div class="col p-2">Scheduled Date</div>
+                                <!-- <div class="col p-2">Scheduled Date</div> -->
                                 <div class="col end p-2">State</div>
                             </div>
                             <t t-if="!ui.isSmall" t-foreach="this.state.filteredPickingList" t-as="picking" t-key="picking.id">
@@ -53,15 +53,15 @@
                                     <div class="col p-2">
                                         <div><t t-esc="GetDate(picking.create_date)"></t></div>
                                     </div>
-                                    <div class="col p-2">
+                                    <!-- <div class="col p-2">
                                         <div><t t-esc="GetDate(picking.scheduled_date)"></t></div>
-                                    </div>
+                                    </div> -->
                                     <div class="col end p-2">
                                         <div class="ebadge badge-pill" t-att-class="{
                                             'badge-secondary': picking.state == 'done',
                                             'badge-warning': picking.state == 'waiting',
                                             'badge-success':picking.state == 'assigned'}">
-                                            <t t-esc="picking.state"/>
+                                            <t t-esc="GetState(picking.state)"/>
                                         </div>
                                     </div>
                                 </div>
@@ -71,10 +71,10 @@
                                     t-on-click="() => this.onClickpicking(picking,true)" >
                                     <div class="col p-2 d-flex justify-content-between align-items-center">
                                         <div><t t-esc="picking.name"></t></div>
+                                        <div t-if="picking.partner_id"><t t-esc="picking.partner_id[1]"></t></div>
                                         <div><t t-esc="GetDate(picking.create_date)"></t></div>
                                     </div>
                                     <div class="col p-2 d-flex justify-content-between align-items-center">
-                                        <div><t t-esc="GetDate(picking.scheduled_date)"></t></div>
                                         <div class="ebadge badge-pill" t-att-class="{
                                             'badge-secondary': picking.state == 'done',
                                             'badge-warning': picking.state == 'waiting',
@@ -91,11 +91,6 @@
                             text="this.pos.data.network.loading ? 'Loading...' : 'No picking found'"
                             class="'h-100'"/>
                     </div>
-                    <!-- <div class="switchpane d-flex w-100 gap-2 p-2 mt-2" t-if="ui.isSmall">
-                        <button class="w-100 btn-switchpane btn btn-lg lh-lg py-3 secondary review-button" t-att-class="{'btn-primary': isOrderSynced, 'btn-light': !isOrderSynced}" t-on-click="switchPane">
-                            <span class="d-block">Review</span>
-                        </button>
-                    </div> -->
                 </div>
                 <div t-if="this.state.selectedPicking and (!ui.isSmall || pos.ticket_screen_mobile_pane === 'right')" class="leftpane d-flex flex-column flex-grow-1 gap-2 w-100 h-100 h-lg-100 bg-200 p-2">
                     <t t-if="this.state.pickingLines">
@@ -132,16 +127,19 @@
                                 </t>
                             </div>
                         </div>
-                        <div t-if="this.state.selectedPicking.state == 'assigned'" class="pads">
+                        <div class="pads">
                             <div class="actionpad d-flex flex-column gap-2">
+                                <t t-set="_assigned" t-value="this.state.selectedPicking.state == 'assigned'"/>
                                 <div t-if="ui.isSmall" class="d-flex gap-2">
-                                    <BackButton onClick="() => this.switchPane()"/>
-                                    <button class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
+                                    <button class="back-button btn btn-light btn-lg lh-lg" t-on-click="()=>this.switchPane()" t-att-class="{'w-100':!_assigned}">
+                                        <i class="oi oi-chevron-left fa-fw" role="img" aria-label="Go Back" title="Go Back" />
+                                    </button>
+                                    <button t-if="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
                                         t-on-click="onConfirmPicking">
                                         Confirm Picking
                                     </button>
                                 </div>
-                                <button t-else="" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
+                                <button t-elif="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
                                     t-on-click="onConfirmPicking">
                                     Confirm Picking
                                 </button>
