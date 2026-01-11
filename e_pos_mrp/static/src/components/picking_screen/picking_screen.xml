@@ -6,7 +6,7 @@
                 <div t-if="!ui.isSmall || pos.ticket_screen_mobile_pane === 'left'" class="rightpane pane-border d-flex flex-column flex-grow-1 w-100 h-100 h-lg-100 bg-200 overflow-y-auto">
                     <div class="controls d-grid d-sm-flex align-items-center justify-content-between gap-2 gap-sm-3 p-2 bg-300">
                         <div class="buttons d-flex gap-2">
-                            <button class="discard btn btn-lg btn-light text-nowrap" t-on-click="() => this.closeTicketScreen()">
+                            <button class="discard btn btn-lg btn-light text-nowrap" t-on-click="() => this.closePickingScreen()">
                                 <i class="oi oi-chevron-left"/>
                                 <span t-if="!ui.isSmall" class="ms-2">Back</span>
                             </button>
@@ -75,7 +75,6 @@
                                     </div>
                                     <div class="col p-2 d-flex justify-content-between align-items-center">
                                         <div><t t-esc="GetDate(picking.scheduled_date)"></t></div>
-                                        <!-- <div class="orderState"><t t-esc="getState(order)"></t></div> -->
                                         <div class="ebadge badge-pill" t-att-class="{
                                             'badge-secondary': picking.state == 'done',
                                             'badge-warning': picking.state == 'waiting',

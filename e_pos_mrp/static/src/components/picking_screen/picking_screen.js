@@ -129,7 +129,7 @@ export class PickingScreen extends Component {
     }
     
     closePickingScreen() {
-        this.pos.closeScreen();
+        this.pos.showScreen("ProductScreen");
     }
 
     GetState(state){
