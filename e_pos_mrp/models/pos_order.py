@@ -165,7 +165,7 @@ class PosOrder(models.Model):
                 lambda m: m.product_id == mrp_production.product_id
             )
             move_sale.move_orig_ids = [Command.link(fm.id) for fm in finished_moves]
-            return picking
+        return picking
         
 class PosOrderLine(models.Model):
     _inherit = "pos.order.line"
