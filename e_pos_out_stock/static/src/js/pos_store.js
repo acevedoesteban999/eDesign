@@ -21,8 +21,17 @@ patch(PosStore.prototype, {
             qty_data.forEach((prod) => {
                 const localProd = this.models["product.product"].get(prod.id);
                 if (localProd){
+                    if(prod.qty_available && localProd.id in this.mainProductVariant){
+                        const mainVariant = this.models["product.product"].get(this.mainProductVariant[localProd.id].id)
+                        if(mainVariant.raw.qty_variants_available)
+                            mainVariant.raw.qty_variants_available += prod.qty_available
+                        else
+                            mainVariant.raw.qty_variants_available = prod.qty_available
+                    }
+                    
                     localProd.raw.qty_available = prod.qty_available ?? 0;
                     localProd.raw.can_show_in_pos_out_stock = prod.can_show_in_pos_out_stock ?? false;
+                 
                 } 
             });
 

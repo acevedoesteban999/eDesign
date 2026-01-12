@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="e_pos_out_stock.ProductConfiguratorPopup" t-inherit="point_of_sale.ProductConfiguratorPopup" t-inherit-mode="extension">
+        <xpath expr="//button[@t-on-click='confirm']" position="attributes">
+            <attribute name="t-att-class">{'disabled': isArchivedCombination() || this.hideOutStock()}</attribute>
+        </xpath>
+    </t>
+</templates>
