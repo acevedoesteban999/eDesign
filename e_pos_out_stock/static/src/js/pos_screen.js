@@ -8,7 +8,7 @@ patch(ProductScreen.prototype, {
         let finalList = super.productsToDisplay;
         
         if (this.pos.config.hide_out_stock)
-            finalList = finalList.filter(p => Number(p.raw.qty_available || 0) > 0 || p.raw.can_show_in_pos_out_stock || Number(p.raw.qty_variants_available || 0) > 0);
+            finalList = finalList.filter(p =>  p.raw.can_show_in_pos_out_stock || ! p.is_storable ||  Number((p.raw.qty_available || 0)  > 0 ) || Number(p.raw.qty_variants_available || 0) > 0);
         
         return finalList;
     },
