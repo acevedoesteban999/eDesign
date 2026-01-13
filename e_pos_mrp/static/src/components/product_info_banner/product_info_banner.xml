@@ -3,7 +3,7 @@
     <t t-name="e_pos_mrp.ProductInfoBanner" t-inherit="point_of_sale.ProductInfoBanner" t-inherit-mode="extension">
         <xpath expr="//div[hasclass('section-product-info-title')]/div/div/div[1]" position="before">
             <div class="h5" t-if="this.has_create_pos_mrp">
-                This Product is manufatured by demand
+                <i class="pe-1 fa fa-fw fa-wrench" aria-label="Manufacture by Demand" title="Manufacture Manufacture by Demand"/> This Product is manufatured by demand
             </div>
         </xpath>
     </t>
