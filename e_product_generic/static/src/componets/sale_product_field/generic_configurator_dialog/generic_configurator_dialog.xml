@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="e_product_generic.GenericConfiguratorDialog">
+        <Dialog
+            title="this.props.product_template_name"
+            contentClass="'configurator-dialog'"
+        >
+            <div class="container">
+                <div class="list-group">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" 
+                        t-foreach="this.state.generic_bill_material_ids" 
+                        t-as="generic_product" 
+                        t-key="generic_product.id">
+                        
+                        <span class="flex-grow-1" t-esc="generic_product.name"/>
+                        
+                        <input type="number" 
+                            class="form-control form-control-sm" 
+                            style="width: 80px;" 
+                            t-model="generic_product.qty"
+                            />
+                    </div>
+                </div>
+            </div>
+            
+            <t t-set-slot="footer">
+                <button class="btn btn-primary" t-on-click="confirm">
+                    Confirm
+                </button>
+                <button class="btn btn-secondary" t-on-click="cancel">
+                    Cancel
+                </button>
+            </t>
+        </Dialog>
+    </t>
+</templates>
