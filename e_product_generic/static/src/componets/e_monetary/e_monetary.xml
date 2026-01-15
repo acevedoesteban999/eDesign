@@ -2,14 +2,14 @@
 <templates id="template" xml:space="preserve">
 
     <t t-name="e_product_generic.EMonetary">
-        <div class="e_monetary d-inline-flex align-items-center w-100">
-            <span t-if="props.currencyPosition === 'before'" t-esc="props.symbol" class="me-1"/>
+        <div class="e_monetary w-100">
+            <span t-if="props.currencyPosition === 'before'" t-esc="props.symbol" class="me-1" />
             <EFloat 
                 value="props.value" 
                 update="props.update" 
                 digits="props.digits"
                 readonly="props.readonly"
-                class="flex-grow-1"/>
+                class="props.class"/>
             <span t-if="props.currencyPosition === 'after'" t-esc="props.symbol" class="ms-1"/>
         </div>
     </t>

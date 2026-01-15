@@ -7,7 +7,7 @@ import { EMonetary } from "../e_monetary/e_monetary";
 
 export class GenericConfiguratorDialog extends Component {
     static template = 'e_product_generic.GenericConfiguratorDialog';
-    static components = { Dialog, EFloatField, EMonetary };
+    static components = { Dialog, EFloat, EMonetary };
     static props = {
         edit: { type: Boolean },
         product_template_id: { type: Number },
@@ -27,6 +27,7 @@ export class GenericConfiguratorDialog extends Component {
             generic_bill_material_ids: [],
             finalCost: 0,
             finalCostEdited: false,
+            invalidConfirm: false,
         });
 
         onWillStart(async () => {
@@ -38,6 +39,7 @@ export class GenericConfiguratorDialog extends Component {
 
             this.state.generic_bill_material_ids.forEach((gbm) => {
                 gbm.qty = 0;
+                gbm.invalid = false;
                 gbm.final_cost = 0;
                 gbm.standard_price = gbm.standard_price || 0;
             });
@@ -48,6 +50,11 @@ export class GenericConfiguratorDialog extends Component {
         generic_product.qty = value;
         this._computeFinalCost(generic_product);
         this._computeTotals();
+    }
+
+    onchangeInvalid(invalid,generic_product){
+        generic_product.invalid = invalid
+        this._computeInvalidConfirm()
     }
 
     onchangePrice(value, generic_product) {
@@ -73,6 +80,10 @@ export class GenericConfiguratorDialog extends Component {
         if (!this.state.finalCostEdited) {
             this.state.finalCost = total;
         }
+    }
+
+    _computeInvalidConfirm() {
+        this.state.invalidConfirm = this.state.generic_bill_material_ids.some(gbm => gbm.invalid === true);
     }
 
     updateFinalCost(value) {

@@ -36,21 +36,22 @@
                                     <EFloat 
                                         value="generic_product.qty" 
                                         update="(value) => this.onchangeQty(value,generic_product)" 
+                                        invalid="(invalid) => this.onchangeInvalid(invalid,generic_product)"
                                         digits="[16,0]"
-                                        readonly="false"/>
+                                        />
                                 </td>
                                 <td class="o_data_cell text-end">
                                     <EMonetary 
+                                        readonly="true"
                                         value="generic_product.standard_price"
-                                        update="(value) => this.onchangePrice(value,generic_product)"
                                         digits="[16,2]"
                                         symbol="props.currencySymbol"
                                         currencyPosition="props.currencyPosition"/>
                                 </td>
                                 <td class="o_data_cell text-end">
                                     <EMonetary 
+                                        readonly="true"
                                         value="generic_product.final_cost"
-                                        update="(value) => this.onchangeFinalCost(value,generic_product)"
                                         digits="[16,2]"
                                         symbol="props.currencySymbol"
                                         currencyPosition="props.currencyPosition"/>
@@ -68,6 +69,7 @@
                                         readonly="true"
                                         digits="[16,2]"
                                         symbol="props.currencySymbol"
+                                        class="'me-1'"
                                         currencyPosition="props.currencyPosition"/>
                                 </td>
                             </tr>
@@ -90,7 +92,7 @@
             </div>
             
             <t t-set-slot="footer">
-                <button class="btn btn-primary" t-on-click="confirm">
+                <button class="btn btn-primary" t-on-click="confirm" t-att-disabled="this.state.invalidConfirm">
                     Confirm
                 </button>
                 <button class="btn btn-secondary" t-on-click="cancel">

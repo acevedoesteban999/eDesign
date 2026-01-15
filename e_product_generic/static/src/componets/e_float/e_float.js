@@ -9,7 +9,8 @@ export class EFloat extends Component {
         readonly: { type: Boolean, optional: true },
         value: { type: Number, optional: true },
         digits: { type: Array, optional: true },
-        update: { type: Function },
+        update: { type: Function , optional: true},
+        invalid:  { type: Function , optional: true},
         class : { type : String , optional: true}
     };
     
@@ -17,8 +18,8 @@ export class EFloat extends Component {
         this.state = useState({
             hasFocus: false,
             isInvalid: false,
-            inputValue: this.formatValue(this.props.value),
         });
+        this.inputValue = this.formatValue(this.props.value)
     }
 
     get displayValue() {
@@ -37,15 +38,25 @@ export class EFloat extends Component {
     }
 
     onInput(ev) {
-        const inputValue = ev.target.value;
-        this.state.inputValue = inputValue;
-        
+        this.inputValue = ev.target.value;
+    }
+
+    onFocusOut(ev) {
+        this._saveValue()
+    }
+
+    _saveValue(){
         try {
-            const parsedValue = parseFloat(inputValue);
+            const parsedValue = parseFloat(this.inputValue);
             this.state.isInvalid = false;
-            this.props.update(parsedValue);
+            if(this.props.update)
+                this.props.update(parsedValue);
         } catch (error) {
             this.state.isInvalid = true;
+        }
+        finally{
+            if (this.props.invalid)
+                this.props.invalid(this.state.isInvalid)
         }
     }
 }
