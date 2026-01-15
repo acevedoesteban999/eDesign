@@ -14,6 +14,7 @@ export class EMonetary extends Component {
         readonly: { type: Boolean, optional: true },
         symbol: { type: String, optional: true, default: "$" },
         class : { type : String , optional: true},
+        min: { type: Number, optional: true },
         currencyPosition: { type: String, optional: true, default: "after" }, // "before" o "after"
     };
 }

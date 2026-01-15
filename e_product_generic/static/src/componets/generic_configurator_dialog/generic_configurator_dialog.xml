@@ -38,6 +38,7 @@
                                         update="(value) => this.onchangeQty(value,generic_product)" 
                                         invalid="(invalid) => this.onchangeInvalid(invalid,generic_product)"
                                         digits="[16,0]"
+                                        min="1"
                                         />
                                 </td>
                                 <td class="o_data_cell text-end">

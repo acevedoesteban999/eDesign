@@ -38,18 +38,19 @@ export class GenericConfiguratorDialog extends Component {
             );
 
             this.state.generic_bill_material_ids.forEach((gbm) => {
-                gbm.qty = 0;
+                gbm.qty = 1;
                 gbm.invalid = false;
                 gbm.final_cost = 0;
                 gbm.standard_price = gbm.standard_price || 0;
+                this._computeFinalCost(gbm,false)
             });
+            this._computeTotals()
         });
     }
 
     onchangeQty(value, generic_product) {
         generic_product.qty = value;
         this._computeFinalCost(generic_product);
-        this._computeTotals();
     }
 
     onchangeInvalid(invalid,generic_product){
@@ -68,8 +69,10 @@ export class GenericConfiguratorDialog extends Component {
         this._computeTotals();
     }
 
-    _computeFinalCost(generic_product) {
+    _computeFinalCost(generic_product,computeTotals = true) {
         generic_product.final_cost = generic_product.qty * generic_product.standard_price;
+        if(computeTotals)
+            this._computeTotals()
     }
 
     _computeTotals() {
