@@ -9,8 +9,9 @@ export class GenericConfiguratorDialog extends Component {
     static template = 'e_product_generic.GenericConfiguratorDialog';
     static components = { Dialog, EFloat, EMonetary };
     static props = {
-        edit: { type: Boolean },
         product_template_id: { type: Number },
+        finalCost : { type: Number , optional: true},
+        generic_bill_material_data : { type: Object , optional: true},
         save: { type: Function },
         discard: { type: Function },
         close: Function,
@@ -23,8 +24,8 @@ export class GenericConfiguratorDialog extends Component {
         this.dialogTitle = false,
         this.product_template = {},
         this.state = useState({
-            generic_bill_material_ids: [],
-            finalCost: 0,
+            generic_bill_material_data:  [],
+            finalCost: this.props.finalCost || 0,
             totalCost: 0,
             invalidConfirm: false,
             invalidFinalCost: false,
@@ -40,32 +41,32 @@ export class GenericConfiguratorDialog extends Component {
             this.product_template = data[0]
 
             this.dialogTitle = _t("Dynamic Bill of Material: %s", this.product_template.display_name);
-
-            this.state.generic_bill_material_ids = await this.orm.call(
-                'product.template',
-                'get_generic_bill_material_ids',
-                [this.props.product_template_id],
-            );
-
-            this.state.generic_bill_material_ids.forEach((gbm) => {
-                gbm.qty = 1;
-                gbm.invalid = false;
-                gbm.final_cost = 0;
-                gbm.standard_price = gbm.standard_price || 0;
-                this._computeFinalCost(gbm,false)
-            });
-            this._computeTotals()
-            this.state.finalCost = this.state.totalCost
+            let edit = this.props.generic_bill_material_data && this.props.generic_bill_material_data.length
+            if(edit)
+                this.state.generic_bill_material_data = this.props.generic_bill_material_data
+            else{
+                this.state.generic_bill_material_data = await this.orm.call(
+                    'product.template',
+                    'get_generic_bill_material_data',
+                    [this.props.product_template_id],
+                );
+                this.state.generic_bill_material_data.forEach((gbm) => {
+                    gbm.qty = 1;
+                    gbm.invalid = false;
+                    gbm.subtotal_cost = 0;
+                    gbm.standard_price = gbm.standard_price || 0;
+                    this._computeLineTotalCost(gbm,false)
+                });
+            }
+            this._computeTotals(edit)
+            
+            
         });
     }
 
     onchangeQty(value, generic_product) {
         generic_product.qty = value;
-        this._computeFinalCost(generic_product);
-    }
-
-    get_index_generic_product(generic_product){
-        return this.state.generic_bill_material_ids.indexOf(generic_product)
+        this._computeLineTotalCost(generic_product);
     }
 
     onchangeInvalid(invalid,generic_product){
@@ -80,29 +81,34 @@ export class GenericConfiguratorDialog extends Component {
 
 
     onchangeFinalCost(value, generic_product) {
-        generic_product.final_cost = value;
+        generic_product.subtotal_cost = value;
         this._computeTotals();
     }
 
-    _computeFinalCost(generic_product,computeTotals = true) { 
-        generic_product.final_cost = generic_product.qty * generic_product.standard_price;
+    _computeLineTotalCost(generic_product,computeTotals = true) { 
+        generic_product.subtotal_cost = generic_product.qty * generic_product.standard_price;
         if(computeTotals)
             this._computeTotals()
     }
 
-    _computeTotals() {
+    _computeTotals(computeSubTotals = false) {
+        if(computeSubTotals)
+            this.state.generic_bill_material_data.forEach((gbm) => {
+                this._computeLineTotalCost(gbm,false)
+            });
+
         let syncTotals = this.state.totalCost == this.state.finalCost
             
-        this.state.totalCost = this.state.generic_bill_material_ids.reduce((sum, product) => {
-            return sum + (product.final_cost || 0);
+        this.state.totalCost = this.state.generic_bill_material_data.reduce((sum, product) => {
+            return sum + (product.subtotal_cost || 0);
         }, 0); 
         
-        if(syncTotals)
+        if(!this.state.finalCost || syncTotals)
             this.state.finalCost = this.state.totalCost
     }
 
     _computeInvalidConfirm() {
-        this.state.invalidConfirm = this.state.generic_bill_material_ids.some(gbm => gbm.invalid === true) || this.state.invalidFinalCost;
+        this.state.invalidConfirm = this.state.generic_bill_material_data.some(gbm => gbm.invalid === true) || this.state.invalidFinalCost;
     }
 
     updateFinalCost(value) {
@@ -111,7 +117,9 @@ export class GenericConfiguratorDialog extends Component {
 
     async confirm() {
         this.props.save({
-            lines: this.state.generic_bill_material_ids,
+            generic_bill_material_data: this.state.generic_bill_material_data.map(
+                ({ invalid,subtotal_cost, ...rest }) => rest
+            ),
             finalCost: this.state.finalCost,
         });
         this.props.close();

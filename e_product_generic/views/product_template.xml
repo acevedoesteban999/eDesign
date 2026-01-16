@@ -12,7 +12,7 @@
             </xpath>
              <xpath expr="//page[@name='variants']" position="after">
                 <page name="e_product_generic" string="Generic Bill" invisible="not generic_ok">
-                    <field name="generic_bill_material_ids">
+                    <field name="generic_bill_material_data">
                         <list>
                             <field name="name"></field>
                             <field name="product_template_variant_value_ids" widget="many2many_tags"></field>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <record id="e_product_generic_inherit_sale_order" model="ir.ui.view">
+        <field name="name">sale.order.view.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='is_configurable_product']" position="after">
+                <field name="has_generic_product" column_invisible="1"/>
+                <field name="generic_bill_material_data" column_invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

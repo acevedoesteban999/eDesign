@@ -9,6 +9,7 @@
     'depends': ['base','web','product','sale'],
     'data': [
         "views/product_template.xml",
+        "views/sale_order.xml",
     ],
     'assets': {
         'web.assets_backend': [

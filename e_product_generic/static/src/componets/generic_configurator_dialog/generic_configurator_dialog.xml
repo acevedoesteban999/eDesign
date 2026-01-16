@@ -20,12 +20,12 @@
                                     <span class="fw-semibold">Unitary Cost</span>
                                 </th>
                                 <th class="o_list_number_th text-end" style="width: 15%;">
-                                    <span class="fw-semibold">Final Cost</span>
+                                    <span class="fw-semibold">Subtotal Cost</span>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr t-foreach="this.state.generic_bill_material_ids" 
+                            <tr t-foreach="this.state.generic_bill_material_data" 
                                 t-as="generic_product" 
                                 t-key="generic_product.id"
                                 class="o_data_row">
@@ -53,7 +53,7 @@
                                 <td class="o_data_cell text-end">
                                     <EMonetary 
                                         readonly="true"
-                                        value="generic_product.final_cost"
+                                        value="generic_product.subtotal_cost"
                                         digits="[16,2]"
                                         currencySymbol="this.product_template.currency_symbol"
                                         currencyPosition="this.product_template.currency_position"/>

@@ -5,49 +5,56 @@ import { GenericConfiguratorDialog } from "../generic_configurator_dialog/generi
 import { uuid } from "@web/views/utils";
 
 patch(SaleOrderLineProductField.prototype, {
-    async isGeneric() {
-        const response =  await this.orm.call(
-            'product.template',
-            'read',
-            [this.props.record.data.product_template_id[0] , ["generic_ok"]],
-        )
-        return response[0]?.generic_ok || false; 
-    },   
+    get isGeneric() {
+        return this.props.record.data.has_generic_product;
+    },
+    get hasConfigurationButton() {
+        return super.hasConfigurationButton || this.isGeneric;
+    },
     async onEditConfiguration() {
-        if(await this.isGeneric() )
+        if(await this.isGeneric )
             this._openGenericConfiguration(true)
         else
             super.onEditConfiguration()
     },
-
     async _onProductTemplateUpdate(){
-        if( await this.isGeneric() )
-            this._openGenericConfiguration()
+        if( this.isGeneric ){
+            const result = await this.orm.call(
+                'product.template',
+                'get_single_product_variant',
+                [this.props.record.data.product_template_id[0]],
+                {
+                    context: this.context,
+                }
+            );
+       
+            if (result && result.product_id && this.props.record.data.product_id != result.product_id.id) {
+                await this.props.record.update({
+                    product_id: [result.product_id, result.product_name],
+                });
+                await this._openGenericConfiguration()
+            }
+        }
         else
-            super._onProductTemplateUpdate()
+            await super._onProductTemplateUpdate()
     },
-
     async _openGenericConfiguration(edit=false){
         const saleOrder = this.props.record.model.root.data;
-        const saleOrderRecord = this.props.record;
-
+        const genericData = {
+            generic_bill_material_data: edit?this.props.record.data.generic_bill_material_data:[],
+            finalCost: edit?this.props.record.data.price_unit:0
+        }
         this.dialog.add(GenericConfiguratorDialog, {
-            edit: edit,
             product_template_id: this.props.record.data.product_template_id[0],
+            ...genericData,
             save: async (vals)=>{
-                saleOrder.order_line.leaveEditMode();
-                const GenericLineValues = {
+                await this.props.record.update({
                     price_unit: vals.finalCost,
-                };
-
-                if (!edit) 
-                    GenericLineValues.virtual_id = uuid();
-                
-                await saleOrderRecord.update(GenericLineValues);
-                await saleOrder.order_line._sort();
+                    generic_bill_material_data: vals.generic_bill_material_data,
+                })
             },
             discard: () => {
-                saleOrder.order_line.delete(saleOrderRecord);
+                saleOrder.order_line.delete(this.props.record);
             },
         });
     },
