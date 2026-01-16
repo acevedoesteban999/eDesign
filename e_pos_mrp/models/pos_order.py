@@ -43,10 +43,6 @@ class PosOrder(models.Model):
             })
         return action
     
-    # @api.model
-    # def _process_order(self, order, existing_order):
-    #     super()._process_order(order, existing_order)
-    
     def _create_order_picking(self):
         self.ensure_one()
         
@@ -64,7 +60,6 @@ class PosOrder(models.Model):
             super()._create_order_picking()
 
     def _process_normal_lines(self, normal_lines):
-        """Procesar líneas normales con la misma lógica que el método original"""
         self.ensure_one()
         
         if self.shipping_date:
@@ -89,7 +84,6 @@ class PosOrder(models.Model):
                 })
 
     def _create_mrp_from_pos(self, lines):
-        """Crear órdenes de fabricación y pickings en borrador desde PDV"""
         self.ensure_one()
         mrp_productions = self.env['mrp.production']
         group = self.env["procurement.group"].create({
@@ -99,7 +93,7 @@ class PosOrder(models.Model):
         }) 
         for line in lines:
             mrp_productions += self._create_mrp_production(line,group)
-        self._create_draft_picking_for_productions(mrp_productions,group)
+        self._create_picking_for_productions(mrp_productions,group)
     
     def _create_mrp_production(self, line,group):
         product = line.product_id
@@ -124,7 +118,7 @@ class PosOrder(models.Model):
         
         return mrp_order
       
-    def _create_draft_picking_for_productions(self, mrp_productions,group):
+    def _create_picking_for_productions(self, mrp_productions,group):
         self.ensure_one()
         picking_type = self.config_id.picking_type_id
         location_id = picking_type.default_location_src_id
