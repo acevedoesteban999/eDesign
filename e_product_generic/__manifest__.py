@@ -6,7 +6,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_porduct_generic',
     'category': '',
-    'depends': ['base','web','product','sale'],
+    'depends': ['base','web','product' , 'sale_stock' , 'sale_mrp'],
     'data': [
         "views/product_template.xml",
         "views/sale_order.xml",
