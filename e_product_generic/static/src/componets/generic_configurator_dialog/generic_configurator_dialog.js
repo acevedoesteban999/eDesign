@@ -11,7 +11,7 @@ export class GenericConfiguratorDialog extends Component {
     static props = {
         product_template_id: { type: Number },
         finalCost : { type: Number , optional: true},
-        generic_bill_material_data : { type: Object , optional: true},
+        generic_bill_material_data : { type: Array , optional: true},
         save: { type: Function },
         discard: { type: Function },
         close: Function,
