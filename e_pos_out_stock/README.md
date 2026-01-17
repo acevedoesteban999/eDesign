@@ -1,15 +1,16 @@
 # ePosOutStock
 
-Este modulo permite ocultar en el punto de venta productos q no tengan stock
+This module hides products that are out of stock in the Point of Sale.
 
+### Configurable  
+- Enable or disable the feature from Settings  
+  ![IMAGE](static/description/assets/screenshots/1.png)  
+- Choose to keep items visible even without stock at the product or category level  
+  ![IMAGE](static/description/assets/screenshots/2-1.png)  
+  ![IMAGE](static/description/assets/screenshots/2-2.png)  
+- Non-storable products are always shown  
 
-### Configurable 
-- Desde settings se puede ajustar la funcionaliad o no del modulo
-
-- Existe la opcion para mostrase aunq no tenga stock desde el producto o desde una categoria de producto
-
-- Productos no storeables son visibles siempre
-
-### Variantes   
-Esta funcionalidad ademas actua sobre los Templates , no mostrando el producto si ninguna de sus variates tiene stock. En caso q alguna no tenga stock, el sistema no permite q se genere una linea con esta variante , desactivando el boton de 'Add'. 
-
+### Variants  
+The same logic applies to Product Templates: if **none** of the template’s variants have stock, the template itself is hidden.  
+If a specific variant is out of stock, the system blocks its addition to the cart by disabling the **“Add”** button.  
+![IMAGE](static/description/assets/screenshots/3.gif)

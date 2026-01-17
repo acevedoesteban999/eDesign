@@ -2,7 +2,7 @@
 {
     'name': 'ePosOutStock',
     'version': '18.0.0.0',
-    'summary': "Hide out of stock pos products",
+    'summary': "Hide out of stock POS products",
     'description':"It allows hide products out of stock from pos. Can inactive from specific products or pos categories",
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_pos_out_stock',
