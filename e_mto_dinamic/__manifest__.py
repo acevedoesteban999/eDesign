@@ -7,9 +7,10 @@
     'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_porduct_dinamic',
     'category': '',
     'depends': ['base','web','product' , 'sale_stock' , 'sale_mrp'],
-    'data': [
+    "data": [
+        "security/ir.model.access.csv",
         "views/product_template.xml",
-        "views/sale_order.xml",
+        "views/sale_order.xml"
     ],
     'assets': {
         'web.assets_backend': [

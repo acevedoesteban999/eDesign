@@ -9,10 +9,14 @@
             <xpath expr="//group[@name='operations']" position="inside">
                 <field name="mto_ok" invisible="1"></field>
                 <field name="dinamic_mto_ok" readonly="not mto_ok"></field>
-                <field name="dinamic_bill_material_ids" invisible="not dinamic_mto_ok">
-                    <list>
-                        <field name="name"></field>
-                        <field name="product_template_variant_value_ids" widget="many2many_tags"></field>
+                <field name="lines_dinamic_bill_material_ids" invisible="not dinamic_mto_ok">
+                    <list editable="top">
+                        <field name="product_template_id"></field>
+                        <field name="product_id" 
+                            readonly="not product_template_id or product_template_variant_count == 1"
+                            domain="[('product_tmpl_id', '=', product_template_id), ('type', '=', 'consu')]"
+                            help="Product variant. Leave blank to dynamically select the product variant."
+                            ></field>
                     </list>
                 </field>
             </xpath>

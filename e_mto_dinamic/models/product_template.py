@@ -6,7 +6,7 @@ class ProductTemplate(models.Model):
 
     mto_ok = fields.Boolean(compute="_compute_mto_ok")
     dinamic_mto_ok = fields.Boolean(string='Dinamic MTO',help="Configure Replenish on Order (MTO) with dinamic bill of material. Require MTO route",compute="_compute_mto_dinamic",store=True,default=False)
-    dinamic_bill_material_ids = fields.Many2many('product.product',"rel_dinamic_product_product",name="Dinamic Bill Materials")
+    lines_dinamic_bill_material_ids = fields.One2many('product.diamic.mto.line',"parent_product_template_id",name="Lines of Dinamic Bill Materials")
     
     currency_symbol = fields.Char(related='currency_id.symbol')
     currency_position = fields.Selection(related='currency_id.position')
@@ -30,17 +30,14 @@ class ProductTemplate(models.Model):
             rec.dinamic_mto_ok = dinamic_mto_ok
                 
     
-    @api.constrains('dinamic_mto_ok','dinamic_bill_material_ids')
+    @api.constrains('dinamic_mto_ok','lines_dinamic_bill_material_ids')
     def check_dinamic_mto_ok(self):
         for rec in self:
-            if rec.dinamic_mto_ok and not rec.dinamic_bill_material_ids:
+            if rec.dinamic_mto_ok and not rec.lines_dinamic_bill_material_ids:
                 raise exceptions.UserError(_("Dinamic MTO Requiere a Dinamic Bill of Materials"))
             
-    @api.model
-    def get_dinamic_bill_material_data(self,product_tmpl_id):
-        return self.browse(product_tmpl_id).dinamic_bill_material_ids.read(['display_name','standard_price'])
         
     @api.model
     def get_dinamic_final_price(self):
         self.ensure_one()
-        return sum(self.dinamic_bill_material_ids.lst_price)
+        return sum(self.lines_dinamic_bill_material_ids.lst_price)

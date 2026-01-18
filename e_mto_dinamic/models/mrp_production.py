@@ -7,7 +7,7 @@ class MrpProduction(models.Model):
         moves = []
         for rec in self:
             if rec.product_tmpl_id.dinamic_mto_ok:
-                for dinamic_bill in rec.product_tmpl_id.dinamic_bill_material_ids:
+                for dinamic_bill in rec.product_tmpl_id.lines_dinamic_bill_material_ids:
                     moves.append(rec._get_move_raw_values(
                         dinamic_bill['product_id'],
                         dinamic_bill['qty'],

@@ -5,10 +5,11 @@ class SaleOrde(models.Model):
     _inherit = 'sale.order'
     
     
-    # def _action_confirm(self):
-    #     if order_lines := self.order_line.filtered_domain([('is_dinamic_mto','=',True)]):
-    #         self._create_mrp_from_dinamic(order_lines)
-    #     return super()._action_confirm()
+    def _action_confirm(self):
+        # if order_lines := self.order_line.filtered_domain([('is_dinamic_mto','=',True)]):
+        #     self._create_mrp_from_dinamic(order_lines)
+        self.env['mrp.bom'].product_id
+        return super()._action_confirm()
     
     # def _create_mrp_from_dinamic(self, lines):
     #     self.ensure_one()

@@ -27,6 +27,21 @@
         vertical-align: middle !important;
         border-bottom: 1px solid #e9ecef;
     }
+
+    .dinamic_configurator_dialog select {
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        border: 1px solid var(--bs-border-color, #ced4da);
+        border-radius: var(--bs-border-radius, .25rem);
+        padding: .375rem .75rem;
+        background-color: var(--bs-body-bg, #fff);
+        color: var(--bs-body-color, #212529);
+    }
+
+    select.select-required {
+        background-color: var(--bs-info-bg-subtle, #e6f2ff);
+        border-color: var(--bs-info-border-subtle, #9ec5fe);
+        box-shadow: 0 0 0 .15rem rgba(var(--bs-info-rgb), .25);
+    }
     
     
 }

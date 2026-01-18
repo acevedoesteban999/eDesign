@@ -15,11 +15,12 @@ patch(SaleOrderLineProductField.prototype, {
             this._openDinamicConfiguration()
         return super._onProductUpdate()
     },
-    _editLineConfiguration() {
-        if(this.isDinamic)
+    onEditConfiguration() {
+        if(this.isDinamic && !this.isConfigurableTemplate)
             this._openDinamicConfiguration(true)
-        return super._onProductUpdate()
+        return super.onEditConfiguration()
     }, 
+
     async _openDinamicConfiguration(edit=false){
         const saleOrder = this.props.record.model.root.data;
         const dinamicData = {
@@ -27,7 +28,8 @@ patch(SaleOrderLineProductField.prototype, {
             finalCost: edit?this.props.record.data.price_unit:0
         }
         this.dialog.add(DinamicConfiguratorDialog, {
-            product_template_id: this.props.record.data.product_template_id[0],
+            // product_template_id: this.props.record.data.product_template_id[0],
+            product_id: this.props.record.data.product_id[0],
             ...dinamicData,
             save: async (vals)=>{
                 await this.props.record.update({

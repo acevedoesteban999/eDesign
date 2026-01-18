@@ -9,7 +9,8 @@ export class DinamicConfiguratorDialog extends Component {
     static template = 'e_mto_dinamic.DinamicConfiguratorDialog';
     static components = { Dialog, EFloat, EMonetary };
     static props = {
-        product_template_id: { type: Number },
+        // product_template_id: { type: Number  , optional: true},
+        product_id: { type: Number  , optional: true},
         finalCost : { type: Number , optional: true},
         dinamic_bill_material_data : { type: Array , optional: true},
         save: { type: Function },
@@ -22,7 +23,7 @@ export class DinamicConfiguratorDialog extends Component {
         this.env.dialogData.dismiss = () => this.cancel();
         this.orm = useService('orm');
         this.dialogTitle = false,
-        this.product_template = {},
+        this.product = {},
         this.state = useState({
             dinamic_bill_material_data:  [],
             finalCost: this.props.finalCost || 0,
@@ -33,32 +34,33 @@ export class DinamicConfiguratorDialog extends Component {
         
         onWillStart(async () => {
             const data =  await this.orm.call(
-                'product.template',
+                'product.product',
                 'read',
-                [this.props.product_template_id,["display_name",'currency_symbol','currency_position']],
+                [this.props.product_id,["display_name",'currency_symbol','currency_position']],
             );
             
-            this.product_template = data[0]
+            this.product = data[0]
 
-            this.dialogTitle = _t("Dynamic Bill of Material: %s", this.product_template.display_name);
+            this.dialogTitle = _t("Dynamic Bill of Material: %s", this.product.display_name);
             let edit = this.props.dinamic_bill_material_data && this.props.dinamic_bill_material_data.length
             if(edit)
                 this.state.dinamic_bill_material_data = this.props.dinamic_bill_material_data
             else{
                 this.state.dinamic_bill_material_data = await this.orm.call(
-                    'product.template',
+                    'product.product',
                     'get_dinamic_bill_material_data',
-                    [this.props.product_template_id],
+                    [this.props.product_id],
                 );
                 this.state.dinamic_bill_material_data.forEach((gbm) => {
                     gbm.qty = 1;
                     gbm.invalid = false;
                     gbm.subtotal_cost = 0;
-                    gbm.standard_price = gbm.standard_price || 0;
+                    gbm.standard_price = gbm.product.standard_price || 0;
                     this._computeLineTotalCost(gbm,false)
                 });
             }
             this._computeTotals(edit)
+            this._computeInvalidConfirm()
             
             
         });
@@ -85,6 +87,21 @@ export class DinamicConfiguratorDialog extends Component {
         this._computeTotals();
     }
 
+    onChangeVariant(ev, dinamic_product){
+        const variantId = Number(ev.target.value);
+        if (!variantId){          
+            dinamic_product.product = false;
+            dinamic_product.standard_price = 0;
+        }else{
+            const variant = dinamic_product.product_variant_ids.find(v => v.id === variantId);
+            dinamic_product.product = variant;
+            dinamic_product.standard_price = variant.standard_price;
+        }
+        this._computeLineTotalCost(dinamic_product);
+        this._computeInvalidConfirm()
+    }
+    
+
     _computeLineTotalCost(dinamic_product,computeTotals = true) { 
         dinamic_product.subtotal_cost = dinamic_product.qty * dinamic_product.standard_price;
         if(computeTotals)
@@ -108,7 +125,10 @@ export class DinamicConfiguratorDialog extends Component {
     }
 
     _computeInvalidConfirm() {
-        this.state.invalidConfirm = this.state.dinamic_bill_material_data.some(gbm => gbm.invalid === true) || this.state.invalidFinalCost;
+        const someSelectPending = this.state.dinamic_bill_material_data
+              .some(gbm => gbm.product_variant_ids.length && !gbm.product);
+        const someInvalidQty      = this.state.dinamic_bill_material_data.some(gbm => gbm.invalid);
+        this.state.invalidConfirm = someSelectPending || someInvalidQty || this.state.invalidFinalCost;
     }
 
     updateFinalCost(value) {
