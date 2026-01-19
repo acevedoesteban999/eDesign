@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="e_pos_out_stock_res_config_settings_view_form_pos_invoice_toggle" model="ir.ui.view">
+        <field name="name">res.config.settings.pos.invoice.toggle</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="point_of_sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//block[@id='pos_interface_section']" position="inside">
+                <div class="col-12 col-lg-6 o_setting_box">
+                    <div class="o_setting_left_pane">
+                        <field name="group_hide_out_stock"/>
+                    </div>
+                    <div class="o_setting_right_pane">
+                        <label for="group_hide_out_stock"/>
+                        <div class="text-muted">
+                            Enable this option to hide out-of-stock products from the POS. It is possible to force them to be displayed from the product or category section of the POS.
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

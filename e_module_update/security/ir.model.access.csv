@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_ir_module_e_update_git_remote_manager,ir_module_e_update_git_remote_manager,model_ir_module_e_update_git_remote,base.group_system,1,1,1,1
+access_ir_module_e_update_manual_manager,ir_module_e_update_manual_manager,model_ir_module_e_update_manual,base.group_system,1,1,1,1
+access_ir_module_e_update_backup_manager,ir_module_e_update_backup_manager,model_ir_module_e_update_backup,base.group_system,1,1,1,1

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<template id="template" xml:space="preserve">
+
+    <t t-name="e_mto_dinamic.QtyAtDatePopover" t-inherit="sale_stock.QtyAtDatePopover" t-inherit-mode="extension">
+        <xpath expr="//tbody/t[2]/tr[2]" position="inside">
+            <p t-if="props.record.data.is_dinamic_mto">Dinamic MTO</p>
+        </xpath>
+    </t>
+</template>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="e_pos_mrp.ReceiptScreen" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('o_payment_successful')]/div/div" position="after">
+            <div t-if="this.state.pos_order_id and this.state.picking_id"
+                class="row text-center">
+                <div class="col-12 p-2 mt-3">
+                    <span class="fs-3 fw-bolder">Delivery and Manufacturing Created</span>
+                </div>
+                <hr/>
+                <div class="col-4">
+                    <small class="fw-semibold">Pos Order</small>
+                </div>
+                <div class="col-4">
+                    <small class="fw-semibold">Delivery</small>
+                </div>
+                <div class="col-4">
+                    <small class="fw-semibold">Manufactures</small>
+                </div>
+
+                <div class="col-4">
+                    <hr/>
+                    <small t-esc="this.state.pos_order_id.name" class="h5"/>
+                </div>
+                <div class="col-4">
+                    <hr/>
+                    <small t-esc="this.state.picking_id.name" class="h5"/>
+                </div>
+                <div class="col-4">
+                    <hr/>
+                    <small t-esc="this.state.mrp_production_count" class="h5"/>
+                </div>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

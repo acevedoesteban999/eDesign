@@ -1,0 +1,147 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* e_design_website
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250507\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-02 21:57+0000\n"
+"PO-Revision-Date: 2025-12-02 16:57\n"
+"Last-Translator: PoTranslator <acevedoesteban999@gmail.com>\n"
+"Language-Team: PoTranslator <acevedoesteban999@gmail.com>\n"
+"Language: es\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: PoTranslator\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+
+#. module: e_design_website
+#: model_terms:ir.ui.view,arch_db:e_design_website.CatalogDesign
+msgid ""
+"<i class=\"fa fa-picture-o text-muted pb-2\" style=\"font-size: 3rem;\"/>\n"
+"                        <br/>\n"
+"                        <span class=\"text-muted py-1\">\n"
+"                          No Images Found\n"
+"                        </span>"
+msgstr ""
+"<i class=\"fa fa-picture-o text-muted pb-2\" style=\"font-size: 3rem;\"/>\n"
+"                        <br/>\n"
+"                        <span class=\"text-muted py-1\">\n"
+"                          No se encontraron imágenes\n"
+"                        </span>"
+
+#. module: e_design_website
+#: model_terms:ir.ui.view,arch_db:e_design_website.breadcrumbComponent
+msgid "<span class=\"mx-2\">/</span>"
+msgstr "<span class=\"mx-2\">/</span>"
+
+#. module: e_design_website
+#. odoo-javascript
+#: code:addons/e_design_website/static/src/components/public/catalog_designs/catalog_designs.xml:0
+msgid "Apply"
+msgstr "Aplicar"
+
+#. module: e_design_website
+#. odoo-python
+#: code:addons/e_design_website/controllers/product_design.py:0
+msgid "Catalog"
+msgstr "Catálogo"
+
+#. module: e_design_website
+#. odoo-python
+#: code:addons/e_design_website/controllers/product_design.py:0
+#: model_terms:ir.ui.view,arch_db:e_design_website.CatalogPage
+msgid "Categories"
+msgstr "Categorías"
+
+#. module: e_design_website
+#. odoo-python
+#: code:addons/e_design_website/controllers/product_design.py:0
+msgid "Design %s"
+msgstr "Diseño %s"
+
+#. module: e_design_website
+#. odoo-javascript
+#: code:addons/e_design_website/static/src/components/public/catalog_designs/catalog_designs.xml:0
+msgid "Category"
+msgstr "Categoría"
+
+#. module: e_design_website
+#. odoo-javascript
+#: code:addons/e_design_website/static/src/components/public/catalog_designs/catalog_designs.xml:0
+msgid "Category:"
+msgstr "Categoría:"
+
+#. module: e_design_website
+#. odoo-python
+#: code:addons/e_design_website/controllers/product_design.py:0
+#: model_terms:ir.ui.view,arch_db:e_design_website.CatalogCategories
+#: model_terms:ir.ui.view,arch_db:e_design_website.CatalogPage
+#: model_terms:ir.ui.view,arch_db:e_design_website.CatalogProducts
+msgid "Designs"
+msgstr "Diseños"
+
+#. module: e_design_website
+#. odoo-javascript
+#: code:addons/e_design_website/static/src/components/public/catalog_designs/catalog_designs.xml:0
+msgid "FILTER"
+msgstr "FILTRAR"
+
+#. module: e_design_website
+#. odoo-javascript
+#: code:addons/e_design_website/static/src/components/public/catalog_designs/catalog_designs.xml:0
+msgid "Filter"
+msgstr "Filtrar"
+
+#. module: e_design_website
+#. odoo-javascript
+#: code:addons/e_design_website/static/src/components/public/catalog_designs/catalog_designs.xml:0
+msgid "No Designs to Show"
+msgstr "No hay diseños para mostrar"
+
+#. module: e_design_website
+#. odoo-javascript
+#: code:addons/e_design_website/static/src/components/public/catalog_designs/catalog_designs.xml:0
+msgid "Porduct"
+msgstr "Producto"
+
+#. module: e_design_website
+#. odoo-javascript
+#: code:addons/e_design_website/static/src/components/public/catalog_designs/catalog_designs.xml:0
+msgid "Product:"
+msgstr "Producto:"
+
+#. module: e_design_website
+#. odoo-python
+#: code:addons/e_design_website/controllers/product_design.py:0
+#: model_terms:ir.ui.view,arch_db:e_design_website.CatalogPage
+msgid "Products"
+msgstr "Productos"
+
+#. module: e_design_website
+#. odoo-javascript
+#: code:addons/e_design_website/static/src/components/public/search/search.xml:0
+msgid "Results not found"
+msgstr "Resultados no encontrados"
+
+#. module: e_design_website
+#. odoo-javascript
+#: code:addons/e_design_website/static/src/components/public/catalog_designs/catalog_designs.xml:0
+#: model_terms:ir.ui.view,arch_db:e_design_website.listJsSearchComponent
+msgid "Search"
+msgstr "Buscar"
+
+#. module: e_design_website
+#. odoo-javascript
+#: code:addons/e_design_website/static/src/components/public/search/search.xml:0
+msgid "Search..."
+msgstr "Buscar..."
+
+#. module: e_design_website
+#: model_terms:ir.ui.view,arch_db:e_design_website.breadcrumbComponent
+msgid "breadcrumb"
+msgstr "breadcrumb"

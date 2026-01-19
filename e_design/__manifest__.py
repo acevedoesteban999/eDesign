@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eDesign',
-    'version': '18.0.2.1',
+    'version': '18.0.2.2',
     'summary': "Add Design to Products",
     'description':"""
                     It allows you to add designs to products, 
                     creating non-real variants to select as an additional attribute.
                 """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_design',
+    'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design',
     'category': 'Customizations',
     'images': [
         'static/description/banner.png',

@@ -1,15 +1,71 @@
-<h1 style="display: flex;gap: 15px;">
-    <img style="border-radius: 30px;height: 25px; width: auto; margin: 0; padding: 0;" src="./e_design/static/description/icon.png" alt="eDesign Logo"/>
-    eDesign
+<h1 style="display: flex; gap: 15px;">
+    eAddons
 </h1>
-This repository contains a suite of Odoo modules designed to extend product customization capabilities by introducing a flexible "Design" feature. It integrates this functionality with Manufacturing (MRP), Point of Sale (POS), and the Odoo Website, creating a comprehensive solution for managing and selling customizable products.
+<p>This repository contains a suite of Odoo modules designed to extend product customization capabilities by introducing flexible “Design” and manufacturing features. The suite integrates with Manufacturing (MRP), Point of Sale (POS), Sales, Accounting, and the Odoo Website, providing a comprehensive solution for managing and selling customizable products.</p>
 
-----------------
-| Name                                  | Technical Name     | Summary                                          |
-| ------------------------------------- | ------------------ | -------------------------------------------------| 
-| [eDesign](./e_design)                  | `e_design`         | Create Design for products                       |
-| [ePosMRP](./e_pos_mrp/)                 | `e_pos_mrp`        | Allow create MO in POS                           |
-| [ePOSMrpDesign](./e_pos_mrp_design/)    | `e_pos_mrp_design` | Allow displaying  designs in MO for designable product   |
-| [eWebsiteDesign](./e_website_design/)   | `e_website_design` | Add web page for catalog od fesigns              | 
-| [eSaleDesign](./e_sale_design/)   | `e_sale_design` | Add design information in sale order lines              | 
-| [eAccountDesign](./e_account_design/)   | `e_account_design` | Add design information in account move lines              | 
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Technical Name</th>
+      <th>Summary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="./e_design">eDesign</a></td>
+      <td><code>e_design</code></td>
+      <td>Create and manage product designs.</td>
+    </tr>
+    <tr>
+      <td><a href="./e_design_account">eDesignAccount</a></td>
+      <td><code>e_design_account</code></td>
+      <td>Add design information to account move lines.</td>
+    </tr>
+    <tr>
+      <td><a href="./e_design_pos_mrp">eDesignPosMrp</a></td>
+      <td><code>e_design_pos_mrp</code></td>
+      <td>Link eDesign with POS and MRP.</td>
+    </tr>
+    <tr>
+      <td><a href="./e_design_sale">eSaleDesign</a></td>
+      <td><code>e_design_sale</code></td>
+      <td>Add design information to sale order lines.</td>
+    </tr>
+    <tr>
+      <td><a href="./e_design_website">eDesignWebsite</a></td>
+      <td><code>e_design_website</code></td>
+      <td>Expose eDesign on the website.</td>
+    </tr>
+    <tr>
+      <td><a href="./e_module_update">eModuleUpdate</a></td>
+      <td><code>e_module_update</code></td>
+      <td>Update modules in DB from ZIP or GitHub.</td>
+    </tr>
+    <tr>
+      <td><a href="./e_mto_dinamic">eMtoDinamic</a></td>
+      <td><code>e_mto_dinamic</code></td>
+      <td>Dynamic Bill of Materials for Make-to-Order manufacturing.</td>
+    </tr>
+    <tr>
+      <td><a href="./e_pos_mrp">ePosMrp</a></td>
+      <td><code>e_pos_mrp</code></td>
+      <td>Integrate MRP into POS; create and confirm manufacturing orders from POS.</td>
+    </tr>
+    <tr>
+      <td><a href="./e_pos_out_stock">ePosOutStock</a></td>
+      <td><code>e_pos_out_stock</code></td>
+      <td>Hide out-of-stock products from POS.</td>
+    </tr>
+    <tr>
+      <td><a href="./e_variant_template">eVariantTemplate</a></td>
+      <td><code>e_variant_template</code></td>
+      <td>Link product variants (parent & child).</td>
+    </tr>
+    <tr>
+      <td><a href="./e_variant_template_bom">eVariantTemplateBom</a></td>
+      <td><code>e_variant_template_bom</code></td>
+      <td>Link Bills of Materials to related variants.</td>
+    </tr>
+  </tbody>
+</table>

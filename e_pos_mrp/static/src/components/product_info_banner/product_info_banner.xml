@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="e_pos_mrp.ProductInfoBanner" t-inherit="point_of_sale.ProductInfoBanner" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('section-product-info-title')]/div/div/div[1]" position="before">
+            <div class="h5" t-if="this.has_create_pos_mrp">
+                <i class="pe-1 fa fa-fw fa-wrench" aria-label="Manufacture by Demand" title="Manufacture Manufacture by Demand"/> This Product is manufatured by demand
+            </div>
+        </xpath>
+    </t>
+</templates>

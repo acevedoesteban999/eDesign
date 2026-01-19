@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _ , Command
-
+from odoo.exceptions import UserError
+from datetime import timedelta
 
 class PosOrder(models.Model):
     _inherit = 'pos.order'
@@ -42,72 +43,124 @@ class PosOrder(models.Model):
             })
         return action
     
-    def create(self,vals_list):
-        records = super().create(vals_list)
-        for rec in records:
-            for line in rec.lines:
-                if line.product_id.product_tmpl_id.can_create_pos_mrp and line.qty > 0:
-                    bom_id = self.env['mrp.bom'].search([
-                        ('product_id', '=', line.product_id.id),
-                    ],limit=1)
-                    if not bom_id:
-                        bom_id = self.env['mrp.bom'].search([
-                            ('product_tmpl_id', '=', line.product_id.product_tmpl_id.id),
-                            ('product_id','=',line.product_id.id),
-                        ],limit=1)
-                        if not bom_id:
-                            continue
-                    
-                    mrp_order = self.env['mrp.production'].create({
-                        'origin': line.name,
-                        'state': 'confirmed',
-                        'product_tmpl_id': line.product_id.product_tmpl_id.id,
-                        'product_id': line.product_id.id,
-                        'product_uom_id': line.product_id.uom_id.id,
-                        'product_qty': line.qty,
-                        'bom_id': bom_id.id,
-                        'product_description_variants': ','.join(line.attribute_value_ids.mapped('name')),
-                        'pos_order_line_id': line.id
-                    })
+    def _create_order_picking(self):
+        self.ensure_one()
         
-                    material_moves = self.env['stock.move']
-                    for bom_line in mrp_order.bom_id.bom_line_ids:
-                        material_moves += material_moves.create({    
-                            'raw_material_production_id': mrp_order.id,
-                            'name': mrp_order.name,
-                            'product_id': bom_line.product_id.id,
-                            'product_uom': bom_line.product_uom_id.id,
-                            'product_uom_qty': bom_line.product_qty,
-                            'picking_type_id': mrp_order.picking_type_id.id,
-                            'location_id': mrp_order.location_src_id.id,
-                            'location_dest_id': bom_line.product_id.with_company(self.company_id.id).property_stock_production.id,
-                            'company_id': mrp_order.company_id.id,
-                        })
-                        
-                        
-                    
-                    finish_move = self.env['stock.move'].create({
-                        'product_id': line.product_id.id,
-                        'product_uom_qty': line.qty,
-                        'product_uom': line.product_id.uom_id.id,
-                        'name': mrp_order.name,
-                        'date_deadline': mrp_order.date_deadline,
-                        'picking_type_id': mrp_order.picking_type_id.id,
-                        'location_id': mrp_order.location_src_id.id,
-                        'location_dest_id': mrp_order.location_dest_id.id,
-                        'company_id': mrp_order.company_id.id,
-                        'production_id': mrp_order.id,
-                        'warehouse_id': mrp_order.location_dest_id.warehouse_id.id,
-                        'origin': mrp_order.name,
-                        'group_id': mrp_order.procurement_group_id.id,
-                        'propagate_cancel': mrp_order.propagate_cancel,
-                    })
-                    mrp_order.update({
-                        'move_raw_ids': [Command.link(m.id) for m in material_moves],
-                        'move_finished_ids': [Command.link(finish_move.id)]
-                    })
-        return records
+        lines_to_manufacture = self.lines.filtered(
+            lambda line: line.product_id.can_create_pos_mrp 
+        )
+        
+        if lines_to_manufacture:
+            self._create_mrp_from_pos(lines_to_manufacture)
+            
+            normal_lines = self.lines - lines_to_manufacture
+            if normal_lines:
+                self._process_normal_lines(normal_lines)
+        else:
+            super()._create_order_picking()
+
+    def _process_normal_lines(self, normal_lines):
+        self.ensure_one()
+        
+        if self.shipping_date:
+            self.sudo(normal_lines)._launch_stock_rule_from_pos_order_lines()
+        else:
+            if self._should_create_picking_real_time():
+                picking_type = self.config_id.picking_type_id
+                if self.partner_id.property_stock_customer:
+                    destination_id = self.partner_id.property_stock_customer.id
+                elif not picking_type or not picking_type.default_location_dest_id:
+                    destination_id = self.env['stock.warehouse']._get_partner_locations()[0].id
+                else:
+                    destination_id = picking_type.default_location_dest_id.id
+
+                pickings = self.env['stock.picking']._create_picking_from_pos_order_lines(
+                    destination_id, normal_lines, picking_type, self.partner_id
+                )
+                pickings.write({
+                    'pos_session_id': self.session_id.id, 
+                    'pos_order_id': self.id, 
+                    'origin': self.name
+                })
+
+    def _create_mrp_from_pos(self, lines):
+        self.ensure_one()
+        mrp_productions = self.env['mrp.production']
+        group = self.env["procurement.group"].create({
+            'name': self.name,
+            'partner_id': self.partner_id.id,
+            'move_type': 'one',
+        }) 
+        for line in lines:
+            mrp_productions += self._create_mrp_production(line,group)
+        self._create_picking_for_productions(mrp_productions,group)
     
+    def _create_mrp_production(self, line,group):
+        product = line.product_id
+        bom = self.env['mrp.bom']._bom_find(product)[product]
+        if not bom:
+            raise UserError(_('No lista de materiales para %s') % product.name)
+        
+             
+
+        mrp_order = self.env['mrp.production'].create({
+            'product_id': product.id,
+            'product_qty': abs(line.qty),
+            'product_uom_id': product.uom_id.id,
+            'bom_id': bom.id,
+            'origin': self.name,
+            'pos_order_line_id': line.id,
+            'state': 'confirmed',
+            'procurement_group_id': group.id,   
+        })
+        mrp_order.move_raw_ids =  [ Command.create(m) for m in mrp_order._get_moves_raw_values()]
+        mrp_order.move_finished_ids =  [ Command.create(m) for m in mrp_order._get_moves_finished_values()]
+        
+        return mrp_order
+      
+    def _create_picking_for_productions(self, mrp_productions,group):
+        self.ensure_one()
+        picking_type = self.config_id.picking_type_id
+        location_id = picking_type.default_location_src_id
+        location_dest_id = (
+            self.partner_id.property_stock_customer
+            or picking_type.default_location_dest_id
+        )
+
+        picking = self.env['stock.picking'].create({
+            'picking_type_id': picking_type.id,
+            'location_id': location_id.id,            
+            'location_dest_id': location_dest_id.id,
+            'partner_id': self.partner_id.id,
+            'origin': self.name,
+            'pos_session_id': self.session_id.id,
+            'pos_order_id': self.id,
+            'group_id': group.id,
+            'move_type': 'one',
+            'state': 'draft', 
+        })
+        for mrp_production in mrp_productions:
+            move_sale = self.env['stock.move'].create({
+                'name': mrp_production.product_id.display_name,
+                'product_id': mrp_production.product_id.id,
+                'product_uom_qty': abs(mrp_production.product_qty),
+                'product_uom': mrp_production.product_id.uom_id.id,
+                'picking_id': picking.id,
+                'location_id': location_id.id,
+                'location_dest_id': location_dest_id.id,
+                'group_id': group.id,
+                'procure_method': 'make_to_order',
+                'origin': self.name,
+                'state': 'waiting',
+                'date': mrp_production.date_finished,
+            })
+
+            finished_moves = mrp_production.move_finished_ids.filtered(
+                lambda m: m.product_id == mrp_production.product_id
+            )
+            move_sale.move_orig_ids = [Command.link(fm.id) for fm in finished_moves]
+        return picking
+        
 class PosOrderLine(models.Model):
     _inherit = "pos.order.line"
     
@@ -115,4 +168,3 @@ class PosOrderLine(models.Model):
         'mrp.production',
         'pos_order_line_id',
         string='Manufacturing orders associated with this pos order line.')
-    

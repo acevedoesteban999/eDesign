@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="point_of_sale.product_template_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='to_weight']" position="after">
-               <field name="can_create_pos_mrp" invisible="not available_in_pos"/>
+               <field name="can_create_pos_mrp"/>
             </xpath>
         </field>
     </record>

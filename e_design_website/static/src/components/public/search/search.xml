@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="e_design_website.SearchComponent">
+        <div class="search-component position-relative">
+            <label class="form-label" t-if="props.label" t-esc="props.label"/>
+            <div class="dropdown-search">
+                <div class="row px-2">
+                    <div class="col px-0 position-relative">
+                        <input type="text" 
+                            class="form-control" 
+                            t-att-placeholder="props.placeholder or 'Search...'"
+                            t-model="state.searchQuery"
+                            t-ref="searchInput"
+                            t-on-input="onSearchInput"
+                            t-on-focus="onSearchInput"
+                            t-on-focusout="onFocusOut"
+                            />
+                        
+                        <div class="dropdown-menu show w-100 p-0" t-if="state.showDropdown" t-ref="dropdown">
+                            <div class="text-center py-3" t-if="state.isSearching">
+                                <div class="spinner-border spinner-border-sm text-primary" role="status">
+                                    <span class="visually-hidden">Search...</span>
+                                </div>
+                                <small class="d-block text-muted mt-1">Search...</small>
+                            </div>
+                            
+                            <t t-elif="!state.isSearching">
+                                <div t-if="state.results.length > 0" class="list-group list-group-flush">
+                                    <t t-foreach="state.results" t-as="record" t-key="record.id">
+                                        <button type="button" 
+                                                class="list-group-item list-group-item-action"
+                                                t-on-click="() => this.selectOption(record)">
+                                            <t t-esc="record.name"/>
+                                        </button>
+                                    </t>
+                                </div>
+                                
+                                <div t-else="" class="text-center py-3 text-muted">
+                                    <small>Results not found </small>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                    <div class="col-auto px-0">
+                        <div class="btn btn-link text-danger" t-on-click="this.clearSearch">
+                            <i class="fa fa-trash"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+    </t>
+</templates>

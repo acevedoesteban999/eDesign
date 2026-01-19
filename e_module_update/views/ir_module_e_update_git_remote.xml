@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_ir_module_e_update_git_remote_list" model="ir.ui.view">
+        <field name="name">ir.module.e_update.git.remote.list</field>
+        <field name="model">ir.module.e_update.git.remote</field>
+        <field name="inherit_id" ref="e_module_update.view_ir_module_e_update_list"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <list position="inside">
+                <field name="subfolder_path"></field>
+                <field name="branch"></field>
+                <field name="remote_version"></field>
+            </list>
+        </field>
+    </record>
+    
+    <record id="view_ir_module_e_update_git_remote_form" model="ir.ui.view">
+        <field name="name">ir.module.e_update.git.remote.form</field>
+        <field name="model">ir.module.e_update.git.remote</field>
+        <field name="inherit_id" ref="e_module_update.view_ir_module_e_update_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_check_version']" position="after">
+                    
+                    <button name="action_download_raw_version" string="Download Up Version (RAW)" type="object" class="oe_highlight"
+                            invisible="not download_local or update_state != 'to_update'" confirm="This will REPLACE all local files with raw method. Continue?"/>
+                    
+                    <button name="action_download_raw_version" string="Download Downgrade Version (RAW)" type="object" class="oe_highlight"
+                            invisible="not download_local or update_state != 'to_downgrade'" confirm="This will REPLACE all local files and store with zip method the downgrade version. Continue?"/>
+
+                    <button name="action_download_zip_version" string="Download Up Version (ZIP)" type="object" class="oe_highlight"
+                            invisible="not download_local or update_state != 'to_update'" confirm="This will REPLACE all local files with zip method. Continue?"/>
+                    
+                    <button name="action_download_zip_version" string="Download Downgrade Version (ZIP)" type="object" class="oe_highlight"
+                            invisible="not download_local or update_state != 'to_downgrade'" confirm="This will REPLACE all local files and store with raw method the downgrade version. Continue?"/>
+                </xpath>
+                <xpath expr="//field[@name='module_name']" position="after">
+                    <field name="git_remote"></field>
+                    <field name="repo_url" invisible="not module_exist"/>
+                    <field name="subfolder_path" invisible="not module_exist"/>
+                    <field name="branch" invisible="not module_exist"/>
+                </xpath>
+                <xpath expr="//group[@name='versions']" position="inside">
+                    <field name="remote_version"></field>
+                </xpath>
+        </field>
+    </record>
+
+    <record id="action_ir_module_e_update_git_remote" model="ir.actions.act_window">
+        <field name="name">Git Update</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">ir.module.e_update.git.remote</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                There is no examples click here to add new E_git_update Module.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_e_update_git_remote_create_backups" model="ir.actions.server">
+        <field name="name">Create Repository Version Backup</field>
+        <field name="model_id" ref="model_ir_module_e_update_git_remote"/>
+        <field name="binding_model_id" ref="model_ir_module_e_update_git_remote"></field>
+        <field name="binding_type">action</field>
+        <field name="binding_view_types">form</field>
+        <field name="state">code</field>
+        <field name="code">
+            action = records.action_create_backup()
+        </field>
+    </record>
+
+</odoo>

@@ -33,6 +33,7 @@ class ProductProduct(models.Model):
                 rec.design_ids = [Command.link(design.id) for design in rec.attribute_line_ids.filtered_domain([('attribute_id.design_ok','=',True)]).value_ids.product_design_id]
                 rec.design_counter = len(rec.design_ids)
             else:
+                rec.design_ids = []
                 rec.design_counter = 0
                 
     @api.constrains('design_ok')

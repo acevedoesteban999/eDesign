@@ -4,9 +4,9 @@
     'version': '18.1.0',
     'summary': """ eDesign Bundle for all eDesign addons""",
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign/tree/18.0',
+    'website': 'https://github.com/acevedoesteban999/eAddons',
     'category': '',
-    'depends': ['base','e_design','e_pos_mrp','e_pos_mrp_design','e_website_design','e_sale_design','e_account_design' ],
+    'depends': ['base','e_design','e_pos_mrp','e_design_pos_mrp','e_design_website','e_design_sale','e_design_account' ],
     'images': [
         'static/description/banner.png',
     ],

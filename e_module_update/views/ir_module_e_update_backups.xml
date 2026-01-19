@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_ir_module_e_update_backup_list" model="ir.ui.view">
+        <field name="name">ir.module.e_update.backup.list</field>
+        <field name="model">ir.module.e_update.backup</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" default_group_by="module_name" default_order="version desc" >
+                <header>
+                    <button type="object" name="action_delete_backup" string="Delete" confirm="This will DELETE the backups. Continue?"/>
+                </header>
+                <field name="module_name"></field>
+                <field name="name"></field>
+                <field name="version"></field>
+                <field name="size"></field>
+                <button icon="fa-undo" title="Backup" name="action_to_restore_model" type="object" />
+                <button icon="fa-trash-o" title="Delete" name="action_delete_backup" type="object" confirm="This will DELETE the backups. Continue?" />
+                
+            </list>
+        </field>
+    </record>
+    
+    <record id="action_e_update_backups" model="ir.actions.server">
+        <field name="name">Backups</field>
+        <field name="model_id" ref="model_ir_module_e_update_backup"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = model.action_load_backups()
+        </field>
+    </record>
+    
+
+</odoo>
