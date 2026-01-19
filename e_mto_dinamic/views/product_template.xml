@@ -11,7 +11,9 @@
                 <field name="dinamic_mto_ok" readonly="not mto_ok"></field>
                 <field name="lines_dinamic_bill_material_ids" invisible="not dinamic_mto_ok">
                     <list editable="top">
-                        <field name="product_template_id"></field>
+                        <field name="product_template_id"
+                            domain="[('id', '!=', parent_product_template_id), ('type', '=', 'consu')]"
+                        ></field>
                         <field name="product_id" 
                             readonly="not product_template_id or product_template_variant_count == 1"
                             domain="[('product_tmpl_id', '=', product_template_id), ('type', '=', 'consu')]"
