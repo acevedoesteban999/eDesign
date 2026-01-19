@@ -1,0 +1,236 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* e_mto_dinamic
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250507\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-19 02:57+0000\n"
+"PO-Revision-Date: 2026-01-19 02:57+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_diamic_mto_line__product_template_variant_count
+msgid "# Product Variants"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.constraint,message:e_mto_dinamic.constraint_product_diamic_mto_line_unique_products
+msgid "Can not duplique a combination of Products"
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+#: code:addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+msgid "Cancel"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,help:e_mto_dinamic.field_product_product__dinamic_mto_ok
+#: model:ir.model.fields,help:e_mto_dinamic.field_product_template__dinamic_mto_ok
+#: model:ir.model.fields,help:e_mto_dinamic.field_sale_order_line__is_dinamic_mto
+msgid ""
+"Configure Replenish on Order (MTO) with dinamic bill of material. Require "
+"MTO route"
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+#: code:addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+msgid "Confirm"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_diamic_mto_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_diamic_mto_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,help:e_mto_dinamic.field_product_product__currency_symbol
+#: model:ir.model.fields,help:e_mto_dinamic.field_product_template__currency_symbol
+msgid "Currency sign, to be used when printing amounts."
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,help:e_mto_dinamic.field_product_product__currency_position
+#: model:ir.model.fields,help:e_mto_dinamic.field_product_template__currency_position
+msgid ""
+"Determines where the currency symbol should be placed after or before the "
+"amount."
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_sale_order_line__dinamic_bill_material_data
+msgid "Dinamic Bill Material Data"
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_dinamic/static/src/componets/qty_at_date_widget/qty_at_date_widget.xml:0
+#: code:addons/e_mto_dinamic/static/src/componets/qty_at_date_widget/qty_at_date_widget.xml:0
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_product__dinamic_mto_ok
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_template__dinamic_mto_ok
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_sale_order_line__is_dinamic_mto
+msgid "Dinamic MTO"
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-python
+#: code:addons/addons/e_addons/e_mto_dinamic/models/product_template.py:0
+#: code:addons/e_mto_dinamic/models/product_template.py:0
+msgid "Dinamic MTO Requiere a Dinamic Bill of Materials"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_diamic_mto_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.js:0
+#: code:addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.js:0
+msgid "Dynamic Bill of Material: %s"
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+#: code:addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+msgid "Final Cost:"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_diamic_mto_line__id
+msgid "ID"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_diamic_mto_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_diamic_mto_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_product__lines_dinamic_bill_material_ids
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_template__lines_dinamic_bill_material_ids
+msgid "Lines Dinamic Bill Material"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model,name:e_mto_dinamic.model_mrp_production
+msgid "Manufacturing Order"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_product__mto_ok
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_template__mto_ok
+msgid "Mto Ok"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_diamic_mto_line__parent_product_template_id
+msgid "Parent Product Template"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model,name:e_mto_dinamic.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model,name:e_mto_dinamic.model_product_diamic_mto_line
+msgid "Product MTO Dinamci Line"
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+#: code:addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_diamic_mto_line__product_template_id
+msgid "Product Template"
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+#: code:addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+#: model:ir.model,name:e_mto_dinamic.model_product_product
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_diamic_mto_line__product_id
+msgid "Product Variant"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model_terms:ir.ui.view,arch_db:e_mto_dinamic.e_mto_dinamic_inherit_product_template
+msgid ""
+"Product variant. Leave blank to dynamically select the product variant."
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+#: code:addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+msgid "Quantity"
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-python
+#: code:addons/addons/e_addons/e_mto_dinamic/models/product_template.py:0
+#: code:addons/e_mto_dinamic/models/product_template.py:0
+msgid "Replenish on Order (MTO)"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model,name:e_mto_dinamic.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+#: code:addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+msgid "Subtotal Cost"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_product__currency_symbol
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_template__currency_symbol
+msgid "Symbol"
+msgstr ""
+
+#. module: e_mto_dinamic
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_product__currency_position
+#: model:ir.model.fields,field_description:e_mto_dinamic.field_product_template__currency_position
+msgid "Symbol Position"
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+#: code:addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+msgid "Total Cost:"
+msgstr ""
+
+#. module: e_mto_dinamic
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+#: code:addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
+msgid "Unitary Cost"
+msgstr ""
