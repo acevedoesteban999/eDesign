@@ -37,6 +37,7 @@ patch(SaleOrderLineProductField.prototype, {
     async _openDinamicConfiguration(edit=false){
         const saleOrder = this.props.record.model.root.data;
         const dinamicData = {
+            edit:edit,
             dinamic_bill_material_data: edit?this.props.record.data.dinamic_bill_material_data:[],
             finalCost: edit?this.props.record.data.price_unit:0
         }

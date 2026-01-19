@@ -10,6 +10,7 @@ export class DinamicConfiguratorDialog extends Component {
     static components = { Dialog, EFloat, EMonetary };
     static props = {
         // product_template_id: { type: Number  , optional: true},
+        edit : { type: Boolean  , optional: true},
         product_id: { type: Number  , optional: true},
         finalCost : { type: Number , optional: true},
         dinamic_bill_material_data : { type: Array , optional: true},
@@ -42,8 +43,8 @@ export class DinamicConfiguratorDialog extends Component {
             this.product = data[0]
 
             this.dialogTitle = _t("Dynamic Bill of Material: %s", this.product.display_name);
-            let edit = this.props.dinamic_bill_material_data && this.props.dinamic_bill_material_data.length
-            if(edit)
+            // let edit = this.props.dinamic_bill_material_data && this.props.dinamic_bill_material_data.length
+            if(this.props.edit)
                 this.state.dinamic_bill_material_data = this.props.dinamic_bill_material_data
             else{
                 this.state.dinamic_bill_material_data = await this.orm.call(
@@ -59,7 +60,7 @@ export class DinamicConfiguratorDialog extends Component {
                     this._computeLineTotalCost(gbm,false)
                 });
             }
-            this._computeTotals(edit)
+            this._computeTotals(this.props.edit)
             this._computeInvalidConfirm()
             
             
@@ -147,6 +148,7 @@ export class DinamicConfiguratorDialog extends Component {
 
     cancel() {
         this.props.close();
-        this.props.discard()
+        if(!this.props.edit)
+            this.props.discard()
     }
 }
