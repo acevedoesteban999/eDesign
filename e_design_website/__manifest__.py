@@ -7,7 +7,7 @@
                     It allows you to view the design catalog from the website.
                 """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_design_website',
+    'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_website',
     'category': 'Customizations',
     'depends': ['base','e_design','website'],
     'data': [

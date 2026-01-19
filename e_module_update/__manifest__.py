@@ -4,7 +4,7 @@
     'version': '18.0.0.0',
     'summary': """ Can Update module repository """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_module_update',
+    'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_module_update',
     'category': '',
     'depends': ['base', 'web'],
     "data": [

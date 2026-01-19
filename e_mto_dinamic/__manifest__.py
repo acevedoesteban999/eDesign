@@ -4,7 +4,7 @@
     'version': '18.0.0.0',
     'summary': """ Create Dinamic Products for Dinamic Bill of Material """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eDesign/blob/18.0/e_mto_dinamic',
+    'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_mto_dinamic',
     'category': '',
     'depends': ['base','web','product' , 'sale_stock' , 'sale_mrp'],
     "data": [
