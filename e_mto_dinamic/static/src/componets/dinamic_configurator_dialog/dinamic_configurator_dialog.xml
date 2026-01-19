@@ -44,7 +44,8 @@
                                                     t-as="variant"
                                                     t-key="variant.id"
                                                     t-att-value="variant.id"
-                                                    t-esc="variant.display_name"/>
+                                                    t-esc="variant.display_name"
+                                                    t-att-selected="dinamic_product.product.id == variant.id"/>
                                         </select>
                                     </t>
                                     <span class="o_field_char" t-else="" t-esc="dinamic_product.product.display_name"/>
