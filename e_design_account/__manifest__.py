@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eAccountDesign',
-    'version': '18.0.0.0',
+    'version': '18.0.0.1',
     'summary': """ Add design to account's lines """,
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_account',

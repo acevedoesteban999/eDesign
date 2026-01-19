@@ -12,6 +12,9 @@ This module lets you flag products as make-to-order directly from the point of s
 - Once the sale is confirmed, the picking linked to the manufacturing order(s) is created (all MOs are grouped into a single picking). The sale view then displays both the MO and picking details  
 ![IMAGE](static/description/assets/screenshots/3.png)
 
+### Delivery action
+- Active this Option in POS Settongs
+![IMAGE](static/description/assets/screenshots/4.png)  
 - A new action in the POS opens an interface where finished and pending orders / pickings can be viewed and filtered  
 ![IMAGE](static/description/assets/screenshots/4-1.png)  
 ![IMAGE](static/description/assets/screenshots/4-2.png)  

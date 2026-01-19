@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='order_lines']//list//field[@name='product_no_variant_attribute_value_ids']" position="after">
-                <field name="design_id" insivible="not design_id" context="{'edit':False}"/>
+                <field name="design_id" column_invisible="not parent.has_design" context="{'edit':False,'action_target':'new'}"/>
             </xpath>
         </field>
     </record>

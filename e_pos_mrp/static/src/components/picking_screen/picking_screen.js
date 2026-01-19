@@ -183,7 +183,7 @@ export class PickingScreen extends Component {
             indented: true,
         });
         states.set("done", {
-            text: _t("Done"),
+            text: _t("Delivered"),
             indented: true,
         });
         

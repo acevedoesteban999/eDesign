@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'ePosMrp',
-    'version': '18.0.0.2',
+    'version': '18.0.1.0',
     'summary': "Integration POS with MRP",
     'description':"It allows you to create manufacturing orders for Point of Sale",
     'author': 'acevedoesteban999@gmail.com',
@@ -11,6 +11,7 @@
     'data': [
         "views/pos_order.xml",
         "views/product_template.xml",
+        "views/res_config.xml",
         "views/mrp_production.xml",
     ],
     'assets': {
