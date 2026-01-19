@@ -6,14 +6,14 @@
             <div t-if="this.state.pos_order_id and this.state.picking_id"
                 class="row text-center">
                 <div class="col-12 p-2 mt-3">
-                    <span class="fs-3 fw-bolder">Picking and Manufacturing Created</span>
+                    <span class="fs-3 fw-bolder">Delivery and Manufacturing Created</span>
                 </div>
                 <hr/>
                 <div class="col-4">
                     <small class="fw-semibold">Pos Order</small>
                 </div>
                 <div class="col-4">
-                    <small class="fw-semibold">Picking</small>
+                    <small class="fw-semibold">Delivery</small>
                 </div>
                 <div class="col-4">
                     <small class="fw-semibold">Manufactures</small>

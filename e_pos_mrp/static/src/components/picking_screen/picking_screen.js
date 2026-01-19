@@ -115,7 +115,7 @@ export class PickingScreen extends Component {
 
     onConfirmPicking(){
         this.dialog.add(ConfirmationDialog, {
-            title: _t("Confirm Picking ?"),
+            title: _t("Confirm Delivery ?"),
             body: _t("Are you sure that the customer wants to recive the picking?"),
             confirm: () => this.ConfirmPicking(this.state.selectedPicking),
         });
@@ -194,7 +194,7 @@ export class PickingScreen extends Component {
     _getSearchFields() {
         return {
             NAME: {
-                displayName: _t("Picking"),
+                displayName: _t("Delivery"),
                 modelField: "name",
             },
             POS_ORDER_NAME: {
@@ -273,7 +273,7 @@ export class PickingScreen extends Component {
             {picking_id: pickingLine.id}
         ); 
         this.notification.add(
-            _t("Success confirmation for Picking %s in POS order: %s")
+            _t("Success confirmation for Delivery %s in POS order: %s")
                 .replace("%s", pickingLine.name)
                 .replace("%s", pickingLine.pos_order_id[1]),
             {

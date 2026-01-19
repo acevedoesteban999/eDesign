@@ -20,10 +20,10 @@
                             <span class="page me-2"><t t-esc="getPageNumber()" /></span>
                             <div class="page-controls d-flex align-items-center gap-1">
                                 <button class="previous btn btn-light btn-lg" t-on-click="() => this.onPrevPage()">
-                                    <i class="fa fa-fw fa-caret-left" role="img" aria-label="Previous Picking List" title="Previous Picking List"></i>
+                                    <i class="fa fa-fw fa-caret-left" role="img" aria-label="Previous Delivery List" title="Previous Delivery List"></i>
                                 </button>
                                 <button class="next btn btn-light btn-lg" t-on-click="() => this.onNextPage()">
-                                    <i class="fa fa-fw fa-caret-right" role="img" aria-label="Next Picking List" title="Next Picking List"></i>
+                                    <i class="fa fa-fw fa-caret-right" role="img" aria-label="Next Delivery List" title="Next Delivery List"></i>
                                 </button>
                             </div>
                         </div>
@@ -32,7 +32,7 @@
                         <t t-if="this.state.filteredPickingList.length !== 0">
                             <div class="header-row d-flex text-bg-700 fw-bolder" t-att-class="{ 'd-none': ui.isSmall }">
                                 <div class="col p-2">Pos Order</div>
-                                <div class="col p-2">Picking Name</div>
+                                <div class="col p-2">Delivery Name</div>
                                 <div class="col p-2">Partner</div>
                                 <div class="col p-2">Create Date</div>
                                 <!-- <div class="col p-2">Scheduled Date</div> -->
@@ -136,18 +136,18 @@
                                     </button>
                                     <button t-if="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
                                         t-on-click="onConfirmPicking">
-                                        Confirm Picking
+                                        Confirm Delivery
                                     </button>
                                 </div>
                                 <button t-elif="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
                                     t-on-click="onConfirmPicking">
-                                    Confirm Picking
+                                    Confirm Delivery
                                 </button>
                             </div>
                         </div>
                     </t>
                     <t t-else="">
-                        <CenteredIcon icon="'fa-shopping-cart fa-4x'" text.translate="Select a Picking" class="'bg-100 h-100'"/>
+                        <CenteredIcon icon="'fa-shopping-cart fa-4x'" text.translate="Select a Delivery" class="'bg-100 h-100'"/>
                         <BackButton t-if="ui.isSmall" onClick="() => closePickingScreen()"/>
                     </t>
                 </div>
