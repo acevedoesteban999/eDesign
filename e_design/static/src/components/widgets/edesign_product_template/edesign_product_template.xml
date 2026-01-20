@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <templates xml:space="preserve">
-    <t t-name="e_design.ProductDesign">
+    <t t-name="e_design.eDesignProductTemplate">
         <t t-if="this.props.record.resId">
             <div class="row align-items-center">
                 <div t-if="!props.readonly" class="col-auto">
-                    <button  class="m-2 btn btn-secondary" t-on-click="this.createDesign">
+                    <button  class="m-2 btn btn-secondary" t-on-click="() => this.createDesign()">
                         Create Design
                     </button>
-                    <button  class="m-2 btn btn-secondary" t-on-click="this.attachDesign">
+                    <button  class="m-2 btn btn-secondary" t-on-click="() => this.linkDesign()">
                         Attach Design
                     </button>
                 </div>
@@ -18,15 +18,20 @@
                 </div>
             </div>
             
-            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-3 design-style bg-design">
-                <t t-foreach="this.state.designs_attr_values" t-as="design" t-key="design.id">        
-                    <div class="col">
+            <!-- <div class="row m-2">
+                <div class="col-auto">
+                    <small>Designs: <t t-esc="this.state.design_counter"/></small>
+                </div>
+            </div> -->
+            <div class="row g-3 design-style bg-design">
+                <t t-foreach="this.state.designs" t-as="design" t-key="design.id">        
+                    <div class="col-6 col-md-3 col-xl-2">
                         <div t-on-click="()=> this.openDesign(design.id)" class="card card-widget h-100 d-flex flex-column">
                             <button class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 m-2 z-1 outline-button"
                                     t-on-click.stop="() => this.unlinkDesign(design.id)">
                                 <i class="fa fa-trash"/>
                             </button>
-                            <img class="card-img-top img-fluid" t-attf-src="/web/image/product.design/{{design.id}}/image"/>
+                            <img class="card-img-top img-fluid" t-attf-src="/web/image/product.edesign/{{design.id}}/image"/>
                             <div class="card-body p-2 mt-auto">
                                 <h5 class="card-title mb-1">
                                     <t t-if="design.default_code">
@@ -34,7 +39,7 @@
                                     </t>
                                     <t t-esc="design.name"/>
                                 </h5>
-                                <small class="text-muted">Extra Price: <t t-esc="design.extra_price"/></small>
+                                <!-- <small class="text-muted">Extra Price: <t t-esc="design.extra_price"/></small> -->
                             </div>
                         </div>
                     </div>

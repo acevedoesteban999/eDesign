@@ -21,10 +21,9 @@
     "data": [
         "security/e_design.xml",
         
-        "data/data.xml",
         "security/ir.model.access.csv",
-        "views/product_design_category.xml",
-        "views/product_design.xml",
+        "views/product_edesign_category.xml",
+        "views/product_edesign.xml",
         "views/product_template.xml",
         
         "widget/product_design_attach_widget.xml",

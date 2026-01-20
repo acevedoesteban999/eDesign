@@ -8,12 +8,13 @@ _logger = logging.getLogger(__name__)
 
 
 class ProductDesignCategory(models.Model):
-    _name = 'product.design.category'
-    _description = 'ProductDesignCategory'
+    _name = 'product.edesign.category'
+    _description = 'ProductEDesignCategory'
 
     name = fields.Char('Name')
     image = fields.Image("Image")
-    design_ids = fields.One2many('product.design','category_id',"Designs")
+    parent_id = fields.Many2one('product.edesign.category')
+    design_ids = fields.One2many('product.edesign','category_id',"Designs")
     design_counter = fields.Integer("Designs",compute="_compute_design_counter")
     
     @api.depends('design_ids')
