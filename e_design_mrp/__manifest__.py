@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'ePosMrp',
-    'version': '18.1.0.0',
-    'summary': """Integration POS-MRP with eDesign""",
+    'name': 'eDesignMrp',
+    'version': '18.0.1.0.0',
+    'summary': """Integration MRP with eDesign""",
     'description':"""
                     It allows you to view the designs of the product 
                     to be manufactured in the manufacturing orders.
@@ -10,7 +10,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_mrp',
     'category': 'Customizations',
-    'depends': ['sale_mrp','e_design'],
+    'depends': ['mrp','e_design'],
     "data": [
         "views/mrp_production.xml",
     ],
@@ -19,6 +19,6 @@
     ],
     'application': False,
     'installable': True,
-    'auto_install': False,
+    'auto_install': True,
     'license': 'LGPL-3',
 }
