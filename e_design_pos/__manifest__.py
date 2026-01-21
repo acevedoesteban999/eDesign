@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'ePosMrpDesign',
+    'name': 'eDesignPos',
     'version': '18.0.1.0.0',
     'summary': """Integration POS-MRP with eDesign""",
     'description':"""
@@ -8,12 +8,18 @@
                     to be manufactured in the manufacturing orders.
                 """,
     'author': 'acevedoesteban999@gmail.com',
-    'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_pos_mrp',
+    'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_mrp',
     'category': 'Customizations',
-    'depends': ['sale_mrp','e_design','e_design_mrp','e_pos_mrp'],
+    'depends': ['base','e_design','point_of_sale'],
     "data": [
-        
+        "views/pos_order.xml",
     ],
+    'assets': {
+        'point_of_sale._assets_pos': [
+            "e_design/static/src/components/edesign_selection/*",
+            'e_design_pos/static/src/components/**/*',
+        ],
+    },
     'images': [
         'static/description/banner.png',
     ],

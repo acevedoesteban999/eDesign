@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <odoo>
+      
+    <record id="e_design_pos_form_inherit" model="ir.ui.view">
+        <field name="name">view.pos.order.form</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lines']//list//field[@name='product_id']" position="after">
+              <field  name="design_id" 
+                      widget="product_label_section_and_note_field" 
+                      column_invisible="not parent.has_design"/>
+            </xpath>
+        </field>
+    </record>
+
+  </odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    
+    <t t-name="e_design_pos.ProductConfiguratorPopup" t-inherit="point_of_sale.ProductConfiguratorPopup" t-inherit-mode="extension">
+        <xpath expr="//div[@t-ref='input-area']" position="after">
+            <t t-if="this.has_design">
+                <EDesignSelection
+                    designs="this.designs"
+                    design_id="false"
+                    update="(design) => this.design = design"
+                />
+            </t>
+        </xpath>
+    </t>
+</templates>
