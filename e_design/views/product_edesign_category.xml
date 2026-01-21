@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
+                <field name="parent_id"></field>
             </list>
         </field>
     </record>
@@ -32,6 +33,7 @@
                         </h1>
                     </div>
                     <group>
+                        <field name="parent_id"></field>
                         <field name="design_ids" widget="many2many_tags"></field>
                     </group>
                 </sheet>

@@ -9,12 +9,6 @@ class ProductEDesign(models.Model):
     image = fields.Image("Image")
     default_code = fields.Char('Internal Reference',required=True)
     
-    # extra_price = fields.Float("Extra Price")
-    # product_attr_value_id = fields.Many2one('product.attribute.value')
-    
-    # attr_value_ids = fields.One2many('product.attribute.value','product_design_id',"Attr Value Lines")
-    # product_ids = fields.Many2many('product.template',domain=[('design_ok','=',True)],string="Products")
-    # products_counter = fields.Integer("In Porducts",compute="_compute_product_ids")
     category_id = fields.Many2one('product.edesign.category',"Category")
     
     attachment_ids = fields.Many2many(
@@ -23,17 +17,9 @@ class ProductEDesign(models.Model):
         store=True,
         readonly=False,
     )
+    
     file_id = fields.Binary("File")
-            
-    # @api.depends('attr_value_ids')       
-    # def _compute_product_ids(self):
-    #     for rec in self:
-    #         products = self.env['product.template.attribute.value'].search([('product_attribute_value_id','in',rec.attr_value_ids.ids)]).attribute_line_id.product_tmpl_id
-    #         rec.product_ids = [Command.clear()] + [Command.link(product.id) for product in products]
-    #         rec.products_counter = len(rec.product_ids)
         
-    
-    
     def _get_base_design_action(self):
         return {
             'type': 'ir.actions.act_window',

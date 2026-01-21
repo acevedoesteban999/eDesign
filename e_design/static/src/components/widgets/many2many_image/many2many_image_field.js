@@ -36,17 +36,10 @@ export class E_Design_Many2ManyImage extends Component {
         onMounted(() => {
             Fancybox.bind("[data-fancybox]", {
                 placeFocusBack: false,
-                
                 Hash: false,
-                
                 dragToClose: true,
                 wheel: "zoom",
                 closeButton: "top",
-                
-                on: {
-                    "init": () => console.log("Fancybox iniciado"),
-                    "destroy": () => console.log("Fancybox cerrado"),
-                },
             });
         });
         

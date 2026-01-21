@@ -11,12 +11,12 @@
                         Attach Design
                     </button>
                 </div>
-                <div class="col">
+                <div class="col" t-if="this.state.designs.length">
                     <input type="text" class="form-control form-control-sm" placeholder="Search design..." t-model="state.search"/>
                 </div>
             </div>
 
-            <div class="row g-3 design-style bg-design mt-2">
+            <div class="row g-3 design-style bg-design mt-2" t-if="this.state.designs.length">
                 <t t-foreach="filteredDesigns" t-as="design" t-key="design.id">
                     <div class="col-6 col-sm-4 col-md-3 col-xl-2">
                         <div t-on-click="() => this.openDesign(design.id)" class="card card-widget h-100 d-flex flex-column">
@@ -26,6 +26,7 @@
                             </button>
                             <img class="card-img-top img-fluid" t-attf-src="/web/image/product.edesign/{{design.id}}/image"/>
                             <div class="card-body p-2 mt-auto">
+                                <div t-if="design.category_id" class="text-muted fst-italic h6" t-esc="design.category_id[1]"/>
                                 <h5 class="card-title mb-1">
                                     <t t-if="design.default_code">
                                         [<t t-esc="design.default_code"/>]
@@ -37,6 +38,9 @@
                     </div>
                 </t>
             </div>
+            <small t-else="" class="text-muted fst-italic p-2">
+                This product dont have any design yet
+            </small>
         </t>
         <t t-else="">
             <small class="text-muted fst-italic p-2">

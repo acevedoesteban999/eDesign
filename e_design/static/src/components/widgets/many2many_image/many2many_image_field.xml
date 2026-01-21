@@ -42,7 +42,7 @@
 
     <t t-name="e_design.Many2ManyImage.attachment_preview">
         <t t-set="editable" t-value="!props.readonly"/>
-        <div class="col">
+        <div class="col-auto">
             <div t-attf-class="card card-widget h-100 #{editable ? 'o_attachment_editable' : ''} #{upload ? 'o_attachment_uploading' : ''}">
                 <t t-set="ext" t-value="getExtension(file)"/>
                 <t t-set="url" t-value="getUrl(file.id)"/>

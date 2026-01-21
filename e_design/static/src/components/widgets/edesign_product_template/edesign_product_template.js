@@ -38,7 +38,7 @@ export class EDesignProduct extends Component {
         this.state.designs = await this.orm.call(
             "product.edesign",
             "read",
-            [designIds, ["id", "name", "default_code", "image"]]
+            [designIds, ["id", "name", "default_code", "image","category_id"]]
         );
     }
 
