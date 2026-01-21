@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='invoice_tab']//field[@name='product_id']" position="after">
-                    <field name="design_id" column_invisible="not parent.has_design" context="{'edit':False,'action_target':'new'}"/>
+                <field name="design_id" widget="product_label_section_and_note_field" column_invisible="not parent.has_design" readonly="state != 'draft'" context="{'action_target':'new'}"/>
             </xpath>
         </field>
     </record>
