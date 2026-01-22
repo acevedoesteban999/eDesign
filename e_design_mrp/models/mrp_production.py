@@ -21,6 +21,4 @@ class MrpProduction(models.Model):
     def _compute_design_id(self):
         for rec in self:
             if rec.has_design_id and not rec.design_id:
-                if rec.sale_line_id:
-                    rec.design_id = rec.sale_line_id.design_id
                 rec._check_design_routes()

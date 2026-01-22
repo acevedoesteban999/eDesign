@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': 'ePosMrpDesign',
+    'name': 'eDesignMrpPos',
     'version': '18.0.1.0.0',
     'summary': """Integration POS-MRP with eDesign""",
     'description':"""
@@ -10,7 +10,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_pos_mrp',
     'category': 'Customizations',
-    'depends': ['sale_mrp','e_design','e_design_mrp','e_pos_mrp'],
+    'depends': ['e_design_mrp','e_design_pos'],
     "data": [
         
     ],
