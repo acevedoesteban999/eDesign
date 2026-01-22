@@ -9,7 +9,7 @@
                 <field name="parent_design_ids" column_invisible="1"></field>
                 <field 
                     name="design_id" 
-                    widget="product_label_section_and_note_field" 
+                    widget="many2one" 
                     column_invisible="not parent.has_design" context="{'action_target':'new'}"
                     domain="[('id','in',parent_design_ids)]"
                     />

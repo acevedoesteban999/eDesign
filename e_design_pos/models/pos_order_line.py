@@ -11,9 +11,5 @@ class PosOrderLine(models.Model):
         data = super()._load_pos_data_fields( config_id)
         return data + ['design_id']
     
-    @api.model
-    def create(self,vals_list):
-        return super().create(vals_list)
     
-    def write(self,vals):
-        return super().write(vals)
+   
