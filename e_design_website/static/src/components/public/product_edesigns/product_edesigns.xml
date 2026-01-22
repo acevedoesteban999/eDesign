@@ -17,9 +17,8 @@
                     <label class="form-label">Porduct</label>
                     <SearchComponent 
                         model="'product.template'"
-                        fields="['id', 'name']"
-                        domain="[['design_ok','=',true]]"
-                        onSelect="(record) => this.onSelectProduct(record)"
+                        fields="['id', 'name' , 'design_ids']"
+                        onSelect="(record) => this.temp_product = record"
                         placeholder="'Search'"
                         searchQuery="state.product?state.product.name:''"
                         limit="5"/>
@@ -27,9 +26,9 @@
                 <div class="mb-3">
                     <label class="form-label">Category</label>
                     <SearchComponent 
-                        model="'product.design.category'"
+                        model="'product.edesign.category'"
                         fields="['id', 'name']"
-                        onSelect="(record) => this.onSelectCategory(record)"
+                        onSelect="(record) => this.temp_category = record"
                         placeholder="'Search'"
                         searchQuery="state.category?state.category.name:''"
                         limit="5"/>
@@ -43,9 +42,9 @@
         </div>
     </t>
 
-    <t t-name="e_design_website.CatalogDesignsComponent">
+    <t t-name="e_design_website.EProductDesign">
         <div>
-            <div class="catalog-design-component ">
+            <div class="designs-design-component ">
                 <t t-call="e_design_website.filterSidebar"/>
             
                 <div class="container mt-4">
@@ -88,7 +87,7 @@
                                         <div class="card h-100">
                                             <a style="text-decoration: none;" t-attf-href="/catalog/design/{{design.id}}?{{this.extraHref}}">
 
-                                                <img t-attf-src="/web/image/product.design/#{design.id}/image"
+                                                <img t-attf-src="/web/image/product.edesign/#{design.id}/image"
                                                     class="card-img-top"
                                                     t-att-alt="design.name"/>
                                                 <div class="card-body d-flex flex-column">

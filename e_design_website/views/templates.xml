@@ -3,13 +3,13 @@
   <data>
 
 
-    <template id="e_design_website.CatalogPage" >
+    <template id="e_design_website.DesignsPage" >
       <t t-call="website.layout">
           <div class="container py-5 my-5">
             <div class="row g-4 public-design-style justify-content-center">
                 
                 <div class="col-12 col-md-3 mb-4">
-                  <a href="/catalog/designs" class="text-decoration-none">
+                  <a href="/designs/edesigns" class="text-decoration-none">
                     <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
                       <div class="card-body text-center py-5 bg-light">
                         <i class="fa fa-paint-brush fa-5x text-success mb-4"></i>
@@ -20,7 +20,7 @@
                 </div>
                 
                 <div class="col-12 col-md-3 mb-4 ">
-                  <a href="/catalog/categories" class="text-decoration-none">
+                  <a href="/designs/ecategories" class="text-decoration-none">
                     <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
                       <div class="card-body text-center py-5 bg-light">
                         <i class="fa fa-folder-open fa-5x text-secondary mb-4"></i>
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="col-12 col-md-3 mb-4 ">
-                  <a href="/catalog/products" class="text-decoration-none">
+                  <a href="/designs/products" class="text-decoration-none">
                     <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
                       <div class="card-body text-center py-5 bg-light">
                         <i class="fa fa-cube fa-5x text-primary mb-4"></i>
@@ -41,11 +41,17 @@
                   </a>
                 </div>
             </div>
+
+            <div class="row">
+            </div>
+
+            <div class="row">
+            </div>
         </div>
       </t>
     </template>
     
-    <template id="e_design_website.CatalogProducts">
+    <template id="e_design_website.DesignsProducts">
       <t t-call="website.layout">
           <div class="container py-5">
             <t t-call="e_design_website.breadcrumbComponent"/>
@@ -60,7 +66,7 @@
                 </div>
                 <div class="list">
                   <t t-foreach="products" t-as="product">
-                      <a style="text-decoration: none;" t-attf-href="/catalog/designs?pid={{product.id}}">
+                      <a style="text-decoration: none;" t-attf-href="/designs/edesigns?pid={{product.id}}">
                         <div class="col-12">
                             <div class="card h-100">
                                 <img t-if="product.image_1920"
@@ -94,7 +100,7 @@
       </t>
     </template>
 
-    <template id="e_design_website.CatalogCategories">
+    <template id="e_design_website.DesignsCategories">
       <t t-call="website.layout">
           <div class="container py-5">
             <t t-call="e_design_website.breadcrumbComponent"/>
@@ -109,7 +115,7 @@
                 </div>
                 <div class="list">
                   <t t-foreach="categories" t-as="category">
-                      <a style="text-decoration: none;" t-attf-href="/catalog/designs?cid={{category.id}}">
+                      <a style="text-decoration: none;" t-attf-href="/designs/edesigns?cid={{category.id}}">
                         <div class="col-12">
                             <div class="card h-100">
                                 <img t-if="category.image"
@@ -137,29 +143,29 @@
       </t>
     </template>
     
-    <template id="e_design_website.CatalogDesigns">
+    <template id="e_design_website.EProductDesignTemplate">
       <t t-call="website.layout">
           <div class="container py-3">
             <t t-call="e_design_website.breadcrumbComponent"/>
             <t t-call="e_design_website.loaderComponent"/>
               <owl-component 
-                name="e_design_website.CatalogDesignsComponent"
+                name="e_design_website.EProductDesign"
                 t-att-props='controller_context'
             />
           </div>
       </t>
     </template>
     
-    <template id="e_design_website.CatalogDesign">
+    <template id="e_design_website.DesignsDesign">
       <t t-call="e_design_website.designLayout">
         <div class="container py-4">
             <t t-call="e_design_website.breadcrumbComponent"/>
-            <div class="row g-4 catalog-design ">
+            <div class="row g-4 designs-design ">
               <div class="col-12 col-md-8">
                 <div class="row design-gallery">
-                  <a href="#" data-fancybox="gallery" t-attf-data-src="/web/image/product.design/#{design.id}/image" 
+                  <a href="#" data-fancybox="gallery" t-attf-data-src="/web/image/product.edesign/#{design.id}/image" 
                     class="d-block mb-3">
-                    <img t-attf-src="/web/image/product.design/#{design.id}/image" t-att-alt="design.name" 
+                    <img t-attf-src="/web/image/product.edesign/#{design.id}/image" t-att-alt="design.name" 
                         class="img-fluid rounded-3 shadow-lg w-100" 
                         style="max-height: 400px; object-fit: contain;"/>
                   </a>

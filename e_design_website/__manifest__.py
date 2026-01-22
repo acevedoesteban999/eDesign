@@ -13,6 +13,8 @@
     'data': [
         "views/components.xml",
         "views/templates.xml",
+        "views/product_edesign.xml",
+        "views/product_edesign_category.xml",
     ],
     "assets": {
         "web.assets_frontend": [
@@ -24,6 +26,8 @@
     'images': [
         'static/description/banner.png',
     ],
+    'post_init_hook': '_install_designs_menu_and_page',
+    'uninstall_hook': '_uninstall_designs_menu_and_page',
     'application': False,
     'installable': True,
     'auto_install': False,

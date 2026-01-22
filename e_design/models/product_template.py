@@ -31,10 +31,6 @@ class ProductProduct(models.Model):
             rec.design_counter = len(rec.design_ids)
 
     @api.model
-    def get_designs_for_product_template_view(self,product_template):
-        return self.env['product.edesign'].browse(product_template).read(['id','name','default_code','extra_price'])
-    
-    @api.model
     def unlink_design(self, product_id ,design_id):
         self.browse(product_id).write({'design_ids': [Command.unlink(design_id)]})
         
