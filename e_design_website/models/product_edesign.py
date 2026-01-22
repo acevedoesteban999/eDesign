@@ -5,7 +5,7 @@ class ProductEDesign(models.Model):
     
     is_published = fields.Boolean("Is Published",help="Is Published on Website",default=True)
     
-    product_ids = fields.Many2many('product.template','rel_product_edesigns',compute="_compute_product_ids",precompute=True)
+    product_ids = fields.Many2many('product.template','rel_product_edesigns',compute="_compute_product_ids")
     
     
     def _compute_product_ids(self):

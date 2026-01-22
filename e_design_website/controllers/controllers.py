@@ -53,34 +53,31 @@ class ProductDesign(http.Controller):
         
         
     
-    @http.route("/designs", type='http', auth='public', website=True)    
+    @http.route("/edesigns", type='http', auth='public', website=True)    
     def designs(self, **kw):
         return http.request.render(
             'e_design_website.DesignsPage',
             {
-                'title': _("Design Catalog"),
+                'title': _("Designs"),
             },
         )
         
     @http.route([
-        "/designs/products",
-        "/designs/products/<model('product.template'):product>",
+        "/edesigns/products",
     ], type='http', auth='public', website=True)    
     def products(self, product=False, **kw):
-        if product:
-            products = product
-        else:
-            products = http.request.env['product.template'].search(PRODUCT_DOMAIN)
         
+        products = http.request.env['product.template'].search(PRODUCT_DOMAIN)
         
         breadcrumb_manager = Breadcrumb(
             http.request,
-            '/designs',
+            '/edesigns',
             [
-                (_('Designs'), '/designs'),
+                ('Home', '/edesigns'),
                 (_('Products'), False),
-            ]
+            ] 
         )
+        
         
         return http.request.render(
             'e_design_website.DesignsProducts',
@@ -92,21 +89,18 @@ class ProductDesign(http.Controller):
         )
         
     @http.route([
-        "/designs/ecategories",
-        "/designs/ecategories/<model('product.edesign.category'):category>"
+        "/designs/categories",
     ], type='http', auth='public', website=True)    
     def categories(self, category=False, **kw):
-        if category:
-            categories = category
-        else:
-            categories = http.request.env['product.edesign.category'].search([CATEGORY_DOMAIN])
+    
+        categories = http.request.env['product.edesign.category'].search([CATEGORY_DOMAIN])
             
         breadcrumb_manager = Breadcrumb(
             http.request,
-            '/designs',
+            '/edesigns',
             breadcrumbs=[
-                (_('Catalog'), '/catalog'),
-                (_('Categories'), False),
+                ('Home', '/edesigns'),
+                (_('Catrgories'), False),
             ]
         )
         
@@ -119,67 +113,32 @@ class ProductDesign(http.Controller):
             },
         )
         
-    @http.route([
-        "/designs/edesigns",
-        "/designs/edesigns/<model('product.template'):product>",
-        "/designs/edesigns/<model('product.edesign.category'):category>",
-    ], type='http', auth='public', website=True)    
-    def designs_list(self, product=False, category=False, **kw):
-        breadcrumbs_data = [(_('Designs'), '/designs')]
-        
-        if product:
-            breadcrumbs_data.append((product.name, f'/designs/product/{product.id}'))
-        if category:
-            breadcrumbs_data.append((category.name, f'/designs/ecategory/{category.id}'))
-        
-        breadcrumbs_data.append((_('Designs'), False))
-        
-        breadcrumb_manager = Breadcrumb(
-            http.request,
-            '/designs',
-            breadcrumbs=breadcrumbs_data
-        )
-            
-        controller_context = {
-            'product': product.id if product else False,
-            'category': category.id if category else False,
-        }
-        
-        return http.request.render(
-            'e_design_website.EProductDesignTemplate',
-            {
-                'title': _("Designs"),
-                'breadcrumbs_context': breadcrumb_manager._dict(),
-                'controller_context': json.dumps(controller_context), 
-            },
-        )
     
     @http.route([
-        "/designs/design/<model('product.edesign'):design>",
-        "/designs/design/<model('product.template'):product/<model('product.edesign'):design>",
-        "/designs/design/<model('product.edesign.category'):category/<model('product.edesign'):design>",
+        "/edesigns/<model('product.edesign'):design>",
+        "/edesigns/products/<model('product.template'):product/<model('product.edesign'):design>",
+        "/edesigns/categories/<model('product.edesign.category'):category/<model('product.edesign'):design>",
     ], type='http', auth='public', website=True)    
-    def design_detail(self, design ,product , category, **kw):
+    def design_detail(self, design ,product = False , category = False, **kw):
         if not design:
             return http.request.not_found()
             
         
         breadcrumbs_data = []
         
-        breadcrumbs_data.append((_('Catalog'), '/designs'))
+        breadcrumbs_data.append(('Home', '/edesigns'))
         if product:
-            breadcrumbs_data.append((_('Products'), '/designs/products'))
-            breadcrumbs_data.append((product.name, f'/designs/products/{product.id}'))
+            breadcrumbs_data.append((_('Products'), '/edesigns/products'))
         elif category:
-            breadcrumbs_data.append((_('Categories'), '/designs/ecategories'))
-            breadcrumbs_data.append((category.name, f'/designs/ecategories/{category.id}'))
-        
+            breadcrumbs_data.append((_('Categories'), '/edesigns/categories'))
+        else:
+            breadcrumbs_data.append((_('Designs'), '/edesigns/designs'))
         
         breadcrumbs_data.append((design.name, False))
         
         breadcrumb_manager = Breadcrumb(
             http.request,
-            '/designs',
+            '/edesigns',
             breadcrumbs=breadcrumbs_data
         )
         
@@ -191,3 +150,46 @@ class ProductDesign(http.Controller):
                 'breadcrumbs_context': breadcrumb_manager._dict(),
             },
         )
+        
+        
+    @http.route([
+        "/edesigns/designs",
+        "/edesigns/products/<model('product.template'):product>/",
+        "/edesigns/catrgories/<model('product.edesign.category'):category>/",
+    ], type='http', auth='public', website=True)    
+    def designs_list(self, product=False, category=False, **kw):
+        breadcrumbs_data = [
+            ('Home', '/edesigns'),
+        ]
+        final_space = True
+        if product:
+            breadcrumbs_data.append((_("Products"), f'/edesigns/products'))
+        elif category:
+            breadcrumbs_data.append((_("Categories"), f'/edesigns/ecategories'))
+        else:
+            breadcrumbs_data.append((_('Designs'), False))
+            final_space = False
+        
+        if final_space:
+            breadcrumbs_data.append((' ', False))
+        
+        breadcrumb_manager = Breadcrumb(
+            http.request,
+            '/edesigns',
+            breadcrumbs=breadcrumbs_data
+        )
+            
+        controller_context = {
+            'product': product.read(['name','design_ids'])[0] if product else False,
+            'category': category if category else False,
+        }
+        
+        return http.request.render(
+            'e_design_website.EProductDesignTemplate',
+            {
+                'title': _("Designs"),
+                'breadcrumbs_context': breadcrumb_manager._dict(),
+                'controller_context': json.dumps(controller_context), 
+            },
+        )
+    

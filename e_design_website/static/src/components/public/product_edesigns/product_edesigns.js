@@ -20,7 +20,6 @@ import { removeLoader } from "../../../js/public_designs"
             'loadingData':false,
             'searchQuery':'',
           })
-          this.extraHref = this.props.product?('pid='+this.props.product.id):this.props.category?('cid='+this.props.category.id):''
           this.buttonCloseFilter = useRef('buttonCloseFilter')
           this.orm = useService('orm')
           this.temp_product = this.temp_category = false
@@ -36,7 +35,6 @@ import { removeLoader } from "../../../js/public_designs"
         }, 500);
 
         let domain = [];
-        
         if (this.state.product && this.state.product.design_ids?.length)
           domain.push(['id','in',this.state.product.design_ids]);
         if (this.state.category)

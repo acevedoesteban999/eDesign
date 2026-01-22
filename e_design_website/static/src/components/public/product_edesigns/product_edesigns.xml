@@ -85,7 +85,8 @@
                                 <t t-foreach="this.state.designs" t-as="design" t-key="design.id">
                                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                                         <div class="card h-100">
-                                            <a style="text-decoration: none;" t-attf-href="/catalog/design/{{design.id}}?{{this.extraHref}}">
+                                            
+                                            <a style="text-decoration: none;" t-attf-href="{{design.id}}">
 
                                                 <img t-attf-src="/web/image/product.edesign/#{design.id}/image"
                                                     class="card-img-top"

@@ -7,11 +7,11 @@ from odoo import _
 
 def _install_designs_menu_and_page(env):
     try:
-        menu = env['website.menu'].search([('url','=','/designs')])
+        menu = env['website.menu'].search([('url','=','/edesigns')])
         if not menu:
             env['website.menu'].create({
                 'name': _('Designs'),
-                'url': '/designs',
+                'url': '/edesigns',
             })
     except:
         pass
@@ -19,7 +19,7 @@ def _install_designs_menu_and_page(env):
 def _uninstall_designs_menu_and_page(env):
     try:
         menu = env['website.menu'].search([
-            ('url', '=', '/designs'),
+            ('url', '=', '/edesigns'),
         ])
         if menu:
             menu.unlink()

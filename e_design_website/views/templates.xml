@@ -9,7 +9,7 @@
             <div class="row g-4 public-design-style justify-content-center">
                 
                 <div class="col-12 col-md-3 mb-4">
-                  <a href="/designs/edesigns" class="text-decoration-none">
+                  <a href="/edesigns/designs" class="text-decoration-none">
                     <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
                       <div class="card-body text-center py-5 bg-light">
                         <i class="fa fa-paint-brush fa-5x text-success mb-4"></i>
@@ -20,7 +20,7 @@
                 </div>
                 
                 <div class="col-12 col-md-3 mb-4 ">
-                  <a href="/designs/ecategories" class="text-decoration-none">
+                  <a href="/edesigns/categories" class="text-decoration-none">
                     <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
                       <div class="card-body text-center py-5 bg-light">
                         <i class="fa fa-folder-open fa-5x text-secondary mb-4"></i>
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="col-12 col-md-3 mb-4 ">
-                  <a href="/designs/products" class="text-decoration-none">
+                  <a href="/edesigns/products" class="text-decoration-none">
                     <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
                       <div class="card-body text-center py-5 bg-light">
                         <i class="fa fa-cube fa-5x text-primary mb-4"></i>
@@ -57,7 +57,7 @@
             <t t-call="e_design_website.breadcrumbComponent"/>
             <div id="listjs-search-component" class="row g-4 public-design-style">
                 <div class="row my-2 justify-content-end">
-                  <div class="col-12 col-sm-6">
+                  <div class="col-12 col-sm-6 col-md-4 pe-0">
                     <t t-call="e_design_website.listJsSearchComponent">
                       <t t-set="list_js_id" t-value="'listjs-search-component'"/>
                       <t t-set="list_js_valueNames" t-value="['listjs-name', 'listjs-default-code']" />
@@ -66,7 +66,7 @@
                 </div>
                 <div class="list">
                   <t t-foreach="products" t-as="product">
-                      <a style="text-decoration: none;" t-attf-href="/designs/edesigns?pid={{product.id}}">
+                      <a style="text-decoration: none;" t-attf-href="/edesigns/products/{{product.id}}/">
                         <div class="col-12">
                             <div class="card h-100">
                                 <img t-if="product.image_1920"
@@ -115,7 +115,7 @@
                 </div>
                 <div class="list">
                   <t t-foreach="categories" t-as="category">
-                      <a style="text-decoration: none;" t-attf-href="/designs/edesigns?cid={{category.id}}">
+                      <a style="text-decoration: none;" t-attf-href="/edesigns/categories/{{category.id}}/">
                         <div class="col-12">
                             <div class="card h-100">
                                 <img t-if="category.image"
