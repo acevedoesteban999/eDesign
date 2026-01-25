@@ -1,9 +1,22 @@
 /** @odoo-module **/
+import publicWidget from "@web/legacy/js/public/public_widget";
 
-
-export function removeLoader(){
-    const loader = document.querySelector('.loader-component');
-    if (loader) {
-        loader.remove();
-    }
-}
+publicWidget.registry.DivHref = publicWidget.Widget.extend({
+    selector: '.div-href',
+    events: {
+        'click': '_onClick',
+    },
+    
+    _onClick: function (ev) {
+        const href = this.el.dataset.widgetHref;
+        const stopPropagation = this.el.dataset.widgetStopPropagation;
+        
+        if (stopPropagation) {
+            ev.stopPropagation();
+        }
+        
+        if (href) {
+            window.location.href = href;
+        }
+    },
+});

@@ -5,7 +5,6 @@ import { registry } from "@web/core/registry";
 //import { loadCSS , loadJS } from "@web/core/assets";
 import { useService } from "@web/core/utils/hooks";
 import { SearchComponent } from "../search/search"
-import { removeLoader } from "../../../js/public_designs"
 
   export class EProductDesign extends Component {
       static template = "e_design_website.EProductDesign";
@@ -25,7 +24,12 @@ import { removeLoader } from "../../../js/public_designs"
           this.temp_product = this.temp_category = false
           onWillStart(async ()=>{
               await this.searchDesigns();
-              removeLoader()
+
+              const loader = document.querySelector('.loader-component');
+              if (loader) {
+                  loader.remove();
+              }
+              
           })
       }
 

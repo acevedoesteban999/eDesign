@@ -67,7 +67,7 @@
                 <div class="list">
                   <t t-foreach="products" t-as="product">
                       <a style="text-decoration: none;" t-attf-href="/edesigns/products/{{product.id}}">
-                        <div class="col-12">
+                        <div class="col-12 my-4">
                             <div class="card h-100">
                                 <img t-if="product.image_1920"
                                     t-attf-src="/web/image/product.template/#{product.id}/image_1920"
@@ -102,43 +102,69 @@
 
     <template id="e_design_website.DesignsCategories">
       <t t-call="website.layout">
-          <div class="container py-5">
-            <t t-call="e_design_website.breadcrumbComponent"/>
-            <div id="listjs-search-component" class="row g-4 public-design-style">
-                <div class="row my-2 justify-content-end">
-                  <div class="col-12 col-sm-6">
-                    <t t-call="e_design_website.listJsSearchComponent">
-                      <t t-set="list_js_id" t-value="'listjs-search-component'"/>
-                      <t t-set="list_js_valueNames" t-value="['listjs-name']" />
-                    </t>
+        <div class="container py-5">
+          <t t-call="e_design_website.breadcrumbComponent"/>
+          <div id="listjs-search-component" class="row g-4 public-design-style">
+            
+            <div class="row my-2 justify-content-end">
+              <div class="col-12 col-sm-6">
+                <t t-call="e_design_website.listJsSearchComponent">
+                  <t t-set="list_js_id" t-value="'listjs-search-component'"/>
+                  <t t-set="list_js_valueNames" t-value="['listjs-name']" />
+                </t>
+              </div>
+            </div>
+            
+            <div class="list">
+              <t t-foreach="categories" t-as="category">
+                <div class="col-12 my-4">
+                  <div class="card h-100 div-href" 
+                    t-att-data-widget-href="'/edisgns/categories/' + str(category.id)" 
+                    style="cursor: pointer;">
+                    <div class="row g-0"> 
+                      <div class="col-12">
+                        <img t-if="category.image"
+                            t-attf-src="/web/image/product.template/#{category.id}/image"
+                            class="card-img-top"
+                            t-att-alt="category.name"/>
+                        <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 200px;">
+                          <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-6 col-12">
+                        <div class="card-body">
+                          <h5 class="card-title fw-bold text-truncate">
+                            <t t-esc="category.name"/>
+                          </h5>
+                          <p class="card-text text-muted">
+                            <t t-esc="category.design_counter"/> Designs
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div class="col-md-6 col-12">
+                        <div class="card-body">
+                          <t t-if="category.subcategories_ids">
+                            <div class="d-flex flex-wrap justify-content-around align-items-center h-100">
+                              <t t-foreach="category.subcategories_ids" t-as="subcategory">
+                                <div class="border px-2 py-1 m-1 rounded text-center div-href div-href-transition"
+                                  t-att-data-widget-href="'/edisgns/categories/' + str(subcategory.id)" 
+                                  t-att-data-widget-stop-propagation="1" 
+                                  style="cursor: pointer;">
+                                  <small t-esc="subcategory.name"/>
+                                </div>
+                              </t>
+                            </div>
+                          </t>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="list">
-                  <t t-foreach="categories" t-as="category">
-                      <a style="text-decoration: none;" t-attf-href="/edesigns/categories/{{category.id}}">
-                        <div class="col-12">
-                            <div class="card h-100">
-                                <img t-if="category.image"
-                                    t-attf-src="/web/image/product.template/#{category.id}/image"
-                                    class="card-img-top"
-                                    t-att-alt="product.name"/>
-                                <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
-                                    <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
-                                </div>
-                                <div class="card-body d-flex flex-column">
-                                    <h5 class="card-title fw-bold text-truncate listjs-name">
-                                        <t t-esc="category.name"/>
-                                    </h5>
-                                    <div class="card-text flex-grow-1 text-muted">
-                                    <t t-esc="category.design_counter"/> Designs
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                      </a>
-                  </t>
-                </div>
+              </t>
             </div>
+          </div>
         </div>
       </t>
     </template>
