@@ -17,20 +17,20 @@
                     <label class="form-label">Porduct</label>
                     <SearchComponent 
                         model="'product.template'"
-                        fields="['id', 'name' , 'design_ids']"
+                        fields="['id', 'display_name' , 'design_ids']"
                         onSelect="(record) => this.temp_product = record"
                         placeholder="'Search'"
-                        searchQuery="state.product?state.product.name:''"
+                        searchQuery="state.product?state.product.display_name:''"
                         limit="5"/>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Category</label>
                     <SearchComponent 
                         model="'product.edesign.category'"
-                        fields="['id', 'name']"
+                        fields="['id', 'display_name']"
                         onSelect="(record) => this.temp_category = record"
                         placeholder="'Search'"
-                        searchQuery="state.category?state.category.name:''"
+                        searchQuery="state.category?state.category.display_name:''"
                         limit="5"/>
                 </div>
                 <div class="row justify-content-center">
@@ -52,11 +52,11 @@
                         <div class="col-12 col-sm-6 order-2 order-sm-1">
                             <div class="h5">
                                 <div t-if="this.state.category" class="text-muted badge badge-pill bg-primary">
-                                    Category: <t t-esc="this.state.category.name"/>
+                                    Category: <t t-esc="this.state.category.display_name ?? this.state.category.name"/>
                                 </div>
                                 <br/>
                                 <div t-if="this.state.product" class="text-muted badge badge-pill bg-secondary">
-                                    Product: <t t-esc="this.state.product.name"/>
+                                    Product: <t t-esc="this.state.product.display_name ?? this.state.product.name"/>
                                 </div>
                             </div>
                         </div>

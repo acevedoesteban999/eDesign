@@ -1,0 +1,210 @@
+.public-design-style {
+  .category-card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+  }
+
+  .category-image-wrapper {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    &:hover img {
+      transform: scale(1.05);
+    }
+    
+    .category-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      padding: 2rem 1.5rem 1rem;
+      color: white;
+      
+      .category-title {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+      
+      .design-count {
+        font-size: 0.9rem;
+        opacity: 0.9;
+      }
+    }
+  }
+
+  .subcategories-accordion {
+    padding: 0;
+    background: #f8f9fa;
+  }
+
+  .accordion-item {
+    background: white;
+    border: none;
+    border-bottom: 1px solid #e0e0e0;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    &.more-item {
+      border-left: 3px solid #28a745;
+    }
+  }
+
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+    
+    &:hover {
+      background: #f8f9fa;
+    }
+    
+    &.show-more {
+      color: #6c757d;
+      justify-content: center;
+      gap: 0.5rem;
+      
+      &:hover {
+        background: #e9ecef;
+      }
+    }
+    
+    @for $i from 1 through 10 {
+      &.level-#{$i} {
+        padding-left: #{1 + ($i - 1) * 0.75}rem;
+        background: darken(white, ($i - 1) * 3%);
+        font-size: max(0.85rem, 1rem - ($i - 1) * 0.05rem);
+        
+        @if $i > 1 {
+          border-left: 3px solid darken(#007bff, ($i - 2) * 10%);
+        }
+        
+        &:hover {
+          background: darken(#f8f9fa, ($i - 1) * 2%);
+        }
+      }
+    }
+  }
+
+  .accordion-name {
+    font-weight: 500;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .accordion-btn {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 12px;
+    margin-left: 0.5rem;
+    pointer-events: auto;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+  .accordion-body {
+    padding: 0;
+    background: #f8f9fa;
+    
+    &.nested {
+      background: #e9ecef;
+      padding-left: 0.5rem;
+    }
+    
+    &.more-section {
+      background: #f0f0f0;
+      padding: 0.5rem;
+    }
+  }
+
+  .see-all {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background: #e3f2fd;
+    border-bottom: 1px solid #bbdefb;
+    font-weight: 500;
+    color: #1976d2;
+    font-size: 0.85rem;
+    
+    &:hover {
+      background: #bbdefb;
+    }
+    
+    i {
+      font-size: 0.7rem;
+    }
+  }
+  .accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+    
+    &:hover {
+      background: #e3f2fd;
+    }
+    
+    &.show-more {
+      color: #6c757d;
+      justify-content: center;
+      gap: 0.5rem;
+      
+      &:hover {
+        background: #e9ecef;
+      }
+    }
+    
+    @for $i from 1 through 5 {
+      &.level-#{$i} {
+        padding-left: #{0.75 + ($i - 1) * 0.75}rem;
+        background: white;
+        font-size: max(0.9rem, 1rem - ($i - 1) * 0.05rem);
+        
+        @if $i > 1 {
+          border-left: 3px solid #1976d2;
+        }
+        
+        &:hover {
+          background: #e3f2fd;
+        }
+      }
+    }
+  }
+}
+
+.div-href-transition {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -104,8 +104,7 @@
       <t t-call="website.layout">
         <div class="container py-5">
           <t t-call="e_design_website.breadcrumbComponent"/>
-          <div id="listjs-search-component" class="row g-4 public-design-style">
-            
+          <div id="listjs-search-component" class="public-design-style">
             <div class="row my-2 justify-content-end">
               <div class="col-12 col-sm-6">
                 <t t-call="e_design_website.listJsSearchComponent">
@@ -114,54 +113,100 @@
                 </t>
               </div>
             </div>
-            
-            <div class="list">
+            <div class="list row g-4">
               <t t-foreach="categories" t-as="category">
-                <div class="col-12 my-4">
-                  <div class="card h-100 div-href" 
-                    t-att-data-widget-href="'/edesigns/categories/' + str(category.id)" 
-                    style="cursor: pointer;">
-                    <div class="row g-0"> 
-                      <div class="col-12">
-                        <img t-if="category.image"
-                            t-attf-src="/web/image/product.template/#{category.id}/image"
-                            class="card-img-top"
-                            t-att-alt="category.name"/>
-                        <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 200px;">
-                          <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
-                        </div>
+                <div class="col-12 my-4 listjs-item">
+                  <div class="category-card div-href" t-att-data-widget-href="'/edesigns/categories/' + str(category.id)">
+                    <div class="category-image-wrapper">
+                      <img t-if="category.image" t-attf-src="/web/image/product.template/#{category.id}/image" class="card-img-top" t-att-alt="category.name"/>
+                      <div t-else="" class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                        <i class="fa fa-image text-muted fa-3x"></i>
                       </div>
-                      
-                      <div class="col-md-6 col-12">
-                        <div class="card-body">
-                          <h5 class="card-title fw-bold text-truncate">
-                            <t t-esc="category.name"/>
-                          </h5>
-                          <p class="card-text text-muted">
-                            <t t-esc="category.design_counter"/> Designs
-                          </p>
-                        </div>
-                      </div>
-                      
-                      <div class="col-md-6 col-12">
-                        <div class="card-body">
-                          <t t-if="category.subcategories_ids">
-                            <div class="d-flex flex-wrap justify-content-around align-items-center h-100">
-                              <t t-foreach="category.subcategories_ids" t-as="subcategory">
-                                <div class="border px-2 py-1 m-1 rounded text-center div-href div-href-transition"
-                                  t-att-data-widget-href="'/edesigns/categories/' + str(subcategory.id)" 
-                                  t-att-data-widget-stop-propagation="1" 
-                                  style="cursor: pointer;">
-                                  <small t-esc="subcategory.name"/>
-                                </div>
-                              </t>
-                            </div>
-                          </t>
-                        </div>
+                      <div class="category-overlay">
+                        <h4 class="category-title listjs-name" t-esc="category.name"/>
+                        <span class="design-count"><t t-esc="category.design_counter"/> Designs</span>
                       </div>
                     </div>
+                    <t t-if="category.subcategories_ids">
+                      <t t-set="visible_subs" t-value="[s for s in category.subcategories_ids if s.is_published and s.has_subcategories_designs]"/>
+                      <t t-if="visible_subs">
+                        <div class="subcategories-accordion">
+                          <t t-set="visible_limit" t-value="5"/>
+                          <t t-set="parent_id" t-value="str(category.id)"/>
+                          <t t-call="e_design_website.render_subcategories">
+                            <t t-set="subcategories" t-value="list(enumerate(visible_subs))"/>
+                            <t t-set="level" t-value="1"/>
+                            <t t-set="is_more_section" t-value="False"/>
+                          </t>
+                        </div>
+                      </t>
+                    </t>
                   </div>
                 </div>
+              </t>
+            </div>
+          </div>
+        </div>
+      </t>
+    </template>
+
+    <template id="e_design_website.render_subcategories">
+      <t t-set="filtered_subs" t-value="[s for s in subcategories if s[1].is_published and s[1].has_subcategories_designs]"/>
+      <t t-set="total" t-value="len(filtered_subs)"/>
+      <t t-foreach="filtered_subs" t-as="sub_tuple">
+        <t t-set="idx" t-value="sub_tuple[0]"/>
+        <t t-set="sub" t-value="sub_tuple[1]"/>
+        <t t-if="not is_more_section or (is_more_section and idx >= visible_limit)">
+          <t t-if="not is_more_section and idx >= visible_limit">
+            <t t-set="break_loop" t-value="True"/>
+          </t>
+          <t t-else="">
+            <div t-att-class="'accordion-item' + (' more-item' if is_more_section else '')">
+              <div t-att-class="'accordion-header div-href div-href-transition level-' + str(level)" t-att-data-widget-href="'/edesigns/categories/' + str(sub.id)" t-att-data-widget-stop-propagation="1">
+                <span class="accordion-name" t-esc="sub.name"/>
+                <t t-if="sub.subcategories_ids">
+                  <t t-set="has_visible_children" t-value="any(s.is_published and s.has_subcategories_designs for s in sub.subcategories_ids)"/>
+                  <t t-if="has_visible_children">
+                    <button class="btn btn-sm btn-outline-primary accordion-btn" type="button" data-bs-toggle="collapse" t-att-data-bs-target="'#collapse-' + parent_id + '-' + str(sub.id)">
+                      + subcategories
+                    </button>
+                  </t>
+                </t>
+              </div>
+              <t t-if="sub.subcategories_ids">
+                <t t-set="has_visible_children" t-value="any(s.is_published and s.has_subcategories_designs for s in sub.subcategories_ids)"/>
+                <t t-if="has_visible_children">
+                  <div t-att-id="'collapse-' + parent_id + '-' + str(sub.id)" class="accordion-collapse collapse">
+                    <div t-att-class="'accordion-body' + (' nested' if level > 1 else '')">
+                      <div class="see-all div-href div-href-transition" t-att-data-widget-href="'/edesigns/categories/' + str(sub.id)" t-att-data-widget-stop-propagation="1">
+                        <span>See all <t t-esc="sub.name"/></span>
+                        <i class="fa fa-arrow-right"></i>
+                      </div>
+                      <t t-call="e_design_website.render_subcategories">
+                        <t t-set="subcategories" t-value="list(enumerate(sub.subcategories_ids))"/>
+                        <t t-set="level" t-value="level + 1"/>
+                        <t t-set="is_more_section" t-value="False"/>
+                      </t>
+                    </div>
+                  </div>
+                </t>
+              </t>
+            </div>
+          </t>
+        </t>
+      </t>
+      <t t-if="not is_more_section and total > visible_limit">
+        <div class="accordion-item">
+          <div class="accordion-header show-more" data-bs-toggle="collapse" t-att-data-bs-target="'#collapse-more-' + parent_id">
+            <span class="text-muted">+<t t-esc="total - visible_limit"/> more</span>
+            <i class="fa fa-chevron-down"></i>
+          </div>
+          <div t-att-id="'collapse-more-' + parent_id" class="accordion-collapse collapse">
+            <div class="accordion-body more-section">
+              <t t-call="e_design_website.render_subcategories">
+                <t t-set="subcategories" t-value="subcategories"/>
+                <t t-set="level" t-value="1"/>
+                <t t-set="is_more_section" t-value="True"/>
               </t>
             </div>
           </div>

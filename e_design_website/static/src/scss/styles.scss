@@ -11,10 +11,10 @@ $img-height: 200px;
         color: #6c757d;
         transition: color 0.3s;
     }
-        .back-arrow:hover {
+    .back-arrow:hover {
         color: #0d6efd;
     }
-        .breadcrumb-custom {
+    .breadcrumb-custom {
         background: transparent;
         padding: 1rem 0;
         margin-bottom: 0;
@@ -152,21 +152,4 @@ $img-height: 200px;
 @keyframes shimmer {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
-}
-
-.div-href.div-href-transition {
-  cursor: pointer;
-  transition: all 0.3s ease;
-  
-  &:hover {
-      background-color: #f8f9fa; 
-      border-color: #007bff !important; 
-      box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15); 
-      transform: translateY(-2px); 
-  }
-  
-  &:active {
-      transform: translateY(0); 
-      box-shadow: 0 1px 4px rgba(0, 123, 255, 0.2);
-  }
 }

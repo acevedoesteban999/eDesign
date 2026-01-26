@@ -110,6 +110,7 @@ class ProductDesign(http.Controller):
                 'title': _("Categories"),
                 'breadcrumbs_context': breadcrumb_manager._dict(),
                 'categories': categories,
+                'CATEGORY_DOMAIN': CATEGORY_DOMAIN,
             },
         )
         
@@ -142,8 +143,8 @@ class ProductDesign(http.Controller):
         )
             
         controller_context = {
-            'product': product.read(['name','design_ids'])[0] if product else False,
-            'category': category.read(['name','parent_id'])[0] if category else False,
+            'product': product.read(['name','display_name','design_ids'])[0] if product else False,
+            'category': category.read(['name','display_name','parent_id'])[0] if category else False,
             'base_url': http.request.httprequest.url
         }
         

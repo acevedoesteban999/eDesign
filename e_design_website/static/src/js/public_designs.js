@@ -8,8 +8,12 @@ publicWidget.registry.DivHref = publicWidget.Widget.extend({
     },
     
     _onClick: function (ev) {
+        if (ev.target.closest('.accordion-btn') || ev.target.closest('[data-bs-toggle="collapse"]')) {
+            return;
+        }
+        
         const href = this.el.dataset.widgetHref;
-        const stopPropagation = this.el.dataset.widgetStopPropagation;
+        const stopPropagation = this.el.dataset.widgetStopPropagation === '1';
         
         if (stopPropagation) {
             ev.stopPropagation();

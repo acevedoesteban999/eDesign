@@ -33,7 +33,8 @@
                         </h1>
                     </div>
                     <group>
-                        <field name="parent_id"></field>
+                        <field name="parent_id" ></field>
+                        <field name="subcategories_ids"></field>
                         <field name="design_ids" widget="many2many_tags"></field>
                     </group>
                 </sheet>

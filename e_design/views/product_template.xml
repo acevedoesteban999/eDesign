@@ -11,15 +11,6 @@
                 <label for="design_ok"/>
             </xpath>
             
-            <!-- <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']//field[@name='value_ids']" position="before">
-                <field name="design_ok" column_invisible="1"></field>
-            </xpath>
-            <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']//field[@name='value_ids']" position="attributes">
-                <attribute name="readonly">design_ok</attribute>
-            </xpath>
-            <xpath expr="//page[@name='variants']//field[@name='attribute_line_ids']//button" position="attributes">
-                <attribute name="invisible">design_ok</attribute>
-            </xpath> -->
             <xpath expr="//page[@name='variants']" position="after">
                 <page name="design" string="Designs" invisible="not design_ok">
                     <field name="design_ids" widget="edesign_product_template"></field>
