@@ -32,6 +32,19 @@ class ProductDesign(http.Controller):
     
     @http.route('/e_design_website/searchRead', type='json', auth='public', website=True)
     def search_read_public(self, model, domain=None, fields=None, limit=None, context = {}, **kwargs):
+        def _check_category_childs_ids(domain,field,context:dict,replace_field=False , remove_self_id = False):
+            if(domain):
+                for item in domain:
+                    if len(item) == 3 and item[0] == field and item[2]:
+                        if replace_field:
+                            item[0] = replace_field
+                        item[1] = 'in'
+                        _ids = list(set(http.request.env['product.edesign.category'].browse(item[2]).get_subcategories_ids_recursive()))
+                        if remove_self_id:
+                            _ids.remove(item[2])
+                        item[2] = _ids
+                        break
+            return domain
         allowed_models = ['product.template', 'product.edesign', 'product.edesign.category'] 
         if model not in allowed_models:
             return {'error': 'Model not allowed'}
@@ -39,16 +52,17 @@ class ProductDesign(http.Controller):
         _domain = []
         
         if model == 'product.edesign':
-            if(context.get('get_subcategories_ids')):
-                for item in domain:
-                    if len(item) == 3 and item[0] == 'category_id' and item[2]:
-                        item[1] = 'in'
-                        item[2] = list(set(http.request.env['product.edesign.category'].browse(item[2]).get_subcategories_ids_recursive()))
-                        break
-                    
+            if context.get('get_subcategories_ids'):
+                domain = _check_category_childs_ids(domain,'category_id',context)
             _domain.extend(EDESIGN_DOMAIN)
+        
         elif model == 'product.edesign.category':
             _domain.extend(CATEGORY_DOMAIN)
+            if context.get('get_subcategories'):
+                if domain:
+                    domain = _check_category_childs_ids(domain,'category_id',context,replace_field='id',remove_self_id=True)
+                else:
+                    domain = [('id','in',http.request.env['product.edesign.category'].search(CATEGORY_DOMAIN + [('parent_id','=',False)]).ids)]
         elif model == 'product.template':
             _domain.extend(PRODUCT_DOMAIN)
         

@@ -51,12 +51,12 @@
                     <div class="row justify-content-between">
                         <div class="col-12 col-sm-6 order-2 order-sm-1">
                             <div class="h5">
-                                <div t-if="this.state.category" class="text-muted badge badge-pill bg-primary">
-                                    Category: <t t-esc="this.state.category.display_name ?? this.state.category.name"/>
-                                </div>
-                                <br/>
                                 <div t-if="this.state.product" class="text-muted badge badge-pill bg-secondary">
                                     Product: <t t-esc="this.state.product.display_name ?? this.state.product.name"/>
+                                </div>
+                                <br/>
+                                <div t-if="this.state.category" class="text-muted badge badge-pill bg-primary">
+                                    Category: <t t-esc="this.state.category.display_name ?? this.state.category.name"/>
                                 </div>
                             </div>
                         </div>
@@ -81,7 +81,26 @@
                     
                     <div class="row g-4 public-design-style mt-3">
                         <t t-if="!this.state.loadingData" >
-                            <t t-if="this.state.designs">
+                            <t t-if="this.state.designs?.length">
+                                <div t-if="this.state.subcategories?.length and this.state.subcategories.length > 1" class="row g-2 subcategory-filters">
+                                    <div class="col-auto" 
+                                        t-foreach="this.state.subcategories" 
+                                        t-as="subcategory" 
+                                        t-key="subcategory.id"
+                                    >
+                                        <button 
+                                        t-attf-class="btn {{this.state.subcategory?.id == subcategory.id ? 'btn-primary' : 'btn-outline-primary'}}"
+                                        t-on-click="() => this.selectSubCategory(subcategory)"
+                                        >
+                                        <small t-esc="subcategory.name"/>
+                                        <span 
+                                            t-if="this.state.subcategory?.id == subcategory.id" 
+                                            class="remove-icon"
+                                            t-on-click="(event) => { event.stopPropagation(); this.cancelSubCategory(); }"
+                                        />
+                                        </button>
+                                    </div>
+                                    </div>
                                 <t t-foreach="this.state.designs" t-as="design" t-key="design.id">
                                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                                         <div class="card h-100">

@@ -16,6 +16,8 @@ import { SearchComponent } from "../search/search"
             'designs': [],
             'product': this.props.product,
             'category': this.props.category,
+            'subcategory': false,
+            'subcategories': false,
             'loadingData':false,
             'searchQuery':'',
           })
@@ -42,15 +44,31 @@ import { SearchComponent } from "../search/search"
         let domain = [];
         if (this.state.product && this.state.product.design_ids?.length)
           domain.push(['id','in',this.state.product.design_ids]);
-        if (this.state.category)
+        
+        let sub_domain = true;
+        if(this.state.subcategory)
+          domain.push(['category_id','=',this.state.subcategory.id]);
+        else if (this.state.category)
           domain.push(['category_id','=',this.state.category.id]);
+        else
+          sub_domain = false
+        
+        this.state.subcategories = await this.orm.rpc("/e_design_website/searchRead", {
+          model: 'product.edesign.category',
+          domain: sub_domain?[['category_id','=',this.state.subcategory.id??this.state.category.id]]:[],
+          fields: ['id','name','display_name'],
+          context: {'get_subcategories': true}
+        });
+          
+          
+
         if (this.state.searchQuery)
           domain.push(
               '|',
               ['name','ilike',this.state.searchQuery],
               ['default_code','ilike',this.state.searchQuery],
           );
-          
+        
         this.state.designs = await this.orm.rpc("/e_design_website/searchRead", {
             model: 'product.edesign',
             domain: domain,
@@ -62,6 +80,16 @@ import { SearchComponent } from "../search/search"
           clearTimeout(this.loadingTimeOut)
         this.state.loadingData = false
       
+      }
+
+      async selectSubCategory(subcategory){
+        this.state.subcategory = subcategory;
+        await this.searchDesigns();
+      }
+
+      async cancelSubCategory(){
+        this.state.subcategory = false;
+        await this.searchDesigns();
       }
 
       async applyFilter(){
