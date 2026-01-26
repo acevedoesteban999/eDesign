@@ -21,7 +21,8 @@ import { SearchComponent } from "../search/search"
           })
           this.buttonCloseFilter = useRef('buttonCloseFilter')
           this.orm = useService('orm')
-          this.temp_product = this.temp_category = false
+          this.temp_product = this.props.product
+          this.temp_category = this.props.category
           onWillStart(async ()=>{
               await this.searchDesigns();
 

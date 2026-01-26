@@ -118,7 +118,7 @@
                 <div class="col-12 my-4 listjs-item">
                   <div class="category-card div-href" t-att-data-widget-href="'/edesigns/categories/' + str(category.id)">
                     <div class="category-image-wrapper">
-                      <img t-if="category.image" t-attf-src="/web/image/product.template/#{category.id}/image" class="card-img-top" t-att-alt="category.name"/>
+                      <img t-if="category.image" t-attf-src="/web/image/product.edesign.category/#{category.id}/image" class="card-img-top" t-att-alt="category.name"/>
                       <div t-else="" class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
                         <i class="fa fa-image text-muted fa-3x"></i>
                       </div>

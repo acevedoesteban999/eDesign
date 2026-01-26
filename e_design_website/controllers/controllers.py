@@ -93,7 +93,11 @@ class ProductDesign(http.Controller):
     ], type='http', auth='public', website=True)    
     def categories(self, category=False, **kw):
     
-        categories = http.request.env['product.edesign.category'].search(CATEGORY_DOMAIN)
+        categories = http.request.env['product.edesign.category'].search([
+            ('is_published','=',True),
+            ('has_subcategories_designs','=',True),
+            ('parent_id','=',False)
+        ])
             
         breadcrumb_manager = Breadcrumb(
             http.request,

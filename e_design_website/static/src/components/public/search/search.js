@@ -85,7 +85,7 @@ export class SearchComponent extends Component {
 
     selectOption(record) {
         this.props.onSelect(record);
-        this.state.searchQuery = record.name;
+        this.state.searchQuery = record.display_name;
         this.state.showDropdown = false;
         
     }
