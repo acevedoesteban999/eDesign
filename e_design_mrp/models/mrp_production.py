@@ -17,7 +17,6 @@ class MrpProduction(models.Model):
     def _check_design_routes(self):
         pass #Used for inherits modules
     
-    @api.depends('product_id','sale_line_id')
     def _compute_design_id(self):
         for rec in self:
             if rec.has_design_id and not rec.design_id:
