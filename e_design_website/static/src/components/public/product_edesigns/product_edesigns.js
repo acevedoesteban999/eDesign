@@ -45,23 +45,21 @@ import { SearchComponent } from "../search/search"
         if (this.state.product && this.state.product.design_ids?.length)
           domain.push(['id','in',this.state.product.design_ids]);
         
-        let sub_domain = true;
-        if(this.state.subcategory)
-          domain.push(['category_id','=',this.state.subcategory.id]);
-        else if (this.state.category)
-          domain.push(['category_id','=',this.state.category.id]);
-        else
-          sub_domain = false
-        
-        this.state.subcategories = await this.orm.rpc("/e_design_website/searchRead", {
-          model: 'product.edesign.category',
-          domain: sub_domain?[['category_id','=',this.state.subcategory.id??this.state.category.id]]:[],
-          fields: ['id','name','display_name'],
-          context: {'get_subcategories': true}
-        });
+        if (this.state.category){
           
-          
+          let categories = []
+          if(this.state.subcategory?.id)
+            categories.push(this.state.subcategory.id)
+          else if(this.state.category?.id){
+            categories.push(this.state.category.id) 
+            if(this.state.category.subcategories?.length)
+              categories.concat(this.state.category.subcategories)
+          }
 
+          domain.push(['category_id','in', categories]);
+        }
+
+        
         if (this.state.searchQuery)
           domain.push(
               '|',
@@ -73,8 +71,17 @@ import { SearchComponent } from "../search/search"
             model: 'product.edesign',
             domain: domain,
             fields: ['id','name','default_code'],
-            context: {'get_subcategories_ids': this.state.category?true:false}
         });
+        
+        if(this.state.designs?.length && this.state.category?.subcategories_ids?.length)
+          this.state.subcategories = await this.orm.rpc("/e_design_website/searchRead", {
+            model: 'product.edesign.category',
+            domain: [['id','in',this.state.category.subcategories_ids]],
+            fields: ['id','name'],
+          });
+        else
+          this.state.subcategories = false
+
 
         if (this.loadingTimeOut)
           clearTimeout(this.loadingTimeOut)
@@ -83,12 +90,26 @@ import { SearchComponent } from "../search/search"
       }
 
       async selectSubCategory(subcategory){
-        this.state.subcategory = subcategory;
+        if(!this.state.category)
+          this.state.category = subcategory;
+        else
+          this.state.subcategory = subcategory;
+        
         await this.searchDesigns();
       }
 
       async cancelSubCategory(){
         this.state.subcategory = false;
+        await this.searchDesigns();
+      }
+
+      async cancelProduct(){
+        this.state.product = false
+        await this.searchDesigns();
+      }
+
+      async cancelCategory(){
+        this.state.category = false
         await this.searchDesigns();
       }
 

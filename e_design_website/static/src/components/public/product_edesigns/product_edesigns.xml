@@ -27,7 +27,7 @@
                     <label class="form-label">Category</label>
                     <SearchComponent 
                         model="'product.edesign.category'"
-                        fields="['id', 'display_name']"
+                        fields="['id', 'display_name','subcategories_ids']"
                         onSelect="(record) => this.temp_category = record"
                         placeholder="'Search'"
                         searchQuery="state.category?state.category.display_name:''"
@@ -44,19 +44,21 @@
 
     <t t-name="e_design_website.EProductDesign">
         <div>
-            <div class="designs-design-component ">
+            <div class="designs-design-component">
                 <t t-call="e_design_website.filterSidebar"/>
             
                 <div class="container mt-4">
                     <div class="row justify-content-between">
                         <div class="col-12 col-sm-6 order-2 order-sm-1">
                             <div class="h5">
-                                <div t-if="this.state.product" class="text-muted badge badge-pill bg-secondary">
+                                <div t-if="this.state.product" class="text-muted badge badge-pill bg-secondary position-relative pe-4">
                                     Product: <t t-esc="this.state.product.display_name ?? this.state.product.name"/>
+                                    <span class="remove-icon" t-on-click="() => this.cancelProduct()">×</span>
                                 </div>
                                 <br/>
-                                <div t-if="this.state.category" class="text-muted badge badge-pill bg-primary">
+                                <div t-if="this.state.category" class="text-muted badge badge-pill bg-primary position-relative pe-4">
                                     Category: <t t-esc="this.state.category.display_name ?? this.state.category.name"/>
+                                    <span class="remove-icon" t-on-click="() => this.cancelCategory()">×</span>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +82,7 @@
                     </div>
                     
                     <div class="row g-4 public-design-style mt-3">
-                        <t t-if="!this.state.loadingData" >
+                        <t t-if="!this.state.loadingData">
                             <t t-if="this.state.designs?.length">
                                 <div t-if="this.state.subcategories?.length and this.state.subcategories.length > 1" class="row g-2 subcategory-filters">
                                     <div class="col-auto" 
@@ -89,24 +91,22 @@
                                         t-key="subcategory.id"
                                     >
                                         <button 
-                                        t-attf-class="btn {{this.state.subcategory?.id == subcategory.id ? 'btn-primary' : 'btn-outline-primary'}}"
-                                        t-on-click="() => this.selectSubCategory(subcategory)"
+                                            t-attf-class="btn {{this.state.subcategory?.id == subcategory.id ? 'btn-primary' : 'btn-outline-primary'}}"
+                                            t-on-click="() => this.selectSubCategory(subcategory)"
                                         >
-                                        <small t-esc="subcategory.name"/>
-                                        <span 
-                                            t-if="this.state.subcategory?.id == subcategory.id" 
-                                            class="remove-icon"
-                                            t-on-click="(event) => { event.stopPropagation(); this.cancelSubCategory(); }"
-                                        />
+                                            <small t-esc="subcategory.name"/>
+                                            <span 
+                                                t-if="this.state.subcategory?.id == subcategory.id" 
+                                                class="remove-icon"
+                                                t-on-click="(event) => { event.stopPropagation(); this.cancelSubCategory(); }"
+                                            >×</span>
                                         </button>
                                     </div>
-                                    </div>
+                                </div>
                                 <t t-foreach="this.state.designs" t-as="design" t-key="design.id">
                                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                                         <div class="card h-100">
-                                            
                                             <a style="text-decoration: none;" t-attf-href="{{this.props.base_url}}/{{design.id}}">
-
                                                 <img t-attf-src="/web/image/product.edesign/#{design.id}/image"
                                                     class="card-img-top"
                                                     t-att-alt="design.name"/>
@@ -114,7 +114,7 @@
                                                     <h5 t-if="design.default_code" class="card-title fw-bold text-truncate">
                                                         <t t-esc="design.default_code"/>
                                                     </h5>
-                                                    <p  class="card-text flex-grow-1 text-muted">
+                                                    <p class="card-text flex-grow-1 text-muted">
                                                         <t t-esc="design.name" t-options='{"widget": "text"}'/>
                                                     </p>
                                                 </div>
@@ -123,7 +123,7 @@
                                     </div>
                                 </t>
                             </t>
-                            <t t-else="" >
+                            <t t-else="">
                                 <div class="py-3 text-muted">
                                     No Designs to Show
                                 </div>
@@ -142,6 +142,5 @@
                 </div>
             </div>
         </div>
-        
     </t>
 </templates>

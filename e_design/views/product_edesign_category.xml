@@ -33,8 +33,8 @@
                         </h1>
                     </div>
                     <group>
-                        <field name="parent_id" ></field>
-                        <field name="subcategories_ids"></field>
+                        <field name="parent_id" domain="[('parent_id','=',False)]" readonly="subcategories_ids"></field>
+                        <field name="subcategories_ids" readonly="1" invisible="parent_id"></field>
                         <field name="design_ids" widget="many2many_tags"></field>
                     </group>
                 </sheet>

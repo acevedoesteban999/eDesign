@@ -1,17 +1,20 @@
 from odoo import http, _
 import json
 
-EDESIGN_DOMAIN = [
-    ('is_published','=',True),
-]
-CATEGORY_DOMAIN = [
-    ('design_ids','!=',False),
-] + EDESIGN_DOMAIN
 
-PRODUCT_DOMAIN = [
-    ('design_ok','=',True),
-    ('design_ids','!=',False),
-]
+_DOMAINES = {
+    'product.edesign':[
+        ('is_published','=',True),
+    ],
+    'product.edesign.category':[
+        ('is_published','=',True),
+        ('design_ids','!=',False),
+    ],
+    'product.template':[
+        ('design_ok','=',True),
+        ('design_ids','!=',False),
+    ],   
+}
 
 class Breadcrumb:
     def __init__(self, request: str, defaul_back_url:str, breadcrumbs: list):
@@ -32,39 +35,11 @@ class ProductDesign(http.Controller):
     
     @http.route('/e_design_website/searchRead', type='json', auth='public', website=True)
     def search_read_public(self, model, domain=None, fields=None, limit=None, context = {}, **kwargs):
-        def _check_category_childs_ids(domain,field,context:dict,replace_field=False , remove_self_id = False):
-            if(domain):
-                for item in domain:
-                    if len(item) == 3 and item[0] == field and item[2]:
-                        if replace_field:
-                            item[0] = replace_field
-                        item[1] = 'in'
-                        _ids = list(set(http.request.env['product.edesign.category'].browse(item[2]).get_subcategories_ids_recursive()))
-                        if remove_self_id:
-                            _ids.remove(item[2])
-                        item[2] = _ids
-                        break
-            return domain
         allowed_models = ['product.template', 'product.edesign', 'product.edesign.category'] 
         if model not in allowed_models:
             return {'error': 'Model not allowed'}
         
-        _domain = []
-        
-        if model == 'product.edesign':
-            if context.get('get_subcategories_ids'):
-                domain = _check_category_childs_ids(domain,'category_id',context)
-            _domain.extend(EDESIGN_DOMAIN)
-        
-        elif model == 'product.edesign.category':
-            _domain.extend(CATEGORY_DOMAIN)
-            if context.get('get_subcategories'):
-                if domain:
-                    domain = _check_category_childs_ids(domain,'category_id',context,replace_field='id',remove_self_id=True)
-                else:
-                    domain = [('id','in',http.request.env['product.edesign.category'].search(CATEGORY_DOMAIN + [('parent_id','=',False)]).ids)]
-        elif model == 'product.template':
-            _domain.extend(PRODUCT_DOMAIN)
+        _domain = _DOMAINES[model]
         
         return http.request.env[model].sudo().search_read(
             domain = (domain + _domain) or _domain,
@@ -88,7 +63,7 @@ class ProductDesign(http.Controller):
     ], type='http', auth='public', website=True)    
     def products(self, product=False, **kw):
         
-        products = http.request.env['product.template'].search(PRODUCT_DOMAIN)
+        products = http.request.env['product.template'].search(_DOMAINES['product.template'])
         
         breadcrumb_manager = Breadcrumb(
             http.request,
@@ -116,7 +91,6 @@ class ProductDesign(http.Controller):
     
         categories = http.request.env['product.edesign.category'].search([
             ('is_published','=',True),
-            ('has_subcategories_designs','=',True),
             ('parent_id','=',False)
         ])
             
@@ -135,7 +109,6 @@ class ProductDesign(http.Controller):
                 'title': _("Categories"),
                 'breadcrumbs_context': breadcrumb_manager._dict(),
                 'categories': categories,
-                'CATEGORY_DOMAIN': CATEGORY_DOMAIN,
             },
         )
         
@@ -169,7 +142,7 @@ class ProductDesign(http.Controller):
             
         controller_context = {
             'product': product.read(['name','display_name','design_ids'])[0] if product else False,
-            'category': category.read(['name','display_name','parent_id'])[0] if category else False,
+            'category': category.read(['name','display_name','parent_id','subcategories_ids'])[0] if category else False,
             'base_url': http.request.httprequest.url
         }
         
