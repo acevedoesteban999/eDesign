@@ -71,13 +71,6 @@ import { SearchComponent } from "../search/search"
         }
 
         
-        if (this.state.searchQuery)
-          domain.push(
-              '|',
-              ['name','ilike',this.state.searchQuery],
-              ['default_code','ilike',this.state.searchQuery],
-          );
-        
         this.state.designs = await this.orm.rpc("/e_design_website/searchRead", {
             model: 'product.edesign',
             domain: domain,
@@ -144,16 +137,15 @@ import { SearchComponent } from "../search/search"
 
       
 
-      onSearchInput() {
-        if (this.searchTimeout) {
-            clearTimeout(this.searchTimeout);
-        }
-
-        this.searchTimeout = setTimeout(async () => {
-            await this.searchDesigns()
-        }, 500);
+      get SearchDesigns() {
+        const query = this.state.searchQuery.toLowerCase();
+        if (!query) return this.state.designs;
+        
+        return this.state.designs.filter(d => 
+            d.name?.toLowerCase().includes(query) || 
+            d.default_code?.toLowerCase().includes(query)
+        );
       }
-
 
   }
 

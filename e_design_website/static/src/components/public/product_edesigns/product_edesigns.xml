@@ -71,8 +71,6 @@
                                                 class="form-control" 
                                                 placeholder="Search"
                                                 t-model="state.searchQuery"
-                                                t-ref="searchInput"
-                                                t-on-input="onSearchInput"
                                                 />
                                         </div>
                                     </div>
@@ -83,7 +81,8 @@
                     
                     <div class="row g-4 public-design-style mt-3">
                         <t t-if="!this.state.loadingData">
-                            <t t-if="this.state.designs?.length">
+                            <t t-set="designs" t-value="SearchDesigns"/>
+                            <t t-if="designs?.length">
                                 <div t-if="this.state.subcategories?.length and this.state.subcategories.length > 1" class="row g-2 subcategory-filters">
                                     <div class="col-auto" 
                                         t-foreach="this.state.subcategories" 
@@ -103,7 +102,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <t t-foreach="this.state.designs" t-as="design" t-key="design.id">
+                                <t t-foreach="designs" t-as="design" t-key="design.id">
                                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                                         <div class="card h-100">
                                             <a style="text-decoration: none;" t-attf-href="{{this.props.base_url}}/{{design.id}}">
