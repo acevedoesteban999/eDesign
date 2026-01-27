@@ -10,7 +10,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_mrp',
     'category': 'Customizations',
-    'depends': ['base','e_design','point_of_sale'],
+    'depends': ['e_design','point_of_sale'],
     "data": [
         "views/pos_order.xml",
     ],
@@ -25,6 +25,6 @@
     ],
     'application': False,
     'installable': True,
-    'auto_install': False,
+    'auto_install': True,
     'license': 'LGPL-3',
 }

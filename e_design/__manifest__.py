@@ -16,7 +16,6 @@
     'depends': [
         'base', 
         'product',
-        'stock',
     ],
     "data": [
         "security/e_design.xml",

@@ -9,7 +9,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_website',
     'category': 'Customizations',
-    'depends': ['base','e_design','website'],
+    'depends': ['e_design','website'],
     'data': [
         "views/pages/components.xml",
         "views/pages/design_categories.xml",
@@ -35,6 +35,6 @@
     'uninstall_hook': '_uninstall_designs_menu_and_page',
     'application': False,
     'installable': True,
-    'auto_install': False,
+    'auto_install': True,
     'license': 'LGPL-3',
 }
