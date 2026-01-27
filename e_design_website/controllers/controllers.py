@@ -19,7 +19,7 @@ _DOMAINES = {
 class Breadcrumb:
     def __init__(self, request: str, defaul_back_url:str, breadcrumbs: list):
         referer = request.httprequest.headers.get('Referer', '/')
-        self.back_url = referer if referer != request.httprequest.url else defaul_back_url,
+        self.back_url = referer if referer != request.httprequest.url else defaul_back_url
         self.breadcrumbs = [{
             'name': breadcrumb_name,
             'href': breadcrumb_href,
