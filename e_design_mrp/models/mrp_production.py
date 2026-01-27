@@ -6,7 +6,7 @@ class MrpProduction(models.Model):
     
     _inherit = 'mrp.production'
     
-    design_id = fields.Many2one('product.design',"Design",compute="_compute_design_id",store=True,readonly=False)
+    design_id = fields.Many2one('product.edesign',"Design",compute="_compute_design_id",store=True,readonly=False)
     has_design_id = fields.Boolean(compute="_compute_has_design_id")
     product_tmpl_designs_ids = fields.Many2many(related='product_tmpl_id.design_ids')
     

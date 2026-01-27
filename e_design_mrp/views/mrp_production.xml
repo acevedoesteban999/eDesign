@@ -9,7 +9,7 @@
             <xpath expr="//field[@name='product_description_variants']" position="before" >
               <field name="has_design_id" invisible="1"/>
               <field name="product_tmpl_designs_ids" invisible="1" />
-              <field  name="design_id" 
+              <field name="design_id" 
                       invisible="not has_design_id"
                       readonly="state != 'draft'"
                       context="{

@@ -7,7 +7,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_pos_mrp',
     'category': 'Customizations',
-    'depends': ['base' , 'point_of_sale', 'mrp'],
+    'depends': ['base' , 'pos_mrp'],
     'data': [
         "views/pos_order.xml",
         "views/product_template.xml",
