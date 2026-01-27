@@ -12,7 +12,11 @@
                 <field name="design_id" 
                     column_invisible="not parent.has_design" 
                     readonly="state != 'draft'" 
-                    context="{'action_target':'new'}"
+                    context="{
+                        'action_target':'new',
+                        'edit': False,
+                        'create': False,
+                      }"
                     domain="[('id','in',parent_design_ids)]"
                 />
             </xpath>

@@ -10,7 +10,12 @@
                 <field 
                     name="design_id" 
                     widget="many2one" 
-                    column_invisible="not parent.has_design" context="{'action_target':'new'}"
+                    column_invisible="not parent.has_design" 
+                    context="{
+                        'action_target':'new',
+                        'edit': False,
+                        'create': False,
+                    }"
                     domain="[('id','in',parent_design_ids)]"
                     />
             </xpath>
