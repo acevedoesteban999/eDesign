@@ -4,6 +4,7 @@
     
     <t t-name="e_design_pos.EDesignConfiguratorPopup">
         <Dialog title.translate="Design">
+            <h2 class="mb-2" t-esc="this.props.product.raw.name" />
             <EDesignSelection
                 designs="this.designs"
                 design_id="false"
