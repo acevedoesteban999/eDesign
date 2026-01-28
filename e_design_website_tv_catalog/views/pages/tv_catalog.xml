@@ -4,57 +4,41 @@
         <t t-call="web.frontend_layout">
             <t t-set="no_header" t-value="True"/>
             <t t-set="no_footer" t-value="True"/>
-            <div id="tv-catalog" class="tv-catalog-wrapper"
-                 t-att-data-groups="tv_groups"
-                 t-att-data-config="config">
+            
+            <div class="tv-catalog-container bg-black text-white position-relative" 
+                 t-att-data-config="config"
+                 style="height: 100vh; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif;">
                 
-                <div class="container-fluid">
-                    <div class="tv-header">
-                        <h1 class="tv-title"><t t-esc="title"/></h1>
-                        <div class="tv-clock" id="tv-clock">--:--</div>
+                <div class="position-fixed top-0 start-0 end-0 bg-black px-4 py-2 d-flex justify-content-between align-items-center border-bottom border-secondary" 
+                     style="z-index: 1050; height: 60px; border-color: #333 !important;">
+                    
+                    <div class="d-flex align-items-center gap-3">
+                        <h1 class="fw-bold mb-0 text-white text-uppercase mb-0" 
+                            style="font-size: 1.8rem; letter-spacing: 2px; margin-right: 2rem;">
+                            <t t-esc="title"/>
+                        </h1>
+                        
+                        <div id="group-indicators" class="d-flex align-items-center">
+                            <span class="badge bg-secondary fs-6">Loading...</span>
+                        </div>
                     </div>
-
-                    <div class="mt-5 pt-5 tv-groups-container" id="tv-groups-container">
+                    
+                    <div id="tv-clock" class="fs-2 fw-bold font-monospace text-warning">
+                        00:00
                     </div>
+                </div>
 
-                    <div id="tv-group-template" class="tv-group-template d-none">
-                        <div class="tv-group">
-                            <div class="tv-group-header">
-                                <h2 class="tv-group-title">GRUPO</h2>
-                                <span class="tv-group-count">0 items</span>
-                            </div>
-                            <div class="tv-swiper-container">
-                                <div class="swiper tv-swiper">
-                                    <div class="swiper-wrapper">
-                                      
-                                    </div>
-                                    <div class="swiper-pagination"></div>
-                                    <div class="swiper-button-prev"></div>
-                                    <div class="swiper-button-next"></div>
-                                </div>
+                <div class="swiper tv-swiper" style="height: calc(100vh - 60px); margin-top: 60px;">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide d-flex align-items-center justify-content-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Template para items -->
-                    <div id="tv-item-template" class="d-none">
-                        <div class="tv-item swiper-slide">
-                            <div class="tv-item-inner">
-                                <div class="tv-item-image">
-                                    <img src="/web/image/product.edesign/__ID__/image" 
-                                         alt="__NAME__" 
-                                         class="img-fluid"
-                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
-                                    <div class="tv-item-placeholder" style="display: none;">
-                                        <i class="fa fa-image"></i>
-                                        <span>Sin imagen</span>
-                                    </div>
-                                </div>
-                                <div class="tv-item-info">
-                                    <h3 class="tv-item-name">__NAME__</h3>
-                                </div>
-                            </div>
-                        </div>
+                    
+                    <div class="autoplay-progress position-fixed bottom-0 start-0 bg-warning" 
+                         style="height: 6px; z-index: 1060; width: 0%; transition: width 0.1s linear;">
                     </div>
                 </div>
             </div>

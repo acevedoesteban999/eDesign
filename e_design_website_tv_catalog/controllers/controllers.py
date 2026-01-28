@@ -1,61 +1,108 @@
 from odoo import http, _
 from odoo.http import request
 import json
-from odoo.addons.e_design_website.controllers.controllers import _DOMAINES
-
 
 class TvCatalog(http.Controller):
     
     @http.route('/tv/catalog', type='http', auth='user', website=True)
     def tv_catalog(self):
-        
+        return request.render('e_design_website_tv_catalog.TVCatalog', {
+            'title': _("Catalog"),
+            'config': json.dumps({
+                'autoplay': 3000,
+                'scroll_speed': 1.0,
+                'refresh_interval': 3600000,
+            })
+        })
+
+    @http.route('/tv/catalog/data', type='json', auth='user')
+    def tv_catalog_data(self):
         groups = []
-        
-        Category = request.env['product.edesign.category'].sudo()
-        categories = Category.search(_DOMAINES['product.edesign.category'])
-        
-        for cat in categories:
-            designs = request.env['product.edesign'].sudo().search([
-                ('category_id', '=', cat.id),
-                ('is_published', '=', True),
-            ], limit=8)
+        Category = request.env['product.edesign.category']
+        Product = request.env['product.template']
+        Design = request.env['product.edesign']
+
+        parent_categories = Category.search([
+            ('is_published', '=', True),
+            ('parent_id', '=', False),
+        ])
+
+        for category in parent_categories:
+            items = []
+            total_count = 0
             
-            if designs:
+            direct_designs = Design.search([
+                ('category_id', '=', category.id),
+                ('is_published', '=', True),
+            ])
+            
+            for design in direct_designs:
+                items.append({
+                    'type': 'design',
+                    'id': design.id,
+                    'name': design.name,
+                    'image': bool(design.image),
+                })
+            total_count += len(direct_designs)
+            
+            subcategories = Category.search([
+                ('parent_id', '=', category.id),
+                ('is_published', '=', True),
+            ])
+            
+            for subcat in subcategories:
+                sub_designs = Design.search([
+                    ('category_id', '=', subcat.id),
+                    ('is_published', '=', True),
+                ])
+                
+                subitems = [{
+                    'type': 'design',
+                    'id': d.id,
+                    'name': d.name,
+                    'image': bool(d.image),
+                } for d in sub_designs]
+                
+                if sub_designs or subcat.image:
+                    items.append({
+                        'type': 'subcategory',
+                        'id': subcat.id,
+                        'name': subcat.name,
+                        'image': bool(subcat.image),
+                        'total_designs': len(sub_designs),
+                        'items': subitems,
+                    })
+                    total_count += len(sub_designs)
+            
+            if items:
                 groups.append({
                     'type': 'category',
-                    'name': cat.name,
-                    'total': len(designs),
-                    'items': [{
-                        'id': d.id, 
-                        'name': d.name, 
-                        'image': bool(d.image)
-                    } for d in designs],
+                    'name': category.name,
+                    'total': total_count,
+                    'items': items,
                 })
-        
-        
-        Product = request.env['product.template'].sudo()
-        products = Product.search(_DOMAINES['product.template'], limit=20)
+
+        products = Product.search([
+            ('is_published', '=', True),
+            ('design_ok', '=', True),
+        ])
         
         for product in products:
             designs = product.design_ids.filtered(lambda d: d.is_published)
             if designs:
+                items = [{
+                    'type': 'design',
+                    'id': d.id,
+                    'name': d.name,
+                    'image': bool(d.image),
+                } for d in designs]
+                
                 groups.append({
                     'type': 'product',
                     'name': product.name,
                     'total': len(designs),
-                    'items': [{
-                        'id': d.id, 
-                        'name': d.name, 
-                        'image': bool(d.image)
-                    } for d in designs],
+                    'items': items,
                 })
-        
-        return request.render('e_design_website_tv_catalog.TVCatalog', {
-            'title': _("Catalog"),
-            'tv_groups': json.dumps(groups),
-            'config': json.dumps({
-                'autoplay': 3000,
-            })
-        })
-    
-    
+
+
+        return {'groups': groups}
