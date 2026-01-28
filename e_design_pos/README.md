@@ -1,15 +1,14 @@
-# ePosMrpDesign
-#### POS, MRP & Design Integration
-This module ensures design information flows automatically from POS sales to manufacturing orders, giving production teams visual references.
+# eDesignPos
+#### POS & Design Integration
+This module ensures select, configure and folow the design information for products in POS.
 
-**Design displayed on Manufacturing Order**
-![IAMGE](static/description/assets/screenshots/1.png)
+**Design displayed on Point of Sale**
+- Product Template:
+    ![IAMGE](static/description/assets/screenshots/1.png)
+- Open new Popup for products with designs in POS. Apply on products and variants
+    ![IAMGE](static/description/assets/screenshots/2.png)
+- Visal Information for designable products and lines. No marge lines with differents designs
+    ![IAMGE](static/description/assets/screenshots/3.png)
 
-![IMAGE](static/description/assets/screenshots/1-1.png)
-
-Selected designs appear directly on manufacturing orders, providing clear visual guidance for production staff.
-
-Features
-- Design Propagation: Automatically transfers selected product designs from POS orders to manufacturing orders
-- Visual Manufacturing Reference: Displays design images and specifications directly on production orders
-- Complete Traceability: Maintains design context throughout the entire sales-to-production chain
+**Link Design on POS Order Lines**
+- ![IMAGE](static/description/assets/screenshots/4.png)
