@@ -19,6 +19,8 @@
         "views/pages/design_home.xml",
         "views/pages/design_products.xml",
         "views/pages/product_design_owl.xml",
+        
+        "views/product_template.xml",
         "views/product_edesign.xml",
         "views/product_edesign_category.xml",
     ],

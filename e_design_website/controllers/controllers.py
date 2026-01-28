@@ -1,4 +1,5 @@
 from odoo import http, _
+from odoo.http import request
 import json
 
 
@@ -11,6 +12,7 @@ _DOMAINES = {
         ('design_ids','!=',False),
     ],
     'product.template':[
+        ('is_published','=',True),
         ('design_ok','=',True),
         ('design_ids','!=',False),
     ],   
@@ -50,7 +52,7 @@ class ProductDesign(http.Controller):
         
     
     @http.route("/edesigns/home", type='http', auth='public', website=True)    
-    def designs(self, **kw):
+    def home(self, **kw):
         return http.request.render(
             'e_design_website.DesignsHome',
             {
