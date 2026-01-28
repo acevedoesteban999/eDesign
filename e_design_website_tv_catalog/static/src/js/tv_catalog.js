@@ -35,7 +35,8 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
             const timeStr = now.toLocaleTimeString('es-ES', { 
                 hour12: false, 
                 hour: '2-digit', 
-                minute: '2-digit'
+                minute: '2-digit',
+                second: '2-digit',
             });
             this.$('#tv-clock').text(timeStr);
         };
@@ -158,14 +159,14 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
             rows = [half, total - half];
         }
 
-        let html = '<div class="h-100 d-flex flex-column gap-3">';
+        let html = '<div class="h-100 d-flex flex-column gap-2">';
         let itemIndex = 0;
 
         rows.forEach((countInRow) => {
-            // Todos los items son del mismo tipo ahora (design), distribución uniforme
+
             const colSize = Math.floor(12 / countInRow);
             
-            html += `<div class="row g-3 flex-grow-1" style="min-height: 0;">`;
+            html += `<div class="row g-1 flex-grow-1" style="min-height: 0;">`;
             
             for (let i = 0; i < countInRow; i++) {
                 if (itemIndex >= items.length) break;
@@ -183,10 +184,8 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
 
         html += '</div>';
         
-        // Badge inferior
         html += `
             <div class="position-absolute bottom-0 start-0 m-4 px-4 py-2 bg-dark bg-opacity-75 rounded-pill border border-secondary">
-                <span class="text-white-50 text-uppercase small me-2">${_t('Showing')}</span>
                 <span class="fw-bold text-warning">${items.length}</span>
                 <span class="text-white-50 small"> ${_t('of')} ${groupName}</span>
             </div>
@@ -227,8 +226,7 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         
         this.$('#group-indicators').html(`
             <span class="badge bg-primary fs-6 me-2">${current} / ${total}</span>
-            <span class="text-white-50 text-uppercase small me-2">Type:</span>
-            <span class="badge bg-info text-dark fs-6 text-uppercase fw-bold">${typeLabel}</span>
+            <span class="badge bg-info text-dark ms-2 fs-6 text-uppercase fw-bold">${typeLabel}</span>
             <span class="mx-2 text-white-50">|</span>
             <span class="text-white fw-bold" style="font-size: 1.2rem; text-transform: uppercase;">${group.name}</span>
         `);

@@ -5,7 +5,7 @@
             <t t-set="no_header" t-value="True"/>
             <t t-set="no_footer" t-value="True"/>
             
-            <div class="tv-catalog-container bg-black text-white position-relative" 
+            <div class="tv-catalog-container bg-black text-white position-relative h-100" 
                  t-att-data-config="config"
                  style="height: 100vh; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif;">
                 
@@ -19,21 +19,19 @@
                         </h1>
                         
                         <div id="group-indicators" class="d-flex align-items-center">
-                            <span class="badge bg-secondary fs-6">Loading...</span>
+                            <span class="badge bg-primary fs-6">Loading...</span>
                         </div>
                     </div>
                     
                     <div id="tv-clock" class="fs-2 fw-bold font-monospace text-warning">
-                        00:00
+                        00:00:00
                     </div>
                 </div>
 
                 <div class="swiper tv-swiper" style="height: calc(100vh - 60px); margin-top: 60px;">
-                    <div class="swiper-wrapper">
-                        <div class="swiper-slide d-flex align-items-center justify-content-center">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
+                    <div class="swiper-wrapper h-100">
+                        <div class="swiper-slide d-flex align-items-center justify-content-center h-100">
+                            <div class="spinner-border text-primary" role="status"/>
                         </div>
                     </div>
                     
