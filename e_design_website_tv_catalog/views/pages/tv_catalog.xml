@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="TVCatalog" name="TV Catalog">
+        <t t-call="web.frontend_layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+            <div id="tv-catalog" class="tv-catalog-wrapper"
+                 t-att-data-groups="tv_groups"
+                 t-att-data-config="config">
+                
+                <div class="container-fluid">
+                    <div class="tv-header">
+                        <h1 class="tv-title"><t t-esc="title"/></h1>
+                        <div class="tv-clock" id="tv-clock">--:--</div>
+                    </div>
+
+                    <div class="mt-5 pt-5 tv-groups-container" id="tv-groups-container">
+                    </div>
+
+                    <div id="tv-group-template" class="tv-group-template d-none">
+                        <div class="tv-group">
+                            <div class="tv-group-header">
+                                <h2 class="tv-group-title">GRUPO</h2>
+                                <span class="tv-group-count">0 items</span>
+                            </div>
+                            <div class="tv-swiper-container">
+                                <div class="swiper tv-swiper">
+                                    <div class="swiper-wrapper">
+                                      
+                                    </div>
+                                    <div class="swiper-pagination"></div>
+                                    <div class="swiper-button-prev"></div>
+                                    <div class="swiper-button-next"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Template para items -->
+                    <div id="tv-item-template" class="d-none">
+                        <div class="tv-item swiper-slide">
+                            <div class="tv-item-inner">
+                                <div class="tv-item-image">
+                                    <img src="/web/image/product.edesign/__ID__/image" 
+                                         alt="__NAME__" 
+                                         class="img-fluid"
+                                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"/>
+                                    <div class="tv-item-placeholder" style="display: none;">
+                                        <i class="fa fa-image"></i>
+                                        <span>Sin imagen</span>
+                                    </div>
+                                </div>
+                                <div class="tv-item-info">
+                                    <h3 class="tv-item-name">__NAME__</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
