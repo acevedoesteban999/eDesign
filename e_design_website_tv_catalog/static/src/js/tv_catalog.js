@@ -18,19 +18,14 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
     async start() {
         this._super(...arguments);
         this.maxItemsPerSlide = 6;
-        this.groupsCache = []; 
+        this.groupsCache = [];
         this.isLoading = false;
-        this.refreshInterval = null;
-        
         
         const rawConfig = this.$el.attr('data-config');
         this.config = rawConfig ? JSON.parse(rawConfig) : { autoplay: 3000 };
         
         this._startClock();
-        
-        
         await this._fetchFreshData(true);
-        
         this._startAutoRefresh();
     },
 
@@ -67,14 +62,12 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
                     index: index,
                     name: group.name,
                     type: group.type,
-                    allItems: group.items || [] 
+                    allItems: group.items || []
                 }));
                 
                 if (isInitial) {
-                    
                     this._buildDOMFromCache();
                     this._initSwiper();
-                    this._renderCurrentSlide(); 
                 } else {
                     const currentIdx = this.swiper ? this.swiper.realIndex : 0;
                     if (this.swiper) {
@@ -84,24 +77,12 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
                     this._buildDOMFromCache();
                     this._initSwiper();
                     if (currentIdx < this.groupsCache.length) {
-                        this.swiper.slideTo(currentIdx + 1, 0); 
+                        this.swiper.slideTo(currentIdx + 1, 0);
                     }
                 }
-            } else {
-                console.warn('TV Catalog: No groups returned from server');
             }
         } catch (error) {
             console.error('TV Catalog: Failed to fetch data', error);
-            if (isInitial) {
-                this.$('.swiper-wrapper').html(`
-                    <div class="swiper-slide d-flex align-items-center justify-content-center">
-                        <div class="text-center text-white">
-                            <h3>Error loading catalog</h3>
-                            <p>Please check your connection</p>
-                        </div>
-                    </div>
-                `);
-            }
         } finally {
             this.isLoading = false;
         }
@@ -112,15 +93,14 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         $wrapper.empty();
         
         this.groupsCache.forEach(group => {
-            const slideHtml = `
+            $wrapper.append(`
                 <div class="swiper-slide p-4" 
                      data-index="${group.index}"
                      data-group-name="${group.name}"
                      data-group-type="${group.type}">
                     <div class="tv-dynamic-grid h-100 d-flex flex-column justify-content-center"></div>
                 </div>
-            `;
-            $wrapper.append(slideHtml);
+            `);
         });
     },
 
@@ -128,7 +108,6 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         const labels = {
             'category': _t('Category'),
             'product': _t('Product'),
-            'subcategory': _t('Subcategory'),
             'design': _t('Design'),
             'designs': _t('Designs')
         };
@@ -155,7 +134,6 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
 
     _getRandomItems(items, max) {
         if (!items || items.length === 0) return [];
-
         const shuffled = [...items].sort(() => 0.5 - Math.random());
         return shuffled.slice(0, Math.min(max, shuffled.length));
     },
@@ -184,6 +162,7 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         let itemIndex = 0;
 
         rows.forEach((countInRow) => {
+            // Todos los items son del mismo tipo ahora (design), distribución uniforme
             const colSize = Math.floor(12 / countInRow);
             
             html += `<div class="row g-3 flex-grow-1" style="min-height: 0;">`;
@@ -192,13 +171,9 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
                 if (itemIndex >= items.length) break;
                 
                 const item = items[itemIndex++];
-                const isSubcategory = item.type === 'subcategory';
-                
-                const colClass = (isSubcategory && countInRow <= 2) ? `col-${colSize + 2}` : `col-${colSize}`;
-                
                 html += `
-                    <div class="${colClass} h-100">
-                        ${this._renderItem(item, isSubcategory)}
+                    <div class="col-${colSize} h-100">
+                        ${this._renderItem(item)}
                     </div>
                 `;
             }
@@ -208,6 +183,7 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
 
         html += '</div>';
         
+        // Badge inferior
         html += `
             <div class="position-absolute bottom-0 start-0 m-4 px-4 py-2 bg-dark bg-opacity-75 rounded-pill border border-secondary">
                 <span class="text-white-50 text-uppercase small me-2">${_t('Showing')}</span>
@@ -219,53 +195,27 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         return html;
     },
 
-    _renderItem(item, isSubcategory) {
-        const baseUrl = isSubcategory ? 
-            `/web/image/product.edesign.category/${item.id}/image` : 
-            `/web/image/product.edesign/${item.id}/image`;
+    _renderItem(item) {
+        const baseUrl = `/web/image/product.edesign/${item.id}/image`;
+        const placeholder = '🎨';
         
-        const placeholder = isSubcategory ? '📁' : '🎨';
-        
-        if (isSubcategory) {
-            return `
-                <div class="card h-100 border-0 shadow-lg position-relative overflow-hidden bg-dark">
-                    <div class="position-absolute top-0 start-0 w-100 p-3" 
-                         style="background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%); z-index: 10;">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <h3 class="fw-bold text-white mb-0 text-truncate" style="font-size: 1.4rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
-                                ${item.name}
-                            </h3>
-                            <span class="badge bg-warning text-dark fs-6 fw-bold rounded-pill">
-                                ${item.total_designs || 0}
-                            </span>
-                        </div>
-                        <small class="text-warning text-uppercase fw-bold">${_t('Category')}</small>
-                    </div>
-                    
-                    <div class="h-100 w-100 bg-secondary position-relative">
-                        ${item.image ? 
-                            `<img src="${baseUrl}" class="w-100 h-100" style="object-fit: cover;" loading="lazy" alt="${item.name}"/>` :
-                            `<div class="w-100 h-100 d-flex align-items-center justify-content-center display-1">${placeholder}</div>`
-                        }
+        return `
+            <div class="card h-100 border-0 shadow position-relative overflow-hidden bg-dark">
+                <div class="h-100 w-100 bg-secondary position-relative">
+                    ${item.image ? 
+                        `<img src="${baseUrl}" class="w-100 h-100" style="object-fit: cover;" loading="lazy" alt="${item.name}"/>` :
+                        `<div class="w-100 h-100 d-flex align-items-center justify-content-center display-4">${placeholder}</div>`
+                    }
+                    <!-- Nombre dentro de la imagen, abajo con gradiente -->
+                    <div class="position-absolute bottom-0 start-0 end-0 p-3 background-linear">
+                        <h4 class="fw-bold text-white text-center mb-0 text-truncate w-100" 
+                            style="font-size: 1.2rem; text-shadow: 0 2px 4px rgba(0,0,0,0.8);">
+                            ${item.name}
+                        </h4>
                     </div>
                 </div>
-            `;
-        } else {
-            return `
-                <div class="card h-100 border-0 shadow position-relative overflow-hidden bg-dark">
-                    <div class="h-75 w-100 bg-secondary position-relative">
-                        ${item.image ? 
-                            `<img src="${baseUrl}" class="w-100 h-100" style="object-fit: cover;" loading="lazy" alt="${item.name}"/>` :
-                            `<div class="w-100 h-100 d-flex align-items-center justify-content-center display-4">${placeholder}</div>`
-                        }
-                    </div>
-                    <div class="h-25 bg-dark p-3 d-flex align-items-center justify-content-center border-top border-secondary">
-                        <h4 class="fw-semibold text-white text-center mb-0 text-truncate w-100" 
-                            style="font-size: 1.1rem;">${item.name}</h4>
-                    </div>
-                </div>
-            `;
-        }
+            </div>
+        `;
     },
 
     _updateHeader(group) {
@@ -277,6 +227,7 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         
         this.$('#group-indicators').html(`
             <span class="badge bg-primary fs-6 me-2">${current} / ${total}</span>
+            <span class="text-white-50 text-uppercase small me-2">Type:</span>
             <span class="badge bg-info text-dark fs-6 text-uppercase fw-bold">${typeLabel}</span>
             <span class="mx-2 text-white-50">|</span>
             <span class="text-white fw-bold" style="font-size: 1.2rem; text-transform: uppercase;">${group.name}</span>
@@ -286,42 +237,45 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
     _initSwiper() {
         const self = this;
         const $progress = this.$('.autoplay-progress');
-        const delay = this.config.autoplay || 3000;
+        const delay = parseInt(this.config.autoplay) || 3000;
+        const isSingleSlide = this.groupsCache.length <= 1;
         
         this.swiper = new Swiper('.tv-swiper', {
             direction: 'horizontal',
-            loop: true,
+            loop: !isSingleSlide, 
             speed: 1000,
-            
             autoplay: {
                 delay: delay,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: false,
             },
-            
             effect: 'fade',
-            fadeEffect: { 
-                crossFade: true 
-            },
-            
+            fadeEffect: { crossFade: true },
             allowTouchMove: false,
-            grabCursor: false,
             keyboard: false,
-            mousewheel: false,
-            simulateTouch: false,
             
             on: {
+                afterInit: function() {
+                    if (isSingleSlide && $progress.length) {
+                        const animateBar = () => {
+                            $progress.css({transition: 'none', width: '0%'});
+                            void $progress[0].offsetWidth; 
+                            $progress.css({transition: `width ${delay}ms linear`, width: '100%'});
+                            self._renderCurrentSlide();
+                        };
+                        animateBar();
+                        setInterval(animateBar, delay);
+                    }
+                },
                 autoplayTimeLeft(swiper, time, progress) {
-                    if ($progress.length) {
+                    if (!isSingleSlide && $progress.length && progress >= 0 && progress <= 1) {
                         $progress.css('width', `${(1 - progress) * 100}%`);
                     }
                 },
                 slideChange() {
-
-                    if ($progress.length) {
+                    if (!isSingleSlide && $progress.length) {
                         $progress.css('width', '0%');
                     }
-
                     setTimeout(() => self._renderCurrentSlide(), 50);
                 }
             }
@@ -333,6 +287,10 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
     },
 
     destroy() {
+        if (this.singleSlideInterval) {
+            clearInterval(this.singleSlideInterval);
+        }
+
         if (this.swiper) {
             this.swiper.destroy(true, true);
             this.swiper = null;

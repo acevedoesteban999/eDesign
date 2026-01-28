@@ -28,58 +28,43 @@ class TvCatalog(http.Controller):
         ])
 
         for category in parent_categories:
-            items = []
-            total_count = 0
+            all_designs = []
             
             direct_designs = Design.search([
                 ('category_id', '=', category.id),
                 ('is_published', '=', True),
             ])
-            
             for design in direct_designs:
-                items.append({
+                all_designs.append({
                     'type': 'design',
                     'id': design.id,
                     'name': design.name,
                     'image': bool(design.image),
                 })
-            total_count += len(direct_designs)
             
             subcategories = Category.search([
                 ('parent_id', '=', category.id),
                 ('is_published', '=', True),
             ])
-            
             for subcat in subcategories:
                 sub_designs = Design.search([
                     ('category_id', '=', subcat.id),
                     ('is_published', '=', True),
                 ])
-                
-                subitems = [{
-                    'type': 'design',
-                    'id': d.id,
-                    'name': d.name,
-                    'image': bool(d.image),
-                } for d in sub_designs]
-                
-                if sub_designs or subcat.image:
-                    items.append({
-                        'type': 'subcategory',
-                        'id': subcat.id,
-                        'name': subcat.name,
-                        'image': bool(subcat.image),
-                        'total_designs': len(sub_designs),
-                        'items': subitems,
+                for design in sub_designs:
+                    all_designs.append({
+                        'type': 'design',
+                        'id': design.id,
+                        'name': design.name,
+                        'image': bool(design.image),
                     })
-                    total_count += len(sub_designs)
             
-            if items:
+            if all_designs:
                 groups.append({
                     'type': 'category',
                     'name': category.name,
-                    'total': total_count,
-                    'items': items,
+                    'total': len(all_designs),
+                    'items': all_designs,
                 })
 
         products = Product.search([
