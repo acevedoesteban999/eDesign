@@ -1,4 +1,4 @@
-# ePosMrpDesign
+# eDesignMrp
 #### MRP & Design Integration
 This module ensures link or automaic select deigns in manufacturing orders, giving production teams visual references.
 

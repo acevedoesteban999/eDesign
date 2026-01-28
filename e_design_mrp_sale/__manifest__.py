@@ -2,7 +2,7 @@
 {
     'name': 'eDesignMrpSale',
     'version': '18.0.1.0.0',
-    'summary': """Integration MRP with eDesign""",
+    'summary': """Integration SALE-MRP with eDesign""",
     'description':"""
                     It allows you to view the designs of the product 
                     to be manufactured in the manufacturing orders.

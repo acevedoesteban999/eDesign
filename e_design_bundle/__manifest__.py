@@ -6,7 +6,18 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons',
     'category': '',
-    'depends': ['base','e_design','e_pos_mrp','e_design_pos_mrp','e_design_website','e_design_sale','e_design_account' ],
+    'depends': [
+        'e_design',
+        'e_pos_mrp',
+        'e_design_mrp_pos',
+        'e_design_mrp_sale',
+        'e_design_pos',
+        
+        'e_design_website',
+        'e_design_website_tv_catalog',
+        'e_design_sale',
+        'e_design_account' ,
+    ],
     'images': [
         'static/description/banner.png',
     ],
