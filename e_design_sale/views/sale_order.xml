@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     
-    <record id="e_design_view_sale_order_form" model="ir.ui.view">
+    <record id="e_design_sale_view_sale_order_form" model="ir.ui.view">
         <field name="name">view.sale.order.form</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='order_lines']//list//field[@name='product_no_variant_attribute_value_ids']" position="after">
-                <field name="design_id" column_invisible="not parent.has_design" context="{'edit':False,'action_target':'new'}"/>
+                <field name="is_designable_product" column_invisible="1" />
+                <field name="parent_design_ids" column_invisible="1" />
+                <field name="design_id" 
+                    column_invisible="not parent.has_design" 
+                    readonly="state != 'draft'" 
+                    context="{
+                        'action_target':'new',
+                        'edit': False,
+                        'create': False,
+                      }"
+                    domain="[('id','in',parent_design_ids)]"
+                />
             </xpath>
         </field>
     </record>

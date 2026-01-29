@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_product_design_category_list" model="ir.ui.view">
+        <field name="name">view.product.edesign.category.list</field>
+        <field name="model">product.edesign.category</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="parent_id"></field>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_product_design_category_form" model="ir.ui.view">
+        <field name="name">view.product.edesign.category.form</field>
+        <field name="model">product.edesign.category</field>
+        <field name="arch" type="xml">
+            <form string="Product Design Category">
+                <sheet>
+                    <field
+                        name="image"
+                        widget="image"
+                        class="oe_avatar"
+                        options="{'convert_to_webp': True, 'preview_image': 'image'}"
+                    />
+                    <div class="oe_title">
+                        <label for="name" string="Name"/>
+                        <h1>
+                            <div class="d-flex">
+                                <field class="text-break" name="name" options="{'line_breaks': False}" widget="text" placeholder="Design Name..."/>
+                            </div>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="parent_id" domain="[('parent_id','=',False)]" readonly="subcategories_ids"></field>
+                        <field name="subcategories_ids" widget="many2many_tags" invisible="parent_id"></field>
+                        <field name="design_ids" widget="many2many_tags" invisible="not design_ids"></field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_product_design_category" model="ir.actions.act_window">
+        <field name="name">Product Design Category</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.edesign.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                There is no examples click here to add new Product Design Category.
+            </p>
+        </field>
+    </record>
+
+</odoo>

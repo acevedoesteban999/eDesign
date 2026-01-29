@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="e_design.eDesignProductTemplate">
+        <t t-if="this.props.record.resId">
+            <div class="row align-items-center">
+                <div t-if="!props.readonly" class="col-auto">
+                    <button class="m-2 btn btn-secondary" t-on-click="createDesign">
+                        Create Design
+                    </button>
+                    <button class="m-2 btn btn-secondary" t-on-click="linkDesign">
+                        Attach Design
+                    </button>
+                </div>
+                <div class="col" t-if="this.state.designs.length">
+                    <input type="text" class="form-control form-control-sm" placeholder="Search design..." t-model="state.search"/>
+                </div>
+            </div>
+
+            <div class="row g-3 design-style bg-design mt-2" t-if="this.state.designs.length">
+                <t t-foreach="filteredDesigns" t-as="design" t-key="design.id">
+                    <div class="col-6 col-sm-4 col-md-3 col-xl-2">
+                        <div t-on-click="() => this.openDesign(design.id)" class="card card-widget h-100 d-flex flex-column">
+                            <button class="btn btn-sm btn-outline-danger position-absolute top-0 end-0 m-2 z-1 outline-button"
+                                    t-on-click.stop="() => this.unlinkDesign(design)">
+                                <i class="fa fa-trash"/>
+                            </button>
+                            <img class="card-img-top img-fluid" t-attf-src="/web/image/product.edesign/{{design.id}}/image"/>
+                            <div class="card-body p-2 mt-auto">
+                                <div t-if="design.category_id" class="text-muted fst-italic h6" t-esc="design.category_id[1]"/>
+                                <h5 class="card-title mb-1">
+                                    <t t-if="design.default_code">
+                                        [<t t-esc="design.default_code"/>]
+                                    </t>
+                                    <t t-esc="design.name"/>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+            <small t-else="" class="text-muted fst-italic p-2">
+                This product dont have any design yet
+            </small>
+        </t>
+        <t t-else="">
+            <small class="text-muted fst-italic p-2">
+                This section needs a model first.
+            </small>
+        </t>
+    </t>
+</templates>

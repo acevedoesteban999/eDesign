@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eDesign',
-    'version': '18.0.2.2',
+    'version': '18.0.3.0.0',
     'summary': "Add Design to Products",
     'description':"""
                     It allows you to add designs to products, 
@@ -16,15 +16,13 @@
     'depends': [
         'base', 
         'product',
-        'stock',
     ],
     "data": [
         "security/e_design.xml",
         
-        "data/data.xml",
         "security/ir.model.access.csv",
-        "views/product_design_category.xml",
-        "views/product_design.xml",
+        "views/product_edesign_category.xml",
+        "views/product_edesign.xml",
         "views/product_template.xml",
         
         "widget/product_design_attach_widget.xml",
@@ -34,7 +32,7 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "e_design/static/src/components/**/**/*",
+            "e_design/static/src/components/**/*",
         ],
     },
     'application': True,

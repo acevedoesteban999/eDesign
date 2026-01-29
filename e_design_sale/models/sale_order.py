@@ -6,8 +6,9 @@ class SaleOrder(models.Model):
 
     has_design = fields.Boolean(compute='_compute_has_design')
     
-    
     @api.depends('order_line')
     def _compute_has_design(self):
         for rec in self:
             rec.has_design = any(rec.order_line.mapped('design_id'))
+            
+            

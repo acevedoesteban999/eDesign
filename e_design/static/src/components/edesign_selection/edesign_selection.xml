@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+    <t t-name="e_design.EDesignSelection">
+      <t t-if="this.props.designs?.length">
+        <label for="design_select" class="form-label">Select Design:</label>
+            <select id="design_select" 
+                class="form-select"
+                t-on-change="(ev) => this.onChangeDesign(ev.target.value)">
+            <option  value="Without Design" t-att-selected="!this.state.design"></option>
+            <option t-foreach="this.props.designs"
+                    t-as="design"
+                    t-key="design.id"
+                    t-att-value="design.id"
+                    t-esc="design.display_name"
+                    t-att-selected="this.state.design?.id == design.id"/>
+        </select>
+        <div t-if="this.state.design?.image" class="text-center mt-3">
+            <img t-attf-src="data:image/png;base64,{{this.state.design.image}}" 
+                class="img-fluid rounded shadow-sm" 
+                style="max-height: 250px; max-width: 100%;"
+                alt="Design preview"/>
+        </div>
+      </t>
+    </t>
+</templates>

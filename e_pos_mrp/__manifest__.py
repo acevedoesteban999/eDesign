@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'ePosMrp',
-    'version': '18.0.1.0',
+    'version': '18.0.1.0.0',
     'summary': "Integration POS with MRP",
     'description':"It allows you to create manufacturing orders for Point of Sale",
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_pos_mrp',
     'category': 'Customizations',
-    'depends': ['base' , 'point_of_sale', 'mrp'],
+    'depends': ['base' , 'pos_mrp'],
     'data': [
         "views/pos_order.xml",
         "views/product_template.xml",

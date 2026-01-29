@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data>
+
+
+    <template id="e_design_website.DesignsHome" >
+      <t t-call="website.layout">
+          <div class="container py-5 my-5">
+            <div class="row g-4 public-design-style justify-content-center">
+                
+                <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-4">
+                  <a href="/edesigns" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
+                      <div class="card-body text-center py-5 bg-light">
+                        <i class="fa fa-paint-brush fa-5x text-success mb-4"></i>
+                        <h3 class="card-title font-weight-bold text-dark">Designs</h3>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                
+                <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-4 ">
+                  <a href="/edesigns/categories" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
+                      <div class="card-body text-center py-5 bg-light">
+                        <i class="fa fa-folder-open fa-5x text-secondary mb-4"></i>
+                        <h3 class="card-title font-weight-bold text-dark">Categories</h3>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4 col-xl-3 mb-4 ">
+                  <a href="/edesigns/products" class="text-decoration-none">
+                    <div class="card h-100 border-0 shadow-sm hover-shadow-lg transition-300">
+                      <div class="card-body text-center py-5 bg-light">
+                        <i class="fa fa-cube fa-5x text-primary mb-4"></i>
+                        <h3 class="card-title font-weight-bold text-dark">Products</h3>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+            </div>
+
+            <div class="row">
+            </div>
+
+            <div class="row">
+            </div>
+        </div>
+      </t>
+    </template>
+
+    
+  </data>
+</odoo>

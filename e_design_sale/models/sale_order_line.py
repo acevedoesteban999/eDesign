@@ -4,9 +4,9 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     _description = 'SaleOrderLine'
 
-    design_id = fields.Many2one('product.design',"Design",compute='_compute_design_id')
+    design_id = fields.Many2one('product.edesign',"Design")
+    is_designable_product = fields.Boolean(related='product_template_id.design_ok')
+    parent_design_ids = fields.Many2many(related='product_template_id.design_ids')
     
-    def _compute_design_id(self):
-        for rec in self:
-            design = rec.product_no_variant_attribute_value_ids.filtered_domain([('attribute_id.design_ok','=',True)])
-            rec.design_id = design and design[0].product_attribute_value_id.product_design_id.id or False
+    def write(self,vals):
+        return super().write(vals)

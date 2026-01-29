@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <odoo>
+      
+    <record id="e_design_pos_mrp_form_inherit" model="ir.ui.view">
+        <field name="name">view.mrp.production.form</field>
+        <field name="model">mrp.production</field>
+        <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='product_description_variants']" position="before" >
+              <field name="has_design_id" invisible="1"/>
+              <field name="product_tmpl_designs_ids" invisible="1" />
+              <field name="design_id" 
+                      invisible="not has_design_id"
+                      readonly="state != 'draft'"
+                      context="{
+                        'action_target':'new',
+                        'edit': False,
+                        'create': False,
+                      }"
+                      domain="[('id','in',product_tmpl_designs_ids)]"
+                      >
+              </field>
+            </xpath>
+        </field>
+    </record>
+
+  </odoo>

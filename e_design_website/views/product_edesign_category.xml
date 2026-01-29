@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_website_design_category_form" model="ir.ui.view">
+        <field name="name">view.product.edesign.category.form</field>
+        <field name="model">product.edesign.category</field>
+        <field name="inherit_id" ref="e_design.view_product_design_category_form"></field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="is_published"></field>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -3,16 +3,15 @@
     eDesign
 </h1>
 
-This module enables you to create design variants without generating traditional style variants. These designs can be linked from:
+This module enables you to create and link design to products
 
-**From the product itself (page' notbook or smart button):**
+**Product Template**
 ![IMAGE](static/description/assets/screenshots/1.png)
 
-**Or directly from the module:**
+**Own Module**
 ![IMAGE](static/description/assets/screenshots/2.png)
 
-These designs are selectable from Sales, POS, and other Odoo modules as they function as native Odoo variants.
-![IMAGE](static/description/assets/screenshots/1-1.png)
+
 ### Features
 
 - **Design Categories**: Organize designs into customizable categories for better management
