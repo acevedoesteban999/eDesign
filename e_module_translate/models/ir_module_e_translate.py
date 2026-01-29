@@ -74,7 +74,7 @@ class Ir_moduleTranslate(models.Model):
         exported_pot = get_pot_from_export(rec.module_name,rec._cr)
         exported_keys = {entry.msgid:entry.msgid for entry in exported_pot if entry.msgid}
         langs = [l['name'] for l in rec.po_languages if l.get('name')]
-        respone = {
+        datas = {
             'POT': {
                 'readonly': True,
                 'data':exported_keys,
@@ -82,13 +82,19 @@ class Ir_moduleTranslate(models.Model):
         }
         
         for lang in langs:
-            po = get_po_from_file(rec.local_path,lang)
-            po_data = { entry.msgid:entry.msgstr for entry in po if entry.msgid}
-            if po:
-                respone.update({
-                    lang: {
-                        'readonly': False,
-                        'data':po_data,
-                    }
-                })
-        return respone
+            try:
+                po = get_po_from_file(rec.local_path,lang)
+                po_data = { entry.msgid:entry.msgstr for entry in po if entry.msgid}
+                if po:
+                    datas.update({
+                        lang: {
+                            'readonly': False,
+                            'data':po_data,                        
+                        }
+                    })
+            except:
+                pass
+        return {
+            'datas': datas,
+            'lang_installed': [lang[0] for lang in self.env['res.lang'].get_installed() if lang[0] not in langs]
+        }

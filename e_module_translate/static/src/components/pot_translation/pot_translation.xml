@@ -1,32 +1,77 @@
 <templates xml:space="preserve">
     <t t-name="ir_module_e_translate.PotTranslationDialog">
         <div class="container-fluid">
-            <table class="table table-hover table-equal-rows">
-                <thead>
-                    <tr>
-                        <t t-foreach="Object.keys(this.state.datas)" t-as="lang" t-key="lang">
-                            <th t-esc="lang"/>
+            <div class="row mb-3 align-items-center" t-if="state.availableLangs?.length">  
+                <div class="col-auto">
+                    <label class="form-label mb-0 me-2">Add Language:</label>
+                </div>
+                <div class="col-auto">
+                    <select 
+                        class="form-select form-select-sm" 
+                        style="width: 200px;"
+                        t-on-change="addLang">
+                        <option value="">Select...</option>
+                        <t t-foreach="state.availableLangs" t-as="lang" t-key="lang">
+                            <option t-att-value="lang">
+                                <t t-esc="lang"/>
+                            </option>
                         </t>
-                    </tr>
-                </thead>
-                <tbody>
-                    <t t-set="firstLang" t-value="Object.keys(this.state.datas)[0]"/>
-                    <t t-if="firstLang" t-foreach="Object.keys(this.state.datas[firstLang].data)" t-as="key" t-key="key">
-                        <tr>
-                            <t t-foreach="Object.entries(this.state.datas)" t-as="lang" t-key="lang[0]">
-                                <td>
-                                    <span t-if="lang[1].readonly" class="d-block" style="max-width: 300px;" t-esc="lang[1].data[key]"/>
-                                    <input t-else="" 
-                                        type="text" 
-                                        class="form-control form-control-sm" 
-                                        t-att-value="lang[1].data[key] or ''" 
-                                        />
-                                </td>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped table-sm">
+                        <thead class="table-dark">
+                            <tr>
+                                <t t-foreach="Object.keys(state.datas)" t-as="lang" t-key="lang">
+                                    <th scope="col" class="text-center align-middle">
+                                        <div class="d-flex justify-content-between align-items-center gap-2">
+                                            <span class="flex-grow-1 text-center" t-esc="lang"/>
+                                            <button t-if="!state.datas[lang].readonly and state.datas[lang].from_ui" 
+                                                    class="btn btn-sm btn-outline-danger p-0 px-1 border-0" 
+                                                    t-on-click="() => this.removeLang(lang)"
+                                                    title="Remove language">
+                                                <i class="fa fa-times fa-xs"/>
+                                            </button>
+                                            <span t-else="" class="p-0 px-1 opacity-0">
+                                                <i class="fa fa-times fa-xs"/>
+                                            </span>
+                                        </div>
+                                    </th>
+                                </t>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-set="firstLang" t-value="Object.keys(state.datas)[0]"/>
+                            <t t-if="firstLang" t-foreach="Object.keys(state.datas[firstLang].data)" t-as="key" t-key="key">
+                                <tr>
+                                    <t t-foreach="Object.entries(state.datas)" t-as="lang" t-key="lang[0]">
+                                        <td class="p-1 align-middle">
+                                            <span t-if="lang[1].readonly" 
+                                                  class="d-block text-break" 
+                                                  style="min-width: 150px; max-width: 300px;" 
+                                                  t-esc="lang[1].data[key]"/>
+                                            <input t-else="" 
+                                                type="text" 
+                                                class="form-control form-control-sm" 
+                                                t-att-value="lang[1].data[key] or ''" 
+                                                t-att-placeholder="key"
+                                            />
+                                        </td>
+                                    </t>
+                                </tr>
                             </t>
-                        </tr>
-                    </t>
-                </tbody>
-            </table>
+                            <tr t-if="!firstLang">
+                                <td t-att-colspan="Object.keys(state.datas).length || 1" class="text-center text-muted py-4">
+                                    No data available
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </t>
 </templates>
