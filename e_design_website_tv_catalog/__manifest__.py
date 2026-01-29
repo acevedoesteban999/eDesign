@@ -23,8 +23,11 @@
     'images': [
         'static/description/banner.png',
     ],
+    
+    'post_init_hook': '_install_tv_catalog_menu_and_page',
+    'uninstall_hook': '_uninstall_tv_catalog_menu_and_page',
     'application': False,
     'installable': True,
-    'auto_install': True,
+    'auto_install': False,
     'license': 'LGPL-3',
 }
