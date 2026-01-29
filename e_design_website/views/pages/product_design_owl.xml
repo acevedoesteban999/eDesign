@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data>
+
+    <template id="e_design_website.EProductDesignOwlComponent">
+      <t t-call="website.layout">
+          <div class="container py-3">
+            <t t-call="e_design_website.breadcrumbComponent"/>
+            <t t-call="e_design_website.loaderComponent"/>
+              <owl-component 
+                name="e_design_website.EProductDesign"
+                t-att-props='controller_context'
+            />
+          </div>
+      </t>
+    </template>
+    
+  </data>
+</odoo>

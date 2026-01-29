@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  <data>
+
+    
+    <template id="e_design_website.DesignsDesign">
+      <t t-call="e_design_website.designLayout">
+        <div class="container py-4">
+            <t t-call="e_design_website.breadcrumbComponent"/>
+            <div class="row g-4 designs-design ">
+              <div class="col-12 col-md-8">
+                <div class="row design-gallery">
+                  <a href="#" data-fancybox="gallery" t-attf-data-src="/web/image/product.edesign/#{design.id}/image" 
+                    class="d-block mb-3">
+                    <img t-attf-src="/web/image/product.edesign/#{design.id}/image" t-att-alt="design.name" 
+                        class="img-fluid rounded-3 shadow-lg w-100" 
+                        style="max-height: 400px; object-fit: contain;"/>
+                  </a>
+                </div>
+                
+              </div>
+              
+              <div class="col-12 col-md-4">
+                  <div class="row">
+                    <div class="design-header text-center mb-4">
+                        <div class="badge bg-dark text-uppercase fs-6 px-3 py-2 h2" 
+                              t-out="design.name"/>
+                        <div class="display-5 fw-bold mt-3 mb-0 h5" 
+                            t-if="design.default_code" t-out="design.default_code"/>
+                      </div>
+                  </div>
+                  
+              </div>
+                
+            </div>
+            <div class="row justify-content-center thumbnails-grid" >
+              <t t-if="design.attachment_ids">
+                <t t-foreach="design.attachment_ids" t-as="img">
+                  <a href="#" data-fancybox="gallery" t-attf-data-src="/web/content/#{img.id}"
+                    class="col-4 col-sm-3 col-md d-inline-block p-2">
+                    <img t-attf-src="/web/content/#{img.id}" 
+                        class="rounded-2 border w-100" 
+                        style="aspect-ratio: 1; object-fit: cover;"/>
+                  </a>
+                </t>
+              </t>
+              
+            </div>
+            
+        </div>
+        
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            Fancybox.bind('[data-fancybox="gallery"]', {
+              Toolbar: {
+                display: [
+                  { id: "counter", position: "center" },
+                  "zoom",
+                  "fullscreen",
+                  "close",
+                ],
+              },
+            });
+          });
+        </script>
+      </t>
+    </template>
+    
+  </data>
+</odoo>

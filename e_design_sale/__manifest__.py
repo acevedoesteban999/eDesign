@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eSaleDesign',
-    'version': '18.0.0.1',
+    'version': '18.0.3.0.0',
     'summary': """ Add design to sale's lines """,
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_sale',
@@ -10,6 +10,11 @@
     "data": [
         "views/sale_order.xml"
     ],
+    "assets": {
+        "web.assets_backend": [
+            "e_design_sale/static/src/components/**/*",
+        ],
+    },
     'images': [
         'static/description/banner.png',
     ],

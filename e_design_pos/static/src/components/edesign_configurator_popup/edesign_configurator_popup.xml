@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    
+    <t t-name="e_design_pos.EDesignConfiguratorPopup">
+        <Dialog title.translate="Design">
+            <h2 class="mb-2" t-esc="this.props.product.raw.name" />
+            <EDesignSelection
+                designs="this.designs"
+                design_id="false"
+                update="(design) => this.design = design"
+            />
+            <t t-set-slot="footer">
+                <button 
+                    class="btn btn-primary btn-lg lh-lg o-default-button"
+                    t-on-click="confirm">
+                    Add
+                </button>
+                <button class="btn btn-secondary btn-lg lh-lg o-default-button" t-on-click="close">Discard</button>
+            </t>
+        </Dialog>
+    </t>
+
+    
+</templates>

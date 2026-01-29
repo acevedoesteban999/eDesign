@@ -30,7 +30,7 @@
                                         <button type="button" 
                                                 class="list-group-item list-group-item-action"
                                                 t-on-click="() => this.selectOption(record)">
-                                            <t t-esc="record.name"/>
+                                            <t t-esc="record.display_name ?? record.name"/>
                                         </button>
                                     </t>
                                 </div>

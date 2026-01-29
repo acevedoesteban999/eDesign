@@ -1,0 +1,23 @@
+.tv-catalog-container {
+    .background-linear {
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    }
+    
+    .card {
+        transition: transform 0.3s ease;
+        &:hover {
+            transform: scale(1.02);
+        }
+    }
+    
+    h4 {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .spinner-border {
+        width: 3rem;
+        height: 3rem;
+        border-width: 0.5em;
+    }
+}

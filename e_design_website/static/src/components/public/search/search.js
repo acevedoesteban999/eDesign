@@ -1,7 +1,6 @@
 /** @odoo-module **/
 
 import { Component, type, useRef, useState } from "@odoo/owl";
-import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
 
 export class SearchComponent extends Component {
@@ -85,10 +84,8 @@ export class SearchComponent extends Component {
 
     selectOption(record) {
         this.props.onSelect(record);
-        this.state.searchQuery = record.name;
+        this.state.searchQuery = record.display_name;
         this.state.showDropdown = false;
         
     }
 }
-
-registry.category("public_components").add("e_design_website.SearchComponent", SearchComponent);

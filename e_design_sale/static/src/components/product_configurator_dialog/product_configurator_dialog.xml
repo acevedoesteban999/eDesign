@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t  t-name="e_design_sale.ProductConfiguratorDialog" t-inherit="sale.ProductConfiguratorDialog" t-inherit-mode="extension">
+        <xpath expr="//t[@t-set-slot='footer']" position="before">
+            <t t-if="this.has_design and this.designs">
+                <EDesignSelection
+                    designs="this.designs"
+                    design_id="this.props.record.data.design_id?.[0] || false"
+                    update="(design) => this.design = design"
+                />
+            </t>
+        </xpath>
+    </t>
+</templates>

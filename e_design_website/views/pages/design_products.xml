@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+
+    <template id="e_design_website.DesignsProducts">
+      <t t-call="website.layout">
+        <div class="container py-5">
+          <t t-call="e_design_website.breadcrumbComponent"/>
+          
+          <div id="searchable-list" data-empty-message="No products found"  class="public-design-style">
+            
+            <div class="row my-2 mb-4 justify-content-end">
+              <div class="col-12 col-sm-6 col-md-4 pe-0">
+                <div class="search-component">
+                    <div class="dropdown-search">
+                        <div class="row px-2">
+                            <div class="col px-0">
+                                <input type="text" 
+                                    id="searchable-input"
+                                    class="form-control" 
+                                    placeholder="Search"
+                                    />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="list row g-4 justify-content-center align-items-center">
+              <t t-foreach="products" t-as="product">
+                <div class="col-12 col-sm-6 col-md-5 col-xl-3 my-4" data-search-container="true">
+                  <a style="text-decoration: none;" t-attf-href="/edesigns/products/{{product.id}}">
+                      <div class="card h-100">
+                          <img t-if="product.image_1920"
+                              t-attf-src="/web/image/product.template/#{product.id}/image_1920"
+                              class="card-img-top"
+                              t-att-alt="product.name"/>
+                          <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
+                              <i class="fa fa-image text-muted" style="font-size: 3rem;"></i>
+                          </div>
+                          <div class="card-body d-flex flex-column">
+                              <h5 class="card-title fw-bold text-truncate">
+                                  <span data-search-mark="true" t-if="product.default_code">
+                                    [<t t-esc="product.default_code"/>]
+                                  </span>
+                                  <span data-search-mark="true" t-esc="product.name"/>
+                              </h5>
+                              <div class="card-text flex-grow-1 text-muted">
+                                <t t-esc="product.design_counter"/> Designs
+                              </div>
+                          </div>
+                      </div>
+                  </a>
+                </div>
+              </t>
+            </div>
+            
+          </div>
+        </div>
+      </t>
+    </template>
+
+    
+</odoo>

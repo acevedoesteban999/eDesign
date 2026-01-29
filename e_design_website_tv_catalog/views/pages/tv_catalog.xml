@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="TVCatalog" name="TV Catalog">
+        <t t-call="web.frontend_layout">
+            <t t-set="no_header" t-value="True"/>
+            <t t-set="no_footer" t-value="True"/>
+            
+            <div class="tv-catalog-container bg-black text-white position-relative h-100" 
+                 t-att-data-config="config"
+                 style="height: 100vh; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif;">
+                
+                <div class="position-fixed top-0 start-0 end-0 bg-black px-4 py-2 d-flex justify-content-between align-items-center border-bottom border-secondary" 
+                     style="z-index: 1050; height: 60px; border-color: #333 !important;">
+                    
+                    <div class="d-flex align-items-center gap-3">
+                        <h1 class="fw-bold mb-0 text-white text-uppercase mb-0" 
+                            style="font-size: 1.8rem; letter-spacing: 2px; margin-right: 2rem;">
+                            <t t-esc="title"/>
+                        </h1>
+                        
+                        <div id="group-indicators" class="d-flex align-items-center">
+                            <span class="badge bg-primary fs-6">Loading...</span>
+                        </div>
+                    </div>
+                    
+                    <div id="tv-clock" class="fs-2 fw-bold font-monospace text-warning">
+                        00:00:00
+                    </div>
+                </div>
+
+                <div class="swiper tv-swiper" style="height: calc(100vh - 60px); margin-top: 60px;">
+                    <div class="swiper-wrapper h-100">
+                        <div class="swiper-slide d-flex align-items-center justify-content-center h-100">
+                            <div class="spinner-border text-primary" role="status"/>
+                        </div>
+                    </div>
+                    
+                    <div class="autoplay-progress position-fixed bottom-0 start-0 bg-warning" 
+                         style="height: 6px; z-index: 1060; width: 0%; transition: width 0.1s linear;">
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
