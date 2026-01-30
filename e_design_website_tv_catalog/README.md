@@ -1,4 +1,4 @@
-# eWebsiteDesignTvCatalog
+# eDesignWebsiteTvCatalog
 #### Website Design Catalog for TV 
 This module publishes a static page for show a dinamic data from designs
 ----------------

@@ -1,4 +1,4 @@
-# eAccountDesign
+# eDesignAccount
 #### Account Move & Design Integration
 This module ensures design information in account move lines. Share design from sale order line to account move line
 

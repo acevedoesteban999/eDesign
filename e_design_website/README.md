@@ -1,4 +1,4 @@
-# eWebsiteDesign
+# eDesignWebsite
 #### Website Design Catalog 
 This module publishes your design catalog to the public website, enabling customers to browse and search available designs.
 ----------------
