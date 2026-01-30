@@ -1,13 +1,13 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* e_design_pos_mrp
+# 	* e_design_mrp
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-02 21:41+0000\n"
-"PO-Revision-Date: 2025-12-02 21:41+0000\n"
+"POT-Creation-Date: 2026-01-30 06:46+0000\n"
+"PO-Revision-Date: 2026-01-30 06:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,17 +15,22 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: e_design_pos_mrp
-#: model:ir.model.fields,field_description:e_design_pos_mrp.field_mrp_production__design_id
+#. module: e_design_mrp
+#: model:ir.model.fields,field_description:e_design_mrp.field_mrp_production__design_id
 msgid "Design"
 msgstr ""
 
-#. module: e_design_pos_mrp
-#: model:ir.model,name:e_design_pos_mrp.model_mrp_production
-msgid "Manufacturing Order"
+#. module: e_design_mrp
+#: model:ir.model.fields,field_description:e_design_mrp.field_mrp_production__product_tmpl_designs_ids
+msgid "Designs for Product Template"
 msgstr ""
 
-#. module: e_design_pos_mrp
-#: model:ir.model,name:e_design_pos_mrp.model_product_design
-msgid "product.design"
+#. module: e_design_mrp
+#: model:ir.model.fields,field_description:e_design_mrp.field_mrp_production__has_design_id
+msgid "Has Design"
+msgstr ""
+
+#. module: e_design_mrp
+#: model:ir.model,name:e_design_mrp.model_mrp_production
+msgid "Manufacturing Order"
 msgstr ""

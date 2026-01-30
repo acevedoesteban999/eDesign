@@ -1,0 +1,11 @@
+<templates>
+  <t t-name="e_module_translate.EJsonTagsField">
+    <div class="o_field_json_tags o_field_widget d-inline-flex flex-wrap gap-1">
+      <t t-foreach="tags" t-as="tag" t-key="tag.name">
+        <span class="badge rounded-pill o_tag_color_0"
+              t-attf-class="o_tag o_badge badge rounded-pill o_tag_color_{{ colorFor(tag.name) }}"
+              t-esc="tag.name"/>
+      </t>
+    </div>
+  </t>
+</templates>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   <menuitem
+        id="ir_module_e_translation_root"
+        name="eTranslations"
+        parent="base.menu_translation"
+        sequence="50">
+        <menuitem
+            id="ir_module_e_translation"
+            name="Translations"
+            action="action_ir_module_e_translate"
+            sequence="10"/>
+    </menuitem>
+
+</odoo>

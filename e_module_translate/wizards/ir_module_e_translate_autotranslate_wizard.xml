@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!-- model.name form view -->
+    <record id="ir_module_e_translate_autotranslate_wizard_name_view_form" model="ir.ui.view">
+        <field name="name">ir.module.e_translate.autotranslate.wizard.view.form</field>
+        <field name="model">ir.module.e_translate.autotranslate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="languages" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_autotranslate" string="Start Autotranslations" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel" class="oe_link"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

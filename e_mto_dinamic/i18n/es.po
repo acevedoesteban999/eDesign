@@ -6,18 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-19 02:57+0000\n"
-"PO-Revision-Date: 2026-01-18 21:59\n"
-"Last-Translator: PoTranslator <acevedoesteban999@gmail.com>\n"
-"Language-Team: PoTranslator <acevedoesteban999@gmail.com>\n"
+"POT-Creation-Date: 2026-01-30 06:49+0000\n"
+"PO-Revision-Date: 2026-01-30 06:49\n"
+"Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
+"Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language: es\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: PoTranslator\n"
-"X-Poedit-Basepath: .\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: \n"
+"X-Generator: e_module_translate\n"
 
 #. module: e_mto_dinamic
 #: model:ir.model.fields,field_description:e_mto_dinamic.field_product_diamic_mto_line__product_template_variant_count
@@ -209,8 +207,8 @@ msgstr "Reabastecer según pedido (MTO)"
 
 #. module: e_mto_dinamic
 #: model:ir.model,name:e_mto_dinamic.model_sale_order_line
-msgid "Sales Order Line"
-msgstr "Línea de orden de venta"
+msgid "SaleOrderLine"
+msgstr "Línea de pedido de venta"
 
 #. module: e_mto_dinamic
 #. odoo-javascript

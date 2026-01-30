@@ -1,0 +1,10 @@
+
+.table-equal-rows {
+    table-layout: fixed;
+    tbody tr {
+        height: 1px; 
+    }
+    td {
+        height: 100%;
+    }
+}

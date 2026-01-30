@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_ir_module_e_base_list" model="ir.ui.view">
+        <field name="name">ir.module.e_base.list</field>
+        <field name="model">ir.module.e_base</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="module_name"/>
+                <field name="module_status"
+                    widget="badge"
+                    decoration-success="module_status == 'ready'"
+                    decoration-warning="module_status == 'no_installed'"
+                    decoration-danger="module_status == 'dont_found'"
+                ></field>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ir_module_e_base_form" model="ir.ui.view">
+        <field name="name">ir.module.e_base.form</field>
+        <field name="model">ir.module.e_base</field>
+        <field name="arch" type="xml">
+            <form>
+                <header/>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="module_name" placeholder="ex: e_module"/>
+                            <field name="module_status"
+                                widget="badge"
+                                decoration-success="module_status == 'ready'"
+                                decoration-warning="module_status == 'no_installed'"
+                                decoration-danger="module_status == 'dont_found'"
+                            ></field>
+                        </group>
+                        <group>
+                            <field name="module_icon" widget="image_url"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

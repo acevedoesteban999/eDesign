@@ -7,52 +7,50 @@ msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-30 06:47+0000\n"
-"PO-Revision-Date: 2026-01-30 06:47\n"
-"Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
-"Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
-"Language: es\n"
+"PO-Revision-Date: 2026-01-30 06:47+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"X-Generator: e_module_translate\n"
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__message_needaction
 msgid "Action Needed"
-msgstr "Acción necesaria"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__activity_ids
 msgid "Activities"
-msgstr "Actividades"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr "Decoración de excepción de actividad"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__activity_state
 msgid "Activity State"
-msgstr "Estado de actividad"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__activity_type_icon
 msgid "Activity Type Icon"
-msgstr "Icono de tipo de actividad"
+msgstr ""
 
 #. module: e_design_pos
 #. odoo-javascript
 #: code:addons/addons/e_addons/e_design_pos/static/src/components/edesign_configurator_popup/edesign_configurator_popup.xml:0
 #: code:addons/e_design_pos/static/src/components/edesign_configurator_popup/edesign_configurator_popup.xml:0
 msgid "Add"
-msgstr "Agregar"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__message_attachment_count
 msgid "Attachment Count"
-msgstr "Recuento de archivos adjuntos"
+msgstr ""
 
 #. module: e_design_pos
 #. odoo-javascript
@@ -63,155 +61,155 @@ msgstr "Recuento de archivos adjuntos"
 #: model:ir.model.fields,field_description:e_design_pos.field_pos_order_line__design_id
 #: model:ir.model.fields,field_description:e_design_pos.field_product_product__has_design
 msgid "Design"
-msgstr "Diseño"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_product__design_ids
 msgid "Designs for Product Template"
-msgstr "Diseños para plantilla de producto"
+msgstr ""
 
 #. module: e_design_pos
 #. odoo-javascript
 #: code:addons/addons/e_addons/e_design_pos/static/src/components/edesign_configurator_popup/edesign_configurator_popup.xml:0
 #: code:addons/e_design_pos/static/src/components/edesign_configurator_popup/edesign_configurator_popup.xml:0
 msgid "Discard"
-msgstr "Desechar"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__message_follower_ids
 msgid "Followers"
-msgstr "Seguidores"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__message_partner_ids
 msgid "Followers (Partners)"
-msgstr "Seguidores (socios)"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,help:e_design_pos.field_product_edesign__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Icono de fuente impresionante, p. tareas fa"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_pos_order__has_design
 msgid "Has Design"
-msgstr "Tiene diseño"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__has_message
 msgid "Has Message"
-msgstr "Tiene mensaje"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__activity_exception_icon
 msgid "Icon"
-msgstr "Icono"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,help:e_design_pos.field_product_edesign__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr "Icono para indicar una actividad de excepción."
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,help:e_design_pos.field_product_edesign__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr "Si está marcado, los mensajes nuevos requieren su atención."
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,help:e_design_pos.field_product_edesign__message_has_error
 #: model:ir.model.fields,help:e_design_pos.field_product_edesign__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr "Si está marcado, algunos mensajes tienen un error de entrega."
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__message_is_follower
 msgid "Is Follower"
-msgstr "es seguidor"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__message_has_error
 msgid "Message Delivery error"
-msgstr "Error de entrega de mensaje"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__message_ids
 msgid "Messages"
-msgstr "Mensajes"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr "Fecha límite de mi actividad"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr "Fecha límite para la próxima actividad"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__activity_summary
 msgid "Next Activity Summary"
-msgstr "Resumen de la próxima actividad"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__activity_type_id
 msgid "Next Activity Type"
-msgstr "Siguiente tipo de actividad"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__message_needaction_counter
 msgid "Number of Actions"
-msgstr "Número de acciones"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__message_has_error_counter
 msgid "Number of errors"
-msgstr "Número de errores"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,help:e_design_pos.field_product_edesign__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr "Número de mensajes que requieren acción"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,help:e_design_pos.field_product_edesign__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Número de mensajes con error de entrega"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model,name:e_design_pos.model_pos_order_line
 msgid "Point of Sale Order Lines"
-msgstr "Líneas de orden de punto de venta"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model,name:e_design_pos.model_pos_order
 msgid "Point of Sale Orders"
-msgstr "Órdenes de Punto de Venta"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model,name:e_design_pos.model_pos_session
 msgid "Point of Sale Session"
-msgstr "Sesión Punto de Venta"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model,name:e_design_pos.model_product_product
 msgid "Product Variant"
-msgstr "Variante de producto"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__activity_user_id
 msgid "Responsible User"
-msgstr "Usuario responsable"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr "Error de entrega de SMS"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__access_token
 msgid "Security Token"
-msgstr "Ficha de seguridad"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,help:e_design_pos.field_product_edesign__activity_state
@@ -221,27 +219,23 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
-"Estado basado en actividades.\n"
-"Vencido: la fecha de vencimiento ya pasó\n"
-"Hoy: la fecha de la actividad es hoy.\n"
-"Planificado: Actividades futuras."
 
 #. module: e_design_pos
 #: model:ir.model.fields,help:e_design_pos.field_product_edesign__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr "Tipo de actividad de excepción registrada."
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,field_description:e_design_pos.field_product_edesign__website_message_ids
 msgid "Website Messages"
-msgstr "Mensajes del sitio web"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model.fields,help:e_design_pos.field_product_edesign__website_message_ids
 msgid "Website communication history"
-msgstr "Historial de comunicación del sitio web"
+msgstr ""
 
 #. module: e_design_pos
 #: model:ir.model,name:e_design_pos.model_product_edesign
 msgid "product.edesign"
-msgstr "producto.edesign"
+msgstr ""
