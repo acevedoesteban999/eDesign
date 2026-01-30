@@ -1,91 +1,101 @@
 <templates xml:space="preserve">
     <t t-name="ir_module_e_translate.PotTranslationDialog">
-    
-        <div class="container-fluid d-flex flex-column" style="max-height: 80vh;">
-            
-            <div class="row mb-3 align-items-center" t-if="state.availableLangs.length">  
-                <div class="col-auto">
-                    <label class="form-label mb-0 me-2">Add Language:</label>
+        <Dialog title="'Translation Editor'" size="'xl'">
+            <div class="container-fluid d-flex flex-column" style="max-height: 70vh;">
+                
+                <div class="row mb-3 align-items-center" t-if="state.availableLangs.length">  
+                    <div class="col-auto">
+                        <label class="form-label mb-0 me-2">Add Language:</label>
+                    </div>
+                    <div class="col-auto">
+                        <select 
+                            class="form-select form-select-sm" 
+                            style="width: 200px;"
+                            t-on-change="addLang">
+                            <option value="">Select...</option>
+                            <t t-foreach="state.availableLangs" t-as="lang" t-key="lang">
+                                <option t-att-value="lang">
+                                    <t t-esc="lang"/>
+                                </option>
+                            </t>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-auto">
-                    <select 
-                        class="form-select form-select-sm" 
-                        style="width: 200px;"
-                        t-on-change="addLang">
-                        <option value="">Select...</option>
-                        <t t-foreach="state.availableLangs" t-as="lang" t-key="lang">
-                            <option t-att-value="lang">
-                                <t t-esc="lang"/>
-                            </option>
-                        </t>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="row flex-grow-1 overflow-auto">
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped table-sm mb-0">
-                        <thead class="table-dark sticky-top">
-                            <tr>
-                                <t t-foreach="Object.keys(state.datas)" t-as="lang" t-key="lang">
-                                    <th scope="col" class="text-center align-middle" style="min-width: 200px;">
-                                        <div class="d-flex flex-column gap-1">
-                                            <div class="d-flex justify-content-between align-items-center gap-2">
-                                                <span class="flex-grow-1 text-center fw-bold" t-esc="lang"/>
-                                                <button t-if="!state.datas[lang].readonly and state.datas[lang].from_ui" 
-                                                        class="btn btn-sm btn-outline-danger p-0 px-1 border-0" 
-                                                        t-on-click="() => this.removeLang(lang)"
-                                                        title="Remove language">
-                                                    <i class="fa fa-times fa-xs"/>
+                
+                <div class="row flex-grow-1 overflow-auto">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped table-sm mb-0">
+                            <thead class="table-dark sticky-top">
+                                <tr>
+                                    <t t-foreach="Object.keys(state.datas)" t-as="lang" t-key="lang">
+                                        <th scope="col" class="text-center align-middle" style="min-width: 200px;">
+                                            <div class="d-flex flex-column gap-1">
+                                                <div class="d-flex justify-content-between align-items-center gap-2">
+                                                    <span class="flex-grow-1 text-center fw-bold" t-esc="lang"/>
+                                                    <button t-if="!state.datas[lang].readonly and state.datas[lang].from_ui" 
+                                                            class="btn btn-sm btn-outline-danger p-0 px-1 border-0" 
+                                                            t-on-click="() => this.removeLang(lang)"
+                                                            title="Remove language">
+                                                        <i class="fa fa-times fa-xs"/>
+                                                    </button>
+                                                </div>
+                                                <button t-if="!state.datas[lang].readonly" 
+                                                        class="btn btn-sm btn-outline-light mt-1"
+                                                        t-on-click="() => this.translateLang(lang)"
+                                                        t-att-disabled="state.translating === lang">
+                                                    <t t-if="state.translating === lang">
+                                                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"/>
+                                                        Translating ... <t t-esc="state.translating"/>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <i class="fa fa-language me-1"/> Auto Translate
+                                                    </t>
                                                 </button>
                                             </div>
-                                            <button t-if="!state.datas[lang].readonly" 
-                                                    class="btn btn-sm btn-outline-light mt-1"
-                                                    t-on-click="() => this.translateLang(lang)"
-                                                    t-att-disabled="state.translating === lang">
-                                                <t t-if="state.translating === lang">
-                                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"/>
-                                                    Translating...
-                                                </t>
-                                                <t t-else="">
-                                                    <i class="fa fa-language me-1"/> Auto Translate
-                                                </t>
-                                            </button>
-                                        </div>
-                                    </th>
-                                </t>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-set="firstLang" t-value="Object.keys(state.datas)[0]"/>
-                            <t t-if="firstLang" t-foreach="Object.keys(state.datas[firstLang].data)" t-as="key" t-key="key">
-                                <tr>
-                                    <t t-foreach="Object.entries(state.datas)" t-as="lang" t-key="lang[0]">
-                                        <td class="p-1 align-middle">
-                                            <span t-if="lang[1].readonly or state.translating" 
-                                                class="d-block text-break" 
-                                                style="min-width: 150px; max-width: 300px;" 
-                                                t-esc="lang[1].data[key]"/>
-                                            <input t-else="" 
-                                                type="text" 
-                                                class="form-control form-control-sm" 
-                                                t-model="lang[1].data[key]"
-                                                t-att-placeholder="key"
-                                            />
-                                        </td>
+                                        </th>
                                     </t>
                                 </tr>
-                            </t>
-                            <tr t-if="!firstLang">
-                                <td t-att-colspan="Object.keys(state.datas).length || 1" class="text-center text-muted py-4">
-                                    No data available
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <t t-set="firstLang" t-value="Object.keys(state.datas)[0]"/>
+                                <t t-if="firstLang" t-foreach="Object.keys(state.datas[firstLang].data)" t-as="key" t-key="key">
+                                    <tr>
+                                        <t t-foreach="Object.entries(state.datas)" t-as="lang" t-key="lang[0]">
+                                            <td class="p-1 align-middle">
+                                                <span t-if="lang[1].readonly or state.translating" 
+                                                    class="d-block text-break" 
+                                                    style="min-width: 150px; max-width: 300px;" 
+                                                    t-esc="lang[1].data[key]"/>
+                                                <input t-else="" 
+                                                    type="text" 
+                                                    class="form-control form-control-sm" 
+                                                    t-model="lang[1].data[key]"
+                                                    t-att-placeholder="key"
+                                                />
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </t>
+                                <tr t-if="!firstLang">
+                                    <td t-att-colspan="Object.keys(state.datas).length || 1" class="text-center text-muted py-4">
+                                        No data available
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+                
             </div>
             
-        </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-secondary" t-on-click="closeAction" t-att-disabled="state.translating">
+                    <i class="fa fa-times me-1"/> Cancel
+                </button>
+                <button class="btn btn-primary" t-on-click="savePo" t-att-disabled="state.translating">
+                    <i class="fa fa-save me-1"/> Save Translations
+                </button>
+            </t>
+        </Dialog>
     </t>
 </templates>

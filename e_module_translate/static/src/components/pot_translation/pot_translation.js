@@ -7,6 +7,7 @@ import { Component, onWillStart, useState } from "@odoo/owl";
 
 export class PotTranslationDialog extends Component {
     static template = "ir_module_e_translate.PotTranslationDialog";
+    static components = { Dialog };
     static props = ["*"];
     
     setup() {
@@ -142,13 +143,43 @@ export class PotTranslationDialog extends Component {
         }
     }
 
-    closeDialog() {
-        this.data.close();
+    closeAction() {
+        this.action.doAction({type: 'ir.actions.act_window_close'});
     }
 
     async savePo() {
-        this.notification.add("Save functionality coming soon...", {type: 'info'});
-        this.closeDialog();
+        try {
+            const firstLang = Object.keys(this.state.datas)[0];
+            if (!firstLang) {
+                throw new Error("No data to save");
+            }
+            
+            this.state.translating = 'saving'; 
+            
+            const result = await this.orm.call(
+                "ir.module.e_translate",
+                "save_translate_data", 
+                [this.props.action.context.e_translate_id, this.state.datas]
+            );
+            
+            if (!result || !result.success) {
+                throw new Error(result?.message || "Save failed");
+            }
+            
+            this.notification.add(result.message || "Translations saved successfully", {
+                type: 'success'
+            });
+            
+            this.closeAction();
+            
+        } catch (error) {
+            this.notification.add(error.message || "Error saving translations", {
+                type: 'danger'
+            });
+            console.error(error);
+        } finally {
+            this.state.translating = false;
+        }
     }
 }
 
