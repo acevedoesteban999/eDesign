@@ -1,7 +1,9 @@
 <templates xml:space="preserve">
     <t t-name="ir_module_e_translate.PotTranslationDialog">
-        <div class="container-fluid">
-            <div class="row mb-3 align-items-center" t-if="state.availableLangs?.length">  
+    
+        <div class="container-fluid d-flex flex-column" style="max-height: 80vh;">
+            
+            <div class="row mb-3 align-items-center" t-if="state.availableLangs.length">  
                 <div class="col-auto">
                     <label class="form-label mb-0 me-2">Add Language:</label>
                 </div>
@@ -20,24 +22,35 @@
                 </div>
             </div>
             
-            <div class="row">
+            <div class="row flex-grow-1 overflow-auto">
                 <div class="table-responsive">
-                    <table class="table table-hover table-striped table-sm">
-                        <thead class="table-dark">
+                    <table class="table table-hover table-striped table-sm mb-0">
+                        <thead class="table-dark sticky-top">
                             <tr>
                                 <t t-foreach="Object.keys(state.datas)" t-as="lang" t-key="lang">
-                                    <th scope="col" class="text-center align-middle">
-                                        <div class="d-flex justify-content-between align-items-center gap-2">
-                                            <span class="flex-grow-1 text-center" t-esc="lang"/>
-                                            <button t-if="!state.datas[lang].readonly and state.datas[lang].from_ui" 
-                                                    class="btn btn-sm btn-outline-danger p-0 px-1 border-0" 
-                                                    t-on-click="() => this.removeLang(lang)"
-                                                    title="Remove language">
-                                                <i class="fa fa-times fa-xs"/>
+                                    <th scope="col" class="text-center align-middle" style="min-width: 200px;">
+                                        <div class="d-flex flex-column gap-1">
+                                            <div class="d-flex justify-content-between align-items-center gap-2">
+                                                <span class="flex-grow-1 text-center fw-bold" t-esc="lang"/>
+                                                <button t-if="!state.datas[lang].readonly and state.datas[lang].from_ui" 
+                                                        class="btn btn-sm btn-outline-danger p-0 px-1 border-0" 
+                                                        t-on-click="() => this.removeLang(lang)"
+                                                        title="Remove language">
+                                                    <i class="fa fa-times fa-xs"/>
+                                                </button>
+                                            </div>
+                                            <button t-if="!state.datas[lang].readonly" 
+                                                    class="btn btn-sm btn-outline-light mt-1"
+                                                    t-on-click="() => this.translateLang(lang)"
+                                                    t-att-disabled="state.translating === lang">
+                                                <t t-if="state.translating === lang">
+                                                    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"/>
+                                                    Translating...
+                                                </t>
+                                                <t t-else="">
+                                                    <i class="fa fa-language me-1"/> Auto Translate
+                                                </t>
                                             </button>
-                                            <span t-else="" class="p-0 px-1 opacity-0">
-                                                <i class="fa fa-times fa-xs"/>
-                                            </span>
                                         </div>
                                     </th>
                                 </t>
@@ -49,14 +62,14 @@
                                 <tr>
                                     <t t-foreach="Object.entries(state.datas)" t-as="lang" t-key="lang[0]">
                                         <td class="p-1 align-middle">
-                                            <span t-if="lang[1].readonly" 
-                                                  class="d-block text-break" 
-                                                  style="min-width: 150px; max-width: 300px;" 
-                                                  t-esc="lang[1].data[key]"/>
+                                            <span t-if="lang[1].readonly or state.translating" 
+                                                class="d-block text-break" 
+                                                style="min-width: 150px; max-width: 300px;" 
+                                                t-esc="lang[1].data[key]"/>
                                             <input t-else="" 
                                                 type="text" 
                                                 class="form-control form-control-sm" 
-                                                t-att-value="lang[1].data[key] or ''" 
+                                                t-model="lang[1].data[key]"
                                                 t-att-placeholder="key"
                                             />
                                         </td>
@@ -72,6 +85,7 @@
                     </table>
                 </div>
             </div>
+            
         </div>
     </t>
 </templates>

@@ -13,10 +13,15 @@
         "views/menu.xml"
     ],
     'assets': {
-            'web.assets_backend': [
-                'e_module_translate/static/src/components/**/*'
-            ],
-        },
+        'web.assets_backend': [
+            'e_module_translate/static/src/components/**/*'
+        ],
+    },
+    'external_dependencies': {
+        'python': [
+            'google-cloud-translate',
+        ]
+    },
     'application': False,
     'installable': True,
     'auto_install': False,
