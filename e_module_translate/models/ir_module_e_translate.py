@@ -15,66 +15,65 @@ class IrModuleTranslate(models.Model):
     _inherit = "ir.module.e_base"
     _description = 'Translation Manager for Modules'
 
-    has_pot_translations = fields.Boolean("Pot File", compute="_compute_translations")
     po_languages = fields.Json("PO Languages", compute="_compute_translations")
     status = fields.Selection([
-        ('up_to_date', "Up to Date"),
-        ('out_of_date', "Out of Date"),
-        ('error', 'Error'),
-    ], readonly=True, default='up_to_date')
+        ('synced', "Synced"),
+        ('outdated', "Outdated"),
+        ('missing', "Missing"),
+        ('error', "Error"),
+    ], string="Translate Status", readonly=True)
 
 
     @api.depends('module_name')
-    def _compute_translations(self):
+    def _compute_translations(self, recompute_status = False):
         for rec in self:
-            rec.has_pot_translations = False
-            po_languages = []
+            rec.po_languages = po_languages = []
             
-            if rec.module_exist:
+            if rec.module_status != 'ready':
+                rec.status = 'error'
+                continue
+                
+            try:
                 i18n_path = os.path.join(rec.local_path, 'i18n')
-                if os.path.exists(i18n_path):
-                    pot_file = os.path.join(i18n_path, f'{rec.module_name}.pot')
-                    rec.has_pot_translations = os.path.exists(pot_file)
+                os.makedirs(i18n_path, exist_ok=True)
+                
+                pot_file = os.path.join(i18n_path, f'{rec.module_name}.pot')
+                has_pot_translations = os.path.exists(pot_file)
+                
+                if has_pot_translations:
+                    if recompute_status:
+                        result = compare_pot_files(rec.local_path, rec.module_name, rec._cr)
+                        if result:
+                            common_keys, missing_in_file, extra_in_file = result
+                            if missing_in_file or extra_in_file:
+                                rec.status = 'outdated'
+                                rec.error_msg = (_("Missing: %s ; Extra: %s") % (len(missing_in_file), len(extra_in_file)))
+                            else:
+                                rec.status = 'synced'
+                        else:
+                            rec.status = False
+                else:
+                    rec.status = 'missing'
                     
-                    for entry in os.scandir(i18n_path):
-                        if entry.name.endswith('.po'):
-                            lang_code = entry.name[:-3]
-                            po_languages.append({'name': lang_code})
+                for entry in os.scandir(i18n_path):
+                    if entry.name.endswith('.po'):
+                        lang_code = entry.name[:-3]
+                        po_languages.append({'name': lang_code})
+                        
+            except Exception:
+                rec.status = 'error'
                             
             rec.po_languages = po_languages
             rec.last_check = fields.Datetime.now()
 
-    def action_compute_translations(self):
-        self._compute_translations()
+    def action_recompute_translations(self):
+        self._compute_translations(True)
 
-    def action_recompute_pot(self):
-        self.ensure_one()
-        try:
-            self._compute_translations()
-            result = compare_pot_files(self.local_path, self.module_name, self._cr)
-            
-            if result:
-                common_keys, missing_in_file, extra_in_file = result
-                is_outdated = bool(missing_in_file or extra_in_file)
-                
-                self.status = 'out_of_date' if is_outdated else 'up_to_date'
-                self.error_msg = (
-                    _("Missing: %s ; Extra: %s") % (len(missing_in_file), len(extra_in_file))
-                    if is_outdated else False
-                )
-                self.last_check = fields.Datetime.now()
-            else:
-                self.status = 'error'
-                self.error_msg = _("No Pot files Generated")
-                
-        except Exception as e:
-            self.status = 'error'
-            self.error_msg = str(e)
 
     @api.model
     def get_pot_translation_data(self, e_translate_id):
         rec = self.browse(e_translate_id)
-        if not rec.module_exist:
+        if rec.module_status != 'ready':
             return {}
             
         exported_pot = get_pot_from_export(rec.module_name, rec._cr)
@@ -166,8 +165,8 @@ class IrModuleTranslate(models.Model):
     @api.model
     def save_translate_data(self, e_translate_id, save_data):
         rec = self.browse(e_translate_id)
-        if not rec.module_exist or not rec.local_path:
-            raise UserError(_("Module not found"))
+        if rec.module_status != 'ready' or not rec.local_path:
+            raise UserError(_("Module error:  Not (Installed or Found)"))
         
         i18n_path = os.path.join(rec.local_path, 'i18n')
         os.makedirs(i18n_path, exist_ok=True)
@@ -241,8 +240,7 @@ class IrModuleTranslate(models.Model):
             elif os.path.exists(po_path):
                 os.remove(po_path)
         
-        rec._compute_translations()
-        rec.status = 'up_to_date'
+        rec._compute_translations(True)
         rec.error_msg = False
         rec.last_check = fields.Datetime.now()
         

@@ -19,7 +19,7 @@
     },
     'external_dependencies': {
         'python': [
-            'google-cloud-translate',
+            'googletrans',
         ]
     },
     'application': False,

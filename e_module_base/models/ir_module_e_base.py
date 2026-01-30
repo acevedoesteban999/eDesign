@@ -11,14 +11,20 @@ class EGitModuleBase(models.AbstractModel):
     module_name = fields.Char("Module Technical Name", required=True)
     module_icon = fields.Char(compute="_compute_module_icon")
     module_exist = fields.Boolean("Module Exist",compute="_compute_module_exist")
+    module_installed = fields.Boolean("Module Installed",compute="_compute_module_installed")
     local_path = fields.Char(compute="_compute_local_path")
+    module_status = fields.Selection([
+        ('ready','Ready'),
+        ('no_installed','No Installed'),
+        ('dont_found','Dont Found'),
+    ],compute="_compute_module_status",readonly=True)
     
     _sql_constraints = [
         ('unique_module', 'unique(module_name)', 'Module must be unique!')
     ]
     
     error_msg = fields.Char("Error")
-    last_check = fields.Datetime(default=fields.Datetime.now)
+    last_check = fields.Datetime(default=fields.Datetime.now,readonly=True)
     
     # ===================================================================
     # API
@@ -37,6 +43,15 @@ class EGitModuleBase(models.AbstractModel):
         for rec in self:
             rec.module_exist = bool(rec.module_name) and  rec.env['ir.module.module'].search_count([('name','=',rec.module_name)]) != 0 and bool(rec.local_path)
     
+    @api.depends('module_name')
+    def _compute_module_installed(self):
+        for rec in self:
+            rec.module_installed = bool(rec.module_exist) and  bool(rec.env['ir.module.module'].search([('name','=',rec.module_name)]).latest_version)
+    
+    @api.depends('module_name')
+    def _compute_module_status(self):
+        for rec in self:
+            rec.module_status = 'ready' if rec.module_installed else 'no_installed' if rec.module_exist else 'dont_found'
     
     @api.onchange('module_name')
     def _compute_module_icon(self):

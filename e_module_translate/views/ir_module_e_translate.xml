@@ -14,8 +14,14 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <list position="inside">
-                <field name="has_pot_translations"></field>
-                <field name="status"></field>
+                <field name="module_icon" widget="image_url" options="{'size':[50,50]}"/>
+                <field name="status" 
+                    widget="badge"
+                    decoration-success="status == 'synced'"
+                    decoration-warning="status == 'outdated'"
+                    decoration-danger="status == 'error'"
+                    decoration-muted="status == 'missing'"/>
+                <field name="po_languages" widget="ejson_tags"></field>
             </list>
         </field>
     </record>
@@ -28,19 +34,27 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position="inside">
                 
-                <button string="Recompute Local Pot" invisible="not module_exist or not has_pot_translations" name="action_compute_translations" type="object" class="oe_highlight"/>
-                <button string="Recompute Odoo Pot" invisible="not module_exist or not has_pot_translations" name="action_recompute_pot" type="object" class="oe_highlight"/>
-                <button name="%(action_pot_translation_dialog)d" invisible="not module_exist" type="action" string="Edit Translations" class="btn-primary" context="{'e_translate_id': id}"/>
+                <button string="Recompute Data" 
+                        invisible="module_status != 'ready'" 
+                        name="action_recompute_translations" 
+                        type="object" 
+                        class="oe_highlight"/>
+                <button name="%(action_pot_translation_dialog)d" 
+                        invisible="module_status != 'ready'" 
+                        type="action" 
+                        string="Edit Translations" 
+                        class="btn-primary" 
+                        context="{'e_translate_id': id}"/>
             </xpath>
-            <xpath expr="//field[@name='module_name']" position="after">
+            <xpath expr="//field[@name='module_name']/parent::group" position="inside">
                 <field name="id" invisible="1"></field>
-                <field name="has_pot_translations"></field>
-                <field name="po_languages" invisible="not has_pot_translations" widget="ejson_tags"></field>
+                <field name="po_languages" widget="ejson_tags"></field>
                 <field name="status" 
                     widget="badge"
-                    decoration-success="status == 'up_to_date'"
-                    decoration-warning="status == 'out_of_date'"
-                    decoration-danger="status == 'error'"/>
+                    decoration-success="status == 'synced'"
+                    decoration-warning="status == 'outdated'"
+                    decoration-danger="status == 'error'"
+                    decoration-muted="status == 'missing'"/>
                 <field name="error_msg" 
                     invisible="not error_msg"
                     string="Info"
@@ -49,7 +63,7 @@
                     decoration-secondary="True"
                     decoration-danger="status == 'error'"
                     />
-                <field name="last_check" readonly="1" decoration=""></field>
+                <field name="last_check"></field>
             </xpath>
         </field>
     </record>
@@ -68,7 +82,15 @@
         </field>
     </record>
 
-
-    
+    <record id="action_server_recompute_e_module_translate" model="ir.actions.server">
+        <field name="name">Recompute Data</field>
+        <field name="model_id" ref="model_ir_module_e_translate"/>
+        <field name="binding_model_id" ref="model_ir_module_e_translate"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            records._compute_translations(True);
+        </field>
+    </record>
 
 </odoo>
