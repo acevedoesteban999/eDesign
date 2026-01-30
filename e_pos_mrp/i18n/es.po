@@ -6,18 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-19 04:01+0000\n"
-"PO-Revision-Date: 2026-01-18 23:05\n"
-"Last-Translator: PoTranslator <acevedoesteban999@gmail.com>\n"
-"Language-Team: PoTranslator <acevedoesteban999@gmail.com>\n"
+"POT-Creation-Date: 2026-01-30 06:46+0000\n"
+"PO-Revision-Date: 2026-01-30 06:46\n"
+"Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
+"Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language: es\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: PoTranslator\n"
-"X-Poedit-Basepath: .\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: \n"
+"X-Generator: e_module_translate\n"
 
 #. module: e_pos_mrp
 #: model_terms:ir.ui.view,arch_db:e_pos_mrp.pos_order_form_inherit_mrp_production_form
@@ -54,6 +52,11 @@ msgid ""
 msgstr ""
 "Compruebe si el producto debe realizar el pedido mrp en pos. Requerir lista "
 "de materiales para plantilla o producto."
+
+#. module: e_pos_mrp
+#: model:ir.model,name:e_pos_mrp.model_res_config_settings
+msgid "Config Settings"
+msgstr "Ajustes de configuración"
 
 #. module: e_pos_mrp
 #. odoo-javascript
@@ -93,9 +96,41 @@ msgstr "Entregado"
 #. module: e_pos_mrp
 #. odoo-javascript
 #: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
+#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
 #: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-msgid "Done"
-msgstr "Hecho"
+#: code:addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
+msgid "Delivery"
+msgstr "Entrega"
+
+#. module: e_pos_mrp
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
+#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
+msgid "Delivery Name"
+msgstr "Nombre de entrega"
+
+#. module: e_pos_mrp
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/control_buttons/control_buttons.xml:0
+#: code:addons/e_pos_mrp/static/src/components/control_buttons/control_buttons.xml:0
+msgid "Delivery Orders"
+msgstr "Órdenes de entrega"
+
+#. module: e_pos_mrp
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
+#: code:addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
+msgid "Delivery and Manufacturing Created"
+msgstr "Entrega y fabricación creadas."
+
+#. module: e_pos_mrp
+#: model_terms:ir.ui.view,arch_db:e_pos_mrp.e_pos_out_stock_res_config_settings_view_form_pos_invoice_toggle
+msgid ""
+"Enable this option to display the Delivery Action in POS and the information"
+" in the confirmed sale."
+msgstr ""
+"Habilite esta opción para mostrar la Acción de Entrega en POS y la "
+"información de la venta confirmada."
 
 #. module: e_pos_mrp
 #. odoo-javascript
@@ -108,6 +143,16 @@ msgstr "Volver"
 #: model:ir.model.fields,field_description:e_pos_mrp.field_product_product__has_create_pos_mrp
 msgid "Has Create Pos Mrp"
 msgstr "Ha creado Pos Mrp"
+
+#. module: e_pos_mrp
+#: model:ir.model.fields,help:e_pos_mrp.field_pos_config__show_mrp_delivery
+#: model:ir.model.fields,help:e_pos_mrp.field_res_config_settings__show_mrp_delivery
+msgid ""
+"If checked , is activated the delivery action , confirm and view for "
+"pickings"
+msgstr ""
+"Si está marcado, se activa la acción de entrega, confirmar y ver las "
+"recogidas."
 
 #. module: e_pos_mrp
 #. odoo-javascript
@@ -208,34 +253,9 @@ msgid "Partner"
 msgstr "Pareja"
 
 #. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
-msgid "Delivery"
-msgstr "Entrega"
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Delivery Name"
-msgstr "Nombre de entrega"
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/control_buttons/control_buttons.xml:0
-#: code:addons/e_pos_mrp/static/src/components/control_buttons/control_buttons.xml:0
-msgid "Delivery Orders"
-msgstr "Órdenes de entrega"
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
-msgid "Delivery and Manufacturing Created"
-msgstr "Entrega y fabricación creadas."
+#: model:ir.model,name:e_pos_mrp.model_pos_config
+msgid "Point of Sale Configuration"
+msgstr "Configuración del punto de venta"
 
 #. module: e_pos_mrp
 #: model:ir.model,name:e_pos_mrp.model_pos_order_line
@@ -295,6 +315,12 @@ msgstr "Buscar Entregas..."
 #: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
 msgid "Select a Delivery"
 msgstr "Seleccione una entrega"
+
+#. module: e_pos_mrp
+#: model:ir.model.fields,field_description:e_pos_mrp.field_pos_config__show_mrp_delivery
+#: model:ir.model.fields,field_description:e_pos_mrp.field_res_config_settings__show_mrp_delivery
+msgid "Show in POS Delivery Info"
+msgstr "Mostrar en POS Información de entrega"
 
 #. module: e_pos_mrp
 #. odoo-javascript

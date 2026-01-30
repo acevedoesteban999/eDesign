@@ -6,23 +6,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-15 04:57+0000\n"
-"PO-Revision-Date: 2025-12-15 00:03\n"
-"Last-Translator: PoTranslator <acevedoesteban999@gmail.com>\n"
-"Language-Team: PoTranslator <acevedoesteban999@gmail.com>\n"
+"POT-Creation-Date: 2026-01-30 06:46+0000\n"
+"PO-Revision-Date: 2026-01-30 06:46\n"
+"Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
+"Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language: es\n"
+"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: PoTranslator\n"
-"X-Poedit-Basepath: .\n"
-"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: \n"
+"X-Generator: e_module_translate\n"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/e_binary/e_binary_field.js:0
-#: code:addons/e_design/static/src/components/widgets/many2many_image/many2many_image_field.js:0
+#: code:addons/addons/e_addons/e_design/static/src/components/e_binary/e_binary_field.js:0
+#: code:addons/addons/e_addons/e_design/static/src/components/many2many_image/many2many_image_field.js:0
+#: code:addons/e_design/static/src/components/e_binary/e_binary_field.js:0
+#: code:addons/e_design/static/src/components/many2many_image/many2many_image_field.js:0
 msgid "Accepted file extensions"
 msgstr "Extensiones de archivo aceptadas"
 
@@ -33,6 +33,7 @@ msgstr "Administrador"
 
 #. module: e_design
 #. odoo-python
+#: code:addons/addons/e_addons/e_design/widget/product_design_unlink_widge.py:0
 #: code:addons/e_design/widget/product_design_unlink_widge.py:0
 msgid "Are you sure you wana unlink design '%s' to product '%s'"
 msgstr ""
@@ -40,31 +41,23 @@ msgstr ""
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/many2many_image/many2many_image_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
+#: code:addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
 #: model_terms:ir.ui.view,arch_db:e_design.product_design_attach_view_form
 msgid "Attach"
 msgstr "Adjuntar"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/product_design_field/product_design_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/edesign_product_template/edesign_product_template.xml:0
+#: code:addons/e_design/static/src/components/edesign_product_template/edesign_product_template.xml:0
 msgid "Attach Design"
 msgstr "Adjuntar diseño"
 
 #. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_product_design__attachment_ids
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__attachment_ids
 msgid "Attachments"
 msgstr "Adjuntos"
-
-#. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_product_design__attr_value_ids
-msgid "Attr Value Lines"
-msgstr "Líneas de valor de atributos"
-
-#. module: e_design
-#: model:ir.model,name:e_design.model_product_attribute_value
-msgid "Attribute Value"
-msgstr "Valor del atributo"
 
 #. module: e_design
 #: model_terms:ir.ui.view,arch_db:e_design.product_design_attach_view_form
@@ -78,19 +71,21 @@ msgid "Categories"
 msgstr "Categorías"
 
 #. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_product_design__category_id
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__category_id
 msgid "Category"
 msgstr "Categoría"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/e_binary/e_binary_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/e_binary/e_binary_field.xml:0
+#: code:addons/e_design/static/src/components/e_binary/e_binary_field.xml:0
 msgid "Change File"
 msgstr "Cambiar archivo"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/many2many_image/many2many_image_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
+#: code:addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
 msgid "Click on any image to view full size. You can upload up to"
 msgstr ""
 "Haga clic en cualquier imagen para verla en tamaño completo. Puedes subir "
@@ -103,39 +98,39 @@ msgstr "Confirmar"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/product_design_field/product_design_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/edesign_product_template/edesign_product_template.xml:0
+#: code:addons/e_design/static/src/components/edesign_product_template/edesign_product_template.xml:0
 msgid "Create Design"
 msgstr "Crear diseño"
 
 #. module: e_design
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_attach_widget__create_uid
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_unlink_widget__create_uid
-#: model:ir.model.fields,field_description:e_design.field_product_design__create_uid
-#: model:ir.model.fields,field_description:e_design.field_product_design_category__create_uid
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__create_uid
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__create_uid
 msgid "Created by"
 msgstr "Creado por"
 
 #. module: e_design
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_attach_widget__create_date
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_unlink_widget__create_date
-#: model:ir.model.fields,field_description:e_design.field_product_design__create_date
-#: model:ir.model.fields,field_description:e_design.field_product_design_category__create_date
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__create_date
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__create_date
 msgid "Created on"
 msgstr "Creado el"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/e_binary/e_binary_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/e_binary/e_binary_field.xml:0
+#: code:addons/e_design/static/src/components/e_binary/e_binary_field.xml:0
 msgid "Delete File"
 msgstr "Eliminar archivo"
 
 #. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_e_design_product_design_attach_widget__design_id
+#: model:ir.model.fields,field_description:e_design.field_e_design_product_design_attach_widget__design_ids
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_unlink_widget__design_id
-#: model:ir.model.fields,field_description:e_design.field_product_attribute_value__product_design_id
 #: model:ir.model.fields,field_description:e_design.field_product_product__design_ok
 #: model:ir.model.fields,field_description:e_design.field_product_template__design_ok
-#: model:product.attribute,name:e_design.default_attr_design
 msgid "Design"
 msgstr "Diseño"
 
@@ -146,15 +141,16 @@ msgid "Design Name..."
 msgstr "Nombre del diseño..."
 
 #. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_product_attribute__design_ok
-#: model:ir.model.fields,field_description:e_design.field_product_template_attribute_line__design_ok
-msgid "Design Ok"
-msgstr "Diseño bien"
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design/static/src/components/edesign_selection/edesign_selection.xml:0
+#: code:addons/e_design/static/src/components/edesign_selection/edesign_selection.xml:0
+msgid "Design preview"
+msgstr "Vista previa del diseño"
 
 #. module: e_design
 #: model:ir.actions.act_window,name:e_design.product_design_action
-#: model:ir.model.fields,field_description:e_design.field_product_design_category__design_counter
-#: model:ir.model.fields,field_description:e_design.field_product_design_category__design_ids
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__design_counter
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__design_ids
 #: model:ir.model.fields,field_description:e_design.field_product_product__design_counter
 #: model:ir.model.fields,field_description:e_design.field_product_template__design_counter
 #: model:ir.ui.menu,name:e_design.design_menu
@@ -166,50 +162,36 @@ msgid "Designs"
 msgstr "Diseños"
 
 #. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_e_design_product_design_attach_widget__product_design_ids
 #: model:ir.model.fields,field_description:e_design.field_product_product__design_ids
 #: model:ir.model.fields,field_description:e_design.field_product_template__design_ids
-msgid "Designs linked to Product Template"
-msgstr "Diseños vinculados a la plantilla de producto"
+msgid "Designs for Product Template"
+msgstr "Diseños para plantilla de producto"
 
 #. module: e_design
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_attach_widget__display_name
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_unlink_widget__display_name
-#: model:ir.model.fields,field_description:e_design.field_product_design__display_name
-#: model:ir.model.fields,field_description:e_design.field_product_design_category__display_name
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__display_name
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__display_name
 msgid "Display Name"
 msgstr "Nombre para mostrar"
 
 #. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_e_design_product_design_attach_widget__domain
-msgid "Domain"
-msgstr "Dominio"
-
-#. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/e_binary/e_binary_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/e_binary/e_binary_field.xml:0
+#: code:addons/e_design/static/src/components/e_binary/e_binary_field.xml:0
 msgid "Download"
 msgstr "Descargar"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/e_binary/e_binary_field.js:0
+#: code:addons/addons/e_addons/e_design/static/src/components/e_binary/e_binary_field.js:0
+#: code:addons/e_design/static/src/components/e_binary/e_binary_field.js:0
 msgid "EFile"
 msgstr "Muerto"
 
 #. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_product_design__extra_price
-msgid "Extra Price"
-msgstr "Precio adicional"
-
-#. module: e_design
-#. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/product_design_field/product_design_field.xml:0
-#: model_terms:ir.ui.view,arch_db:e_design.product_design_view_kanban
-msgid "Extra Price:"
-msgstr "Precio adicional:"
-
-#. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_product_design__file_id
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__file_id
 #: model_terms:ir.ui.view,arch_db:e_design.product_design_view_form
 msgid "File"
 msgstr "Archivo"
@@ -222,14 +204,14 @@ msgstr "Le ayuda a gestionar diseños."
 #. module: e_design
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_attach_widget__id
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_unlink_widget__id
-#: model:ir.model.fields,field_description:e_design.field_product_design__id
-#: model:ir.model.fields,field_description:e_design.field_product_design_category__id
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__id
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__id
 msgid "ID"
 msgstr "ID"
 
 #. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_product_design__image
-#: model:ir.model.fields,field_description:e_design.field_product_design_category__image
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__image
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__image
 #: model_terms:ir.ui.view,arch_db:e_design.product_design_view_kanban
 msgid "Image"
 msgstr "Imagen"
@@ -240,34 +222,29 @@ msgid "Images"
 msgstr "Imágenes"
 
 #. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_product_design__products_counter
-msgid "In Porducts"
-msgstr "En productos"
-
-#. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_product_design__default_code
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__default_code
 msgid "Internal Reference"
 msgstr "Referencia interna"
 
 #. module: e_design
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_attach_widget__write_uid
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_unlink_widget__write_uid
-#: model:ir.model.fields,field_description:e_design.field_product_design__write_uid
-#: model:ir.model.fields,field_description:e_design.field_product_design_category__write_uid
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__write_uid
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__write_uid
 msgid "Last Updated by"
 msgstr "Actualizado por última vez por"
 
 #. module: e_design
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_attach_widget__write_date
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_unlink_widget__write_date
-#: model:ir.model.fields,field_description:e_design.field_product_design__write_date
-#: model:ir.model.fields,field_description:e_design.field_product_design_category__write_date
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__write_date
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__write_date
 msgid "Last Updated on"
 msgstr "Última actualización el"
 
 #. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_product_design__name
-#: model:ir.model.fields,field_description:e_design.field_product_design_category__name
+#: model:ir.model.fields,field_description:e_design.field_product_edesign__name
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__name
 #: model_terms:ir.ui.view,arch_db:e_design.product_design_view_form
 #: model_terms:ir.ui.view,arch_db:e_design.view_product_design_category_form
 msgid "Name"
@@ -275,21 +252,29 @@ msgstr "Nombre"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/many2many_image/many2many_image_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
+#: code:addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
 msgid "No data uploaded"
 msgstr "No hay datos"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/e_binary/e_binary_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/e_binary/e_binary_field.xml:0
+#: code:addons/e_design/static/src/components/e_binary/e_binary_field.xml:0
 msgid "No file uploaded"
 msgstr "No se ha subido ningún archivo"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/many2many_image/many2many_image_field.js:0
+#: code:addons/addons/e_addons/e_design/static/src/components/many2many_image/many2many_image_field.js:0
+#: code:addons/e_design/static/src/components/many2many_image/many2many_image_field.js:0
 msgid "Number of files"
 msgstr "Número de archivos"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__parent_id
+msgid "Parent"
+msgstr "Padre"
 
 #. module: e_design
 #: model:ir.model,name:e_design.model_product_template
@@ -299,37 +284,40 @@ msgid "Product"
 msgstr "Producto"
 
 #. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_product_design__product_attr_value_id
-msgid "Product Attr Value"
-msgstr "Valor de atributo del producto"
-
-#. module: e_design
-#: model:ir.model,name:e_design.model_product_attribute
-msgid "Product Attribute"
-msgstr "Atributo del producto"
-
-#. module: e_design
 #: model:ir.actions.act_window,name:e_design.action_product_design_category
 #: model_terms:ir.ui.view,arch_db:e_design.view_product_design_category_form
 msgid "Product Design Category"
 msgstr "Categoría de diseño de producto"
 
 #. module: e_design
-#: model:ir.model,name:e_design.model_product_template_attribute_line
-msgid "Product Template Attribute Line"
-msgstr "Línea de atributos de plantilla de producto"
-
-#. module: e_design
-#: model:ir.model,name:e_design.model_product_design_category
-msgid "ProductDesignCategory"
-msgstr "ProductoDiseñoCategoría"
+#: model:ir.model,name:e_design.model_product_edesign_category
+msgid "ProductEDesignCategory"
+msgstr "ProductoEDiseñoCategoría"
 
 #. module: e_design
 #: model:ir.actions.act_window,name:e_design.e_design_product_template_action
-#: model:ir.model.fields,field_description:e_design.field_product_design__product_ids
 #: model:ir.ui.menu,name:e_design.product_menu
 msgid "Products"
 msgstr "Productos"
+
+#. module: e_design
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design/static/src/components/edesign_product_template/edesign_product_template.xml:0
+#: code:addons/e_design/static/src/components/edesign_product_template/edesign_product_template.xml:0
+msgid "Search design..."
+msgstr "Diseño de búsqueda..."
+
+#. module: e_design
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design/static/src/components/edesign_selection/edesign_selection.xml:0
+#: code:addons/e_design/static/src/components/edesign_selection/edesign_selection.xml:0
+msgid "Select Design:"
+msgstr "Seleccionar Diseño:"
+
+#. module: e_design
+#: model:ir.model.fields,field_description:e_design.field_product_edesign_category__subcategories_ids
+msgid "Sub-Categories"
+msgstr "Subcategorías"
 
 #. module: e_design
 #: model:ir.model.fields,field_description:e_design.field_e_design_product_design_unlink_widget__text
@@ -345,35 +333,36 @@ msgstr ""
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/product_design_field/product_design_field.xml:0
-msgid ""
-"This Widget only show some itmes. If you wana see all , check top button "
-"'Designs'"
-msgstr ""
-"Este widget solo muestra algunos elementos. Si quieres verlos todos, "
-"consulta el botón superior 'Diseños'"
+#: code:addons/addons/e_addons/e_design/static/src/components/edesign_product_template/edesign_product_template.xml:0
+#: code:addons/e_design/static/src/components/edesign_product_template/edesign_product_template.xml:0
+msgid "This product dont have any design yet"
+msgstr "Este producto aún no tiene ningún diseño."
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/product_design_field/product_design_field.xml:0
-msgid "This section need to crete model first."
-msgstr "Esta sección necesita crear el modelo primero."
+#: code:addons/addons/e_addons/e_design/static/src/components/edesign_product_template/edesign_product_template.xml:0
+#: code:addons/e_design/static/src/components/edesign_product_template/edesign_product_template.xml:0
+msgid "This section needs a model first."
+msgstr "Esta sección necesita un modelo primero."
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/e_binary/e_binary_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/e_binary/e_binary_field.xml:0
+#: code:addons/e_design/static/src/components/e_binary/e_binary_field.xml:0
 msgid "Upload your file"
 msgstr "Sube tu archivo"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/many2many_image/many2many_image_field.js:0
+#: code:addons/addons/e_addons/e_design/static/src/components/many2many_image/many2many_image_field.js:0
+#: code:addons/e_design/static/src/components/many2many_image/many2many_image_field.js:0
 msgid "Uploading error"
 msgstr "Error al subir"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/many2many_image/many2many_image_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
+#: code:addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
 msgid "Uploading..."
 msgstr "Subiendo..."
 
@@ -384,19 +373,17 @@ msgstr "Usuario"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/many2many_image/many2many_image_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
+#: code:addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
 msgid "View"
 msgstr "Vista"
 
 #. module: e_design
-#: model:product.attribute.value,name:e_design.default_attr_value_no_design
-msgid "Without Desaign"
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design/static/src/components/edesign_selection/edesign_selection.xml:0
+#: code:addons/e_design/static/src/components/edesign_selection/edesign_selection.xml:0
+msgid "Without Design"
 msgstr "Sin Diseño"
-
-#. module: e_design
-#: model:ir.model.fields,field_description:e_design.field_product_attribute_value__without_design_ok
-msgid "Without Design Ok"
-msgstr "Sin diseño ok"
 
 #. module: e_design
 #: model:ir.module.category,name:e_design.module_category_e_design
@@ -415,11 +402,12 @@ msgstr "e_design.product_design_unlink_widget"
 
 #. module: e_design
 #. odoo-javascript
-#: code:addons/e_design/static/src/components/widgets/many2many_image/many2many_image_field.xml:0
+#: code:addons/addons/e_addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
+#: code:addons/e_design/static/src/components/many2many_image/many2many_image_field.xml:0
 msgid "files."
 msgstr "archivos."
 
 #. module: e_design
-#: model:ir.model,name:e_design.model_product_design
-msgid "product.design"
-msgstr "product.design"
+#: model:ir.model,name:e_design.model_product_edesign
+msgid "product.edesign"
+msgstr "producto.edesign"

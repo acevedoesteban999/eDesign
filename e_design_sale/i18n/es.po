@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* e_design_mrp
+# 	* e_design_sale
 #
 msgid ""
 msgstr ""
@@ -17,22 +17,28 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Generator: e_module_translate\n"
 
-#. module: e_design_mrp
-#: model:ir.model.fields,field_description:e_design_mrp.field_mrp_production__design_id
+#. module: e_design_sale
+#: model:ir.model.fields,field_description:e_design_sale.field_sale_order_line__design_id
+#: model:ir.model.fields,field_description:e_design_sale.field_sale_order_line__is_designable_product
 msgid "Design"
 msgstr "Diseño"
 
-#. module: e_design_mrp
-#: model:ir.model.fields,field_description:e_design_mrp.field_mrp_production__product_tmpl_designs_ids
+#. module: e_design_sale
+#: model:ir.model.fields,field_description:e_design_sale.field_sale_order_line__parent_design_ids
 msgid "Designs for Product Template"
 msgstr "Diseños para plantilla de producto"
 
-#. module: e_design_mrp
-#: model:ir.model.fields,field_description:e_design_mrp.field_mrp_production__has_design_id
+#. module: e_design_sale
+#: model:ir.model.fields,field_description:e_design_sale.field_sale_order__has_design
 msgid "Has Design"
 msgstr "Tiene diseño"
 
-#. module: e_design_mrp
-#: model:ir.model,name:e_design_mrp.model_mrp_production
-msgid "Manufacturing Order"
-msgstr "Orden de fabricación"
+#. module: e_design_sale
+#: model:ir.model,name:e_design_sale.model_sale_order
+msgid "SaleOrder"
+msgstr "VentaOrden"
+
+#. module: e_design_sale
+#: model:ir.model,name:e_design_sale.model_sale_order_line
+msgid "SaleOrderLine"
+msgstr "Línea de pedido de venta"
