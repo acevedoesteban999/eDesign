@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="point_of_sale.product_template_only_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='to_weight']" position="after">
-                    <field name="show_pos_outstock" groups="e_pos_out_stock.group_hide_out_stock"/>
+                    <field name="show_pos_outstock"/>
                 </xpath>
             </field>
         </record>

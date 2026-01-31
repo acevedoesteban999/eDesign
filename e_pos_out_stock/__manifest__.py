@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'ePosOutStock',
-    'version': '18.0.0.1.0',
+    'version': '18.0.1.0.0',
     'summary': "Hide out of stock POS products",
     'description':"It allows hide products out of stock from pos. Can inactive from specific products or pos categories",
     'author': 'acevedoesteban999@gmail.com',
@@ -9,11 +9,9 @@
     'category': 'Customizations',
     'depends': ['base',"point_of_sale"],
     'data': [
-        'security/groups.xml',
         
         "views/pos_category.xml",
         "views/product_template.xml",
-        "views/res_config.xml",
     ],
     'images': [
         'static/description/banner.png',
