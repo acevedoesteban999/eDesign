@@ -1,6 +1,6 @@
 # eDesignMrp
 #### MRP & Design Integration
-This module ensures link or automaic select deigns in manufacturing orders, giving production teams visual references.
+This module ensures link or automaic select deigns in manufacturing orders, giving production teams visual references.Automatically link designs from Sale Orders to manufacturing orders.
 
 **Design displayed on Manufacturing Order**
 ![IAMGE](static/description/assets/screenshots/1.png)

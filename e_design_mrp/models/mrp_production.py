@@ -15,7 +15,11 @@ class MrpProduction(models.Model):
             rec.has_design_id = rec.product_tmpl_id.design_ok and rec.product_tmpl_id.design_ids
     
     def _check_design_routes(self):
-        pass #Used for inherits modules
+        if self.sale_line_id:
+            self.design_id = self.sale_line_id.design_id.id
+        else:
+            self.design_id = False
+    
     
     def _compute_design_id(self):
         for rec in self:
