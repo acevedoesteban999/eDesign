@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   
+    <record id="view_creata_order_wizard_form" model="ir.ui.view">
+        <field name="name">view.e_pos_mrp.creata_order_wizard.form</field>
+        <field name="model">e_pos_mrp.creata_order_wizard</field>
+        <field name="arch" type="xml">
+            <form >
+                <group >
+                    <field name="product_tmpl_id" invisible="1"/>
+                    <field name="product_id"
+                        domain="[('type','=','consu')]"
+                        context="{'edit':False,'crate':False}"
+                        options="{'no_open':True}"
+                    />\<field name="product_qty" required="True"></field>
+                    <field name="bom_id" 
+                        domain="[
+                            ('type','=','normal'),
+                            '|',
+                            ('product_id','=',product_id),
+                            ('product_tmpl_id','=',product_tmpl_id),
+                        ]"
+                        readonly="not product_id"
+                        context="{'edit':False,'crate':False}"
+                        options="{'no_open':True}"
+                        />
+
+                    <!-- <field name="material_ids" 
+                            readonly="1" 
+                            invisible="not bom_id" 
+                            >
+                        <list no_open="1">
+                            <field name="product_id"></field>
+                            <field name="product_qty"></field>
+                        </list>
+                    </field> -->
+                    
+                </group>
+                <footer>
+                    <button name="crateManufacture" type="object" string="Create" class="oe_highlight"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

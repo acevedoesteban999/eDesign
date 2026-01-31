@@ -5,11 +5,18 @@ import { _t } from "@web/core/l10n/translation";
 
 patch(ControlButtons.prototype, {
     
-    clickPicking() {
-        // const order = this.pos.get_order();
-        // const partner = order.get_partner();
-        // const searchDetails = partner ? { fieldName: "PARTNER", searchTerm: partner.name } : {};
-        this.pos.showScreen("PickingScreen");
+    async createManofacture() {
+        await this.pos.action.doAction({
+            'name': _t('Create Manufacture'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'e_pos_mrp.creata_order_wizard',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'new',
+            'views': [[false,'form']],
+            'domain': [],
+            'context': {},
+        });
     }
 });
 

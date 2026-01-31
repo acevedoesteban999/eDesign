@@ -1,10 +1,3 @@
-<!-- ==========================================================
-  ePosOutStock – EMPALTE SPECIFIC
-  Header → Image Cards → Compact Feature Grid → Footer
-  (Copy-paste friendly, no external CSS beyond Bootstrap)
-===========================================================-->
-
-<!-- 1. HERO -->
 <section class="bg-primary text-white py-5">
     <div class="container">
       <div class="row align-items-center p-3">
@@ -14,7 +7,7 @@
                  style="width:60px;height:60px;background:#fff;padding:8px;">
                  ePosMrp
           </h1>
-          <p class="lead mb-4">This module lets you flag products as make-to-order directly from the point of sale and automatically creates the corresponding manufacturing orders together with all required pickings. It also adds a POS interface to confirm the generated pickings.
+          <p class="lead mb-4">Allows you to create MRP production Orders from POS Actions 
         </p>
         </div>
         <div class="col-lg-4 text-center">
@@ -22,92 +15,37 @@
         </div>
       </div>
     </div>
+</section>
+  
+<main class="py-5">
+  <section class="mb-5">
+      <h2 class="h3 fw-bold mb-4 text-center">What it does</h2>
+      <div class="row g-3 text-center">
+        <div class="col"><div class="p-3 bg-light rounded fw-semibold">Manufacture from POS</div></div>
+      </div>
+  </section>
+  <section class="mb-5">
+      <div class="container">
+  
+      <h2 class="h3 fw-bold mb-4">Visual Workflow</h2>
+  
+      <div class="card shadow-sm mb-4">
+          <div class="card-body">
+              <h5 class="card-title fw-semibold">POS</h5>
+              <p class="card-text small text-muted">New Action in POS for MRP</p>
+          </div>
+          <img src="assets/screenshots/1.png" class="card-img-bottom">
+      </div>
+
+      <div class="card shadow-sm mb-4">
+          <div class="card-body">
+              <h5 class="card-title fw-semibold">Wizard</h5>
+              <p class="card-text small text-muted">Select product , qty and Bom</p>
+          </div>
+          <img src="assets/screenshots/2.png" class="card-img-bottom">
+      </div>
   </section>
   
-  <!-- 2. VISUAL WORKFLOW -->
-  <main class="py-5">
-    <section class="mb-5">
-        <h2 class="h3 fw-bold mb-4 text-center">What it does</h2>
-        <div class="row g-3 text-center">
-          <div class="col"><div class="p-3 bg-light rounded fw-semibold">Manofacture from POS</div></div>
-          <div class="col"><div class="p-3 bg-light rounded fw-semibold">Visualize in real time POS orders status</div></div>
-          <div class="col"><div class="p-3 bg-light rounded fw-semibold">Confirm Delivery from POS</div></div>
-        </div>
-    </section>
-    <section class="mb-5">
-        <div class="container">
-    
-        <h2 class="h3 fw-bold mb-4">Visual Workflow</h2>
-    
-        <!-- Card 1 : single full-width -->
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h5 class="card-title fw-semibold">Manofacture Product</h5>
-                <p class="card-text small text-muted">Make-to-Order Assignment</p>
-            </div>
-            <img src="assets/screenshots/1.png" class="card-img-bottom">
-        </div>
 
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h5 class="card-title fw-semibold">Visual Refernce</h5>
-                <p class="card-text small text-muted">Shows whether a product / line is make-to-order in the product list, variant pop-up and order lines</p>
-            </div>
-            <img src="assets/screenshots/2.png" class="card-img-bottom">
-        </div>
-
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h5 class="card-title fw-semibold">Reference on Sale</h5>
-                <p class="card-text small text-muted">Once the sale is confirmed, the picking linked to the manufacturing order(s) is created (all MOs are grouped into a single picking). The sale view then displays both the MO and picking details</p>
-            </div>
-            <img src="assets/screenshots/3.png" class="card-img-bottom">
-        </div>
-
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h5 class="card-title fw-semibold">Delivery Interface</h5>
-                <p class="card-text small text-muted">A new action in the POS opens an interface where finished and pending orders / pickings can be viewed and filtered. Require activate the option in POS Settings</p>
-            </div>
-            <div class="row justify-content-around">
-                <div class="col-12 mb-2">
-                  <img src="assets/screenshots/4.png" class="card-img-bottom">
-              </div>
-                <div class="col-12 mb-2">
-                    <img src="assets/screenshots/4-1.png" class="card-img-bottom">
-                </div>
-                <div class="col-mx-6">
-                    <img src="assets/screenshots/4-2.png" class="card-img-bottom">
-                </div>
-                <div class="col-mx-6">
-                    <img src="assets/screenshots/4-3.png" class="card-img-bottom">
-                </div>
-            </div>
-        </div>
-
-        <div class="card shadow-sm mb-4">
-            <div class="card-body">
-                <h5 class="card-title fw-semibold">Confirm Delivery</h5>
-                <p class="card-text small text-muted">Ready pickings (manufacturing completed) can be confirmed right from the POS  </p>
-            </div>
-            <img src="assets/screenshots/5.png" class="card-img-bottom">
-        </div>
-    
-        
-    </section>
-    
+</main>
   
-    <!-- 4. DEMO GIF -->
-    <section class="mb-5 text-center">
-      <h2 class="h3 fw-bold mb-4 text-center">Demo GIF</h2>
-      <img src="assets/screenshots/gif.gif" class="img-fluid rounded shadow">
-    </section>
-  </main>
-  
-  <!-- 5. FOOTER -->
-  <footer class="bg-primary text-white py-4">
-    <div class="container text-center">
-      <a href="https://github.com/acevedoesteban999/eAddons/blob/18.0/e_pos_mrp"
-         target="_blank" class="btn btn-outline-light btn-sm">Documentation</a>
-    </div>
-  </footer>
