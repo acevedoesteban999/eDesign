@@ -10,6 +10,8 @@ import zipfile
 import logging
 import re
 import math
+from odoo.addons.e_module_base.utils.util import _os_path_dir
+
 _logger = logging.getLogger(__name__)
 
 def _generate_zip_filename(version):
@@ -43,10 +45,6 @@ def _bits_to_human(bits):
 
     return f"{formatted} {units[i]}"
 
-def _os_path_dir(path,count):
-    if count > 0:
-        return os.path.dirname(_os_path_dir(path,count-1))
-    return path
 
 def make_backup(local_path, module_name, version):
     try:

@@ -4,9 +4,10 @@
     <record id="view_ir_module_e_update_list" model="ir.ui.view">
         <field name="name">ir.module.e_update.list</field>
         <field name="model">ir.module.e_update</field>
+        <field name="inherit_id" ref="e_module_base.view_ir_module_e_base_list"></field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <list>
-                <field name="module_name"/>
+            <list position="inside">
                 <field name="installed_version"></field>
                 <field name="local_version"></field>
             </list>
@@ -16,72 +17,60 @@
     <record id="view_ir_module_e_update_form" model="ir.ui.view">
         <field name="name">ir.module.e_update.form</field>
         <field name="model">ir.module.e_update</field>
+        <field name="inherit_id" ref="e_module_base.view_ir_module_e_base_form"></field>
+        <field name="mode">primary</field>
         <field name="arch" type="xml">
-            <form>
-                <header>
-                    <button name="action_check_version" type="object" string="Check Version"/>
-                                        
-                    <button name="action_restart_server" type="object" string="Restart Server" class="oe_highlight"
-                            invisible="not restart_local" 
-                            confirm="This action only reloads the page. The server needs to restart to apply  the module changes. To do this, restart the service that started Odoo or your operating system."/>
-                            
-                    <button name="action_install_local_version" string="Update Module"  type="object" class="oe_highlight" 
-                            invisible="not update_local" confirm="This will update this module in the server. Continue?"/>
-                    
-                </header>
-                <sheet>
-                    <group>
-                        <group>
-                            <field name="module_name" placeholder="ex: e_module"/>
-                        </group>
-                        <group>
-                            <field name="module_icon" widget="image_url"/>
-                        </group>
-                    </group>
-                    <notebook>
-                        <page name="info" string="Information">
-                            <group>
-                                <group name="versions">
-                                    <field name="installed_version" readonly="1"/>
-                                    <field name="local_version" readonly="1"/>
-                                    <field name="repository_version" readonly="1"></field>
-                                </group>
-                                <group name="state" invisible="not update_state">
-                                    <field name="update_state" widget="badge" readonly="1"
-                                        decoration-success="update_state == 'uptodate'"
-                                        decoration-info="update_state  == 'to_update'"
-                                        decoration-warning="update_state == 'to_downgrade'"
-                                        decoration-danger="update_state == 'error'"
-                                        />
-                                    <field name="error_msg" readonly="1" invisible="update_state not in  ['error','to_downgrade']" 
-                                        decoration-danger="update_state == 'error'"
-                                        decoration-warning="update_state == 'to_downgrade'"
-                                        >
-                                    </field>
-                                    <field name="last_check" readonly="1"/>
-                                </group>
-                            </group>
-                        </page>
-                        <page name="backups" string="Backups" invisible="not id">
-                            <button string="Select All" name="action_select_all_backups" type="object" class="oe_highlight m-2" invisible="all_selected"/>
-                            <button string="Unselect All" name="action_unselect_all_backups" type="object" class="oe_highlight m-2" invisible="not has_selected"/>
-                            <button string="Delete Selected" name="action_remove_selected_backups" confirm="This will DELETE the backups. Continue?" type="object" class="m-2" invisible="not has_selected"/>
-                            <button string="Reload Backups" name="action_reload_backups" type="object" class="m-2"/>
-                            <!-- <field name="local_path" invisible="1"></field> -->
-                            <field name="backup_ids" context="{'local_path': local_path}">
-                                <list create="0" editable="top" delete="0" link="0" unlink="0">
-                                    <field name="selected" nolabel="1"></field>
-                                    <field name="name" readonly="1"></field>
-                                    <field name="version" readonly="1"></field>
-                                    <field name="size" readonly="1"></field>                                   
-                                    <button string="Restore" confirm="This will REPLACE all local files. Make sure you have a backup of the version you are going to replace. Continue?" name="action_restore_backup" type="object" class="oe_highlight"/>
-                                    <button string="Delete" confirm="This will DELETE the backup. Continue?" name="action_delete_backup" type="object" />
-                                </list>
-                            </field>
-                        </page>
-                    </notebook>
-                </sheet>
-            </form>
+            <header position="inside">
+                <button name="action_check_version" type="object" string="Check Version"/>
+                                    
+                <button name="action_restart_server" type="object" string="Restart Server" class="oe_highlight"
+                        invisible="not restart_local" 
+                        confirm="This action only reloads the page. The server needs to restart to apply  the module changes. To do this, restart the service that started Odoo or your operating system."/>
+                        
+                <button name="action_install_local_version" string="Update Module"  type="object" class="oe_highlight" 
+                        invisible="not update_local" confirm="This will update this module in the server. Continue?"/>
+            </header>
+            <xpath expr="//field[@name='installed_version']" position="after">
+                <field name="local_version" readonly="1"/>
+                <field name="repository_version" readonly="1"></field>
+            </xpath>
+            <xpath expr="//field[@name='error_msg']" position="before">
+                <field name="update_state" widget="badge" readonly="1"
+                    decoration-success="update_state == 'uptodate'"
+                    decoration-info="update_state  == 'to_update'"
+                    decoration-warning="update_state == 'to_downgrade'"
+                    decoration-danger="update_state == 'error'"
+                    />
+                
+            </xpath>
+            <xpath expr="//field[@name='error_msg']" position="replace">
+                <field name="error_msg" 
+                    readonly="1" 
+                    invisible="update_state not in  ['error','to_downgrade']" 
+                    widget="badge"
+                    decoration-danger="update_state == 'error'"
+                    decoration-warning="update_state == 'to_downgrade'"
+                    >
+                </field>
+            </xpath>
+            <xpath expr="//page[@name='info']" position="after">
+                <page name="backups" string="Backups" invisible="not id">
+                    <button string="Select All" name="action_select_all_backups" type="object" class="oe_highlight m-2" invisible="all_selected"/>
+                    <button string="Unselect All" name="action_unselect_all_backups" type="object" class="oe_highlight m-2" invisible="not has_selected"/>
+                    <button string="Delete Selected" name="action_remove_selected_backups" confirm="This will DELETE the backups. Continue?" type="object" class="m-2" invisible="not has_selected"/>
+                    <button string="Reload Backups" name="action_reload_backups" type="object" class="m-2"/>
+                    <field name="backup_ids" context="{'local_path': local_path}">
+                        <list create="0" editable="top" delete="0" link="0" unlink="0" no_open="1">
+                            <field name="selected" nolabel="1"></field>
+                            <field name="name" readonly="1"></field>
+                            <field name="version" readonly="1"></field>
+                            <field name="size" readonly="1"></field>                                   
+                            <button string="Restore" confirm="This will REPLACE all local files. Make sure you have a backup of the version you are going to replace. Continue?" name="action_restore_backup" type="object" class="oe_highlight"/>
+                            <button string="Delete" confirm="This will DELETE the backup. Continue?" name="action_delete_backup" type="object" />
+                        </list>
+                    </field>
+                </page>
+            </xpath>
         </field>
     </record>
 

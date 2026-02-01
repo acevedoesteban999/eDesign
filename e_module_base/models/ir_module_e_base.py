@@ -19,6 +19,9 @@ class EGitModuleBase(models.AbstractModel):
         ('dont_found','Dont Found'),
     ],compute="_compute_module_status",readonly=True)
     
+    installed_version = fields.Char("Installed Version", compute="_compute_installed_versions",
+                                    help="Version installed on Database")
+    
     _sql_constraints = [
         ('unique_module', 'unique(module_name)', 'Module must be unique!')
     ]
@@ -30,6 +33,11 @@ class EGitModuleBase(models.AbstractModel):
     # API
     # ===================================================================
 
+    @api.depends('module_name')
+    def _compute_installed_versions(self):
+        for rec in self:
+            rec.installed_version = self.env['ir.module.module'].search([('name','=',rec.module_name)]).latest_version
+    
     @api.depends('module_name')
     def _compute_local_path(self):
         for rec in self:

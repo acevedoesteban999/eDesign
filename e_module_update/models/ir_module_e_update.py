@@ -9,16 +9,10 @@ from odoo.modules.module import load_manifest
 
 class EGitModuleUpdater(models.AbstractModel):
     _name = 'ir.module.e_update'
+    _inherit = 'ir.module.e_base'
     _description = 'Base Module Updater'
     _rec_name = 'module_name'
 
-    module_name = fields.Char("Module Technical Name", required=True)
-    module_icon = fields.Char(compute="_compute_module_icon")
-    module_exist = fields.Boolean("Module Exist",compute="_compute_module_exist")
-    local_path = fields.Char(compute="_compute_local_path")
-    
-    installed_version = fields.Char("Installed Version", compute="_compute_versions",
-                                    help="Version installed on Database")
     
     local_version = fields.Char("Local Version", compute="_compute_versions",
                                 help="Version Cached in Odoo. Need Restart Odoo Server for changes")
@@ -36,9 +30,6 @@ class EGitModuleUpdater(models.AbstractModel):
     update_local = fields.Boolean(compute="_compute_update_local")
     restart_local = fields.Boolean(compute="_compute_restart_local")
     
-    error_msg = fields.Char("Error")
-    last_check = fields.Datetime("Last Check")
-    
     backup_ids = fields.Many2many('ir.module.e_update.backup','rel_backups_e_update',string="Backups",compute="_compute_backup_ids",readonly=False)
     
     all_selected = fields.Boolean(compute="_compute_selecteds")
@@ -52,11 +43,6 @@ class EGitModuleUpdater(models.AbstractModel):
     # API
     # ===================================================================
 
-    @api.depends('module_name')
-    def _compute_local_path(self):
-        for rec in self:
-            rec.local_path = modules.get_module_path(rec.module_name)
-    
     @api.depends('backup_ids.selected')
     def _compute_selecteds(self):
         for rec in self:
@@ -65,10 +51,6 @@ class EGitModuleUpdater(models.AbstractModel):
             rec.all_selected = total_selecteds == count_selecteds
             rec.has_selected = bool(count_selecteds)
         
-    @api.onchange('module_name')
-    def _compute_module_icon(self):
-        for rec in self:
-            rec.module_icon = f"/{self.module_name}/static/description/icon.png"
     
     @api.depends('module_name','module_exist')
     def _compute_backup_ids(self):
@@ -79,11 +61,6 @@ class EGitModuleUpdater(models.AbstractModel):
             if rec.module_exist:
                 rec.backup_ids = rec.backup_ids.get_backups_Command(self.env,rec.module_name)
                     
-                
-    @api.depends('module_name')
-    def _compute_module_exist(self):
-        for rec in self:
-            rec.module_exist = rec.module_name and  rec.env['ir.module.module'].search_count([('name','=',rec.module_name)]) != 0 or False
     
     @api.depends('local_version','installed_version')
     def _compute_update_local(self):
@@ -118,7 +95,7 @@ class EGitModuleUpdater(models.AbstractModel):
     @api.depends('module_name')
     def _compute_versions(self, update_state = True):
         for rec in self:
-            if not rec.module_exist:
+            if rec.module_status != 'ready':
                 rec.update({
                     'local_version': _("Unknown"),
                     'installed_version': _("Unknown"),
@@ -131,12 +108,11 @@ class EGitModuleUpdater(models.AbstractModel):
             module = self.env['ir.module.module'].search([('name','=',rec.module_name)])
             repository_version = load_manifest(rec.module_name).get('version',_("Unknown"))
             local_version = module.installed_version
-            installed_version = module.latest_version
+            rec._compute_installed_versions()
             
             rec.update({
                 'local_version': local_version or _("Unknown"),
                 'repository_version': repository_version or _("Unknown"),
-                'installed_version':installed_version or _("Unknown"),
             })
             
             if update_state:
@@ -237,7 +213,7 @@ class EGitModuleUpdater(models.AbstractModel):
         
     def action_create_backup(self):
         for rec in self:
-            if rec.module_exist:
+            if rec.module_status == 'ready':
                 make_backup(
                     rec.local_path,
                     rec.module_name,

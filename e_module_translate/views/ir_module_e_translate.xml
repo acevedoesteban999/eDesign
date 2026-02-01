@@ -50,21 +50,14 @@
             <xpath expr="//field[@name='module_name']/parent::group" position="inside">
                 <field name="id" invisible="1"></field>
                 <field name="po_languages" widget="ejson_tags"></field>
+            </xpath>
+            <xpath expr="//field[@name='error_msg']" position="before">
                 <field name="status" 
                     widget="badge"
                     decoration-success="status == 'synced'"
                     decoration-warning="status == 'outdated'"
                     decoration-danger="status == 'error'"
                     decoration-muted="status == 'missing'"/>
-                <field name="error_msg" 
-                    invisible="not error_msg"
-                    string="Info"
-                    readonly="1" 
-                    widget="badge"
-                    decoration-secondary="True"
-                    decoration-danger="status == 'error'"
-                    />
-                <field name="last_check"></field>
             </xpath>
         </field>
     </record>

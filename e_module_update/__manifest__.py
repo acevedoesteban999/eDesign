@@ -6,7 +6,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_module_update',
     'category': '',
-    'depends': ['base', 'web'],
+    'depends': ['base', 'web','e_module_base'],
     "data": [
         "security/ir.model.access.csv",
         "views/ir_module_e_update.xml",

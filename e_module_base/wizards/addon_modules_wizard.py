@@ -47,6 +47,6 @@ class AddonModules(models.TransientModel):
             'target': 'new',
         }
         
-    def loadModules(self):
-        return {'type': 'ir.actions.act_window_close'}
+    # def loadModules(self):
+    #     return {'type': 'ir.actions.act_window_close'}
         

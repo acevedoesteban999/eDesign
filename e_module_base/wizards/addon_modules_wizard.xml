@@ -15,7 +15,7 @@
                     <field name="modules_not_installed" widget="ejson_tags"></field>
                 </group>
                 <footer>
-                    <button name="loadModules" type="object" string="Load Modules" class="oe_highlight"/>
+                    <!-- <button name="loadModules" type="object" string="Load Modules" class="oe_highlight"/> -->
                     <button special="cancel" string="Cancel"/>
                 </footer>
             </form>

@@ -34,12 +34,32 @@
                                 decoration-success="module_status == 'ready'"
                                 decoration-warning="module_status == 'no_installed'"
                                 decoration-danger="module_status == 'dont_found'"
-                            ></field>
+                            />
                         </group>
                         <group>
                             <field name="module_icon" widget="image_url"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page name="info" string="Information">
+                            <group>
+                                <group name="versions">
+                                    <field name="installed_version" readonly="1"/>
+                                </group>
+                                <group name="state">
+                                    <field name="error_msg" 
+                                        invisible="not error_msg"
+                                        string="Info"
+                                        readonly="1" 
+                                        widget="badge"
+                                        decoration-secondary="True"
+                                        />
+                                    <field name="last_check" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                        
+                    </notebook>
                 </sheet>
             </form>
         </field>
