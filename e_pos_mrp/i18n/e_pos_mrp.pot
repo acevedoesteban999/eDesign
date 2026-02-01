@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 06:46+0000\n"
-"PO-Revision-Date: 2026-01-30 06:46+0000\n"
+"POT-Creation-Date: 2026-02-01 00:23+0000\n"
+"PO-Revision-Date: 2026-02-01 00:23+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,340 +16,89 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: e_pos_mrp
-#: model_terms:ir.ui.view,arch_db:e_pos_mrp.pos_order_form_inherit_mrp_production_form
-msgid "<span class=\"o_stat_text\">POS Order</span>"
+#: model:ir.model.fields,field_description:e_pos_mrp.field_e_pos_mrp_creata_order_wizard__bom_id
+msgid "Bom Material"
+msgstr ""
+
+#. module: e_pos_mrp
+#: model_terms:ir.ui.view,arch_db:e_pos_mrp.view_creata_order_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: e_pos_mrp
+#: model_terms:ir.ui.view,arch_db:e_pos_mrp.view_creata_order_wizard_form
+msgid "Create"
+msgstr ""
+
+#. module: e_pos_mrp
+#: model:ir.model,name:e_pos_mrp.model_e_pos_mrp_creata_order_wizard
+msgid "Create MRP in POS Wizadrd"
 msgstr ""
 
 #. module: e_pos_mrp
 #. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-msgid "All"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-msgid "Are you sure that the customer wants to recive the picking?"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Back"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model.fields,help:e_pos_mrp.field_product_product__can_create_pos_mrp
-#: model:ir.model.fields,help:e_pos_mrp.field_product_template__can_create_pos_mrp
-msgid ""
-"Check if the product should make mrp order in pos. Require bill of materials"
-" for template or product."
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model,name:e_pos_mrp.model_res_config_settings
-msgid "Config Settings"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Confirm Delivery"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-msgid "Confirm Delivery ?"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model.fields,field_description:e_pos_mrp.field_pos_order__mrp_production_count
-msgid "Count of MO generated"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Create Date"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-msgid "Delivered"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
-msgid "Delivery"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Delivery Name"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
+#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/control_buttons/control_buttons.js:0
 #: code:addons/addons/e_addons/e_pos_mrp/static/src/components/control_buttons/control_buttons.xml:0
+#: code:addons/e_pos_mrp/static/src/components/control_buttons/control_buttons.js:0
 #: code:addons/e_pos_mrp/static/src/components/control_buttons/control_buttons.xml:0
-msgid "Delivery Orders"
+msgid "Create Manufacture"
 msgstr ""
 
 #. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
-msgid "Delivery and Manufacturing Created"
+#: model:ir.model.fields,field_description:e_pos_mrp.field_e_pos_mrp_creata_order_wizard__create_uid
+msgid "Created by"
 msgstr ""
 
 #. module: e_pos_mrp
-#: model_terms:ir.ui.view,arch_db:e_pos_mrp.e_pos_out_stock_res_config_settings_view_form_pos_invoice_toggle
-msgid ""
-"Enable this option to display the Delivery Action in POS and the information"
-" in the confirmed sale."
+#: model:ir.model.fields,field_description:e_pos_mrp.field_e_pos_mrp_creata_order_wizard__create_date
+msgid "Created on"
 msgstr ""
 
 #. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Go Back"
+#: model:ir.model.fields,field_description:e_pos_mrp.field_e_pos_mrp_creata_order_wizard__display_name
+msgid "Display Name"
 msgstr ""
 
 #. module: e_pos_mrp
-#: model:ir.model.fields,field_description:e_pos_mrp.field_product_product__has_create_pos_mrp
-msgid "Has Create Pos Mrp"
+#: model:ir.model.fields,field_description:e_pos_mrp.field_e_pos_mrp_creata_order_wizard__id
+msgid "ID"
 msgstr ""
 
 #. module: e_pos_mrp
-#: model:ir.model.fields,help:e_pos_mrp.field_pos_config__show_mrp_delivery
-#: model:ir.model.fields,help:e_pos_mrp.field_res_config_settings__show_mrp_delivery
-msgid ""
-"If checked , is activated the delivery action , confirm and view for "
-"pickings"
+#: model:ir.model.fields,field_description:e_pos_mrp.field_e_pos_mrp_creata_order_wizard__write_uid
+msgid "Last Updated by"
 msgstr ""
 
 #. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/order_line/orderline.xml:0
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/product_card/product_card.xml:0
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/product_info_banner/product_info_banner.xml:0
-#: code:addons/e_pos_mrp/static/src/components/order_line/orderline.xml:0
-#: code:addons/e_pos_mrp/static/src/components/product_card/product_card.xml:0
-#: code:addons/e_pos_mrp/static/src/components/product_info_banner/product_info_banner.xml:0
-msgid "Manufacture Manufacture by Demand"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/order_line/orderline.xml:0
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/product_card/product_card.xml:0
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/product_info_banner/product_info_banner.xml:0
-#: code:addons/e_pos_mrp/static/src/components/order_line/orderline.xml:0
-#: code:addons/e_pos_mrp/static/src/components/product_card/product_card.xml:0
-#: code:addons/e_pos_mrp/static/src/components/product_info_banner/product_info_banner.xml:0
-msgid "Manufacture by Demand"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model.fields,field_description:e_pos_mrp.field_product_product__can_create_pos_mrp
-#: model:ir.model.fields,field_description:e_pos_mrp.field_product_template__can_create_pos_mrp
-msgid "Manufacture on demand"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
-msgid "Manufactures"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model_terms:ir.ui.view,arch_db:e_pos_mrp.pos_order_form_inherit_pos_order_form
-msgid "Manufacturing"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model,name:e_pos_mrp.model_mrp_production
-msgid "Manufacturing Order"
+#: model:ir.model.fields,field_description:e_pos_mrp.field_e_pos_mrp_creata_order_wizard__write_date
+msgid "Last Updated on"
 msgstr ""
 
 #. module: e_pos_mrp
 #. odoo-python
-#: code:addons/addons/e_addons/e_pos_mrp/models/pos_order.py:0
-#: code:addons/e_pos_mrp/models/pos_order.py:0
-msgid "Manufacturing Orders Generated by %s"
+#: code:addons/addons/e_addons/e_pos_mrp/wizards/creata_order_wizard.py:0
+#: code:addons/e_pos_mrp/wizards/creata_order_wizard.py:0
+msgid "MRP Production Created"
 msgstr ""
 
 #. module: e_pos_mrp
-#: model:ir.model.fields,field_description:e_pos_mrp.field_pos_order__mrp_production_ids
-#: model:ir.model.fields,field_description:e_pos_mrp.field_pos_order_line__mrp_production_ids
-msgid "Manufacturing orders associated with this pos order line."
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Next Delivery List"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-python
-#: code:addons/addons/e_addons/e_pos_mrp/models/pos_order.py:0
-#: code:addons/e_pos_mrp/models/pos_order.py:0
-msgid "No lista de materiales para %s"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model.fields,field_description:e_pos_mrp.field_mrp_production__pos_order_id
-msgid "Origin POS"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model.fields,field_description:e_pos_mrp.field_mrp_production__pos_order_line_id
-msgid "Origin POS line"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-python
-#: code:addons/addons/e_addons/e_pos_mrp/models/mrp_production.py:0
-#: code:addons/e_pos_mrp/models/mrp_production.py:0
-msgid "POS Order"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Partner"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model,name:e_pos_mrp.model_pos_config
-msgid "Point of Sale Configuration"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model,name:e_pos_mrp.model_pos_order_line
-msgid "Point of Sale Order Lines"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model,name:e_pos_mrp.model_pos_order
-msgid "Point of Sale Orders"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/receipt_screen/receipt_screen.xml:0
-msgid "Pos Order"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Previous Delivery List"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model,name:e_pos_mrp.model_product_template
+#: model:ir.model.fields,field_description:e_pos_mrp.field_e_pos_mrp_creata_order_wizard__product_id
 msgid "Product"
 msgstr ""
 
 #. module: e_pos_mrp
-#: model:ir.model,name:e_pos_mrp.model_product_product
-msgid "Product Variant"
+#: model:ir.model.fields,field_description:e_pos_mrp.field_e_pos_mrp_creata_order_wizard__product_tmpl_id
+msgid "Product Template"
 msgstr ""
 
 #. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-msgid "Ready"
+#: model:ir.model.fields,field_description:e_pos_mrp.field_e_pos_mrp_creata_order_wizard__product_qty
+msgid "Qty"
 msgstr ""
 
 #. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Search Pikings..."
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-msgid "Select a Delivery"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model.fields,field_description:e_pos_mrp.field_pos_config__show_mrp_delivery
-#: model:ir.model.fields,field_description:e_pos_mrp.field_res_config_settings__show_mrp_delivery
-msgid "Show in POS Delivery Info"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.xml:0
-msgid "State"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
+#. odoo-python
+#: code:addons/addons/e_addons/e_pos_mrp/wizards/creata_order_wizard.py:0
+#: code:addons/e_pos_mrp/wizards/creata_order_wizard.py:0
 msgid "Success"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-msgid "Success confirmation for Delivery %s in POS order: %s"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/product_info_banner/product_info_banner.xml:0
-#: code:addons/e_pos_mrp/static/src/components/product_info_banner/product_info_banner.xml:0
-msgid "This Product is manufatured by demand"
-msgstr ""
-
-#. module: e_pos_mrp
-#: model:ir.model,name:e_pos_mrp.model_stock_picking
-msgid "Transfer"
-msgstr ""
-
-#. module: e_pos_mrp
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-#: code:addons/e_pos_mrp/static/src/components/picking_screen/picking_screen.js:0
-msgid "Waiting"
 msgstr ""

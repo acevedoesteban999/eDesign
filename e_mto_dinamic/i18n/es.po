@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 06:49+0000\n"
-"PO-Revision-Date: 2026-01-30 06:49\n"
+"POT-Creation-Date: 2026-02-01 00:23+0000\n"
+"PO-Revision-Date: 2026-02-01 00:24\n"
 "Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language: es\n"
@@ -197,13 +197,6 @@ msgstr ""
 #: code:addons/e_mto_dinamic/static/src/componets/dinamic_configurator_dialog/dinamic_configurator_dialog.xml:0
 msgid "Quantity"
 msgstr "Cantidad"
-
-#. module: e_mto_dinamic
-#. odoo-python
-#: code:addons/addons/e_addons/e_mto_dinamic/models/product_template.py:0
-#: code:addons/e_mto_dinamic/models/product_template.py:0
-msgid "Replenish on Order (MTO)"
-msgstr "Reabastecer según pedido (MTO)"
 
 #. module: e_mto_dinamic
 #: model:ir.model,name:e_mto_dinamic.model_sale_order_line

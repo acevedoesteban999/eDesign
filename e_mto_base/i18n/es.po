@@ -1,0 +1,36 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* e_mto_base
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250507\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-01 00:23+0000\n"
+"PO-Revision-Date: 2026-02-01 00:25\n"
+"Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
+"Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+"X-Generator: e_module_translate\n"
+
+#. module: e_mto_base
+#: model:ir.model.fields,field_description:e_mto_base.field_product_product__mto_ok
+#: model:ir.model.fields,field_description:e_mto_base.field_product_template__mto_ok
+msgid "Mto Ok"
+msgstr "Mto Ok"
+
+#. module: e_mto_base
+#: model:ir.model,name:e_mto_base.model_product_template
+msgid "Product"
+msgstr "Producto"
+
+#. module: e_mto_base
+#. odoo-python
+#: code:addons/addons/e_addons/e_mto_base/models/product_template.py:0
+#: code:addons/e_mto_base/models/product_template.py:0
+msgid "Replenish on Order (MTO)"
+msgstr "Reabastecer según pedido (MTO)"
