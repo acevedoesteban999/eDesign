@@ -1,0 +1,2 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_e_module_base_addon_modules_wizard_manager,e_module_base_addon_modules_wizard_manager,model_e_module_base_addon_modules_wizard,base.group_system,1,1,1,1

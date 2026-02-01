@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_addon_modules_wizard_form" model="ir.ui.view">
+        <field name="name">view.e_module_base.addon_modules_wizard.form</field>
+        <field name="model">e_module_base.addon_modules_wizard</field>
+        <field name="arch" type="xml">
+            <form string="Addon_modules">
+                <header>
+                    <button string="Rescan Addon" name="action_scan" type="object" class="oe_highlight"/>
+                </header>
+                <group>
+                    <field name="addon_path"></field>
+                    <field name="modules" widget="ejson_tags"></field>
+                    <field name="modules_not_installed" widget="ejson_tags"></field>
+                </group>
+                <footer>
+                    <button name="loadModules" type="object" string="Load Modules" class="oe_highlight"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="addon_modules_wizard_action" model="ir.actions.act_window">
+        <field name="name">Addon Modules</field>
+        <field name="res_model">e_module_base.addon_modules_wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p/>
+        </field>
+    </record>
+
+</odoo>

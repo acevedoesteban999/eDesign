@@ -22,7 +22,9 @@
         <field name="model">ir.module.e_base</field>
         <field name="arch" type="xml">
             <form>
-                <header/>
+                <header>
+                    <!-- <button string="Addon Wizard" name="%(addon_modules_wizard_action)d" type="action" class="oe_highlight"/> -->
+                </header>
                 <sheet>
                     <group>
                         <group>
