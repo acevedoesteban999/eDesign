@@ -38,7 +38,8 @@
                         invisible="module_status != 'ready'" 
                         name="action_recompute_translations" 
                         type="object" 
-                        class="oe_highlight"/>
+                        class="oe_highlight"
+                        context="{'recompute_status':True}"/>
                 <button name="%(action_pot_translation_dialog)d" 
                         invisible="module_status != 'ready'" 
                         type="action" 
@@ -89,7 +90,7 @@
         <field name="binding_view_types">list</field>
         <field name="state">code</field>
         <field name="code">
-            records._compute_translations(True);
+            records.action_recompute_translations(True,True);
         </field>
     </record>
 

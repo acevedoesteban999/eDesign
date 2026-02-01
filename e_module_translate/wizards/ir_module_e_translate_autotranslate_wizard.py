@@ -1,6 +1,7 @@
 
 from odoo import models, fields, _
-from ..models.ir_module_e_translate import _POT_DICT_KEY
+from ..models.ir_module_e_translate import _POT_DICT_KEY 
+from ..utils.utils import get_pots_from_export
 class ModelName(models.TransientModel):
     _name = 'ir.module.e_translate.autotranslate.wizard'
     _description = 'eModuleAutotranslate'
@@ -16,12 +17,21 @@ class ModelName(models.TransientModel):
         if not e_translation_ids:
             return {'type': 'ir.actions.act_window_close'}
         
-        e_translations = e_translation_model.browse(e_translation_ids)
-        for e_trans in e_translations:
+        e_translations = e_translation_model.browse(e_translation_ids).filtered_domain([('module_status','=','ready')])
+        modules_name = e_translations.mapped('module_name')
+        
+        pots = get_pots_from_export(modules_name,self._cr)
+        
+        for e_translation,pot_file in zip(e_translations,pots):
             try:    
-                if e_trans.module_status != 'ready':
+                if e_translation.module_status != 'ready':
                     continue
-                result = e_trans.get_pot_translation_data(e_trans.id)
+                
+                e_translation._recompute_translations(True,pot_file)
+                if e_translation.status not in ['outdated','missing']:
+                    continue
+                
+                result = e_translation.get_pot_translation_data(e_translation.id,pot_file)
                 if not result or 'datas' not in result:
                     continue
                 
@@ -62,7 +72,7 @@ class ModelName(models.TransientModel):
                         'data': existing_data
                     }
             
-                e_trans.save_translate_data(e_trans.id, save_payload)
+                e_translation.save_translate_data(e_translation.id, save_payload)
             except Exception as e:
                 pass
         

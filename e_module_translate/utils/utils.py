@@ -5,6 +5,8 @@ import polib
 from odoo.tools.translate import trans_export
 from datetime import datetime
 
+def get_pots_from_export(modules_name:list,cr):
+    return [ get_pot_from_export(module, cr)for module in modules_name ] 
 
 def get_pot_from_export(module_name,cr):
     with io.BytesIO() as buf:
@@ -26,13 +28,18 @@ def get_pot_from_file(local_path,module_name):
     return polib.pofile(pot_path)
 
 
-def compare_pot_files(local_path,module_name,cr):
-    file_pot = get_pot_from_export(module_name,cr)
+def compare_pot_files(local_path,module_name,cr,pot_file_cached=False):
+    
+    if not pot_file_cached:
+        file_pot = get_pot_from_export(module_name,cr)
+    else:
+        file_pot = pot_file_cached
+        
     if not file_pot:
         return False
-
-    exported_pot = get_pot_from_file(local_path, module_name)
     
+    exported_pot = get_pot_from_file(local_path, module_name)
+        
     exported_keys = {entry.msgid for entry in exported_pot if entry.msgid}
     file_keys = {entry.msgid for entry in file_pot if entry.msgid}
 

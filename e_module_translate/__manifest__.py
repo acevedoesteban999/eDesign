@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eModuleTranslate',
-    'version': '18.0.0.0',
+    'version': '18.0.0.1.0',
     'summary': """ Check and trnslate POT and PO extension for modules """,
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_module_translate',

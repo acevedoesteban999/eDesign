@@ -2,7 +2,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 import os
-from ..utils.utils import compare_pot_files, get_pot_from_export, get_po_from_file , save_pot_file , save_po_file
+from ..utils.utils import compare_pot_files, get_pot_from_export , get_pots_from_export , get_po_from_file , save_pot_file , save_po_file
 from ..utils.translate import translate_values 
 import polib
 from datetime import datetime
@@ -23,60 +23,74 @@ class IrModuleTranslate(models.Model):
         ('error', "Error"),
     ], string="Translate Status", readonly=True)
 
-
-    @api.depends('module_name')
-    def _compute_translations(self, recompute_status = False):
-        for rec in self:
-            rec.po_languages = po_languages = []
+    def _recompute_translations(self,recompute_status = False , pot_file_cached = False):
+        self.po_languages = po_languages = []
             
-            if rec.module_status != 'ready':
-                rec.status = 'error'
-                continue
-                
-            try:
-                i18n_path = os.path.join(rec.local_path, 'i18n')
-                os.makedirs(i18n_path, exist_ok=True)
-                
-                pot_file = os.path.join(i18n_path, f'{rec.module_name}.pot')
-                has_pot_translations = os.path.exists(pot_file)
-                
-                if has_pot_translations:
-                    if recompute_status:
-                        result = compare_pot_files(rec.local_path, rec.module_name, rec._cr)
-                        if result:
-                            common_keys, missing_in_file, extra_in_file = result
-                            if missing_in_file or extra_in_file:
-                                rec.status = 'outdated'
-                                rec.error_msg = (_("Missing: %s ; Extra: %s") % (len(missing_in_file), len(extra_in_file)))
-                            else:
-                                rec.status = 'synced'
+        if self.module_status != 'ready':
+            self.status = 'error'
+            return
+            
+        try:
+            i18n_path = os.path.join(self.local_path, 'i18n')
+            os.makedirs(i18n_path, exist_ok=True)
+            
+            pot_file = os.path.join(i18n_path, f'{self.module_name}.pot')
+            has_pot_translations = os.path.exists(pot_file)
+            
+            if has_pot_translations:
+                if recompute_status:
+                    result = compare_pot_files(self.local_path, self.module_name, self._cr , pot_file_cached)
+                    if result:
+                        common_keys, missing_in_file, extra_in_file = result
+                        if missing_in_file or extra_in_file:
+                            self.status = 'outdated'
+                            self.error_msg = (_("Missing: %s ; Extra: %s") % (len(missing_in_file), len(extra_in_file)))
                         else:
-                            rec.status = False
-                else:
-                    rec.status = 'missing'
+                            self.status = 'synced'
+                    else:
+                        self.status = False
+            else:
+                self.status = 'missing'
+                
+            for entry in os.scandir(i18n_path):
+                if entry.name.endswith('.po'):
+                    lang_code = entry.name[:-3]
+                    po_languages.append({'name': lang_code})
                     
-                for entry in os.scandir(i18n_path):
-                    if entry.name.endswith('.po'):
-                        lang_code = entry.name[:-3]
-                        po_languages.append({'name': lang_code})
+        except Exception:
+            self.status = 'error'
                         
-            except Exception:
-                rec.status = 'error'
-                            
-            rec.po_languages = po_languages
-            rec.last_check = fields.Datetime.now()
+        self.po_languages = po_languages
+        self.last_check = fields.Datetime.now()
+    
+    @api.depends('module_name')
+    def _compute_translations(self):
+        for rec in self:
+            rec._recompute_translations()
 
-    def action_recompute_translations(self):
-        self._compute_translations(True)
-
+    def action_recompute_translations(self ,recompute_status = False ,cach_pot = False):
+        _recompute_status = recompute_status or self.env.context.get('recompute_status')
+        if cach_pot:
+            records = self.filtered_domain([('module_status','=','ready')])
+            pots = get_pots_from_export(records.mapped('module_name'),self._cr)
+            for rec,pot_file in zip(records,pots):
+                rec._recompute_translations(_recompute_status,pot_file)
+        else:
+            for rec in self:
+                rec._recompute_translations(_recompute_status)
+        
 
     @api.model
-    def get_pot_translation_data(self, e_translate_id):
+    def get_pot_translation_data(self, e_translate_id, pot_file_cached = False):
         rec = self.browse(e_translate_id)
         if rec.module_status != 'ready':
             return {}
+        
+        if not pot_file_cached:
+            exported_pot = get_pot_from_export(rec.module_name, rec._cr)
+        else:
+            exported_pot = pot_file_cached
             
-        exported_pot = get_pot_from_export(rec.module_name, rec._cr)
         header_comment = exported_pot.header
         
         pot_metadata = exported_pot.metadata
@@ -238,7 +252,7 @@ class IrModuleTranslate(models.Model):
             elif os.path.exists(po_path):
                 os.remove(po_path)
         
-        rec._compute_translations(True)
+        rec._recompute_translations(True)
         rec.error_msg = False
         rec.last_check = fields.Datetime.now()
         
