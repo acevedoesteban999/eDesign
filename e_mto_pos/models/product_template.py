@@ -8,7 +8,7 @@ class ProductTemplate(models.Model):
 
     can_create_mto_pos = fields.Boolean(
         string='Manufacture on demand',
-        help="Product should make mrp order in pos. Require MTO route",
+        help="Product should make mrp order in pos. Requires MTO route",
         conmpute="_compute_can_create_mto_pos",
         store=True,
         readonly=False,
