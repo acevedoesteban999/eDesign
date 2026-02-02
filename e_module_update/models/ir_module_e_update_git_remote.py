@@ -23,7 +23,7 @@ class eIrModuleUpdateGitRemote(models.Model):
     
     subfolder_path = fields.Char("Subfolder Path", required=True)
     branch = fields.Char("Branch", default="main", required=True)
-    remote_version = fields.Char("Remote Version", compute="_compute_versions")
+    remote_version = fields.Char("Remote Version", compute="_compute_state")
     download_local = fields.Boolean(compute="_compute_download_local")
     git_remote = fields.Selection([
         ('github',"GitHub"),
@@ -35,7 +35,7 @@ class eIrModuleUpdateGitRemote(models.Model):
             'User-Agent': 'Odoo-GitHub-Updater'
         }
 
-    @api.depends('repository_version','remote_version')
+    @api.depends('module_id','remote_version')
     def _compute_download_local(self):
         for rec in self:
             rec.download_local = self.compare_versions(rec.remote_version,rec.repository_version) 
@@ -163,38 +163,30 @@ class eIrModuleUpdateGitRemote(models.Model):
             restore_backup(backup_path,local_path,True)
             raise UserError(_("Update failed: %s") % str(e))
 
-    @api.depends('repo_url', 'subfolder_path', 'branch')
-    def _compute_versions(self):
-        for rec in self:
-            super(eIrModuleUpdateGitRemote,rec)._compute_versions()
+    def _recompute_remote_version(self):  
+        if self.module_state == 'installed' and self.state != 'error':
+            if not self.repo_url:
+                self.remote_version= False
+                self.state='error'
+                self.error_msg= _("No Repository URL Provided")
+                return
             
-            if rec.module_exist and rec.state != 'error':
-                if not rec.repo_url:
-                    rec.update({
-                        'remote_version': _("Unknown"),
-                        'state': 'error',
-                        'error_msg': _("No Repository URL Provided"),
-                    })
-                    continue
-                
-                remote_version , remote_error = rec._get_remote_git_version()
-                
+            remote_version , remote_error = self._get_remote_git_version()
             
-                rec.write({
-                    'remote_version': remote_version or "Unknown",
-                })
-                
-                self.compute_update_state(remote_error)
-            else:
-                rec.remote_version = _("Unknown")
+            self.remote_version= remote_version,
+            if not remote_version and remote_error:
+                self.state = 'error'
+                self.error_msg = remote_error    
+        else:
+            self.remote_version = False
 
-    def compute_update_state(self,remote_error=False):
-        self._compute_update_state(self.remote_version,self.repository_version)
-        if remote_error and not self.state:
-            self.state = 'error'
-            self.error_msg = remote_error
-        elif not self.state or self.state == 'uptodate':
-            super().compute_update_state()
+    @api.depends('repo_url', 'subfolder_path', 'branch')
+    def _compute_state(self,remote_error=False):
+        for rec in self:
+            rec._recompute_remote_version()
+            if rec.remote_version:
+                super(eIrModuleUpdateGitRemote,rec)._compute_state(versions=[rec.remote_version])
+            super(eIrModuleUpdateGitRemote,rec)._compute_state(compute_versions=False)
     
     # ===================================================================
     # ACTIONS
@@ -205,7 +197,7 @@ class eIrModuleUpdateGitRemote(models.Model):
         
         try:
             downloaded_files = self._download_entire_subfolder_zip()
-            self._compute_versions()
+            self._compute_state()
             
             return {
                 'type': 'ir.actions.client',
@@ -229,7 +221,7 @@ class eIrModuleUpdateGitRemote(models.Model):
         
         try:
             downloaded_files = self._download_entire_subfolder_raw()
-            self._compute_versions()
+            self._compute_state()
             
             return {
                 'type': 'ir.actions.client',

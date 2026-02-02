@@ -21,7 +21,7 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <header position="inside">
-                <button name="action_check_version" invisible="module_status != 'ready'" type="object" string="Check Version"/>
+                <button name="action_check_version" invisible="module_state != 'installed'" type="object" string="Check Version"/>
                                     
                 <button name="action_restart_server" type="object" string="Restart Server" class="oe_highlight"
                         invisible="not restart_local" 
@@ -30,12 +30,11 @@
                 <button name="action_install_local_version" string="Update Module"  type="object" class="oe_highlight" 
                         invisible="not update_local" confirm="This will update this module in the server. Continue?"/>
             </header>
-            <xpath expr="//field[@name='installed_version']" position="after">
-                <field name="local_version" readonly="1"/>
-                <field name="repository_version" readonly="1"></field>
+            <xpath expr="//group[@name='versions']" position="inside">
+                <field name="repository_version"></field>
             </xpath>
             <xpath expr="//field[@name='state']" position="attributes">
-                <attribute name="decoration-success">state == 'uptodate'</attribute>
+                <attribute name="decoration-success">state == 'updated'</attribute>
                 <attribute name="decoration-info">state == 'to_update'</attribute>
                 <attribute name="decoration-warning">state == 'to_downgrade'</attribute>
             </xpath>

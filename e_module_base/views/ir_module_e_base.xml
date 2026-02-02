@@ -6,12 +6,13 @@
         <field name="model">ir.module.e_base</field>
         <field name="arch" type="xml">
             <list>
-                <field name="module_name"/>
-                <field name="module_status"
+                <field name="module_id"/>
+                <field name="module_state"
                     widget="badge"
-                    decoration-success="module_status == 'ready'"
-                    decoration-warning="module_status == 'no_installed'"
-                    decoration-danger="module_status == 'dont_found'"
+                    decoration-success="module_state == 'installed'"
+                    decoration-muted="module_state == 'uninstalled'"
+                    decoration-danger="module_state == 'uninstallable'"
+                    decoration-warning="True"
                 ></field>
             </list>
         </field>
@@ -23,28 +24,31 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <!-- <button string="Addon Wizard" name="%(addon_modules_wizard_action)d" type="action" class="oe_highlight"/> -->
+                    <button string="Install Module" name="install_module" type="object" invisible="module_state != 'uninstalled'" class="oe_highlight"/>
+                    <button string="Recompute Data" name="action_recompute_data" type="object" class="oe_highlight" invisible="module_state != 'installed'"/>
                 </header>
                 <sheet>
                     <group>
                         <group>
-                            <field name="module_name" placeholder="ex: e_module"/>
-                            <field name="module_status"
+                            <field name="module_id"/>
+                            <field name="module_state"
                                 widget="badge"
-                                decoration-success="module_status == 'ready'"
-                                decoration-warning="module_status == 'no_installed'"
-                                decoration-danger="module_status == 'dont_found'"
+                                decoration-success="module_state == 'installed'"
+                                decoration-muted="module_state == 'uninstalled'"
+                                decoration-danger="module_state == 'uninstallable'"
+                                decoration-warning="True"
                             />
                         </group>
                         <group>
                             <field name="module_icon" widget="image_url"/>
                         </group>
                     </group>
-                    <notebook invisible="module_status != 'ready'">
+                    <notebook invisible="module_state != 'installed'">
                         <page name="info" string="Information">
                             <group>
                                 <group name="versions">
-                                    <field name="installed_version" readonly="1"/>
+                                    <field name="installed_version"/>
+                                    <field name="local_version"/>
                                 </group>
                                 <group name="state">
                                     <field name="state" 
@@ -57,7 +61,7 @@
                                         string="Info"
                                         readonly="1" 
                                         widget="badge"
-                                        decoration-secondary="True"
+                                        decoration-muted="True"
                                         />
                                     <field name="last_check" readonly="1"/>
                                 </group>

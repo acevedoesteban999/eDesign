@@ -7,21 +7,18 @@ from odoo.exceptions import UserError
 from ..utils.util import make_backup , get_module_backups
 from odoo.modules.module import load_manifest
 
-class EGitModuleUpdater(models.AbstractModel):
+class eIrModuleUpdate(models.AbstractModel):
     _name = 'ir.module.e_update'
     _inherit = 'ir.module.e_base'
     _description = 'Base Module Updater'
     _rec_name = 'module_name'
 
     
-    local_version = fields.Char("Local Version", compute="_compute_versions",
-                                help="Version Cached in Odoo. Need Restart Odoo Server for changes")
-    
-    repository_version = fields.Char("Repository Version", compute="_compute_versions",
+    repository_version = fields.Char("Repository Version", compute="_compute_repository_version",
                                      help="Version on Repository(Disk, Folder , OS)")
     
     state = fields.Selection(selection_add=[
-        ('uptodate', "Up to date"),
+        ('updated', "Updated"),
         ('to_update', "To Update"),
         ('to_downgrade',"To Downgrade"),
     ],string="Update State")
@@ -51,13 +48,13 @@ class EGitModuleUpdater(models.AbstractModel):
             rec.has_selected = bool(count_selecteds)
         
     
-    @api.depends('module_name','module_exist')
+    @api.depends('module_id')
     def _compute_backup_ids(self):
         for rec in self:
             rec.backup_ids = False
             if not rec.id:
                 continue
-            if rec.module_exist:
+            if rec.module_id:
                 rec.backup_ids = rec.backup_ids.get_backups_Command(self.env,rec.module_name)
                     
     
@@ -77,8 +74,8 @@ class EGitModuleUpdater(models.AbstractModel):
 
     @staticmethod
     def compare_versions(_v1,_v2):
-        v1 = EGitModuleUpdater.version_to_tuple(_v1)
-        v2 = EGitModuleUpdater.version_to_tuple(_v2) 
+        v1 = eIrModuleUpdate.version_to_tuple(_v1)
+        v2 = eIrModuleUpdate.version_to_tuple(_v2) 
         return bool(v1) and bool(v2) and v1 != v2
         
     @staticmethod
@@ -92,53 +89,54 @@ class EGitModuleUpdater(models.AbstractModel):
         return False
         
     @api.depends('module_name')
-    def _compute_versions(self):
+    def _compute_repository_version(self):
         for rec in self:
             try:
-                rec.repository_version = rec.local_version = False
-                if rec.module_status != 'ready':
+                rec.repository_version = False
+                if rec.module_state != 'installed':
                     continue
                 
-                repository_version = load_manifest(rec.module_name).get('version')
-                local_version = self.env['ir.module.module'].search([('name','=',rec.module_name)]).installed_version
-                rec._compute_installed_versions()
-                
-                rec.update({
-                    'local_version': local_version,
-                    'repository_version': repository_version,
-                })
-                
-                rec.compute_update_state()
+                rec.repository_version = load_manifest(rec.module_name).get('version')
             except:
                 rec.state = 'error'
-            
-    def compute_update_state(self):
-        self._compute_update_state(self.repository_version,self.local_version)
-        if not self.state or self.state == 'uptodate':
-            self._compute_update_state(self.local_version,self.installed_version)
-        
-    def _compute_update_state(self,up_version, down_version):
+    
+    def _compute_state(self,compute_versions = True, versions = []):
+        for rec in self:
+            try:
+                super(eIrModuleUpdate,rec)._compute_state()
+                if compute_versions:
+                    rec.state = rec._check_version_recursive(versions + [rec.repository_version,rec.local_version,rec.installed_version])
+                    if rec.state == 'to_downgrade':
+                        rec.error_msg = _("Version is older than module's version")
+                    rec.last_check = fields.Datetime.now()
+            except:
+                rec.state = 'error'
+    
+    def _check_version_recursive(self,versions):
+        if len(versions) > 1:
+            tuple_version = list(zip(versions, versions[1:]))
+            for up,down in tuple_version:
+                resp = self._check_versions(up,down)
+                if resp in ['to_update','to_downgrade']:
+                    return resp
+        return 'updated'
+    
+    def _check_versions(self,up_version, down_version):
         up_version = self.version_to_tuple(up_version)
         down_version = self.version_to_tuple(down_version)
         if up_version and down_version:
             if up_version > down_version:
-                state = 'to_update'
-                error_msg = False
+                return 'to_update'
             elif up_version == down_version:
-                state = 'uptodate'
-                error_msg = False
+                return 'updated'
             else:
-                state = 'to_downgrade'
-                error_msg = _("Version is older than module's version")
+                return 'to_downgrade'
+                
         else:
-            state = False
-            error_msg = ""
+            return False
+            
+        self.last_check = fields.Datetime.now()
         
-        self.write({
-            'state':state,
-            'error_msg':error_msg,
-            'last_check': fields.Datetime.now(),
-        })
     
     # ===================================================================
     # ACTIONS
@@ -155,7 +153,7 @@ class EGitModuleUpdater(models.AbstractModel):
 
     def action_check_version(self):
         self.ensure_one()
-        self._compute_versions()
+        self._compute_repository_version()
         
         return {
             'type': 'ir.actions.client',
@@ -207,7 +205,7 @@ class EGitModuleUpdater(models.AbstractModel):
         
     def action_create_backup(self):
         for rec in self:
-            if rec.module_status == 'ready':
+            if rec.module_state == 'installed':
                 make_backup(
                     rec.local_path,
                     rec.module_name,

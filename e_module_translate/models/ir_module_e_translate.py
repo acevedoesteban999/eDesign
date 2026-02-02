@@ -15,18 +15,18 @@ class IrModuleTranslate(models.Model):
     _inherit = "ir.module.e_base"
     _description = 'Translation Manager for Modules'
 
-    po_languages = fields.Json("PO Languages", compute="_compute_translations")
+    po_languages = fields.Json("PO Languages", compute="_compute_state")
     state = fields.Selection(selection_add=[
         ('synced', "Synced"),
         ('outdated', "Outdated"),
         ('missing', "Missing"),
-    ], string="Translate State")
+    ], string="Translate State",store=True)
 
-    def _recompute_translations(self,recompute_status = False , pot_file_cached = False):
-        self.po_languages = po_languages = []
+    def _recompute_translations(self,recompute_state = False , pot_file_cached = False):
+        po_languages = []
             
-        if self.module_status != 'ready':
-            self.state = 'error'
+        if self.module_state != 'installed':
+            self.state = False
             return
             
         try:
@@ -37,7 +37,7 @@ class IrModuleTranslate(models.Model):
             has_pot_translations = os.path.exists(pot_file)
             
             if has_pot_translations:
-                if recompute_status:
+                if recompute_state:
                     result = compare_pot_files(self.local_path, self.module_name, self._cr , pot_file_cached)
                     if result:
                         common_keys, missing_in_file, extra_in_file = result
@@ -62,27 +62,28 @@ class IrModuleTranslate(models.Model):
         self.po_languages = po_languages
         self.last_check = fields.Datetime.now()
     
-    @api.depends('module_name')
-    def _compute_translations(self):
+    def _compute_state(self):
         for rec in self:
+            super(IrModuleTranslate,rec)._compute_state()
+            self.po_languages = []
             rec._recompute_translations()
 
-    def action_recompute_translations(self ,recompute_status = False ,cach_pot = False):
-        _recompute_status = recompute_status or self.env.context.get('recompute_status')
+    def action_recompute_data(self ,recompute_state = False ,cach_pot = False):
+        _recompute_state = recompute_state or self.env.context.get('recompute_state')
         if cach_pot:
-            records = self.filtered_domain([('module_status','=','ready')])
+            records = self.filtered_domain([('module_state','=','installed')])
             pots = get_pots_from_export(records.mapped('module_name'),self._cr)
             for rec,pot_file in zip(records,pots):
-                rec._recompute_translations(_recompute_status,pot_file)
+                rec._recompute_translations(_recompute_state,pot_file)
         else:
             for rec in self:
-                rec._recompute_translations(_recompute_status)
+                rec._recompute_translations(_recompute_state)
         
 
     @api.model
     def get_pot_translation_data(self, e_translate_id, pot_file_cached = False):
         rec = self.browse(e_translate_id)
-        if rec.module_status != 'ready':
+        if rec.module_state != 'installed':
             return {}
         
         if not pot_file_cached:
@@ -176,7 +177,7 @@ class IrModuleTranslate(models.Model):
     @api.model
     def save_translate_data(self, e_translate_id, save_data):
         rec = self.browse(e_translate_id)
-        if rec.module_status != 'ready' or not rec.local_path:
+        if rec.module_state != 'installed' or not rec.local_path:
             raise UserError(_("Module error:  Not (Installed or Found)"))
         
         i18n_path = os.path.join(rec.local_path, 'i18n')

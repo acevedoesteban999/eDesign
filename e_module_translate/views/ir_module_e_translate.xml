@@ -14,14 +14,15 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <list position="inside">
-                <field name="module_icon" widget="image_url" options="{'size':[50,50]}"/>
+                <field name="module_icon" widget="image_url" options="{'size':[25,25]}"/>
                 <field name="state" 
                     widget="badge"
                     decoration-success="state == 'synced'"
                     decoration-warning="state == 'outdated'"
                     decoration-danger="state == 'error'"
-                    decoration-muted="state == 'missing'"/>
-                <field name="po_languages" widget="ejson_tags"></field>
+                    decoration-muted="state == 'missing'"
+                    />
+                <field name="po_languages" widget="ejson_tags"/>
             </list>
         </field>
     </record>
@@ -32,24 +33,20 @@
         <field name="inherit_id" ref="e_module_base.view_ir_module_e_base_form"></field>
         <field name="mode">primary</field>
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_recompute_data']" position="attributes">
+                <attribute name="context">{'recompute_state':True}</attribute>
+            </xpath>
             <xpath expr="//header" position="inside">
-                
-                <button string="Recompute Data" 
-                        invisible="module_status != 'ready'" 
-                        name="action_recompute_translations" 
-                        type="object" 
-                        class="oe_highlight"
-                        context="{'recompute_status':True}"/>
                 <field name="id" invisible="1"></field>
                 <button name="%(action_pot_translation_dialog)d" 
-                        invisible="module_status != 'ready'" 
+                        invisible="module_state != 'installed'" 
                         type="action" 
                         string="Edit Translations" 
                         class="btn-primary" 
                         context="{'e_translate_id': id}"/>
             </xpath>
-            <xpath expr="//field[@name='module_name']/parent::group" position="inside">
-                <field name="po_languages" widget="ejson_tags" invisible="module_status != 'ready'"></field>
+            <xpath expr="//field[@name='module_id']/parent::group" position="inside">
+                <field name="po_languages" widget="ejson_tags" invisible="module_state != 'installed'"></field>
             </xpath>
             <xpath expr="//field[@name='state']" position="attributes">
                 <attribute name="decoration-success">state == 'synced'</attribute>
@@ -80,7 +77,7 @@
         <field name="binding_view_types">list</field>
         <field name="state">code</field>
         <field name="code">
-            records.action_recompute_translations(True,True);
+            records.action_recompute_data(True,True);
         </field>
     </record>
 

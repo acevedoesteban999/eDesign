@@ -35,11 +35,11 @@
                     <button name="action_download_zip_version" string="Download Downgrade Version (ZIP)" type="object" class="oe_highlight"
                             invisible="not download_local or state != 'to_downgrade'" confirm="This will REPLACE all local files and store with raw method the downgrade version. Continue?"/>
                 </xpath>
-                <xpath expr="//field[@name='module_status']" position="after">
-                    <field name="git_remote" invisible="module_status != 'ready'"></field>
-                    <field name="repo_url" invisible="not module_exist"/>
-                    <field name="subfolder_path" invisible="not module_exist"/>
-                    <field name="branch" invisible="not module_exist"/>
+                <xpath expr="//field[@name='module_state']" position="after">
+                    <field name="git_remote" invisible="module_state != 'installed'"></field>
+                    <field name="repo_url" invisible="not module_id"/>
+                    <field name="subfolder_path" invisible="not module_id"/>
+                    <field name="branch" invisible="not module_id"/>
                 </xpath>
                 <xpath expr="//group[@name='versions']" position="inside">
                     <field name="remote_version"></field>

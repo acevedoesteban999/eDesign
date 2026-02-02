@@ -17,14 +17,14 @@ class ModelName(models.TransientModel):
         if not e_translation_ids:
             return {'type': 'ir.actions.act_window_close'}
         
-        e_translations = e_translation_model.browse(e_translation_ids).filtered_domain([('module_status','=','ready')])
+        e_translations = e_translation_model.browse(e_translation_ids).filtered_domain([('module_state','=','installed')])
         modules_name = e_translations.mapped('module_name')
         
         pots = get_pots_from_export(modules_name,self._cr)
         
         for e_translation,pot_file in zip(e_translations,pots):
             try:    
-                if e_translation.module_status != 'ready':
+                if e_translation.module_state != 'installed':
                     continue
                 
                 e_translation._recompute_translations(True,pot_file)

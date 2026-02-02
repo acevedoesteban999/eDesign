@@ -26,11 +26,11 @@
                     <button name="action_store_version" string="Store Downgrade Version" type="object" class="oe_highlight"
                             invisible="not store_local or state != 'to_downgrade'" confirm="This will REPLACE all local files and store downgrade version. Continue?"/>
                 </xpath>
-                <xpath expr="//field[@name='module_status']" position="after">
+                <xpath expr="//field[@name='module_state']" position="after">
                     <field name="file_zip" 
                         force_save="1"  
                         widget="binary" 
-                        invisible="module_status != 'ready'"
+                        invisible="module_state != 'installed'"
                     />
                 </xpath>
                 <xpath expr="//group[@name='versions']" position="inside">

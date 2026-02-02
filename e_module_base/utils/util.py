@@ -23,7 +23,7 @@ def scan_addon_path(addon_path):
                    valid_modules.append({
                        'name': entry.name,
                        'path': module_path,
-                       'version': manifest.get('version', 'unknown'),
+                       'version': manifest.get('version', False),
                        'depends': manifest.get('depends', []),
                    })
                    

@@ -20,7 +20,7 @@ class eIrModuleUpdateManual(models.Model):
     _description = 'Manual Module Updater'
 
     store_local = fields.Boolean(compute="_compute_store_local")
-    zip_version = fields.Char("ZIP Version", compute="_compute_versions")
+    zip_version = fields.Char("ZIP Version", compute="_compute_state")
     file_zip = fields.Binary("File ZIP")
     
     
@@ -31,88 +31,86 @@ class eIrModuleUpdateManual(models.Model):
     
     
     
-    @api.depends('module_name','file_zip')
-    def _compute_versions(self):
-        for rec in self:
-            super(eIrModuleUpdateManual, rec)._compute_versions()
-            if rec.module_status == 'ready' and rec.state != 'error':
-                if not rec.file_zip:
-                    rec.state = rec.zip_version = False
-                    rec.error_msg = _("No ZIP file provided")
-                    continue
+    
+    def _recompute_file_zip(self):
+        if self.module_state == 'installed' and self.state != 'error':
+            if not self.file_zip:
+                self.state = self.zip_version = False
+                self.error_msg = _("No ZIP file provided")
+                return
+            
+            try:
+                zip_data = base64.b64decode(self.with_context(bin_size=False).file_zip)
+                zip_file = zipfile.ZipFile(io.BytesIO(zip_data), 'r')
+                manifest_content = None
+                manifest_name_in_zip = None
                 
-                try:
-                    zip_data = base64.b64decode(rec.with_context(bin_size=False).file_zip)
-                    zip_file = zipfile.ZipFile(io.BytesIO(zip_data), 'r')
-                    manifest_content = None
-                    manifest_name_in_zip = None
-                    
-                    candidates = [f"{rec.module_name}/__manifest__.py", "__manifest__.py"]
-                    
-                    for candidate in candidates:
-                        if candidate in zip_file.namelist():
-                            manifest_content = zip_file.read(candidate).decode('utf-8')
-                            manifest_name_in_zip = candidate
-                            break
-                    
-                    if not manifest_content:
-                        rec.update({
-                            'zip_version': _("Unknown"),
-                            'state': 'error',
-                            'error_msg': _("No manifest file found in ZIP. Expected module structure."),
-                        })
-                        zip_file.close()
-                        continue
-                    
-                    manifest_dict = ast.literal_eval(manifest_content)
-                    zip_version = manifest_dict.get('version', _("Unknown"))
-                    
-                    expected_name = None
-                    if '/' in manifest_name_in_zip:
-                        expected_name = manifest_name_in_zip.split('/')[0]
-                    else:
-                        expected_name = rec.module_name
-                    
-                    if expected_name != rec.module_name:
-                        rec.update({
-                            'zip_version': _("Unknown"),
-                            'state': 'error',
-                            'error_msg': _("Module name mismatch: ZIP contains '%s', expected '%s'") % 
-                                    (expected_name, rec.module_name),
-                        })
-                        zip_file.close()
-                        continue
-                    
-                    
-                    rec.update({
-                        'zip_version': zip_version,
-                    })
-                    
-                    rec.compute_update_state()
+                candidates = [f"{self.module_name}/__manifest__.py", "__manifest__.py"]
+                
+                for candidate in candidates:
+                    if candidate in zip_file.namelist():
+                        manifest_content = zip_file.read(candidate).decode('utf-8')
+                        manifest_name_in_zip = candidate
+                        break
+                
+                if not manifest_content:
+                    self.zip_version=  False,
+                    self.state = 'error',
+                    self.error_msg = _("No manifest file found in ZIP. Expected module structure.")
                     
                     zip_file.close()
+                    return
+                
+                manifest_dict = ast.literal_eval(manifest_content)
+                zip_version = manifest_dict.get('version', False)
+                
+                expected_name = None
+                if '/' in manifest_name_in_zip:
+                    expected_name = manifest_name_in_zip.split('/')[0]
+                else:
+                    expected_name = self.module_name
+                
+                if expected_name != self.module_name:
+                    self.zip_version = False,
+                    self.state ='error',
+                    self.error_msg =_("Module name mismatch: ZIP contains '%s', expected '%s'") % (expected_name, self.module_name)
                     
-                except zipfile.BadZipFile as e:
-                    rec.update({
-                        'zip_version': _("Unknown"),
-                        'state': 'error',
-                        'error_msg': _("Invalid ZIP file format: %s") % e,
-                    })
-                except Exception as e:
-                    _logger.error("Error processing ZIP for module %s: %s", rec.module_name, str(e))
-                    rec.update({
-                        'zip_version': _("Unknown"),
-                        'state': 'error',
-                        'error_msg': _("Error reading ZIP: %s") % str(e),
-                    })
-            else:
-                rec.zip_version = False
+                    zip_file.close()
+                    return
+                
+                
+                self.update({
+                    'zip_version': zip_version,
+                })
+                
+                self._compute_state()
+                
+                zip_file.close()
+                
+            except zipfile.BadZipFile as e:
+                self.update({
+                    'zip_version': False,
+                    'state': 'error',
+                    'error_msg': _("Invalid ZIP file format: %s") % e,
+                })
+            except Exception as e:
+                _logger.error("Error processing ZIP for module %s: %s", self.module_name, str(e))
+                self.update({
+                    'zip_version': False,
+                    'state': 'error',
+                    'error_msg': _("Error reading ZIP: %s") % str(e),
+                })
+        else:
+            self.zip_version = False
 
-    def compute_update_state(self):
-        self._compute_update_state(self.zip_version,self.repository_version)
-        if not self.state or self.state == 'uptodate':
-            super().compute_update_state()
-    
+    @api.depends('file_zip')
+    def _compute_state(self):
+        for rec in self:
+            rec._recompute_file_zip()
+            if rec.zip_version:
+                super(eIrModuleUpdateManual,rec)._compute_state(versions=[rec.zip_version])
+            super(eIrModuleUpdateManual,rec)._compute_state(compute_versions=False)
+                
     # ===================================================================
     # ACTIONS
     # ===================================================================
@@ -170,7 +168,7 @@ class eIrModuleUpdateManual(models.Model):
             
             raise UserError(_("Update failed: %s") % str(e))
         
-        self._compute_versions()
+        self._compute_state()
         
         return {
             'type': 'ir.actions.client',
