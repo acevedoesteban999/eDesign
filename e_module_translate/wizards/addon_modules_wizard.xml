@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_addon_modules_etranslate_wizard_form" model="ir.ui.view">
+        <field name="name">view.e_module_translate.addon_modules_wizard.form</field>
+        <field name="model">e_module_base.addon_modules_wizard</field>
+        <field name="inherit_id" ref="e_module_base.view_addon_modules_wizard_form" />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='modules']" position="attributes">
+                <attribute name="string">Modules to Import</attribute>
+            </xpath>
+            <xpath expr="//footer" position="inside">
+                <button name="load_modules" type="object" string="Load Modules" class="oe_highlight"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

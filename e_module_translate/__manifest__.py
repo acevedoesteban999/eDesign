@@ -11,6 +11,7 @@
         'security/ir.model.access.csv',
         'views/ir_module_e_translate.xml',
         "wizards/ir_module_e_translate_autotranslate_wizard.xml",
+        "wizards/addon_modules_wizard.xml",
         
         "views/menu.xml",
     ],

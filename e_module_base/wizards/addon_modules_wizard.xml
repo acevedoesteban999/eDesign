@@ -6,16 +6,13 @@
         <field name="model">e_module_base.addon_modules_wizard</field>
         <field name="arch" type="xml">
             <form string="Addon_modules">
-                <header>
-                    <button string="Rescan Addon" name="action_scan" type="object" class="oe_highlight"/>
-                </header>
+                <header/>
                 <group>
                     <field name="addon_path"></field>
-                    <field name="modules" widget="ejson_tags"></field>
-                    <field name="modules_not_installed" widget="ejson_tags"></field>
+                    <field name="addon_modules" widget="ejson_tags"></field>
+                    <field name="modules" string="Modules No Installed" widget="ejson_tags"></field>
                 </group>
                 <footer>
-                    <!-- <button name="loadModules" type="object" string="Load Modules" class="oe_highlight"/> -->
                     <button special="cancel" string="Cancel"/>
                 </footer>
             </form>

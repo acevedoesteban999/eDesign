@@ -26,7 +26,6 @@ class EUpdateBackup(models.TransientModel):
             'res_id': e_updata_manual.id,
             'view_type': 'form',
             'view_mode': 'form',
-            'view_ids':[('e_module_update.view_ir_module_e_update_manual_form','form')],
             'target': 'current',
             'domain': [],
             'context': {
@@ -84,7 +83,6 @@ class EUpdateBackup(models.TransientModel):
             'res_model': 'ir.module.e_update.backup',
             'view_type': 'list',
             'view_mode': 'list',
-            'view_ids':[('e_module_update.view_ir_module_e_update_backup_list','list')],
             'target': 'current',
             'domain': [],
             'context': {

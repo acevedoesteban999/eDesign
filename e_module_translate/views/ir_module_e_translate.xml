@@ -14,6 +14,13 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <list position="inside">
+                <header>
+                    <button name="action_open_addon_modules_wizard" 
+                            type="object" 
+                            string="Import Addon Modules" 
+                            display="always"/>
+                </header>
+
                 <field name="module_icon" widget="image_url" options="{'size':[25,25]}"/>
                 <field name="state" 
                     widget="badge"

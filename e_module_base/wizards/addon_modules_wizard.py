@@ -14,15 +14,15 @@ class AddonModules(models.TransientModel):
     _description = "Get Modules by Addon Path"
 
     addon_path = fields.Char("Addon Path", default=lambda self: _os_path_dir(os.path.abspath(__file__),3))
-    modules = fields.Json("Modules Found", compute="_compute_modules", store=False)
-    modules_not_installed = fields.Json("Modules Not Installed", compute="_compute_modules", store=False)
+    addon_modules = fields.Json("Modules Found", compute="_compute_modules")
+    modules = fields.Json("Modules", compute="_compute_modules", readonly=False)
     
     @api.depends('addon_path')
     def _compute_modules(self):
         for record in self:
             if not record.addon_path or not os.path.exists(record.addon_path):
+                record.addon_modules = []
                 record.modules = []
-                record.modules_not_installed = []
                 continue
             
             found_modules = scan_addon_path(record.addon_path)
@@ -33,20 +33,6 @@ class AddonModules(models.TransientModel):
             
             not_installed = [mod for mod in found_modules if mod['name'] not in installed_modules]
             
-            record.modules = [{"name": mod['name']} for mod in found_modules]
-            record.modules_not_installed = [{"name": mod['name']} for mod in not_installed]
-            
-    def action_scan(self):
-        self.ensure_one()
-        self._compute_modules()
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': self._name,
-            'res_id': self.id,
-            'view_mode': 'form',
-            'target': 'new',
-        }
-        
-    # def loadModules(self):
-    #     return {'type': 'ir.actions.act_window_close'}
-        
+            record.addon_modules = [{"name": mod['name']} for mod in found_modules]
+            record.modules = [{"name": mod['name']} for mod in not_installed]
+  
