@@ -65,7 +65,7 @@ class IrModuleTranslate(models.Model):
     def _compute_state(self):
         for rec in self:
             super(IrModuleTranslate,rec)._compute_state()
-            self.po_languages = []
+            rec.po_languages = []
             rec._recompute_translations()
 
     def action_recompute_data(self ,recompute_state = False ,cach_pot = False):
@@ -287,9 +287,7 @@ class IrModuleTranslate(models.Model):
             'res_model': 'e_module_base.addon_modules_wizard',
             'views': [(self.env.ref('e_module_translate.view_addon_modules_etranslate_wizard_form').id,'form')],
             'domain': [],
-            'context': {
-                'res_model': self._name
-            }
+            'context': {}
         }
         
         

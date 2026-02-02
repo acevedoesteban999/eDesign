@@ -1,10 +1,32 @@
 <templates>
   <t t-name="e_module_translate.EJsonTagsField">
-    <div class="o_field_json_tags o_field_widget d-inline-flex flex-wrap gap-1">
-      <t t-foreach="tags" t-as="tag" t-key="tag.name">
-        <span class="badge rounded-pill o_tag_color_0"
-              t-attf-class="o_tag o_badge badge rounded-pill o_tag_color_{{ colorFor(tag.name) }}"
-              t-esc="tag.name"/>
+    <div class="o_field_tags d-inline-flex flex-wrap gap-1 mw-100"
+         t-att-class="{'o_tags_input o_input': !props.readonly}"
+         t-ref="root">
+      
+      <t t-foreach="tags" t-as="tag" t-key="tag_index">
+        <span class="badge rounded-pill d-inline-flex align-items-center gap-2 o_tag"
+              t-attf-class="o_tag_color_{{ colorFor(tag.name) }}">
+          <span class="o_tag_badge_text" t-esc="tag.name"/>
+          <i t-if="!props.readonly" 
+             class="fa fa-times o_delete cursor-pointer" 
+             t-on-click.prevent="() => this.removeTag(tag)"/>
+        </span>
+      </t>
+
+      <t t-if="!props.readonly">
+        <div style="min-width: 100px; width: 50%; flex: 1 1 auto;">
+          <AutoComplete
+            sources="autoCompleteSources"
+            onSelect.bind="onAutoCompleteSelect"
+            onInput.bind="onAutoCompleteInput"
+            value="state.inputValue"
+            placeholder="tags.length ? '' : 'Select...'"
+            autoSelect="false"
+            resetOnSelect="true"
+            dropdown="true"
+          />
+        </div>
       </t>
     </div>
   </t>

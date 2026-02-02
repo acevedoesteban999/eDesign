@@ -10,7 +10,12 @@
                 <group>
                     <field name="addon_path"></field>
                     <field name="addon_modules" widget="ejson_tags"></field>
-                    <field name="modules" string="Modules No Installed" widget="ejson_tags"></field>
+                    <field name="modules" 
+                        string="Modules No Installed" 
+                        widget="ejson_tags" 
+                        options="{'options_js_field': 'addon_modules'}"
+                        readonly="1"
+                        />
                 </group>
                 <footer>
                     <button special="cancel" string="Cancel"/>

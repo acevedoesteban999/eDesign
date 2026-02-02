@@ -9,9 +9,10 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='modules']" position="attributes">
                 <attribute name="string">Modules to Import</attribute>
+                <attribute name="readonly">0</attribute>
             </xpath>
             <xpath expr="//footer" position="inside">
-                <button name="load_modules" type="object" string="Load Modules" class="oe_highlight"/>
+                <button name="load_translate_modules" type="object" string="Load Modules" class="oe_highlight"/>
             </xpath>
         </field>
     </record>
