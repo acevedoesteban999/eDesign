@@ -13,6 +13,8 @@
         "views/ir_module_e_update_git_remote.xml",
         "views/ir_module_e_update_manual.xml",
         "views/ir_module_e_update_backups.xml",
+        "wizards/addon_modules_wizard.xml",
+        
         "views/menu.xml",
     ],
     "assets": {

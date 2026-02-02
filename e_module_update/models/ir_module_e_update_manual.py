@@ -182,4 +182,19 @@ class eIrModuleUpdateManual(models.Model):
             }
         }
 
-    
+    def action_open_addon_modules_wizard(self):
+        return {
+            'name': _('Import Modules to Update Manual'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'new',
+            'res_model': 'e_module_base.addon_modules_wizard',
+            'views': [(self.env.ref('e_module_update.view_addon_modules_eupdate_manual_wizard_form').id,'form')],
+            'domain': [],
+            'context': {}
+        }
+        
+
+     
+                    

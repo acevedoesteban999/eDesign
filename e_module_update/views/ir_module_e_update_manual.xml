@@ -8,6 +8,13 @@
         <field name="mode">primary</field>
         <field name="arch" type="xml">
             <list position="inside">
+                <header>
+                    <button name="action_open_addon_modules_wizard" 
+                            type="object" 
+                            string="Import Addon Modules" 
+                            display="always"/>
+                </header>
+            
                 <field name="zip_version"></field>
             </list>
         </field>
