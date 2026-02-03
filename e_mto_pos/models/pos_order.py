@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models, _ , Command
+from odoo import api, fields, models, _, Command
 from odoo.exceptions import UserError
 from datetime import timedelta
 
@@ -9,21 +9,19 @@ class PosOrder(models.Model):
     mrp_production_count = fields.Integer(
         "Count of MO generated",
         compute='_compute_mrp_production_ids',
-        )
+    )
     
     mrp_production_ids = fields.Many2many(
         'mrp.production',
         string='Manufacturing orders associated with this pos order line.',
         compute="_compute_mrp_production_ids"
-        )
-    
+    )
     
     def _compute_mrp_production_ids(self):
         for rec in self:
             rec.mrp_production_ids = [Command.link(mrp.id) for mrp in rec.lines.mrp_production_ids]
             rec.mrp_production_count = len(rec.mrp_production_ids)
 
-    
     def action_view_mrp_production(self):
         self.ensure_one()
         action = {
@@ -45,25 +43,64 @@ class PosOrder(models.Model):
     
     def _create_order_picking(self):
         self.ensure_one()
+
+        if not self.lines.filtered(lambda l: l.product_id.can_create_mto_pos):
+            return super()._create_order_picking()
+
+        normal_lines = self.lines.filtered(lambda l: not l.refunded_orderline_id and l.qty >= 0)
+        refund_lines = self.lines.filtered(lambda l: l.refunded_orderline_id or l.qty < 0)
+
+        mto_refund_lines = refund_lines.filtered(lambda l: l.product_id.can_create_mto_pos)
+        mto_normal_lines = normal_lines.filtered(lambda l: l.product_id.can_create_mto_pos)
+
+        if mto_refund_lines:
+            self._check_manufacturing_refund_lines(mto_refund_lines)
+
+        if mto_normal_lines:
+            self._create_mrp_from_pos(mto_normal_lines)
+            normal_stock_lines = normal_lines - mto_normal_lines
+            if normal_stock_lines:
+                self._execute_standard_picking_flow(normal_stock_lines)
+        elif normal_lines:
+            self._execute_standard_picking_flow(normal_lines)
+
+        if refund_lines:
+            self._execute_standard_picking_flow(refund_lines)
         
-        lines_to_manufacture = self.lines.filtered(
-            lambda line: line.product_id.can_create_mto_pos 
-        )
+    def _execute_standard_picking_flow(self, lines):
+        """
+        Execute standard Odoo picking logic on specific lines (not self.lines).
+        Copied from super() but accepting custom line set.
+        """
+        self.ensure_one()
         
-        if lines_to_manufacture:
-            self._create_mrp_from_pos(lines_to_manufacture)
-            
-            normal_lines = self.lines - lines_to_manufacture
-            if normal_lines:
-                self._process_normal_lines(normal_lines)
+        if self.shipping_date:
+            lines.sudo()._launch_stock_rule_from_pos_order_lines()
         else:
-            super()._create_order_picking()
+            if self._should_create_picking_real_time():
+                picking_type = self.config_id.picking_type_id
+                
+                if self.partner_id.property_stock_customer:
+                    destination_id = self.partner_id.property_stock_customer.id
+                elif not picking_type or not picking_type.default_location_dest_id:
+                    destination_id = self.env['stock.warehouse']._get_partner_locations()[0].id
+                else:
+                    destination_id = picking_type.default_location_dest_id.id
+
+                pickings = self.env['stock.picking']._create_picking_from_pos_order_lines(
+                    destination_id, lines, picking_type, self.partner_id
+                )
+                pickings.write({
+                    'pos_session_id': self.session_id.id, 
+                    'pos_order_id': self.id, 
+                    'origin': self.name
+                })
 
     def _process_normal_lines(self, normal_lines):
         self.ensure_one()
         
         if self.shipping_date:
-            self.sudo(normal_lines)._launch_stock_rule_from_pos_order_lines()
+            normal_lines.sudo()._launch_stock_rule_from_pos_order_lines()
         else:
             if self._should_create_picking_real_time():
                 picking_type = self.config_id.picking_type_id
@@ -90,18 +127,16 @@ class PosOrder(models.Model):
             'name': self.name,
             'partner_id': self.partner_id.id,
             'move_type': 'one',
-        }) 
+        })
         for line in lines:
-            mrp_productions += self._create_mrp_production(line,group)
-        self._create_picking_for_productions(mrp_productions,group)
+            mrp_productions += self._create_mrp_production(line, group)
+        self._create_picking_for_productions(mrp_productions, group)
     
-    def _create_mrp_production(self, line,group):
+    def _create_mrp_production(self, line, group):
         product = line.product_id
         bom = self.env['mrp.bom']._bom_find(product)[product]
         if not bom:
             raise UserError(_('No lista de materiales para %s') % product.name)
-        
-             
 
         mrp_order = self.env['mrp.production'].create({
             'product_id': product.id,
@@ -113,12 +148,12 @@ class PosOrder(models.Model):
             'state': 'confirmed',
             'procurement_group_id': group.id,   
         })
-        mrp_order.move_raw_ids =  [ Command.create(m) for m in mrp_order._get_moves_raw_values()]
-        mrp_order.move_finished_ids =  [ Command.create(m) for m in mrp_order._get_moves_finished_values()]
+        mrp_order.move_raw_ids = [Command.create(m) for m in mrp_order._get_moves_raw_values()]
+        mrp_order.move_finished_ids = [Command.create(m) for m in mrp_order._get_moves_finished_values()]
         
         return mrp_order
       
-    def _create_picking_for_productions(self, mrp_productions,group):
+    def _create_picking_for_productions(self, mrp_productions, group):
         self.ensure_one()
         picking_type = self.config_id.picking_type_id
         location_id = picking_type.default_location_src_id
@@ -160,7 +195,68 @@ class PosOrder(models.Model):
             )
             move_sale.move_orig_ids = [Command.link(fm.id) for fm in finished_moves]
         return picking
+
+    def _check_manufacturing_refund_lines(self, refund_lines):
+        self.ensure_one()
         
+        for line in refund_lines:
+            original_line = line.refunded_orderline_id
+            if not original_line:
+                continue
+            
+            original_order = original_line.order_id
+            original_mos = original_line.mrp_production_ids
+            
+            if original_mos:
+                mo_states = original_mos.mapped('state')
+                # Case 1: Manufacturing not started yet
+                if any(state in ['draft', 'confirmed'] for state in mo_states):
+                    raise UserError(_(
+                        "Cannot process refund for '%(product)s'. "
+                        "Manufacturing Order is not started yet (State: %(state)s). "
+                        "Please complete manufacturing and delivery first.",
+                        product=line.product_id.display_name,
+                        state=', '.join(mo_states)
+                    ))
+                
+                # Case 2: Manufacturing in progress
+                if any(state == 'progress' for state in mo_states):
+                    raise UserError(_(
+                        "Cannot process refund for '%(product)s'. "
+                        "Manufacturing Order is still in progress. "
+                        "Please wait until production is finished and goods are delivered.",
+                        product=line.product_id.display_name
+                    ))
+            
+            # Validate Picking status for all cases (MTO and stock items)
+            original_pickings = self.env['stock.picking'].search([
+                ('pos_order_id', '=', original_order.id),
+                ('state', 'not in', ['cancel']),
+            ])
+            
+            if not original_pickings:
+                raise UserError(_(
+                    "Cannot process refund for '%(product)s'. "
+                    "No delivery found for this order. "
+                    "Please complete delivery first.",
+                    product=line.product_id.display_name
+                ))
+            
+            picking_states = original_pickings.mapped('state')
+            
+            if any(state != 'done' for state in picking_states):
+                undelivered_pickings = original_pickings.filtered(
+                    lambda p: p.state != 'done'
+                )
+                raise UserError(_(
+                    "Cannot process refund for '%(product)s'. "
+                    "Delivery is not completed yet (State: %(state)s). "
+                    "Please validate all pickings first: %(pickings)s",
+                    product=line.product_id.display_name,
+                    state=', '.join(set(undelivered_pickings.mapped('state'))),
+                    pickings=', '.join(undelivered_pickings.mapped('name'))
+                ))
+    
 class PosOrderLine(models.Model):
     _inherit = "pos.order.line"
     

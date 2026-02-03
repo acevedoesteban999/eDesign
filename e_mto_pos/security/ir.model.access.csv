@@ -2,4 +2,4 @@ id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
 access_mrp_production_e_mto_pos_user,mrp_production,model_mrp_production,point_of_sale.group_pos_user,1,1,1,0
 access_mrp_bom_e_mto_pos_user,mrp_bom,mrp.model_mrp_bom,point_of_sale.group_pos_user,1,1,1,0
 access_mrp_bom_byproduct_e_mto_pos_user,mrp_bom_byproduct,mrp.model_mrp_bom_byproduct,point_of_sale.group_pos_user,1,1,1,0
-
+access_mrp_workcenter_productivity_e_mto_pos_user,mrp_workcenter_productivity,mrp.model_mrp_workcenter_productivity,point_of_sale.group_pos_user,1,1,1,1
