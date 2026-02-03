@@ -35,7 +35,7 @@ patch(PosStore.prototype, {
         if (typeof vals.product_id == "number") {
             vals.product_id = this.data.models["product.product"].get(vals.product_id);
         }
-        if(vals.product_id.raw.has_design){
+        if(vals.product_id.raw.has_design && vals.product_id.raw.design_ids?.length){
             const payload = await makeAwaitable(this.dialog, EDesignConfiguratorPopup, {
                 product: vals.product_id,
             });
