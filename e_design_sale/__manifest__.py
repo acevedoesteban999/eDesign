@@ -6,7 +6,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_design_sale',
     'category': 'Sales',
-    'depends': ['base','sale','e_design'],
+    'depends': ['sale','e_design'],
     "data": [
         "views/sale_order.xml"
     ],
