@@ -7,6 +7,7 @@ class StockPicking(models.Model):
     pos_order_pos_reference = fields.Char(related='pos_order_id.pos_reference')
     pos_order_tracking_number = fields.Char(related='pos_order_id.tracking_number')
     pos_order_general_note = fields.Text(related='pos_order_id.general_note')
+    mrp_pos_ok = fields.Boolean(default=False)
     
     @api.model
     def read_assigned_picking_ids(self, domain, limit, offset):
@@ -74,11 +75,12 @@ class StockPicking(models.Model):
     @api.model
     def read_picking_by_pos_order(self,pos_order_id):
         order = self.env['pos.order'].browse(pos_order_id)
-        has_picking = any(map(lambda p: p == 'waiting',order.picking_ids.mapped('state')))
-        if has_picking:
+        mrp_pos_pikcing = order.picking_ids.filtered_domain([('mrp_pos_ok','=',True)])
+        mrp_pos_pikcing = mrp_pos_pikcing and mrp_pos_pikcing[0]
+        if mrp_pos_pikcing:
             return {
-                'picking_id':order.picking_ids and order.picking_ids.filtered_domain([('state','=','waiting')]).read(['name'])[0],
-                'mrp_production_count': order.mrp_production_count
+                'pos_order_pos_reference': mrp_pos_pikcing.pos_order_pos_reference,
+                'pos_order_tracking_number': mrp_pos_pikcing.pos_order_tracking_number
             }
         return False
     

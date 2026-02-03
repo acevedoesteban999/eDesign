@@ -96,30 +96,6 @@ class PosOrder(models.Model):
                     'origin': self.name
                 })
 
-    def _process_normal_lines(self, normal_lines):
-        self.ensure_one()
-        
-        if self.shipping_date:
-            normal_lines.sudo()._launch_stock_rule_from_pos_order_lines()
-        else:
-            if self._should_create_picking_real_time():
-                picking_type = self.config_id.picking_type_id
-                if self.partner_id.property_stock_customer:
-                    destination_id = self.partner_id.property_stock_customer.id
-                elif not picking_type or not picking_type.default_location_dest_id:
-                    destination_id = self.env['stock.warehouse']._get_partner_locations()[0].id
-                else:
-                    destination_id = picking_type.default_location_dest_id.id
-
-                pickings = self.env['stock.picking']._create_picking_from_pos_order_lines(
-                    destination_id, normal_lines, picking_type, self.partner_id
-                )
-                pickings.write({
-                    'pos_session_id': self.session_id.id, 
-                    'pos_order_id': self.id, 
-                    'origin': self.name
-                })
-
     def _create_mrp_from_pos(self, lines):
         self.ensure_one()
         mrp_productions = self.env['mrp.production']
@@ -173,6 +149,7 @@ class PosOrder(models.Model):
             'group_id': group.id,
             'move_type': 'one',
             'state': 'draft', 
+            'mrp_pos_ok': True,
         })
         for mrp_production in mrp_productions:
             move_sale = self.env['stock.move'].create({
