@@ -9,6 +9,7 @@
                 <sheet>
                     <group>
                         <field name="languages" widget="many2many_tags"/>
+                        <field name="overwrite_existing"/>
                     </group>
                 </sheet>
                 <footer>

@@ -3,6 +3,33 @@
         <Dialog title="'Translation Editor'" size="'xl'">
             <div class="container-fluid d-flex flex-column" style="max-height: 70vh;">
                 
+                <div class="row mb-3 align-items-center">  
+                    <div class="col-auto">
+                        <label class="form-label mb-0 me-2">Overwrite Existing</label>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-check form-switch">
+                            <input type="checkbox" 
+                                class="form-check-input" 
+                                t-model="state.overwriteExisting"
+                                t-att-id="'overwrite-existing'"
+                                t-att-disabled="state.translating"/>
+                        </div>
+                    </div>
+                    <div class="col-auto ms-auto">
+                        <button class="btn btn-sm btn-primary" 
+                                t-on-click="translateAll"
+                                t-att-disabled="state.translating">
+                            <t t-if="state.translating === 'all'">
+                                <span class="spinner-border spinner-border-sm me-1" role="status"/>
+                                Translating All...
+                            </t>
+                            <t t-else="">
+                                <i class="fa fa-globe me-1"/> Translate All
+                            </t>
+                        </button>
+                    </div>
+                </div>
                 <div class="row mb-3 align-items-center" t-if="state.availableLangs.length">  
                     <div class="col-auto">
                         <label class="form-label mb-0 me-2">Add Language:</label>
@@ -21,11 +48,10 @@
                         </select>
                     </div>
                 </div>
-                
                 <div class="row flex-grow-1 overflow-auto">
                     <div class="table-responsive">
                         <table class="table table-hover table-striped table-sm mb-0">
-                            <thead class="table-dark sticky-top">
+                            <thead class="table-primary sticky-top">
                                 <tr>
                                     <t t-foreach="Object.keys(state.datas)" t-as="lang" t-key="lang">
                                         <th scope="col" class="text-center align-middle" style="min-width: 200px;">
@@ -40,7 +66,7 @@
                                                     </button>
                                                 </div>
                                                 <button t-if="!state.datas[lang].readonly" 
-                                                        class="btn btn-sm btn-outline-light mt-1"
+                                                        class="btn btn-sm btn-outline-dark mt-1"
                                                         t-on-click="() => this.translateLang(lang)"
                                                         t-att-disabled="state.translating === lang">
                                                     <t t-if="state.translating === lang">
@@ -61,7 +87,7 @@
                                 <t t-if="firstLang" t-foreach="Object.keys(state.datas[firstLang].data)" t-as="key" t-key="key">
                                     <tr>
                                         <t t-foreach="Object.entries(state.datas)" t-as="lang" t-key="lang[0]">
-                                            <td class="p-1 align-middle">
+                                            <!-- <td class="p-1 align-middle">
                                                 <span t-if="lang[1].readonly or state.translating" 
                                                     class="d-block text-break" 
                                                     style="min-width: 150px; max-width: 300px;" 
@@ -71,6 +97,19 @@
                                                     class="form-control form-control-sm" 
                                                     t-model="lang[1].data[key]"
                                                     t-att-placeholder="key"
+                                                />
+                                            </td> -->
+                                            <td class="p-1 align-middle" style="vertical-align: top;">
+                                                <span t-if="lang[1].readonly or state.translating" 
+                                                    class="d-block text-break" 
+                                                    style="width: 100%; white-space: pre-wrap;" 
+                                                    t-esc="lang[1].data[key]"/>
+                                                <textarea t-else="" 
+                                                    class="form-control form-control-sm" 
+                                                    style="width: 100%; min-width: 0; resize: vertical; min-height: 30px; field-sizing: content;"
+                                                    t-model="lang[1].data[key]"
+                                                    t-att-placeholder="key"
+                                                    rows="1"
                                                 />
                                             </td>
                                         </t>

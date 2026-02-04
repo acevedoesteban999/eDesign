@@ -30,6 +30,7 @@
                     decoration-muted="state == 'missing'"
                     />
                 <field name="po_languages" widget="ejson_tags"/>
+                <field name="last_check"></field>
             </list>
         </field>
     </record>

@@ -18,6 +18,7 @@ export class PotTranslationDialog extends Component {
             datas: {},
             availableLangs: [],
             translating: false,
+            overwriteExisting: false,
         });
         this.lang_installed = [];
         
@@ -92,20 +93,24 @@ export class PotTranslationDialog extends Component {
             const firstLang = Object.values(this.state.datas)[0];
             if (!firstLang) return;
             
+            let keysToCheck;
+            if (this.state.overwriteExisting) {
+                keysToCheck = Object.keys(firstLang.data);
+            } else {
+                keysToCheck = Object.keys(firstLang.data).filter(key => {
+                    const val = this.state.datas[langCode].data[key];
+                    return val == null || val === '';
+                });
+            }
             
-            const missingKeys = Object.keys(firstLang.data).filter(key => {
-                const val = this.state.datas[langCode].data[key];
-                return val == null || val === '';
-            });
-            
-            if (missingKeys.length === 0) {
-                this.notification.add("No empty values to translate", {type: 'info'});
+            if (keysToCheck.length === 0) {
+                this.notification.add("No values to translate", {type: 'info'});
                 return;
             }
             this.state.translating = langCode; 
             
             const textsToTranslate = {};
-            missingKeys.forEach(key => {
+            keysToCheck.forEach(key => {
                 textsToTranslate[key] = firstLang.data[key];
             });
             
@@ -128,16 +133,42 @@ export class PotTranslationDialog extends Component {
                     }
                 };
     
+                
                 this.notification.add(
-                    `Translated ${Object.keys(translations).length} strings to ${langCode}`, 
+                    `Translated ${Object.keys(translations).length} strings to '${langCode}'`, 
                     {type: 'success'}
                 );
-            } else {
+            
+            } else{
                 this.notification.add("Translation returned empty", {type: 'warning'});
             }
         } catch (error) {
             this.notification.add("Translation error. Please try again.", {type: 'danger'});
             console.error(error);
+        } finally {
+            if (this.state.translating === langCode) {
+                this.state.translating = false;
+            }
+        }
+    }
+
+    async translateAll() {
+        const targetLangs = Object.keys(this.state.datas).filter(
+            langCode => !this.state.datas[langCode].readonly
+        );
+        
+        if (targetLangs.length === 0) {
+            this.notification.add("No languages to translate", {type: 'warning'});
+            return;
+        }
+        
+        this.state.translating = 'all'; 
+        
+        try {
+            for (const langCode of targetLangs)
+                await this.translateLang(langCode);
+            
+            this.notification.add(`Translated all languages`, {type: 'success'});
         } finally {
             this.state.translating = false;
         }
