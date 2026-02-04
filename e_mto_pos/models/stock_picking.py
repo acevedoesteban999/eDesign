@@ -52,6 +52,7 @@ class StockPicking(models.Model):
             discount = line.discount 
             
             result.append({
+                'product_id': product.id,
                 'productName': str(product.display_name),
                 'price': str(round(price_unit * qty * (1 - discount/100), 2)) or '',
                 'qty': str(qty),
@@ -64,6 +65,10 @@ class StockPicking(models.Model):
                 'internalNote': line.note or '',
                 'imageSrc': f'/web/image/product.product/{product.id}/image_128' if product.image_128 else '',
                 'isSelected': False,
+                'has_create_mto_pos':product.has_create_mto_pos,
+                'comboParent': '',
+                'packLotLines': [],
+                'taxGroupLabels': ''
             })
         return result
         

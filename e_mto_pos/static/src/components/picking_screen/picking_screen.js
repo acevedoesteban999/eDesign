@@ -128,15 +128,12 @@ export class PickingScreen extends Component {
     }
 
     getPickingLineProps() {
-        return this.state.pickingLines.map(line => ({
-            line: {
-                ...line,
-                unit: line.unit || '',
-                comboParent: '',
-                packLotLines: [],
-                taxGroupLabels: '',
-            }
-        }));
+        return this.state.pickingLines.map(line => {
+            const { product_id, ...lineProps } = line;
+            return {
+                line: lineProps
+            };
+        });
     }
 
     //#region PAGE
