@@ -129,7 +129,7 @@ export class PickingScreen extends Component {
 
     getPickingLineProps() {
         return this.state.pickingLines.map(line => {
-            const { product_id, ...lineProps } = line;
+            const { id, ...lineProps } = line;
             return {
                 line: lineProps
             };

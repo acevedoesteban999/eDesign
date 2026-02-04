@@ -8,7 +8,13 @@ patch(Orderline,{
             ...Orderline.props.line,
             shape:{
                 ...Orderline.props.line.shape,
-                design_id: { type: [Object,Boolean], optional: true }
+                design_id: { 
+                    type: [Object,Boolean], 
+                    optional: true , 
+                    shape:{
+                        default_code:{ type: String }
+                    }
+                }
             },
         }
     }

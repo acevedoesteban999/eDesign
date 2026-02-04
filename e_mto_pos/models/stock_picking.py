@@ -52,7 +52,7 @@ class StockPicking(models.Model):
             discount = line.discount 
             
             result.append({
-                'product_id': product.id,
+                'id': line.id,
                 'productName': str(product.display_name),
                 'price': str(round(price_unit * qty * (1 - discount/100), 2)) or '',
                 'qty': str(qty),
