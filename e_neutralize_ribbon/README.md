@@ -1,2 +1,0 @@
-# eNeutralizeRibbon
-### Global Neutralize Ribbon
