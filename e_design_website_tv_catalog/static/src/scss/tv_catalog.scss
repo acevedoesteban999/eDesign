@@ -1,23 +1,108 @@
 .tv-catalog-container {
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    
     .background-linear {
         background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
     }
     
     .card {
         transition: transform 0.3s ease;
+        border: none;
+        
         &:hover {
             transform: scale(1.02);
         }
+        
+        h4 {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 1.2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+        }
     }
     
-    h4 {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
     .spinner-border {
         width: 3rem;
         height: 3rem;
         border-width: 0.5em;
+    }
+    
+    .swiper-slide {
+        padding: 1.5rem;
+        padding-top: 0.5rem;
+        height: 100%;
+    }
+    
+    .video-slide {
+        height: 100%;
+        
+        .tv-dynamic-grid {
+            height: 100%;
+            width: 100%;
+            padding: 1rem;
+            padding-bottom: 80px;
+        }
+    }
+    
+    .video-player-container {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        .ratio {
+            width: 100%;
+            max-width: 100%;
+            
+            .plyr {
+                width: 100%;
+                height: 100%;
+                max-height: calc(100vh - 140px);
+                border-radius: 8px;
+                --plyr-color-main: #71639e;
+                --plyr-video-background: #000;
+            }
+            
+            video {
+                max-height: calc(100vh - 140px);
+                width: 100%;
+            }
+        }
+        
+        .video-info {
+            z-index: 10;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        video, .plyr, .plyr__video-wrapper {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+        }
+    }
+    
+    .tv-counter {
+        z-index: 100;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .tv-header {
+        z-index: 1050;
+        height: 60px;
+        border-bottom: 1px solid #333;
+        
+        h1 {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+        }
+    }
+    
+    .autoplay-progress {
+        height: 4px;
+        z-index: 1060;
     }
 }

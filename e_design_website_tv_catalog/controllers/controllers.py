@@ -1,6 +1,7 @@
 from odoo import http, _
 from odoo.http import request
 import json
+import random
 
 class TvCatalog(http.Controller):
     
@@ -13,6 +14,7 @@ class TvCatalog(http.Controller):
                 'scroll_speed': 1.0,
                 'refresh_interval': 3600000,
                 'maxItemsPerSlide': 8,
+                'videoAutoplayDelay': 3000,
             })
         })
 
@@ -22,6 +24,28 @@ class TvCatalog(http.Controller):
         Category = request.env['product.edesign.category']
         Product = request.env['product.template']
         Design = request.env['product.edesign']
+        Video = request.env['e_design_website.video.content']
+
+        videos = Video.search([
+            ('ewebsite_published', '=', True),
+            ('video_data', '!=', False),
+        ])
+        
+        if videos:
+            video_items = [{
+                'id': video.id,
+                'name': video.name,
+                'preview': bool(video.preview),
+                'url': f'/e_video_content/video/stream/e_design_website.video.content/{video.id}',
+            } for video in videos]
+            
+            groups.append({
+                'type': 'videos',
+                'name': _('Promotional Videos'),
+                'total': len(video_items),
+                'items': video_items,  
+                'currentIndex': 0,  
+            })
 
         parent_categories = Category.search([
             ('ewebsite_published', '=', True),
@@ -90,5 +114,6 @@ class TvCatalog(http.Controller):
                     'items': items,
                 })
 
-
+        random.shuffle(groups)
+        
         return {'groups': groups}
