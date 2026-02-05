@@ -4,7 +4,7 @@ class ProductTemplate(models.Model):
 
     design_ok = fields.Boolean(string='Design')
     
-    design_counter = fields.Integer("Designs",compute="_compute_design_counter")
+    design_counter = fields.Integer("Designs Counter",compute="_compute_design_counter")
     design_ids = fields.Many2many(
         'product.edesign',
         string="Designs for Product Template",

@@ -15,7 +15,7 @@ class ProductDesignCategory(models.Model):
     image = fields.Image("Image")
     parent_id = fields.Many2one('product.edesign.category')
     design_ids = fields.One2many('product.edesign','category_id',"Designs",readonly=True)
-    design_counter = fields.Integer("Designs",compute="_compute_design_counter")
+    design_counter = fields.Integer("Designs Counter",compute="_compute_design_counter")
     subcategories_ids = fields.One2many('product.edesign.category','parent_id',"Sub-Categories",readonly=True)
     
     def _get_display_name (self):
