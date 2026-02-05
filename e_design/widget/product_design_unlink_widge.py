@@ -4,7 +4,7 @@ class ProductDesginUnlink(models.TransientModel):
     _name = 'e_design.product_design_unlink_widget'
     
     product_id = fields.Many2one('product.template',required=True,readonly=True)
-    design_id = fields.Many2one('product.edesign',required=True,radonly=True)
+    design_id = fields.Many2one('product.edesign',required=True,readonly=True)
     text = fields.Char(compute="_compute_text")
     
     @api.depends('product_id','design_id')

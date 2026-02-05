@@ -1,5 +1,5 @@
 from odoo import fields,models,api , Command , _
-class ProductProduct(models.Model):
+class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
     design_ok = fields.Boolean(string='Design')
