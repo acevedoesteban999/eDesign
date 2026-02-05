@@ -6,7 +6,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="filename"/>
-                <field name="file_size"/>
+                <field name="file_size" widget="file_size"/>
             </list>
         </field>
     </record>
@@ -19,7 +19,7 @@
                 <sheet>
                     <group>
                         <field name="filename" readonly="1"/>
-                        <field name="file_size" readonly="1"/>
+                        <field name="file_size" widget="file_size" readonly="1"/>
                         <field name="video_data" 
                             widget="video_content" 
                             filename="filename"
