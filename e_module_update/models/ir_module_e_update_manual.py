@@ -20,7 +20,7 @@ class eIrModuleUpdateManual(models.Model):
     _description = 'Manual Module Updater'
 
     store_local = fields.Boolean(compute="_compute_store_local")
-    zip_version = fields.Char("ZIP Version", compute="_compute_state")
+    zip_version = fields.Char("ZIP Version", compute="_compute_state",store=True)
     file_zip = fields.Binary("File ZIP")
     
     

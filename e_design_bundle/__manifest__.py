@@ -10,7 +10,6 @@
         'e_design',
         'e_pos_mrp',
         'e_design_mrp_pos',
-        'e_design_mrp_sale',
         'e_design_pos',
         'e_design_website',
         'e_design_website_tv_catalog',

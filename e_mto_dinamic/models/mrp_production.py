@@ -10,9 +10,8 @@ class MrpProduction(models.Model):
                     return move.sale_line_id
                 move = move.move_dest_ids[:1]
 
-    @api.model
-    def create(self, values):
-        rec = super().create(values)
+    def create(self, vals_list):
+        rec = super().create(vals_list)
         product = rec.product_id
         if product.product_tmpl_id.dinamic_mto_ok:
             moves = []    

@@ -25,13 +25,4 @@ class VideoContent(models.Model):
                 record.file_size = ""
                 record.mimetype = ""
                 record.filename = ""
-
-
-    def write(self,vals):
-        rec = super().write(vals)
-        return rec
-    
-    @api.model
-    def create(self,vals_list):
-        rec = super().create(vals_list)
-        return rec
+                

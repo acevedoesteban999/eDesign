@@ -26,7 +26,13 @@ class eIrModuleUpdate(models.AbstractModel):
     update_local = fields.Boolean(compute="_compute_update_local")
     restart_local = fields.Boolean(compute="_compute_restart_local")
     
-    backup_ids = fields.Many2many('ir.module.e_update.backup','rel_backups_e_update',string="Backups",compute="_compute_backup_ids",readonly=False)
+    backup_ids = fields.Many2many(
+        'ir.module.e_update.backup',
+        'rel_backups_e_update',
+        string="Backups",
+        compute="_compute_backup_ids",
+        readonly=False
+    )
     
     all_selected = fields.Boolean(compute="_compute_selecteds")
     has_selected = fields.Boolean(compute="_compute_selecteds")
@@ -39,7 +45,7 @@ class eIrModuleUpdate(models.AbstractModel):
     # API
     # ===================================================================
 
-    @api.depends('backup_ids.selected')
+    @api.depends('backup_ids')
     def _compute_selecteds(self):
         for rec in self:
             count_selecteds = len(rec.backup_ids.filtered_domain([('selected','=',True)]))

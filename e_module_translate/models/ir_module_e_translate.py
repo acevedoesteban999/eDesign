@@ -15,7 +15,7 @@ class IrModuleTranslate(models.Model):
     _inherit = "ir.module.e_base"
     _description = 'Translation Manager for Modules'
 
-    po_languages = fields.Json("PO Languages", compute="_compute_state")
+    po_languages = fields.Json("PO Languages", compute="_compute_state",store=True)
     state = fields.Selection(selection_add=[
         ('synced', "Synced"),
         ('mismatch', "Mismatch"),

@@ -23,7 +23,7 @@ class eIrModuleUpdateGitRemote(models.Model):
     
     subfolder_path = fields.Char("Subfolder Path", required=True)
     branch = fields.Char("Branch", default="main", required=True)
-    remote_version = fields.Char("Remote Version", compute="_compute_state")
+    remote_version = fields.Char("Remote Version", compute="_compute_state",store=True)
     download_local = fields.Boolean(compute="_compute_download_local")
     git_remote = fields.Selection([
         ('github',"GitHub"),
