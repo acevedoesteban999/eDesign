@@ -4,10 +4,29 @@ from odoo import api, SUPERUSER_ID
 
 _logger = logging.getLogger(__name__)
 
+XML_IDS = [
+    "e_pos_mrp.pos_order_form_inherit_pos_order_form",
+    "e_pos_mrp.product_template_form_view",
+]
+
+
 def migrate(cr, version):
+    
+    if not version:
+        return
+    _logger.info("Starting e_pos_mrp migration")
+    
     env = api.Environment(cr, SUPERUSER_ID, {})
     
-    _logger.info("Starting e_pos_mrp migration")
+    views = [(env.ref(xml_id, raise_if_not_found=False),xml_id) for xml_id in XML_IDS ]
+    for view,xml_id in views:
+        if view:
+            _logger.info(f"Deleting inherited view: ID={view.id}, Name={view.name}")
+            view.unlink()
+            _logger.info("View deleted successfully")
+        else:
+            _logger.info(f"Inherited view not found: {xml_id}")
+    
     
     e_mto_pos = env['ir.module.module'].search([
         ('name', '=', 'e_mto_pos'),
