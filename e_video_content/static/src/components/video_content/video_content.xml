@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="e_video_content.VideoContentField">
-        <div class="o_video_content_field">
+        <div t-if="this.props.record.resId" class="o_video_content_field">
             
-            <div t-if="state.loading and !state.videoUrl" class="text-center py-4">
+            <div t-if="state.loading and !this.state.videoUrl" class="text-center py-4">
                 <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Loading player...</span>
                 </div>
@@ -19,27 +19,18 @@
 
             <div t-if="!props.readonly" class="d-flex align-items-center gap-2 mb-3">
                 <FileUploader 
-                    acceptedFileExtensions="'video/mp4,video/webm,video/ogg,video/quicktime'"
+                    acceptedFileExtensions="'.mp4,.webm,.ogg,.mov'"
                     onUploaded.bind="update">
                     <t t-set-slot="toggler">
                         <button class="btn btn-primary btn-sm" t-att-disabled="state.loading">
                             <i class="fa fa-upload" t-att-class="{'fa-spin': state.loading}"/>
-                            <t t-if="hasVideo"> Replace</t>
+                            <t t-if="this.state.videoUrl"> Replace</t>
                             <t t-else=""> Upload Video</t>
                         </button>
                     </t>
                 </FileUploader>
                 
-                <span t-if="filename and hasVideo" class="badge bg-light text-dark border">
-                    <i class="fa fa-file-video-o text-primary"/> 
-                    <span t-esc="filename" class="text-truncate d-inline-block" style="max-width: 150px;"/>
-                </span>
-                
-                <span t-if="state.isNewUpload" class="badge bg-warning text-dark">
-                    <i class="fa fa-clock-o"/> Pending save
-                </span>
-                
-                <button t-if="hasVideo" 
+                <button t-if="this.state.videoUrl" 
                     class="btn btn-outline-danger btn-sm" 
                     t-on-click="onDelete"
                     t-att-disabled="state.loading"
@@ -48,8 +39,8 @@
                 </button>
             </div>
 
-            <div t-if="hasVideo" class="video-container position-relative">
-                <div t-if="state.loading" 
+            <div t-if="this.state.videoUrl" class="video-container position-relative">
+                <div t-if="state.loading and state.videoUrl" 
                     class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50 rounded" 
                     style="z-index: 10;">
                     <div class="text-center">
@@ -58,22 +49,21 @@
                     </div>
                 </div>
 
-                <div class="plyr__video-embed w-100">
-                    <video 
-                        t-ref="player"
-                        class="plyr"
-                        controls="controls"
-                        crossorigin="anonymous"
-                        playsinline="playsinline"
-                        preload="metadata"
-                        style="max-height: 500px; width: 100%; --plyr-color-main: #71639e;">
-                        <source t-att-src="state.videoUrl" type="video/mp4"/>
-                        <p class="plyr__fallback">
-                            Your browser doesn't support HTML5 video. 
-                            <a t-att-href="state.videoUrl" download="">Download</a> instead.
-                        </p>
-                    </video>
-                </div>
+                <video 
+                    t-ref="player"
+                    class="plyr__video-embed"
+                    playsinline="true"
+                    controls="true"
+                    crossorigin="anonymous"
+                    preload="metadata"
+                    t-att-src="state.videoUrl"
+                    style="max-height: 500px; width: 100%; --plyr-color-main: #71639e;">
+                    <source t-if="state.videoUrl" t-att-src="state.videoUrl" type="video/mp4"/>
+                    <p class="plyr__fallback">
+                        Your browser doesn't support HTML5 video. 
+                        <a t-att-href="state.videoUrl" download="">Download</a> instead.
+                    </p>
+                </video>
             </div>
 
             <div t-elif="!props.readonly and !state.loading" class="alert alert-light border text-center py-4">
@@ -81,6 +71,10 @@
                 <p class="text-muted mb-1">No video uploaded</p>
                 <small class="text-muted">Supported: MP4, WebM, MOV (Max 2GB)</small>
             </div>
+        </div>
+        <div t-else="" class="alert alert-info alert-dismissible fade show">
+            <i class="fa fa-exclamation-circle"/> 
+            <span>This item need save first</span>
         </div>
     </t>
 </templates>

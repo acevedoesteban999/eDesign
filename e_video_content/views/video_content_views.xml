@@ -18,11 +18,12 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="filename" invisible="1"/>
+                        <field name="filename" readonly="1"/>
                         <field name="file_size" readonly="1"/>
                         <field name="video_data" 
                             widget="video_content" 
                             filename="filename"
+                            force_save="1"
                             options="{'accepted_file_extensions': 'video/*'}"/>
                     </group>
                 </sheet>

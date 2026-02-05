@@ -2,7 +2,7 @@
 
 import { registry } from "@web/core/registry";
 import { standardFieldProps } from "@web/views/fields/standard_field_props";
-import { Component, useState, onMounted, onWillUpdateProps, onWillUnmount, useRef } from "@odoo/owl";
+import { Component, onMounted, onWillStart, onWillUnmount, onWillUpdateProps, useRef, useState } from "@odoo/owl";
 import { FileUploader } from "@web/views/fields/file_handler";
 import { loadJS, loadCSS } from "@web/core/assets";
 
@@ -19,41 +19,34 @@ export class VideoContentField extends Component {
     setup() {
         this.state = useState({
             videoUrl: null,
+            
             loading: false,
             libsLoaded: false,
             error: null,
-            isNewUpload: false,
         });
         this.player = null;
         this.playerRef = useRef("player");
-        this.uploadedData = null;
         this.objectUrl = null;
-        
-        onMounted(() => this.init());
-        
-        onWillUpdateProps((nextProps) => {
-            const currentData = this.props.record.data[this.props.name];
-            const nextData = nextProps.record.data[this.props.name];
-            
-            if (this.state.isNewUpload && nextData && nextData !== currentData) {
-                this.state.isNewUpload = false;
-                this.uploadedData = null;
-                setTimeout(() => this.init(), 100);
-            }
-        });
+        this.lastRecordId = null;
+
+        onWillStart(async()=>{
+            await loadCSS("/e_video_content/static/src/library/plyr/plyr.css")
+            await loadJS("/e_video_content/static/src/library/plyr/plyr.js")
+        })
+
+        onMounted(() => this.loadData());
         
         onWillUnmount(() => this.destroy());
     }
 
-    async init() {
+    async loadData() {
         const recordId = this.props.record.resId;
-        const resModel = this.props.record.resModel; // Obtiene el modelo dinámicamente
+        const resModel = this.props.record.resModel;
         const fieldValue = this.props.record.data[this.props.name];
         
         this.state.error = null;
-        this.cleanupObjectUrl();
         
-        if (!recordId || !fieldValue) {
+        if (!fieldValue || !resModel || !recordId) {
             this.state.videoUrl = null;
             this.destroyPlayer();
             return;
@@ -62,57 +55,18 @@ export class VideoContentField extends Component {
         this.state.loading = true;
 
         try {
-            // Detecta base64 (upload nuevo)
-            if (typeof fieldValue === 'string' && fieldValue.length > 1000) {
-                this.state.isNewUpload = true;
-                this.uploadedData = fieldValue;
-                
-                if (fieldValue.length < MAX_INLINE_SIZE * 1.4) {
-                    const blob = this.base64ToBlob(fieldValue);
-                    this.objectUrl = URL.createObjectURL(blob);
-                    this.state.videoUrl = this.objectUrl;
-                } else {
-                    this.state.videoUrl = null;
-                    this.state.error = "Video uploading... Please save the record.";
-                }
-                
-                await this.loadPlyr();
+           
+                this.state.isNewUpload = false;
+                this.state.videoUrl = `/e_video_content/video/stream/${resModel}/${recordId}`;
                 await this.initPlayer();
+                this.state.loading = false;
                 return;
-            }
 
-            // Record guardado - streaming con modelo dinámico
-            this.state.isNewUpload = false;
-            this.state.videoUrl = `/e_video_content/video/stream/${resModel}/${recordId}`;
-            
-            await this.loadPlyr();
-            await this.initPlayer();
-            
         } catch (error) {
             console.error("VideoContent init error:", error);
             this.state.error = "Failed to load video player";
-        } finally {
             this.state.loading = false;
         }
-    }
-
-    base64ToBlob(base64) {
-        const byteString = atob(base64);
-        const ab = new ArrayBuffer(byteString.length);
-        const ia = new Uint8Array(ab);
-        for (let i = 0; i < byteString.length; i++) {
-            ia[i] = byteString.charCodeAt(i);
-        }
-        return new Blob([ab], { type: 'video/mp4' });
-    }
-
-    async loadPlyr() {
-        if (window.Plyr && this.state.libsLoaded) return;
-        await Promise.all([
-            loadCSS("/e_video_content/static/src/library/plyr/plyr.css"),
-            loadJS("/e_video_content/static/src/library/plyr/plyr.js"),
-        ]);
-        this.state.libsLoaded = true;
     }
 
     async initPlayer() {
@@ -120,33 +74,31 @@ export class VideoContentField extends Component {
 
         this.destroyPlayer();
 
-        this.player = new Plyr(this.playerRef.el, {
+        const videoEl = this.playerRef.el;
+        
+        if (this.state.videoUrl && !videoEl.src) {
+            videoEl.src = this.state.videoUrl;
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        this.player = new Plyr(videoEl, {
             controls: [
                 'play-large', 'play', 'progress', 'current-time', 'duration',
                 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
             ],
             settings: ['captions', 'quality', 'speed', 'loop'],
             loadSprite: true,
-            iconUrl: null,
+            iconUrl: '/e_video_content/static/src/library/plyr/plyr.svg',
             blankVideo: null,
             autoplay: false,
             preload: 'metadata',
             storage: { enabled: false },
             tooltips: { controls: true, seek: true },
-            quality: {
-                default: 1080,
-                options: [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240],
-            },
-            speed: {
-                selected: 1,
-                options: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2],
-            },
             keyboard: { focused: true, global: false },
             clickToPlay: true,
             hideControls: true,
             resetOnEnd: false,
-            buffered: true,
-            debug: false,
         });
 
         this.player.on('ready', () => {
@@ -174,42 +126,20 @@ export class VideoContentField extends Component {
         }
     }
 
-    cleanupObjectUrl() {
-        if (this.objectUrl) {
-            URL.revokeObjectURL(this.objectUrl);
-            this.objectUrl = null;
-        }
-    }
-
     destroy() {
         this.destroyPlayer();
-        this.cleanupObjectUrl();
     }
 
-    get hasVideo() {
-        return !!this.state.videoUrl;
-    }
 
     get filename() {
-        return this.props.record.data[this.props.filenameField] || "video.mp4";
+        return this.props.record.data[this.props.filenameField] || "";
     }
 
     async update({ data, name }) {
-        this.destroyPlayer();
-        this.cleanupObjectUrl();
-        
         if (!data) {
-            this.state.videoUrl = null;
-            this.state.isNewUpload = false;
-            this.uploadedData = null;
-            return this.props.record.update({ 
-                [this.props.name]: false,
-                [this.props.filenameField]: false 
-            });
+            return
         }
 
-        this.state.isNewUpload = true;
-        this.uploadedData = data;
         
         try {
             await this.props.record.update({ 
@@ -217,19 +147,21 @@ export class VideoContentField extends Component {
                 [this.props.filenameField]: name 
             });
             
-            this.init();    
+            await this.loadData();
             
         } catch (error) {
             console.error("Upload error:", error);
             this.state.error = "Upload failed";
+            this.tempBase64 = null;
+            this.state.isNewUpload = false;
         }
     }
 
     async onDelete() {
+        this.tempBase64 = null;
+        this.state.isNewUpload = false;
         this.destroy();
         this.state.videoUrl = null;
-        this.state.isNewUpload = false;
-        this.uploadedData = null;
         return this.props.record.update({ 
             [this.props.name]: false, 
             [this.props.filenameField]: false 
@@ -238,7 +170,7 @@ export class VideoContentField extends Component {
 
     async retry() {
         this.state.error = null;
-        await this.init();
+        await this.loadData();
     }
 }
 

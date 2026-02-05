@@ -4,7 +4,7 @@ class VideoContent(models.Model):
     _name = 'video.content'
     _description = "Video Content"
     
-    video_data = fields.Binary("Video File", attachment=True)
+    video_data = fields.Binary("Video File")
     filename = fields.Char("Filename")
     file_size = fields.Char("Size", compute="_compute_file_info", store=True)
     mimetype = fields.Char("Mime Type", compute="_compute_file_info", store=True)
@@ -25,6 +25,11 @@ class VideoContent(models.Model):
                 record.mimetype = "video/?"
 
 
-    def get_stream_url(self):
-        self.ensure_one()
-        return f"/video/stream/{self.id}"
+    def write(self,vals):
+        rec = super().write(vals)
+        return rec
+    
+    @api.model
+    def create(self,vals_list):
+        rec = super().create(vals_list)
+        return rec
