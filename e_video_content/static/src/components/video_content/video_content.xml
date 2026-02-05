@@ -1,80 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="e_video_content.VideoContentField">
-        <div t-if="this.props.record.resId" class="o_video_content_field">
+        <div class="o_video_content_field">
             
-            <div t-if="state.loading and !this.state.videoUrl" class="text-center py-4">
+            <div t-if="state.loading and !state.videoUrl" class="text-center py-4">
                 <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading player...</span>
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-                <p class="text-muted mt-2 small">Loading video player...</p>
+                <p class="text-muted mt-2 small">Initializing player...</p>
             </div>
 
             <div t-if="state.error" class="alert alert-danger alert-dismissible fade show">
-                <i class="fa fa-exclamation-circle"/> 
+                <i class="fa fa-exclamation-circle me-2"/> 
                 <span t-esc="state.error"/>
-                <button t-if="!state.isNewUpload" class="btn btn-sm btn-link ms-2" t-on-click="retry">Retry</button>
-                <button type="button" class="btn-close" t-on-click="() => state.error = null"/>
+                <button type="button" class="btn-close" t-on-click="clearError"/>
             </div>
 
-            <div t-if="!props.readonly" class="d-flex align-items-center gap-2 mb-3">
+            <div t-if="!isReadonly" class="d-flex align-items-center gap-2 mb-3">
                 <FileUploader 
                     acceptedFileExtensions="'.mp4,.webm,.ogg,.mov'"
                     onUploaded.bind="update">
                     <t t-set-slot="toggler">
                         <button class="btn btn-primary btn-sm" t-att-disabled="state.loading">
-                            <i class="fa fa-upload" t-att-class="{'fa-spin': state.loading}"/>
-                            <t t-if="this.state.videoUrl"> Replace</t>
-                            <t t-else=""> Upload Video</t>
+                            <i t-attf-class="fa {{ state.loading ? 'fa-spinner fa-spin' : 'fa-upload' }} me-1"/>
+                            <t t-if="hasVideo">Replace Video</t>
+                            <t t-else="">Upload Video</t>
                         </button>
                     </t>
                 </FileUploader>
                 
-                <button t-if="this.state.videoUrl" 
+                <button t-if="hasVideo" 
                     class="btn btn-outline-danger btn-sm" 
                     t-on-click="onDelete"
                     t-att-disabled="state.loading"
                     title="Remove video">
-                    <i class="fa fa-trash"/>
+                    <i class="fa fa-trash me-1"/> Remove
                 </button>
             </div>
-
-            <div t-if="this.state.videoUrl" class="video-container position-relative">
-                <div t-if="state.loading and state.videoUrl" 
-                    class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50 rounded" 
-                    style="z-index: 10;">
-                    <div class="text-center">
-                        <div class="spinner-border text-light mb-2"/>
-                        <p class="text-light mb-0 small">Loading video...</p>
+            <t t-if="this.props.record.resId">
+                <div t-if="hasVideo" class="video-container position-relative">
+                
+                    <div t-if="state.loading" 
+                        class="video-loading-overlay">
+                        <div class="text-center">
+                            <div class="spinner-border text-light mb-2"/>
+                            <p class="text-light mb-0 small">Loading video...</p>
+                        </div>
                     </div>
+
+                    <video 
+                        t-ref="player"
+                        class="plyr__video-embed"
+                        playsinline="true"
+                        controls="true"
+                        crossorigin="anonymous"
+                        preload="metadata">
+                        <source t-att-src="state.videoUrl" type="video/mp4"/>
+                        <p class="plyr__fallback">
+                            Your browser doesn't support HTML5 video. 
+                            <a t-att-href="state.videoUrl" download="">Download</a> instead.
+                        </p>
+                    </video>
                 </div>
 
-                <video 
-                    t-ref="player"
-                    class="plyr__video-embed"
-                    playsinline="true"
-                    controls="true"
-                    crossorigin="anonymous"
-                    preload="metadata"
-                    t-att-src="state.videoUrl"
-                    style="max-height: 500px; width: 100%; --plyr-color-main: #71639e;">
-                    <source t-if="state.videoUrl" t-att-src="state.videoUrl" type="video/mp4"/>
-                    <p class="plyr__fallback">
-                        Your browser doesn't support HTML5 video. 
-                        <a t-att-href="state.videoUrl" download="">Download</a> instead.
-                    </p>
-                </video>
+                <div t-elif="!isReadonly and !state.loading" class="alert alert-light border text-center py-4">
+                    <i class="fa fa-video-camera fa-3x text-muted mb-3 d-block"/>
+                    <p class="text-muted mb-1">No video uploaded</p>
+                    <small class="text-muted">Supported: MP4, WebM, OGG, MOV</small>
+                </div>
+            </t>
+            <div t-else="" class="alert alert-info">
+                <i class="fa fa-info-circle me-2"/> 
+                <span>Save the record to upload video content</span>
             </div>
-
-            <div t-elif="!props.readonly and !state.loading" class="alert alert-light border text-center py-4">
-                <i class="fa fa-video-camera fa-3x text-muted mb-3 d-block"/>
-                <p class="text-muted mb-1">No video uploaded</p>
-                <small class="text-muted">Supported: MP4, WebM, MOV (Max 2GB)</small>
-            </div>
-        </div>
-        <div t-else="" class="alert alert-info alert-dismissible fade show">
-            <i class="fa fa-exclamation-circle"/> 
-            <span>This item need save first</span>
         </div>
     </t>
 </templates>

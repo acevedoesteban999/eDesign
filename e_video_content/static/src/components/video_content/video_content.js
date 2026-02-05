@@ -2,11 +2,10 @@
 
 import { registry } from "@web/core/registry";
 import { standardFieldProps } from "@web/views/fields/standard_field_props";
-import { Component, onMounted, onWillStart, onWillUnmount, onWillUpdateProps, useRef, useState } from "@odoo/owl";
+import { Component, onMounted, onWillStart, onWillUnmount, useRef, useState  } from "@odoo/owl";
 import { FileUploader } from "@web/views/fields/file_handler";
 import { loadJS, loadCSS } from "@web/core/assets";
-
-const MAX_INLINE_SIZE = 2 * 1024 * 1024; // 2MB
+import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 
 export class VideoContentField extends Component {
     static template = "e_video_content.VideoContentField";
@@ -19,53 +18,56 @@ export class VideoContentField extends Component {
     setup() {
         this.state = useState({
             videoUrl: null,
-            
             loading: false,
-            libsLoaded: false,
             error: null,
+            recordIsSaved: false,
         });
+        
         this.player = null;
         this.playerRef = useRef("player");
-        this.objectUrl = null;
-        this.lastRecordId = null;
+        this._listeners = []; 
 
-        onWillStart(async()=>{
-            await loadCSS("/e_video_content/static/src/library/plyr/plyr.css")
-            await loadJS("/e_video_content/static/src/library/plyr/plyr.js")
-        })
+        onWillStart(async () => {
+            await Promise.all([
+                loadCSS("/e_video_content/static/src/library/plyr/plyr.css"),
+                loadJS("/e_video_content/static/src/library/plyr/plyr.js")
+            ]);
+        });
 
         onMounted(() => this.loadData());
-        
         onWillUnmount(() => this.destroy());
     }
 
+    get hasVideo() {
+        return Boolean(this.state.videoUrl);
+    }
+
+    get isReadonly() {
+        return this.props.readonly;
+    }
+
     async loadData() {
-        const recordId = this.props.record.resId;
-        const resModel = this.props.record.resModel;
+        await this.props.record.load();
+        const { resId, resModel } = this.props.record;
         const fieldValue = this.props.record.data[this.props.name];
         
-        this.state.error = null;
+        this.clearError();
         
-        if (!fieldValue || !resModel || !recordId) {
-            this.state.videoUrl = null;
-            this.destroyPlayer();
+        if (!fieldValue || !resModel || !resId) {
+            this.clearVideo();
             return;
         }
 
-        this.state.loading = true;
+        this.setLoading(true);
 
         try {
-           
-                this.state.isNewUpload = false;
-                this.state.videoUrl = `/e_video_content/video/stream/${resModel}/${recordId}`;
-                await this.initPlayer();
-                this.state.loading = false;
-                return;
-
+            this.state.videoUrl = `/e_video_content/video/stream/${resModel}/${resId}`;
+            await this.initPlayer();
         } catch (error) {
             console.error("VideoContent init error:", error);
-            this.state.error = "Failed to load video player";
-            this.state.loading = false;
+            this.setError("Failed to load video player");
+        } finally {
+            this.setLoading(false);
         }
     }
 
@@ -74,102 +76,151 @@ export class VideoContentField extends Component {
 
         this.destroyPlayer();
 
-        const videoEl = this.playerRef.el;
-        
-        if (this.state.videoUrl && !videoEl.src) {
-            videoEl.src = this.state.videoUrl;
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        try {
+            this.player = new Plyr(this.playerRef.el, {
+                controls: [
+                    'play-large', 'play', 'progress', 'current-time', 'duration',
+                    'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
+                ],
+                settings: ['captions', 'quality', 'speed', 'loop'],
+                loadSprite: true,
+                iconUrl: '/e_video_content/static/src/library/plyr/plyr.svg',
+                blankVideo: null,
+                autoplay: false,
+                preload: 'metadata',
+                storage: { enabled: false },
+                tooltips: { controls: true, seek: true },
+                keyboard: { focused: true, global: false },
+                clickToPlay: true,
+                hideControls: true,
+                resetOnEnd: false,
+            });
+
+            // Bind events con tracking para cleanup
+            const events = ['ready', 'error', 'loadedmetadata'];
+            events.forEach(event => {
+                const handler = this.handlePlayerEvent.bind(this, event);
+                this.player.on(event, handler);
+                this._listeners.push({ event, handler });
+            });
+
+        } catch (error) {
+            console.error("Plyr initialization failed:", error);
+            throw error;
         }
+    }
 
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        this.player = new Plyr(videoEl, {
-            controls: [
-                'play-large', 'play', 'progress', 'current-time', 'duration',
-                'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'fullscreen'
-            ],
-            settings: ['captions', 'quality', 'speed', 'loop'],
-            loadSprite: true,
-            iconUrl: '/e_video_content/static/src/library/plyr/plyr.svg',
-            blankVideo: null,
-            autoplay: false,
-            preload: 'metadata',
-            storage: { enabled: false },
-            tooltips: { controls: true, seek: true },
-            keyboard: { focused: true, global: false },
-            clickToPlay: true,
-            hideControls: true,
-            resetOnEnd: false,
-        });
-
-        this.player.on('ready', () => {
-            this.state.loading = false;
-        });
-
-        this.player.on('error', () => {
-            this.state.error = "Video playback error";
-            this.state.loading = false;
-        });
-
-        this.player.on('loadedmetadata', () => {
-            this.state.loading = false;
-        });
+    handlePlayerEvent(event) {
+        switch(event) {
+            case 'ready':
+            case 'loadedmetadata':
+                this.setLoading(false);
+                break;
+            case 'error':
+                this.setError("Video playback error");
+                break;
+        }
     }
 
     destroyPlayer() {
-        if (this.player) {
-            try {
-                this.player.destroy();
-            } catch (e) {
-                console.warn("Error destroying player:", e);
-            }
+        if (!this.player) return;
+        
+        try {
+            // Remove tracked listeners first
+            this._listeners.forEach(({ event, handler }) => {
+                this.player.off(event, handler);
+            });
+            this._listeners = [];
+            
+            this.player.destroy();
+        } catch (e) {
+            console.warn("Error destroying player:", e);
+        } finally {
             this.player = null;
         }
     }
 
     destroy() {
         this.destroyPlayer();
+        this.clearVideo();
     }
 
+    clearVideo() {
+        if (this.state.videoUrl?.startsWith('blob:')) {
+            URL.revokeObjectURL(this.state.videoUrl);
+        }
+        this.state.videoUrl = null;
+    }
+
+    setLoading(value) {
+        this.state.loading = value;
+    }
+
+    setError(message) {
+        this.state.error = message;
+        this.setLoading(false);
+    }
+
+    clearError() {
+        this.state.error = null;
+    }
 
     get filename() {
         return this.props.record.data[this.props.filenameField] || "";
     }
 
-    async update({ data, name }) {
-        if (!data) {
-            return
-        }
+    async _force_write(data){
+        if(this.props.record.resId)
+            await this.props.record.model.orm.write(
+                this.props.record.resModel,
+                [this.props.record.resId],
+                data,
+            )
+    }
 
-        
+    async update({ data, name }) {
+        if (!data) 
+            return;
+
+        this.setLoading(true);
+        this.clearError();
+        this.clearVideo();
+
         try {
-            await this.props.record.update({ 
+            
+            await this._force_write({ 
                 [this.props.name]: data, 
                 [this.props.filenameField]: name 
-            });
-            
+            })
             await this.loadData();
             
         } catch (error) {
             console.error("Upload error:", error);
-            this.state.error = "Upload failed";
-            this.tempBase64 = null;
-            this.state.isNewUpload = false;
+            this.setError("Upload failed");
         }
     }
 
     async onDelete() {
-        this.tempBase64 = null;
-        this.state.isNewUpload = false;
-        this.destroy();
-        this.state.videoUrl = null;
-        return this.props.record.update({ 
-            [this.props.name]: false, 
-            [this.props.filenameField]: false 
+        await this.props.record.model.dialog.add(ConfirmationDialog, {
+            title: "Confirm",
+            body: `Are you sure you want to delete the video?`,
+            confirm: async () => {
+                this.destroy();
+                await this._force_write({ 
+                    [this.props.name]: false, 
+                    [this.props.filenameField]: false 
+                });
+                await this.loadData()
+            },
+            cancel: () => {},
         });
+        
     }
 
     async retry() {
-        this.state.error = null;
+        this.clearError();
         await this.loadData();
     }
 }

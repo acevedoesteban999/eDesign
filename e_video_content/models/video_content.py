@@ -21,8 +21,9 @@ class VideoContent(models.Model):
                 record.file_size = attachment.file_size
                 record.mimetype = attachment.mimetype
             else:
-                record.file_size = "?"
-                record.mimetype = "video/?"
+                record.file_size = ""
+                record.mimetype = ""
+                record.filename = ""
 
 
     def write(self,vals):
