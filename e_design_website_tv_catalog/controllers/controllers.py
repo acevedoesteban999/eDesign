@@ -41,7 +41,7 @@ class TvCatalog(http.Controller):
             
             groups.append({
                 'type': 'videos',
-                'name': _('Promotional Videos'),
+                'name': _('Videos'),
                 'total': len(video_items),
                 'items': video_items,  
                 'currentIndex': 0,  

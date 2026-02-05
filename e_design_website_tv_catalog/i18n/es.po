@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 06:47+0000\n"
-"PO-Revision-Date: 2026-01-30 06:47\n"
+"POT-Creation-Date: 2026-02-05 05:54+0000\n"
+"PO-Revision-Date: 2026-02-05 05:54\n"
 "Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language: es\n"
@@ -49,10 +49,8 @@ msgid "Design"
 msgstr "Diseño"
 
 #. module: e_design_website_tv_catalog
-#. odoo-javascript
-#: code:addons/addons/e_addons/e_design_website_tv_catalog/static/src/js/tv_catalog.js:0
-#: code:addons/e_design_website_tv_catalog/static/src/js/tv_catalog.js:0
-msgid "Designs"
+#: model_terms:ir.ui.view,arch_db:e_design_website_tv_catalog.TVCatalog
+msgid "Diseños"
 msgstr "Diseños"
 
 #. module: e_design_website_tv_catalog
@@ -64,7 +62,22 @@ msgstr "Producto"
 
 #. module: e_design_website_tv_catalog
 #. odoo-python
+#: code:addons/addons/e_addons/e_design_website_tv_catalog/controllers/controllers.py:0
+#: code:addons/e_design_website_tv_catalog/controllers/controllers.py:0
+msgid "Videos"
+msgstr "Vídeos"
+
+#. module: e_design_website_tv_catalog
+#. odoo-python
 #: code:addons/addons/e_addons/e_design_website_tv_catalog/__init__.py:0
 #: code:addons/e_design_website_tv_catalog/__init__.py:0
+#: model_terms:ir.ui.view,arch_db:e_design_website_tv_catalog.DesignsHome
 msgid "TV Catalog"
 msgstr "Catálogo de televisión"
+
+#. module: e_design_website_tv_catalog
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_design_website_tv_catalog/static/src/js/tv_catalog.js:0
+#: code:addons/e_design_website_tv_catalog/static/src/js/tv_catalog.js:0
+msgid "Video"
+msgstr "Video"

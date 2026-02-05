@@ -1,0 +1,165 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* e_video_content
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20250507\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-02-05 05:54+0000\n"
+"PO-Revision-Date: 2026-02-05 05:54+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: e_video_content
+#: model:ir.model.fields,field_description:e_video_content.field_video_content__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: e_video_content
+#: model:ir.model.fields,field_description:e_video_content.field_video_content__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: e_video_content
+#. odoo-python
+#: code:addons/addons/e_addons/e_video_content/__init__.py:0
+#: code:addons/e_video_content/__init__.py:0
+msgid "Designs"
+msgstr ""
+
+#. module: e_video_content
+#: model:ir.model.fields,field_description:e_video_content.field_video_content__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: e_video_content
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_video_content/static/src/components/video_content/video_content.xml:0
+#: code:addons/e_video_content/static/src/components/video_content/video_content.xml:0
+msgid "Download"
+msgstr ""
+
+#. module: e_video_content
+#: model:ir.model.fields,field_description:e_video_content.field_video_content__filename
+msgid "Filename"
+msgstr ""
+
+#. module: e_video_content
+#: model:ir.model.fields,field_description:e_video_content.field_video_content__id
+msgid "ID"
+msgstr ""
+
+#. module: e_video_content
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_video_content/static/src/components/video_content/video_content.xml:0
+#: code:addons/e_video_content/static/src/components/video_content/video_content.xml:0
+msgid "Initializing player..."
+msgstr ""
+
+#. module: e_video_content
+#: model:ir.model.fields,field_description:e_video_content.field_video_content__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: e_video_content
+#: model:ir.model.fields,field_description:e_video_content.field_video_content__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: e_video_content
+#: model:ir.model.fields,field_description:e_video_content.field_video_content__mimetype
+msgid "Mime Type"
+msgstr ""
+
+#. module: e_video_content
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_video_content/static/src/components/video_content/video_content.xml:0
+#: code:addons/e_video_content/static/src/components/video_content/video_content.xml:0
+msgid "No video uploaded"
+msgstr ""
+
+#. module: e_video_content
+#: model:ir.model.fields,field_description:e_video_content.field_video_content__preview
+msgid "Preview"
+msgstr ""
+
+#. module: e_video_content
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_video_content/static/src/components/video_content/video_content.xml:0
+#: code:addons/e_video_content/static/src/components/video_content/video_content.xml:0
+msgid "Remove"
+msgstr ""
+
+#. module: e_video_content
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_video_content/static/src/components/video_content/video_content.xml:0
+#: code:addons/e_video_content/static/src/components/video_content/video_content.xml:0
+msgid "Remove video"
+msgstr ""
+
+#. module: e_video_content
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_video_content/static/src/components/video_content/video_content.xml:0
+#: code:addons/e_video_content/static/src/components/video_content/video_content.xml:0
+msgid "Replace Video"
+msgstr ""
+
+#. module: e_video_content
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_video_content/static/src/components/video_content/video_content.xml:0
+#: code:addons/e_video_content/static/src/components/video_content/video_content.xml:0
+msgid "Save the record to upload video content"
+msgstr ""
+
+#. module: e_video_content
+#: model:ir.model.fields,field_description:e_video_content.field_video_content__file_size
+msgid "Size"
+msgstr ""
+
+#. module: e_video_content
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_video_content/static/src/components/video_content/video_content.xml:0
+#: code:addons/e_video_content/static/src/components/video_content/video_content.xml:0
+msgid "Supported: MP4, WebM, OGG, MOV"
+msgstr ""
+
+#. module: e_video_content
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_video_content/static/src/components/video_content/video_content.xml:0
+#: code:addons/e_video_content/static/src/components/video_content/video_content.xml:0
+msgid "Upload Video"
+msgstr ""
+
+#. module: e_video_content
+#: model:ir.model,name:e_video_content.model_video_content
+msgid "Video Content"
+msgstr ""
+
+#. module: e_video_content
+#: model:ir.model.fields,field_description:e_video_content.field_video_content__video_data
+msgid "Video File"
+msgstr ""
+
+#. module: e_video_content
+#: model:ir.actions.act_window,name:e_video_content.action_video_content
+msgid "Videos"
+msgstr ""
+
+#. module: e_video_content
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_video_content/static/src/components/video_content/video_content.xml:0
+#: code:addons/e_video_content/static/src/components/video_content/video_content.xml:0
+msgid "Your browser doesn't support HTML5 video."
+msgstr ""
+
+#. module: e_video_content
+#. odoo-javascript
+#: code:addons/addons/e_addons/e_video_content/static/src/components/video_content/video_content.xml:0
+#: code:addons/e_video_content/static/src/components/video_content/video_content.xml:0
+msgid "instead."
+msgstr ""

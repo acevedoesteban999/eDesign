@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 18.0-20250507\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-30 06:46+0000\n"
-"PO-Revision-Date: 2026-01-30 06:46\n"
+"POT-Creation-Date: 2026-02-05 05:54+0000\n"
+"PO-Revision-Date: 2026-02-05 05:54\n"
 "Last-Translator: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language-Team: e_module_translate <acevedoesteban999@gmail.com>\n"
 "Language: es\n"
@@ -20,7 +20,7 @@ msgstr ""
 #. module: e_design_website
 #: model_terms:ir.ui.view,arch_db:e_design_website.breadcrumbComponent
 msgid "<span class=\"mx-2\">/</span>"
-msgstr "<span class=\"mx-2\">/</span>"
+msgstr "<span class=\"mx-2\"> / </span>"
 
 #. module: e_design_website
 #. odoo-javascript
@@ -52,6 +52,16 @@ msgid "Category:"
 msgstr "Categoría:"
 
 #. module: e_design_website
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: e_design_website
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__create_date
+msgid "Created on"
+msgstr "Creado el"
+
+#. module: e_design_website
 #. odoo-python
 #: code:addons/addons/e_addons/e_design_website/controllers/controllers.py:0
 #: code:addons/e_design_website/controllers/controllers.py:0
@@ -70,11 +80,26 @@ msgid "Designs"
 msgstr "Diseños"
 
 #. module: e_design_website
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__display_name
+msgid "Display Name"
+msgstr "Nombre para mostrar"
+
+#. module: e_design_website
+#: model_terms:ir.ui.view,arch_db:e_design_website.VideoContent
+msgid "Download video"
+msgstr "Descargar vídeo"
+
+#. module: e_design_website
 #. odoo-javascript
 #: code:addons/addons/e_addons/e_design_website/static/src/components/public/product_edesigns/product_edesigns.xml:0
 #: code:addons/e_design_website/static/src/components/public/product_edesigns/product_edesigns.xml:0
 msgid "FILTER"
 msgstr "FILTRAR"
+
+#. module: e_design_website
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__filename
+msgid "Filename"
+msgstr "Nombre del archivo"
 
 #. module: e_design_website
 #. odoo-javascript
@@ -84,20 +109,42 @@ msgid "Filter"
 msgstr "Filtrar"
 
 #. module: e_design_website
-#: model:ir.model.fields,field_description:e_design_website.field_product_edesign__is_published
-#: model:ir.model.fields,field_description:e_design_website.field_product_edesign_category__is_published
-#: model:ir.model.fields,field_description:e_design_website.field_product_product__is_published
-#: model:ir.model.fields,field_description:e_design_website.field_product_template__is_published
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__id
+msgid "ID"
+msgstr "ID"
+
+#. module: e_design_website
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__ewebsite_published
+#: model:ir.model.fields,field_description:e_design_website.field_product_edesign__ewebsite_published
+#: model:ir.model.fields,field_description:e_design_website.field_product_edesign_category__ewebsite_published
+#: model:ir.model.fields,field_description:e_design_website.field_product_product__ewebsite_published
+#: model:ir.model.fields,field_description:e_design_website.field_product_template__ewebsite_published
 msgid "Is Published"
 msgstr "Se publica"
 
 #. module: e_design_website
-#: model:ir.model.fields,help:e_design_website.field_product_edesign__is_published
-#: model:ir.model.fields,help:e_design_website.field_product_edesign_category__is_published
-#: model:ir.model.fields,help:e_design_website.field_product_product__is_published
-#: model:ir.model.fields,help:e_design_website.field_product_template__is_published
-msgid "Is Published on Website"
+#: model:ir.model.fields,help:e_design_website.field_e_design_website_video_content__ewebsite_published
+#: model:ir.model.fields,help:e_design_website.field_product_edesign__ewebsite_published
+#: model:ir.model.fields,help:e_design_website.field_product_edesign_category__ewebsite_published
+#: model:ir.model.fields,help:e_design_website.field_product_product__ewebsite_published
+#: model:ir.model.fields,help:e_design_website.field_product_template__ewebsite_published
+msgid "Is Published on eWebsite"
 msgstr "Se publica en el sitio web"
+
+#. module: e_design_website
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__write_uid
+msgid "Last Updated by"
+msgstr "Actualizado por última vez por"
+
+#. module: e_design_website
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__write_date
+msgid "Last Updated on"
+msgstr "Última actualización el"
+
+#. module: e_design_website
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__mimetype
+msgid "Mime Type"
+msgstr "Tipo mimo"
 
 #. module: e_design_website
 #. odoo-javascript
@@ -112,6 +159,11 @@ msgstr "No hay diseños para mostrar"
 #: code:addons/e_design_website/static/src/components/public/product_edesigns/product_edesigns.xml:0
 msgid "Porduct"
 msgstr "Producto"
+
+#. module: e_design_website
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__preview
+msgid "Preview"
+msgstr "Avance"
 
 #. module: e_design_website
 #: model:ir.model,name:e_design_website.model_product_template
@@ -152,6 +204,7 @@ msgstr "Resultados no encontrados"
 #: code:addons/e_design_website/static/src/components/public/product_edesigns/product_edesigns.xml:0
 #: model_terms:ir.ui.view,arch_db:e_design_website.DesignsCategories
 #: model_terms:ir.ui.view,arch_db:e_design_website.DesignsProducts
+#: model_terms:ir.ui.view,arch_db:e_design_website.VideosContent
 msgid "Search"
 msgstr "Buscar"
 
@@ -163,9 +216,49 @@ msgid "Search..."
 msgstr "Buscar..."
 
 #. module: e_design_website
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__file_size
+msgid "Size"
+msgstr "Tamaño"
+
+#. module: e_design_website
+#: model_terms:ir.ui.view,arch_db:e_design_website.e_design_website__video_content_form
+msgid "Video"
+msgstr "Video"
+
+#. module: e_design_website
+#: model:ir.model,name:e_design_website.model_e_design_website_video_content
+msgid "Video Content"
+msgstr "Contenido de vídeo"
+
+#. module: e_design_website
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__video_data
+msgid "Video File"
+msgstr "Archivo de vídeo"
+
+#. module: e_design_website
+#: model:ir.model.fields,field_description:e_design_website.field_e_design_website_video_content__name
+msgid "Video Name"
+msgstr "Nombre del vídeo"
+
+#. module: e_design_website
+#. odoo-python
+#: code:addons/addons/e_addons/e_design_website/controllers/video.py:0
+#: code:addons/e_design_website/controllers/video.py:0
+#: model:ir.actions.act_window,name:e_design_website.action_e_design_website_video_content
+#: model:ir.ui.menu,name:e_design_website.e_design_website_video_content_menu
+#: model_terms:ir.ui.view,arch_db:e_design_website.DesignsHome
+msgid "Videos"
+msgstr "Vídeos"
+
+#. module: e_design_website
+#: model_terms:ir.ui.view,arch_db:e_design_website.VideoContent
+msgid "Your browser doesn't support HTML5 video."
+msgstr "Su navegador no soporta vídeo HTML5."
+
+#. module: e_design_website
 #: model_terms:ir.ui.view,arch_db:e_design_website.breadcrumbComponent
 msgid "breadcrumb"
-msgstr "breadcrumb"
+msgstr "migaja de pan"
 
 #. module: e_design_website
 #: model_terms:ir.ui.view,arch_db:e_design_website.DesignsCategories
