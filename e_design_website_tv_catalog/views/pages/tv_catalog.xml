@@ -44,6 +44,15 @@
                          style="height: 6px; z-index: 1060; width: 0%; transition: width 0.1s linear;">
                     </div>
                 </div>
+
+                <div class="tv-next-trigger" id="tvNextTrigger">
+                    <div class="tv-next-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                    </div>
+                </div>  
+                
             </div>
         </t>
     </template>

@@ -39,6 +39,9 @@ publicWidget.registry.TVCatalog = publicWidget.Widget.extend({
         this._startClock();
         await this._fetchFreshData(true);
         this._startAutoRefresh();
+        this.$('#tvNextBtn').on('click', () => {
+            this._goToNextSlide();
+        });
     },
 
     _startClock() {
