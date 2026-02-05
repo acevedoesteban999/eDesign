@@ -13,6 +13,7 @@ export class VideoContentField extends Component {
     static props = {
         ...standardFieldProps,
         filenameField: { type: String, optional: true },
+        previewField: { type: String, optional: true },
     };
 
     setup() {
@@ -167,10 +168,6 @@ export class VideoContentField extends Component {
         this.state.error = null;
     }
 
-    get filename() {
-        return this.props.record.data[this.props.filenameField] || "";
-    }
-
     async _force_write(data){
         if(this.props.record.resId)
             await this.props.record.model.orm.write(
@@ -189,11 +186,29 @@ export class VideoContentField extends Component {
         this.clearVideo();
 
         try {
+            const writeData = {
+                [this.props.name]: data,
+            };
+            if(this.props.filenameField)
+                writeData[this.props.filenameField] = name
+            if(this.props.previewField){
+                const byteCharacters = atob(data);
+                const byteNumbers = new Array(byteCharacters.length);
+                for (let i = 0; i < byteCharacters.length; i++) {
+                    byteNumbers[i] = byteCharacters.charCodeAt(i);
+                }
+                const byteArray = new Uint8Array(byteNumbers);
+                const videoFile = new File([byteArray], name, { type: 'video/mp4' });
+
+                let thumbnailBase64 = null;
+                try {
+                    thumbnailBase64 = await this.generateThumbnail(videoFile);
+                } catch (err) {}
+                if (thumbnailBase64)
+                    writeData[this.props.previewField] = thumbnailBase64;
+            }
             
-            await this._force_write({ 
-                [this.props.name]: data, 
-                [this.props.filenameField]: name 
-            })
+            await this._force_write(writeData)
             await this.loadData();
             
         } catch (error) {
@@ -208,10 +223,16 @@ export class VideoContentField extends Component {
             body: `Are you sure you want to delete the video?`,
             confirm: async () => {
                 this.destroy();
-                await this._force_write({ 
+
+                const writeData = {
                     [this.props.name]: false, 
-                    [this.props.filenameField]: false 
-                });
+                };
+                if (this.props.filenameField)
+                    writeData[this.props.filenameField] = false
+                if (this.props.previewField)
+                    writeData[this.props.previewField] = false
+                
+                await this._force_write(writeData);
                 await this.loadData()
             },
             cancel: () => {},
@@ -223,12 +244,79 @@ export class VideoContentField extends Component {
         this.clearError();
         await this.loadData();
     }
+
+    async generateThumbnail(videoFile) {
+        return new Promise((resolve, reject) => {
+            const videoUrl = URL.createObjectURL(videoFile);
+            const video = document.createElement('video');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            video.src = videoUrl;
+            video.muted = true;
+            video.playsInline = true;
+            video.crossOrigin = 'anonymous';
+            
+            const captureTime = 1;
+            
+            video.onloadedmetadata = () => {
+                const seekTime = video.duration && video.duration < captureTime 
+                    ? video.duration / 2 
+                    : captureTime;
+                video.currentTime = seekTime;
+            };
+            
+            video.onseeked = () => {
+                try {
+                    const maxWidth = 1280;
+                    const maxHeight = 720;
+                    let { videoWidth, videoHeight } = video;
+                    
+                    if (videoWidth > maxWidth || videoHeight > maxHeight) {
+                        const ratio = Math.min(maxWidth / videoWidth, maxHeight / videoHeight);
+                        videoWidth *= ratio;
+                        videoHeight *= ratio;
+                    }
+                    
+                    canvas.width = videoWidth;
+                    canvas.height = videoHeight;
+                    ctx.drawImage(video, 0, 0, videoWidth, videoHeight);
+                    
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+                    
+                    URL.revokeObjectURL(videoUrl);
+                    video.remove();
+                    
+                    const base64Data = dataUrl.split(',')[1];
+                    
+                    resolve(base64Data);
+                    
+                } catch (err) {
+                    URL.revokeObjectURL(videoUrl);
+                    reject(err);
+                }
+            };
+            
+            video.onerror = () => {
+                URL.revokeObjectURL(videoUrl);
+                reject(new Error('Failed to load video for thumbnail'));
+            };
+            
+            setTimeout(() => {
+                URL.revokeObjectURL(videoUrl);
+                reject(new Error('Thumbnail generation timeout'));
+            }, 5000);
+        });
+    }
 }
 
 export const videoContentField = {
     component: VideoContentField,
     supportedTypes: ["binary"],
-    extractProps: ({ attrs }) => ({ filenameField: attrs.filename }),
+    extractProps: ({ attrs }) => ({ 
+        filenameField: attrs.filename , 
+        previewField: attrs.preview ,
+    }),
 };
 
 registry.category("fields").add("video_content", videoContentField);

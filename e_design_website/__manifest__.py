@@ -26,7 +26,6 @@
         "views/product_edesign_category.xml",
         
         "views/video_content_views.xml",
-        "views/video_page_template.xml",
         
         
         "views/menu.xml",

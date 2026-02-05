@@ -27,10 +27,12 @@
                         <page name="video" string="Video">
                             <group>
                                 <field name="filename" readonly="1"/>
+                                <field name="preview" readonly="1"/>
                                 <field name="file_size" widget="file_size" readonly="1"/>
                                 <field name="video_data" 
                                     widget="video_content" 
                                     filename="filename"
+                                    preview="preview"
                                     options="{'accepted_file_extensions': 'video/*'}"/>
                             </group>
                         </page>

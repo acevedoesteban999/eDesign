@@ -1,5 +1,6 @@
 from odoo import models, fields, api
 
+
 class VideoContent(models.Model):
     _name = 'video.content'
     _description = "Video Content"

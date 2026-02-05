@@ -33,7 +33,7 @@
                   <a style="text-decoration: none;" t-attf-href="/edesigns/videos/{{video.id}}">
                       <div class="card h-100">
                           <img t-if="video.preview"
-                              t-attf-src="/web/image/product.template/#{video.id}/preview"
+                              t-attf-src="/web/image/e_design_website.video.content/#{video.id}/preview"
                               class="card-img-top"
                               t-att-alt="video.name"/>
                           <div t-else="" class="card-img-top d-flex align-items-center justify-content-center bg-light">
