@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'ePosMrp',
-    'version': '18.0.1.0.1',
+    'version': '18.0.1.1.0',
     'summary': "Create MRP orders in POS",
     'description':"It allows you to create manufacturing orders for Point of Sale",
     'author': 'acevedoesteban999@gmail.com',

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eMtoPos',
-    'version': '18.0.0.1.0',
+    'version': '18.0.0.1.1',
     'summary': "Integration POS with MRP",
     'description':"It allows you to create manufacturing orders for Point of Sale",
     'author': 'acevedoesteban999@gmail.com',
