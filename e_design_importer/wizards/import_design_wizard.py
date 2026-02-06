@@ -12,8 +12,7 @@ class ImportDesignWizard(models.TransientModel):
     _name = 'import.design.wizard'
     _description = 'Import Design Wizard'
     
-    folder_path = fields.Char(string='Desktop Folder Path', required=True, 
-                              default=lambda self: str(Path.home() / 'Desktop'))
+    folder_path = fields.Char(string='Desktop Folder Path', required=True, default="E:\Esteban\Programacion\Python\Odoo\Odoo18\designs")
     preview_data = fields.Json(string='Preview Data', default=dict)
     state = fields.Selection([
         ('select', 'Select Folder'),
@@ -28,6 +27,57 @@ class ImportDesignWizard(models.TransientModel):
         
         scanner = FolderScanner(self.folder_path)
         data = scanner.scan()
+        
+        data['existing'] = {
+            'categories': [],
+            'subcategories': [],
+            'designs': [],
+            'products': []
+        }
+        
+        for cat in data['categories']:
+            existing = self.env['product.edesign.category'].search([
+                ('default_code', '=', cat['code'])
+            ], limit=1)
+            if existing:
+                data['existing']['categories'].append({
+                    'code': cat['code'],
+                    'name': existing.name,
+                    'id': existing.id
+                })
+        
+        for sub in data['subcategories']:
+            existing = self.env['product.edesign.category'].search([
+                ('default_code', '=', sub['code'])
+            ], limit=1)
+            if existing:
+                data['existing']['subcategories'].append({
+                    'code': sub['code'],
+                    'name': existing.name,
+                    'id': existing.id
+                })
+        
+        for des in data['designs']:
+            existing = self.env['product.edesign'].search([
+                ('default_code', '=', des['code'])
+            ], limit=1)
+            if existing:
+                data['existing']['designs'].append({
+                    'code': des['code'],
+                    'name': existing.name,
+                    'id': existing.id
+                })
+        
+        for prod in data['products']:
+            existing = self.env['product.template'].search([
+                ('default_code', '=', prod['code'])
+            ], limit=1)
+            if existing:
+                data['existing']['products'].append({
+                    'code': prod['code'],
+                    'name': existing.name,
+                    'id': existing.id
+                })
         
         self.write({
             'preview_data': data,

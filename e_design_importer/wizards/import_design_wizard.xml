@@ -9,7 +9,7 @@
                 
                 <sheet>
                     <group invisible="state != 'select'">
-                        <field name="folder_path" placeholder="/home/user/Desktop/designs"/>
+                        <field name="folder_path"/>
                     </group>
                     
                     <div invisible="state != 'preview'">

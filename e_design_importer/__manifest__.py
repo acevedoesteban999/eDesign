@@ -4,13 +4,15 @@
     'category': '',
     'summary': '',
     'depends': ['e_design', 'web'],
-    'data': [
-        'wizards/import_design_wizard.xml',
-        'views/menu_views.xml',
+    "data": [
+        "security/ir.model.access.csv",
+        
+        "views/menu_views.xml",
+        "wizards/import_design_wizard.xml",
     ],
     'assets': {
         'web.assets_backend': [
-            # 'e_design_import/static/src/components/**/*',
+            '/e_design_importer/static/src/components/*/**',
         ],
     },
     'installable': True,
