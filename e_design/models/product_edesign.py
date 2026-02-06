@@ -4,6 +4,7 @@ from ..utils.utils import get_datas_m2m
 
 class ProductEDesign(models.Model):
     _name = 'product.edesign'
+    _description = "ProducteDesign"
     
     name = fields.Char(string="Name",required=True)
     image = fields.Image("Image")

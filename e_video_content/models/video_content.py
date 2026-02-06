@@ -4,6 +4,7 @@ from odoo import models, fields, api
 class VideoContent(models.Model):
     _name = 'video.content'
     _description = "Video Content"
+    
     video_data = fields.Binary("Video File")
     filename = fields.Char("Filename")
     file_size = fields.Char("Size", compute="_compute_file_info", store=True)
