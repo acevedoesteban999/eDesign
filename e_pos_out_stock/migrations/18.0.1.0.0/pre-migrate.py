@@ -1,5 +1,6 @@
 import logging
 from odoo import api, SUPERUSER_ID
+from odoo.tools.sql import  rename_column , column_exists
 
 _logger = logging.getLogger(__name__)
 
@@ -8,33 +9,27 @@ def migrate(cr, version):
     if not version:
         return
     
-    env = api.Environment(cr, SUPERUSER_ID, {})
     _logger.info("Starting ePosOutStock migration: 18.0.1.0.0")
+    env = api.Environment(cr, SUPERUSER_ID, {})
     
-    view = env.ref('e_pos_out_stock.e_pos_out_stock_res_config_settings_view_form_pos_invoice_toggle', raise_if_not_found=False)
+    view = env.ref('e_pos_out_stock.e_pos_out_stock_res_config_settings_view_form_pos_invoice_toggle', 
+                   raise_if_not_found=False)
     if view:
-        _logger.info(f"Deleting inherited view: ID={view.id}, Name={view.name}")
+        _logger.info(f"Deleting view: ID={view.id}, Name={view.name}")
         view.unlink()
-        _logger.info("View deleted successfully")
     else:
-        _logger.info("Inherited view not found")
+        _logger.info("View not found")
     
-    group = env.ref('ePosOutStock.group_hide_out_stock', raise_if_not_found=False)
-    if group:
-        _logger.info(f"Deleting security group: ID={group.id}, Name={group.name}")
-        group.unlink()
-        _logger.info("Security group deleted successfully")
-    else:
-        _logger.info("Security group not found")
-    try:
-        cr.execute("""
-            DELETE FROM ir_model_fields 
-            WHERE name = 'group_hide_out_stock' 
-            AND model = 'res.config.settings'
-        """)
-        
-        if cr.rowcount > 0:
-            _logger.info(f"Deleted {cr.rowcount} obsolete fields")
-    except Exception as e:
-        _logger.info(f"Error: {e}")
+    if column_exists(cr,'pos_category','show_pos_outofstock'):
+        rename_column(cr,'pos_category','show_pos_outofstock','show_pos_outstock')
+    if column_exists(cr,'product_template','show_pos_outofstock'):
+        rename_column(cr,'product_template','show_pos_outofstock','show_pos_outstock')
+    
+    
+    env['ir.model'].invalidate_model()
+    
     _logger.info("Migration Finished")
+    
+    
+    
+    

@@ -1,7 +1,6 @@
 # e_pos_mrp/migrations/18.0.2.0.0/pre-migrate.py
 import logging
 from odoo import api, SUPERUSER_ID
-
 _logger = logging.getLogger(__name__)
 
 XML_IDS = [
@@ -13,22 +12,19 @@ XML_IDS = [
 
 
 def migrate(cr, version):
-    
     if not version:
         return
     _logger.info("Starting e_pos_mrp migration")
     
     env = api.Environment(cr, SUPERUSER_ID, {})
-    
-    views = [(env.ref(xml_id, raise_if_not_found=False),xml_id) for xml_id in XML_IDS ]
-    for view,xml_id in views:
+    for xml_id in XML_IDS:
+        view = env.ref(xml_id, 
+                   raise_if_not_found=False)
         if view:
-            _logger.info(f"Deleting inherited view: ID={view.id}, Name={view.name}")
+            _logger.info(f"Deleting view: ID={view.id}, Name={view.name}")
             view.unlink()
-            _logger.info("View deleted successfully")
         else:
-            _logger.info(f"Inherited view not found: {xml_id}")
-    
+            _logger.info(f"View not found: {xml_id}")
     
     e_mto_pos = env['ir.module.module'].search([
         ('name', '=', 'e_mto_pos'),
@@ -40,29 +36,13 @@ def migrate(cr, version):
         
         cr.execute("""
             UPDATE product_template pt
-            SET can_create_mto_pos = 
-                COALESCE(
-                    (SELECT can_create_pos_mrp 
-                     FROM product_template pt2 
-                     WHERE pt2.id = pt.id),
-                    FALSE
-                )
-            WHERE EXISTS (
-                SELECT 1 FROM product_template pt3 
-                WHERE pt3.id = pt.id 
-                AND pt3.can_create_pos_mrp IS NOT NULL
-            )
+            SET can_create_mto_pos = t.can_create_pos_mrp
+            FROM public.z_temp_pos_mrp_data t
+            WHERE pt.id = t.product_template_id
+            AND t.can_create_pos_mrp IS NOT NULL
         """)
         
-        actualizados = cr.rowcount
-        _logger.info("Migrated %s records directly to e_mto_pos", actualizados)
-        
-        cr.execute("""
-            SELECT COUNT(*) FROM product_template 
-            WHERE can_create_mto_pos = TRUE
-        """)
-        total_mto = cr.fetchone()[0]
-        _logger.info("Total records in e_mto_pos with can_create_mto_pos=TRUE: %s", total_mto)
+        _logger.info("Migrated %s records directly to e_mto_pos", cr.rowcount)
         
         return
     
@@ -92,6 +72,4 @@ def migrate(cr, version):
         SET can_create_pos_mrp = EXCLUDED.can_create_pos_mrp
     """)
     
-    guardados = cr.rowcount
-    _logger.info("Saved %s records to temporary table", guardados)
     _logger.info("Temporary table z_temp_pos_mrp_data created and populated, waiting for e_mto_pos")
