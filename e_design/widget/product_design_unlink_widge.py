@@ -2,6 +2,7 @@ from odoo import models, fields, api , _ , Command
 
 class ProductDesginUnlink(models.TransientModel):
     _name = 'e_design.product_design_unlink_widget'
+    _description = "Design Unlink Widget"
     
     product_id = fields.Many2one('product.template',required=True,readonly=True)
     design_id = fields.Many2one('product.edesign',required=True,readonly=True)
