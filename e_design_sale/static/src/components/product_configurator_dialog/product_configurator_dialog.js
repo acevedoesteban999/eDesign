@@ -44,7 +44,6 @@ patch(ProductConfiguratorDialog.prototype,{
     },
 
     async onConfirm(options) {
-        await super.onConfirm(options)
         if(this.has_design){
             let design = false
         
@@ -56,5 +55,7 @@ patch(ProductConfiguratorDialog.prototype,{
             })
             
         }
+        this.props.record.fromOnConfirm = true
+        await super.onConfirm(options)
     }
 })

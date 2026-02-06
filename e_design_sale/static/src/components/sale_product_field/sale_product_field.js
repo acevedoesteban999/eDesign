@@ -16,10 +16,13 @@ patch(SaleOrderLineProductField.prototype, {
         super._onProductTemplateUpdate()
     },
     async _onProductUpdate() {
-        if(this.props.record.data.is_designable_product && this.from_productTemplateUpdate){
-            this.from_productTemplateUpdate = false;
+        if(this.props.record.data.is_designable_product && this.from_productTemplateUpdate && !this.props.record.fromOnConfirm)
             this._openProductConfigurator()
-        }
+        
+
+        this.props.record.fromOnConfirm = false;
+        this.from_productTemplateUpdate = false;
+
         super._onProductUpdate()
     },
     _getAdditionalDialogProps() {
