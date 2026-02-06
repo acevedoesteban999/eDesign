@@ -31,7 +31,8 @@
                             <field name="attachment_ids" widget="many2many_image"></field>
                         </page>
                         <page name="file" string="File">
-                            <field name="file_id" widget="e_binary_field"></field>
+                            <field name="file_name" invisible="1"></field>
+                            <field name="file_id" widget="e_binary_field" filename='file_name'></field>
                         </page>
                     </notebook>
                 </sheet>

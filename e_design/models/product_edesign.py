@@ -18,7 +18,7 @@ class ProductEDesign(models.Model):
         store=True,
         readonly=False,
     )
-    
+    file_name = fields.Char('Filename')
     file_id = fields.Binary("File")
         
     def _get_base_design_action(self):

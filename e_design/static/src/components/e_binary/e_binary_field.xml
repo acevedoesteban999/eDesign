@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-
     <t t-name="e_design.EBinaryField">
         <t t-if="props.record.data[props.name]">
             <div class="o_binary_field_container d-flex align-items-center btn-link">
@@ -43,8 +42,6 @@
                         </div>
                     </div>
                 </div>
-                
-                
             </div>
         </t>
         <t t-else="">
@@ -58,5 +55,4 @@
             </div>
         </t>
     </t>
-
 </templates>
