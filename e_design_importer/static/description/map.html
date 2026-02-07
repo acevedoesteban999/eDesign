@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estructura de Carpetas - Importación de Diseños</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+        }
+        
+        .tree {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+            overflow-x: auto;
+            border-left: 5px solid #667eea;
+        }
+        
+        .tree-line {
+            display: block;
+            white-space: pre;
+        }
+        
+        .folder-cat { color: #0d6efd; font-weight: bold; }
+        .folder-sub { color: #0dcaf0; font-weight: bold; }
+        .folder-prod { color: #ffc107; font-weight: bold; }
+        .folder-des { color: #198754; font-weight: bold; }
+        .file { color: #6c757d; }
+        .comment { color: #adb5bd; font-style: italic; }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+        
+        tr:hover {
+            background: #e9ecef;
+        }
+        
+        code {
+            background: #e9ecef;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #d63384;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+        
+        .badge-cat { background: #cfe2ff; color: #084298; }
+        .badge-sub { background: #cff4fc; color: #055160; }
+        .badge-prod { background: #fff3cd; color: #664d03; }
+        .badge-des { background: #d1e7dd; color: #0f5132; }
+        
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .file-structure {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .file-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .file-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .file-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+        
+        .required { color: #198754; }
+        .optional { color: #6c757d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📁 Estructura de Carpetas</h1>
+            <p>Guía para la importación de diseños en el sistema</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>🏗️ Jerarquía de Carpetas</h2>
+                <div class="tree">
+<span class="tree-line">ROOT_FOLDER/</span>
+<span class="tree-line">├── <span class="folder-cat">Categoria Principal (CAT-CODIGO_CAT)/</span></span>
+<span class="tree-line">│   ├── <span class="folder-sub">Subcategoria (SUB-CODIGO_SUB)/</span></span>
+<span class="tree-line">│   │   ├── <span class="folder-prod">Producto (PROD-CODIGO_PROD)/</span></span>
+<span class="tree-line">│   │   │   └── <span class="folder-des">Diseño (DES-CODIGO_DES)/</span></span>
+<span class="tree-line">│   │   │       ├── <span class="file">image.png</span> <span class="comment">← Imagen principal</span></span>
+<span class="tree-line">│   │   │       ├── <span class="file">file.pdf</span> <span class="comment">← Archivo principal</span></span>
+<span class="tree-line">│   │   │       └── <span class="file">attachments/</span> <span class="comment">← Archivos adicionales</span></span>
+<span class="tree-line">│   │   │           ├── <span class="file">doc1.pdf</span> <span class="comment">(&lt; 100MB)</span></span>
+<span class="tree-line">│   │   │           └── <span class="file">doc2.jpg</span> <span class="comment">(&lt; 100MB)</span></span>
+<span class="tree-line">│   │   └── <span class="folder-des">Diseño Suelto (DIS-CODIGO_DES)/</span></span>
+<span class="tree-line">│   ├── <span class="folder-prod">Producto Directo (PROD-CODIGO_PROD)/</span></span>
+<span class="tree-line">│   │   └── <span class="folder-des">Diseño (DES-CODIGO_DES)/</span></span>
+<span class="tree-line">│   └── <span class="folder-des">Diseño Directo (DES-CODIGO_DES)/</span></span>
+<span class="tree-line">├── <span class="folder-prod">Producto Suelto (PROD-CODIGO_PROD)/</span></span>
+<span class="tree-line">│   └── <span class="folder-des">Diseño (DES-CODIGO_DES)/</span></span>
+<span class="tree-line">└── <span class="folder-des">Diseño Suelto (DES-CODIGO_DES)/</span></span>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🏷️ Patrones de Nombres Válidos</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Patrón</th>
+                            <th>Ejemplo</th>
+                            <th>Badge</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Categoría</strong></td>
+                            <td><code>Nombre (CAT-CODIGO)</code></td>
+                            <td>Ropa Deportiva (CAT-ROPDEP)</td>
+                            <td><span class="badge badge-cat">CAT</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Subcategoría</strong></td>
+                            <td><code>Nombre (SUB-CODIGO)</code></td>
+                            <td>Camisetas (SUB-CAMIS)</td>
+                            <td><span class="badge badge-sub">SUB</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Producto</strong></td>
+                            <td><code>Nombre (PROD-CODIGO)</code></td>
+                            <td>Camiseta Azul (PROD-CAZUL)</td>
+                            <td><span class="badge badge-prod">PROD</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Diseño</strong></td>
+                            <td><code>Nombre (DES-CODIGO)</code> o <code>Nombre (DIS-CODIGO)</code></td>
+                            <td>Logo Frontal (DES-LOGFRT)</td>
+                            <td><span class="badge badge-des">DES/DIS</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>📄 Archivos dentro de Diseños</h2>
+                <div class="file-structure">
+                    <div class="file-card">
+                        <div class="file-icon">🖼️</div>
+                        <h3>image.png</h3>
+                        <span class="badge optional">OPCIONAL</span>
+                        <p>Imagen principal del diseño</p>
+                    </div>
+                    <div class="file-card">
+                        <div class="file-icon">📎</div>
+                        <h3>file.*</h3>
+                        <span class="badge optional">OPCIONAL</span>
+                        <p>Archivo principal (cualquier extensión)</p>
+                    </div>
+                    <div class="file-card">
+                        <div class="file-icon">📁</div>
+                        <h3>attachments/</h3>
+                        <span class="badge optional">OPCIONAL</span>
+                        <p>Carpeta con archivos adicionales<br>(máx 100MB cada uno)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Tip:</strong> Los códigos deben ser únicos dentro de cada tipo. El sistema detecta automáticamente si una categoría, producto o diseño ya existe.
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Importante:</strong> Los productos que no existan en la base de datos serán ignorados durante la importación, pero sus diseños se crearán como "diseños sueltos" vinculados a la categoría correspondiente.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

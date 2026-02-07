@@ -9,9 +9,9 @@ patch(PosOrderline.prototype,{
         let data = super.getDisplayData()
         return {
             ...data,
-            design_id: this.design_id ? {
-                default_code: this.design_id.default_code,
-            } : false
+            design_id:  {
+                default_code: this.design_id ? this.design_id.default_code : '',
+            }
         }
     }
 })

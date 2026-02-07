@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem 
+        id="menu_edesign_import" 
+        name="Design Importer" 
+        parent="e_design.menu_design_root" 
+        action="action_import_design_wizard" 
+        sequence="110"/>
+</odoo>

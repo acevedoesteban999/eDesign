@@ -1,0 +1,2 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_import_design_wizard_manager,import_design_wizard_manager,model_import_design_wizard,e_design.group_edesign_manager,1,1,1,1

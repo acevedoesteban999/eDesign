@@ -20,7 +20,16 @@ class ProductEDesign(models.Model):
     )
     file_name = fields.Char('Filename')
     file_id = fields.Binary("File")
-        
+    
+    @api.constrains('default_code')
+    def check_default_code(self):
+        for rec in self:
+            if self.search([
+                ('default_code', '=', rec.default_code),
+                ('id', '!=', rec.id)
+            ]):
+                raise ValidationError("Default Code must be unique!")
+    
     def _get_base_design_action(self):
         return {
             'type': 'ir.actions.act_window',
@@ -56,13 +65,6 @@ class ProductEDesign(models.Model):
                 'views':[(self.env.ref('e_design.product_design_attach_view_form').id,'form')],
                 'context': context
             } 
-        # elif method == 'unlink':
-        #     return{
-        #         **self._get_base_design_action(),
-        #         'res_model': 'e_design.product_design_unlink_widget',   
-        #         'views':[(self.env.ref('e_design.product_design_unlink_view_form').id,'form')],
-        #         'context': context
-        #     } 
             
     def _compute_display_name(self):
         for rec in self:

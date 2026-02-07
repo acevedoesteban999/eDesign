@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_import_design_wizard_form" model="ir.ui.view">
+        <field name="name">import.design.wizard.form</field>
+        <field name="model">import.design.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Designs">
+                <field name="state" invisible="1"/>
+                
+                <sheet>
+                    <group invisible="state != 'select'">
+                        <field name="folder_path"/>
+                    </group>
+                    
+                    <div invisible="state != 'preview'">
+                        <field name="preview_data" widget="import_preview" nolabel="1"/>
+                    </div>
+                    
+                </sheet>
+                
+                <footer>
+                    <button name="action_scan_folder" string="Scan Folder" type="object" class="btn-primary" invisible="state != 'select'"/>
+                    <button name="action_confirm_import" string="Confirm Import" type="object" class="btn-primary" invisible="state != 'preview'"/>
+                    <button name="action_back" string="Back" type="object" class="btn-secondary" invisible="state != 'preview'"/>
+                    <button string="Close" class="btn-primary" special="cancel" invisible="state != 'done'"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" invisible="state == 'done'"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_import_design_wizard" model="ir.actions.act_window">
+        <field name="name">Import Designs</field>
+        <field name="res_model">import.design.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

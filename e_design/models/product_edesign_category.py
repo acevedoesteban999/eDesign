@@ -13,6 +13,7 @@ class ProductDesignCategory(models.Model):
 
     name = fields.Char('Name')
     image = fields.Image("Image")
+    default_code = fields.Char('Internal Reference')
     parent_id = fields.Many2one('product.edesign.category')
     design_ids = fields.One2many('product.edesign','category_id',"Designs",readonly=True)
     design_counter = fields.Integer("Designs Counter",compute="_compute_design_counter")
@@ -30,3 +31,12 @@ class ProductDesignCategory(models.Model):
     def _compute_design_counter(self):
         for rec in self:
             rec.design_counter = len(rec.design_ids)
+            
+    @api.constrains('default_code')
+    def check_default_code(self):
+        for rec in self:
+            if self.search([
+                ('default_code', '=', rec.default_code),
+                ('id', '!=', rec.id)
+            ]):
+                raise ValidationError("Default Code must be unique!")

@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="e_design_import.ImportPreview">
+        <div class="import-preview-container container-fluid p-4">
+            <div class="stats-row mb-4">
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <div class="card stat-card h-100 border-0 border-top border-primary border-5">
+                            <div class="card-body text-center">
+                                <div class="d-flex align-items-center justify-content-center mb-2">
+                                    <i class="bi bi-folder-fill text-primary fs-1"></i>
+                                </div>
+                                <h2 class="text-primary mb-1" t-esc="stats.categories"/>
+                                <small class="text-muted text-uppercase fw-semibold">Categories</small>
+                                <div class="mt-3" t-if="stats.newCategories > 0">
+                                    <span class="badge bg-primary rounded-pill px-3 py-2 text-light">
+                                        <i class="bi bi-plus-circle me-1"></i>
+                                        <t t-esc="stats.newCategories"/> New
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card h-100">
+                            <div class="card-body text-center border-0 border-top border-info border-5">
+                                <div class="d-flex align-items-center justify-content-center mb-2">
+                                    <i class="bi bi-folder-symlink-fill text-info fs-1"></i>
+                                </div>
+                                <h2 class="text-info mb-1" t-esc="stats.subcategories"/>
+                                <small class="text-muted text-uppercase fw-semibold">Sub-Categories</small>
+                                <div class="mt-3" t-if="stats.newSubcategories > 0">
+                                    <span class="badge bg-info rounded-pill px-3 py-2 text-light">
+                                        <i class="bi bi-plus-circle me-1"></i>
+                                        <t t-esc="stats.newSubcategories"/> New
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card h-100 border-0 border-top border-success border-5">
+                            <div class="card-body text-center">
+                                <div class="d-flex align-items-center justify-content-center mb-2">
+                                    <i class="bi bi-palette-fill text-success fs-1"></i>
+                                </div>
+                                <h2 class="text-success mb-1" t-esc="stats.designs"/>
+                                <small class="text-muted text-uppercase fw-semibold">Designs</small>
+                                <div class="mt-3" t-if="stats.newDesigns > 0">
+                                    <span class="badge bg-success rounded-pill px-3 py-2 text-light">
+                                        <i class="bi bi-plus-circle me-1"></i>
+                                        <t t-esc="stats.newDesigns"/> New
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stat-card h-100 border-0 border-top border-warning border-5">
+                            <div class="card-body text-center">
+                                <div class="d-flex align-items-center justify-content-center mb-2">
+                                    <i class="bi bi-box-seam-fill text-warning fs-1"></i>
+                                </div>
+                                <h2 class="text-warning mb-1" t-esc="stats.products"/>
+                                <small class="text-muted text-uppercase fw-semibold">Products</small>
+                                <div class="mt-3" t-if="stats.newProducts > 0">
+                                    <span class="badge bg-danger rounded-pill px-3 py-2 text-light">
+                                        <i class="bi bi-plus-circle me-1"></i>
+                                        <t t-esc="stats.newProducts"/> not found
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tree-container card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span class="fw-bold text-secondary">
+                        <i class="bi bi-diagram-3-fill me-2"></i>
+                        Structure Preview
+                    </span>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-secondary" t-on-click="expandAll">
+                            <i class="bi bi-arrows-expand me-1"></i> Expand All
+                        </button>
+                        <button class="btn btn-outline-secondary" t-on-click="collapseAll">
+                            <i class="bi bi-arrows-collapse me-1"></i> Collapse All
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="category-list">
+                        <t t-foreach="previewData.categories" t-as="category" t-key="category.code">
+                            <t t-call="e_design_import.CategoryNode"/>
+                        </t>
+                        <t t-if="previewData.products?.length">
+                            <div class="mt-3 border-top pt-3">
+                                <h6 class="text-muted small text-uppercase fw-bold mb-2 ms-3">
+                                    <i class="bi bi-box-seam me-1"></i>Standalone Products
+                                </h6>
+                                <t t-foreach="previewData.products" t-as="product" t-key="product.code">
+                                    <t t-call="e_design_import.ProductNode"/>
+                                </t>
+                            </div>
+                        </t>
+                        <t t-if="previewData.designs?.length">
+                            <div class="mt-3 border-top pt-3">
+                                <h6 class="text-muted small text-uppercase fw-bold mb-2 ms-3">
+                                    <i class="bi bi-palette me-1"></i>Standalone Designs
+                                </h6>
+                                <t t-foreach="previewData.designs" t-as="design" t-key="design.code">
+                                    <t t-call="e_design_import.DesignNode"/>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="e_design_import.CategoryNode">
+        <div class="category-item">
+            <div class="item-header d-flex align-items-center p-3 mb-2 shadow-sm bg-primary-subtle border-primary"
+                 
+                 t-on-click="() => this.toggleExpand(category.code)">
+                <button class="btn btn-sm btn-link text-decoration-none me-2 p-1">
+                    <i t-att-class="isExpanded(category.code) ? 'bi bi-chevron-down fs-5' : 'bi bi-chevron-right fs-5'"/>
+                </button>
+                <i class="bi bi-folder-fill text-primary fs-5 me-3"/>
+                <div class="flex-grow-1">
+                    <span class="fw-bold fs-6" t-esc="category.name"/>
+                    <span class="badge bg-secondary ms-2" t-esc="category.code"/>
+                </div>
+                <span t-if="!category.id" class="badge bg-secondary rounded-pill me-2">
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i>New
+                </span>
+                <span class="badge bg-primary text-light border rounded-pill">
+                    <t t-esc="(category.subcategories?.length || 0) + (category.designs?.length || 0) + (category.products?.length || 0)"/> items
+                </span>
+            </div>
+            
+            <div t-if="isExpanded(category.code)" class="ms-4 ps-2 border-start border-2 border-light">
+                <t t-foreach="category.subcategories" t-as="sub" t-key="sub.code">
+                    <t t-call="e_design_import.SubcategoryNode"/>
+                </t>
+                <t t-foreach="category.products" t-as="product" t-key="product.code">
+                    <t t-call="e_design_import.ProductNode"/>
+                </t>
+                <t t-foreach="category.designs" t-as="design" t-key="design.code">
+                    <t t-call="e_design_import.DesignNode"/>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="e_design_import.SubcategoryNode">
+        <div class="subcategory-item mb-2">
+            <div class="item-header d-flex align-items-center p-2 mb-2 shadow-sm bg-info-subtle border-info"
+                 t-on-click.stop="() => this.toggleExpand(sub.code)">
+                <button class="btn btn-sm btn-link text-decoration-none me-2 p-1">
+                    <i t-att-class="isExpanded(sub.code) ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"/>
+                </button>
+                <i class="bi bi-folder-fill text-info fs-5 me-2"/>
+                <div class="flex-grow-1">
+                    <span class="fw-semibold" t-esc="sub.name"/>
+                    <span class="badge bg-secondary ms-2" t-esc="sub.code"/>
+                </div>
+                <span t-if="!sub.id" class="badge bg-secondary rounded-pill me-2">
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i>New
+                </span>
+                <span class="badge bg-info text-light border rounded-pill">
+                    <t t-esc="(sub.designs?.length || 0) + (sub.products?.length || 0)"/> items
+                </span>
+            </div>
+            
+            <div t-if="isExpanded(sub.code)" class="ms-4 mt-2">
+                <t t-foreach="sub.products" t-as="product" t-key="product.code">
+                    <t t-call="e_design_import.ProductNode"/>
+                </t>
+                <t t-foreach="sub.designs" t-as="design" t-key="design.code">
+                    <t t-call="e_design_import.DesignNode"/>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="e_design_import.ProductNode">
+        <div class="product-item mb-2">
+            <div class="item-header d-flex align-items-center p-2 shadow-sm"
+                 t-att-class="product.id ? 'bg-warning-subtle border-warning' : 'bg-danger-subtle border-danger'"
+                 t-on-click.stop="() => this.toggleExpand(product.code)">
+                <button t-if="product.designs?.length" class="btn btn-sm btn-link text-decoration-none me-2 p-1">
+                    <i t-att-class="isExpanded(product.code) ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"/>
+                </button>
+                <span t-else="" class="me-2" style="width: 24px;"></span>
+                <i t-att-class="product.id ? 'bi bi-box-seam-fill text-warning fs-5 me-3' : 'bi bi-box-seam text-danger fs-5 me-3'"/>
+                <div class="flex-grow-1">
+                    <span class="fw-medium" t-esc="product.name"/>
+                    <span class="badge bg-secondary ms-2" t-esc="product.code"/>
+                </div>
+                <span 
+                    class="badge border rounded-pill"
+                    t-att-class="!product.id?'bg-danger text-light':'bg-warning text-dark'"
+                    >
+                    <t t-esc="(product.designs?.length || 0)"/> designs
+                </span>
+            </div>
+            
+            <div t-if="isExpanded(product.code) and product.designs?.length" class="ms-4 mt-1">
+                <t t-foreach="product.designs" t-as="design" t-key="design.code">
+                    <t t-call="e_design_import.DesignNode">
+                        <t t-set="product_no_existing" t-value="!product.id"/>
+                    </t>
+                </t>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="e_design_import.DesignNode">
+        <div class="design-item d-flex align-items-center p-2 mb-1 shadow-sm"
+             t-att-class="product_no_existing ? 'bg-danger-subtle border-danger':'bg-success-subtle border-success' ">
+            <i t-att-class="product_no_existing ? 'bi bi-palette text-danger fs-5 me-3 ms-2' : 'bi bi-palette-fill text-success fs-5 me-3 ms-2'"/>
+            <div class="flex-grow-1">
+                <span class="fw-medium" t-esc="design.name"/>
+                <span class="badge bg-secondary ms-2" t-esc="design.code"/>
+            </div>
+            
+            <div class="file-indicators d-flex gap-2 me-3">
+                <span t-if="design.image" class="badge bg-info text-white" title="Has main image">
+                    <i class="bi bi-image-fill me-1"></i>IMG
+                </span>
+                <span t-if="design.file" class="badge bg-warning text-dark" title="Has document file">
+                    <i class="bi bi-file-earmark-fill me-1"></i>FILE
+                </span>
+                <span t-if="design.attachments?.length" class="badge bg-secondary" t-att-title="design.attachments.length + ' attachment(s)'">
+                    <i class="bi bi-paperclip me-1"></i>
+                    <t t-esc="design.attachments.length"/>
+                </span>
+            </div>
+            <t t-if="!product_no_existing">
+                <span t-if="!design.id " class="badge bg-secondary rounded-pill">
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i>New
+                </span>
+            </t>
+        </div>
+    </t>
+</templates>

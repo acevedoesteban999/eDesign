@@ -8,7 +8,7 @@
        </xpath>
 
        <xpath expr="//div[hasclass('product-price')]" position="before">
-            <span t-if="this.props.line.design_id" class="me-2">
+            <span t-if="props.line.design_id?.default_code" class="me-2">
                 <i class="fa fa-tint" aria-label="Design" title="Design"/>
             </span>
         </xpath>

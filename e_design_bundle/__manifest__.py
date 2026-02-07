@@ -23,7 +23,7 @@
         "views/base_views.xml"
     ],
     'application': True,
-    'installable': False,
+    'installable': True,
     'auto_install': False,
     'license': 'LGPL-3',
 }

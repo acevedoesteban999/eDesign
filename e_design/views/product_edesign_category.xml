@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
+                <field name="default_code"></field>
                 <field name="parent_id"></field>
             </list>
         </field>
@@ -33,6 +34,7 @@
                         </h1>
                     </div>
                     <group>
+                        <field name="default_code" required="1"/>
                         <field name="parent_id" domain="[('parent_id','=',False)]" readonly="subcategories_ids"></field>
                         <field name="subcategories_ids" widget="many2many_tags" invisible="parent_id"></field>
                         <field name="design_ids" widget="many2many_tags" invisible="not design_ids"></field>
