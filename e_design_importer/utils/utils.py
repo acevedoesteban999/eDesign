@@ -29,18 +29,11 @@ class FolderScanner:
             if cat_match:
                 category = self._process_category(item, cat_match)
                 categories.append(category)
+            elif not self._has_special_marker(item.name):
+                flattened = self._scan_categories(item)
+                categories.extend(flattened)
         
         return categories
-    
-    def _process_category(self, cat_path, cat_match):
-        return {
-            'name': cat_match.group(1).strip(),
-            'code': cat_match.group(2).strip(),
-            'path': str(cat_path),
-            'subcategories': self._scan_subcategories(cat_path),
-            'products': self._scan_products(cat_path),
-            'designs': self._scan_designs(cat_path)
-        }
     
     def _scan_subcategories(self, path):
         subcategories = []
@@ -59,6 +52,9 @@ class FolderScanner:
                     'designs': self._scan_designs(item)
                 }
                 subcategories.append(subcategory)
+            elif not self._has_special_marker(item.name):
+                flattened = self._scan_subcategories(item)
+                subcategories.extend(flattened)
         
         return subcategories
     
@@ -78,9 +74,11 @@ class FolderScanner:
                     'designs': self._scan_designs(item)
                 }
                 products.append(product)
+            elif not self._has_special_marker(item.name):
+                flattened = self._scan_products(item)
+                products.extend(flattened)
         
         return products
-    
     
     def _scan_designs(self, path):
         designs = []
@@ -93,8 +91,29 @@ class FolderScanner:
             if des_match:
                 design = self._process_design(item, des_match)
                 designs.append(design)
+            elif not self._has_special_marker(item.name):
+                flattened = self._scan_designs(item)
+                designs.extend(flattened)
         
         return designs
+    
+    def _has_special_marker(self, folder_name):
+        return any([
+            self.cat_pattern.match(folder_name),
+            self.sub_pattern.match(folder_name),
+            self.prod_pattern.match(folder_name),
+            self.des_pattern.match(folder_name),
+        ])
+    
+    def _process_category(self, cat_path, cat_match):
+        return {
+            'name': cat_match.group(1).strip(),
+            'code': cat_match.group(2).strip(),
+            'path': str(cat_path),
+            'subcategories': self._scan_subcategories(cat_path),
+            'products': self._scan_products(cat_path),
+            'designs': self._scan_designs(cat_path)
+        }
     
     def _process_design(self, des_path, des_match):
         design = {
@@ -146,4 +165,3 @@ class FolderScanner:
         if not path or not os.path.exists(path):
             return None
         return os.path.basename(path)
-        
