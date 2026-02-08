@@ -78,11 +78,6 @@ class ImportDesignWizard(models.TransientModel):
                 'products': [],
                 'designs': []
             }
-            if existing_sub:
-                result['existing'] = {
-                    'name': existing_sub.name,
-                    'id': existing_sub.id
-                }
               
             for prod in sub.get('products', []):
                 checked_prod = check_product(prod)
@@ -105,17 +100,12 @@ class ImportDesignWizard(models.TransientModel):
                 'name': cat['name'],
                 'code': cat['code'],
                 'path': cat['path'],
+                'id': existing_cat.id, 
                 'subcategories': [],
                 'products': [],
                 'designs': []
             }
             
-            if existing_cat:
-                result['existing'] = {
-                    'name': existing_cat.name,
-                    'id': existing_cat.id
-                }
-                
             for sub in cat.get('subcategories', []):
                 checked_sub = check_subcategory(sub)
                 if checked_sub:
