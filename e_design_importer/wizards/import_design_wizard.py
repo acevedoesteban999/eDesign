@@ -42,6 +42,8 @@ class ImportDesignWizard(models.TransientModel):
                 'attachments': des.get('attachments', []),
                 'id': existing_des.id
             }
+            counters['designs']['found'] += 1
+            counters['subcategories']['new'] += 1 if not existing_des else 0
             return result
         
         def check_product(prod):
@@ -58,13 +60,22 @@ class ImportDesignWizard(models.TransientModel):
                 'id': existing_prod.id,
                 'designs': []
             }
+            counters['products']['found'] += 1
+            
+            if not existing_prod:
+                result['error'] = True
+                result['error_msg'] = _("Product not Found: %s",prod['code'])
+                counters['products']['error'] += 1
+            
+            # counters['subcategories']['new'] += 1 if not existing_prod else 0
+            
             for des in prod.get('designs', []):
                 checked_des = check_design(des)
                 if checked_des:
                     result['designs'].append(checked_des)
             return result
         
-        def check_subcategory(sub):
+        def check_subcategory(sub, parent_cat_code=None):
             if not sub:
                 return None
             existing_sub = self.env['product.edesign.category'].search([
@@ -75,10 +86,24 @@ class ImportDesignWizard(models.TransientModel):
                 'code': sub['code'],
                 'path': sub['path'],
                 'id': existing_sub.id,
+                'parent_cat_code': parent_cat_code,
                 'products': [],
-                'designs': []
+                'designs': [],
             }
-              
+            counters['subcategories']['found'] += 1
+            
+            if not parent_cat_code:
+                result['error'] = True
+                result['error_msg'] = _('Subcategory is not inside a valid. Dont have a category parent')
+                counters['subcategories']['error'] += 1
+                
+            if existing_sub and parent_cat_code and existing_sub.parent_id and existing_sub.parent_id.default_code != parent_cat_code:
+                result['error'] = True
+                result['error_msg'] = _('Subcategory does not belong to this category (belongs to: %s)') % existing_sub.parent_id.name
+        
+            counters['subcategories']['new'] += 1 if not existing_sub and not result.get('error') else 0
+            
+            
             for prod in sub.get('products', []):
                 checked_prod = check_product(prod)
                 if checked_prod:
@@ -103,11 +128,19 @@ class ImportDesignWizard(models.TransientModel):
                 'id': existing_cat.id, 
                 'subcategories': [],
                 'products': [],
-                'designs': []
+                'designs': [],
             }
+            counters['categories']['found'] += 1
             
+            if existing_cat and existing_cat.parent_id:
+                result['error'] = True
+                result['error_msg'] = _('Category is a subcategory in the system (belongs to: %s)') % existing_cat.parent_id.name
+                counters['categories']['error'] += 1
+                
+            counters['categories']['new'] += 1 if not existing_cat and not result.get('error') else 0
+                 
             for sub in cat.get('subcategories', []):
-                checked_sub = check_subcategory(sub)
+                checked_sub = check_subcategory(sub, cat['code'])
                 if checked_sub:
                     result['subcategories'].append(checked_sub)
             for prod in cat.get('products', []):
@@ -121,6 +154,44 @@ class ImportDesignWizard(models.TransientModel):
             
             return result
         
+        counters = {
+            'categories':{
+                'color': 'primary',
+                'title': _('Categories'),
+                'color_text': 'light',
+                
+                'found': 0,
+                'new': 0,
+                'error': 0,
+            },
+            'subcategories':{
+                'color': 'info',
+                "title": _('Sub-Categories'),
+                'color_text': 'light',
+                
+                'found': 0,
+                'new': 0,
+                'error': 0,
+            },
+            'products':{
+                'color': 'warning',
+                'title': 'Products',
+                'color_text': 'dark',
+                
+                'found': 0,
+                'new': 0,
+                'error': 0,
+            },
+            'designs':{
+                'color': 'success',
+                'title': 'Designs',
+                'color_text': 'light',
+                
+                'found': 0,
+                'new': 0,
+                'error': 0,
+            },
+        }
         preview_data = {
             'categories': [],
             'products': [],
@@ -144,7 +215,10 @@ class ImportDesignWizard(models.TransientModel):
         
         
         self.write({
-            'preview_data': preview_data,
+            'preview_data': {
+                'preview_data':preview_data,
+                'counters': counters,
+                },
             'state': 'preview'
         })
         

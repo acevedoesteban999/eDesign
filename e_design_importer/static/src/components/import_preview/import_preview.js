@@ -17,86 +17,11 @@ export class ImportPreview extends Component {
     }
 
     get previewData() {
-        const value = this.props.record.data[this.props.name];
-        return value || {
-            categories: [],
-            products: [],
-            designs: []
-        };
+        return this.props.record.data[this.props.name].preview_data;
     }
 
-    get stats() {
-        const data = this.previewData;
-        let categories = 0, subcategories = 0, products = 0, designs = 0;
-        let newCategories = 0, newSubcategories = 0, newProducts = 0, newDesigns = 0;
-
-        const countCategory = (cat) => {
-            categories++;
-            if (!cat.id) newCategories++;
-            
-            (cat.subcategories || []).forEach(sub => {
-                subcategories++;
-                if (!sub.id) newSubcategories++;
-                
-                (sub.products || []).forEach(prod => {
-                    products++;
-                    if (!prod.id) newProducts++;
-                    
-                    (prod.designs || []).forEach(des => {
-                        designs++;
-                        if (!des.id) newDesigns++;
-                    });
-                });
-                
-                (sub.designs || []).forEach(des => {
-                    designs++;
-                    if (!des.id) newDesigns++;
-                });
-            });
-            
-            (cat.products || []).forEach(prod => {
-                products++;
-                if (!prod.id) newProducts++;
-                
-                (prod.designs || []).forEach(des => {
-                    designs++;
-                    if (!des.id) newDesigns++;
-                });
-            });
-            
-            (cat.designs || []).forEach(des => {
-                designs++;
-                if (!des.id) newDesigns++;
-            });
-        };
-
-        (data.categories || []).forEach(countCategory);
-        
-        (data.products || []).forEach(prod => {
-            products++;
-            if (!prod.id) newProducts++;
-            
-            (prod.designs || []).forEach(des => {
-                designs++;
-                if (!des.id) newDesigns++;
-            });
-        });
-        
-        (data.designs || []).forEach(des => {
-            designs++;
-            if (!des.id) newDesigns++;
-        });
-
-        return {
-            categories,
-            subcategories,
-            products,
-            designs,
-            newCategories,
-            newSubcategories,
-            newProducts,
-            newDesigns
-        };
+    get counters() {
+        return this.props.record.data[this.props.name].counters;
     }
 
     getAllCodes() {
