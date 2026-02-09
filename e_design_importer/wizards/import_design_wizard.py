@@ -43,7 +43,7 @@ class ImportDesignWizard(models.TransientModel):
                 'id': existing_des.id
             }
             counters['designs']['found'] += 1
-            counters['subcategories']['new'] += 1 if not existing_des else 0
+            counters['designs']['new'] += 1 if not existing_des else 0
             return result
         
         def check_product(prod):
@@ -227,7 +227,7 @@ class ImportDesignWizard(models.TransientModel):
     def action_confirm_import(self):
         self.ensure_one()
         
-        preview_data = self.preview_data
+        preview_data = self.preview_data.get('preview_data')
         
         created_designs = 0
         

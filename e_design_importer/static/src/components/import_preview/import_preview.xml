@@ -41,7 +41,7 @@
                     <span class="badge bg-secondary ms-2" t-esc="node.code"/>
                 </div>
 
-                <t t-if="!no_show_new_badge and !node.id">
+                <t t-if="!node.id">
                     <span class="badge bg-secondary rounded-pill me-2">
                         <i class="bi bi-exclamation-triangle-fill me-1"></i>New
                     </span>
@@ -103,7 +103,6 @@
             <t t-set="padding" t-value="2"/>
             <t t-set="clickable" t-value="false"/>
             <t t-set="has_children" t-value="false"/>
-            <t t-set="no_show_new_badge" t-value="true"/>
             <t t-set="count_badge" t-value="false"/>
             <t t-set="children_render" t-value="false"/>
             <t t-set="extra_info_render">

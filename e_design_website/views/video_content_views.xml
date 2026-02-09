@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='filename']" position="before">
                 <field name="name"/>
-                <field name="ewebsite_published" widget="boolean_toggle"/>
+                <field name="ewebsite_published"/>
             </xpath>
         </field>
     </record>
