@@ -69,10 +69,9 @@
     <t t-name="e_design_import.ProductNode">
         <t t-call="e_design_import.Node">
             <t t-set="node" t-value="node"/>
-            <!-- has_error incluye error propogado para el fondo, pero el badge solo ve node.error -->
             <t t-set="has_error" t-value="parent_error or node.error"/>
-            <t t-set="color" t-value="node.id ? (has_error ? 'danger' : 'warning') : 'danger'"/>
-            <t t-set="color_text" t-value="node.id ? (has_error ? 'light' : 'dark') : 'light'"/>
+            <t t-set="color" t-value="'warning'"/>
+            <t t-set="color_text" t-value="'dark'"/>
             <t t-set="node_class" t-value="'product-item mb-2'"/>
             <t t-set="padding" t-value="2"/>
             <t t-set="title_class" t-value="'fw-medium'"/>

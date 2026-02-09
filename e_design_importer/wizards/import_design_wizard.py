@@ -92,12 +92,12 @@ class ImportDesignWizard(models.TransientModel):
             }
             counters['subcategories']['found'] += 1
             
-            if not parent_cat_code:
+            if existing_sub and not existing_sub.parent_id:
                 result['error'] = True
                 result['error_msg'] = _('Subcategory is not inside a valid. Dont have a category parent')
                 counters['subcategories']['error'] += 1
                 
-            if existing_sub and parent_cat_code and existing_sub.parent_id and existing_sub.parent_id.default_code != parent_cat_code:
+            elif existing_sub and existing_sub.parent_id.default_code != parent_cat_code:
                 result['error'] = True
                 result['error_msg'] = _('Subcategory does not belong to this category (belongs to: %s)') % existing_sub.parent_id.name
         
@@ -232,6 +232,8 @@ class ImportDesignWizard(models.TransientModel):
         created_designs = 0
         
         def process_category(cat_data):
+            if cat_data.get('error'):
+                return
             cat_id = cat_data.get('id',False)
                     
             if not cat_id:
@@ -250,13 +252,14 @@ class ImportDesignWizard(models.TransientModel):
             for prod_data in cat_data.get('products', []):
                 process_product(prod_data,cat_id)
             
-            return cat_id
         
         def create_design(design_data, category_id = False):
+            if design_data.get('error'):
+                return
             nonlocal created_designs
             design_id = design_data.get('id',False)
             if design_id:
-                return design_id
+                return 
             
             
             image_data = FolderScanner.get_files_data(design_data.get('image'))
@@ -284,9 +287,11 @@ class ImportDesignWizard(models.TransientModel):
                 'attachment_ids': [(6, 0, attachment_ids)] if attachment_ids else False
             }).id
             created_designs += 1
-            return design_id
         
         def process_subcategory(sub_data, category_id = False):
+            if sub_data.get('error'):
+                return
+        
             sub_id = sub_data.get('id',False)
             if not sub_id:
                 sub_id = self.env['product.edesign.category'].create({
@@ -301,14 +306,16 @@ class ImportDesignWizard(models.TransientModel):
             for prod_data in sub_data.get('products', []):
                 process_product(prod_data,sub_id)
             
-            return sub_id
         
         def process_product(prod_data , category_id = False):
+            if prod_data.get('error'):
+                return
+            
             product_id = prod_data.get('id',False)
             if not product_id:
                 for des_data in prod_data.get('designs', []):
                     create_design(des_data, category_id)
-                return None
+                return 
             product = self.env['product.template'].browse(product_id)
             design_ids = []
             for des_data in prod_data.get('designs', []):
@@ -319,7 +326,6 @@ class ImportDesignWizard(models.TransientModel):
                 'design_ids': [Command.link(design_id) for design_id in design_ids]
             })
             
-            return product_id
         
         for cat_data in preview_data.get('categories', []):
             process_category(cat_data)
