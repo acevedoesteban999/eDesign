@@ -6,10 +6,7 @@ import base64
 class FolderScanner:
     def __init__(self, root_path: str):
         self.root_path = Path(root_path)
-        self.cat_pattern = re.compile(r'^(.*?)\s*\(CAT-(.+?)\)$')
-        self.sub_pattern = re.compile(r'^(.*?)\s*\(SUB-(.+?)\)$')
-        self.prod_pattern = re.compile(r'^(.*?)\s*\(PROD-(.+?)\)$')
-        self.des_pattern = re.compile(r'^(.*?)\s*\((?:DES|DIS)-(.+?)\)$')
+        self.marker_pattern = re.compile(r'^(.*?)\s*\((CAT|SUB|PROD|DES|DIS)-(.+?)\)\s*(.*?)$')
     
     def scan(self):
         return {
@@ -18,6 +15,16 @@ class FolderScanner:
             'products': self._scan_designs(self.root_path),
         }
     
+    def _extract_name_and_code(self, match):
+        before = match.group(1).strip()
+        code = match.group(3).strip()
+        after = match.group(4).strip()
+        
+        parts = [p for p in [before, after] if p]
+        name = ' '.join(parts)
+        
+        return name, code
+    
     def _scan_categories(self, path):
         categories = []
         
@@ -25,9 +32,9 @@ class FolderScanner:
             if not item.is_dir():
                 continue
             
-            cat_match = self.cat_pattern.match(item.name)
-            if cat_match:
-                category = self._process_category(item, cat_match)
+            match = self.marker_pattern.match(item.name)
+            if match and match.group(2) == 'CAT':
+                category = self._process_category(item, match)
                 categories.append(category)
             elif not self._has_special_marker(item.name):
                 flattened = self._scan_categories(item)
@@ -42,11 +49,12 @@ class FolderScanner:
             if not item.is_dir():
                 continue
             
-            sub_match = self.sub_pattern.match(item.name)
-            if sub_match:
+            match = self.marker_pattern.match(item.name)
+            if match and match.group(2) == 'SUB': 
+                name, code = self._extract_name_and_code(match)
                 subcategory = {
-                    'name': sub_match.group(1).strip(),
-                    'code': sub_match.group(2).strip(),
+                    'name': name,
+                    'code': code,
                     'path': str(item),
                     'products': self._scan_products(item),
                     'designs': self._scan_designs(item)
@@ -65,11 +73,12 @@ class FolderScanner:
             if not item.is_dir():
                 continue
             
-            prod_match = self.prod_pattern.match(item.name)
-            if prod_match:
+            match = self.marker_pattern.match(item.name)
+            if match and match.group(2) == 'PROD': 
+                name, code = self._extract_name_and_code(match)
                 product = {
-                    'name': prod_match.group(1).strip(),
-                    'code': prod_match.group(2).strip(),
+                    'name': name,
+                    'code': code,
                     'path': str(item),
                     'designs': self._scan_designs(item)
                 }
@@ -87,9 +96,9 @@ class FolderScanner:
             if not item.is_dir():
                 continue
             
-            des_match = self.des_pattern.match(item.name)
-            if des_match:
-                design = self._process_design(item, des_match)
+            match = self.marker_pattern.match(item.name)
+            if match and match.group(2) in ('DES'):
+                design = self._process_design(item, match)
                 designs.append(design)
             elif not self._has_special_marker(item.name):
                 flattened = self._scan_designs(item)
@@ -98,27 +107,25 @@ class FolderScanner:
         return designs
     
     def _has_special_marker(self, folder_name):
-        return any([
-            self.cat_pattern.match(folder_name),
-            self.sub_pattern.match(folder_name),
-            self.prod_pattern.match(folder_name),
-            self.des_pattern.match(folder_name),
-        ])
+        match = self.marker_pattern.match(folder_name)
+        return match is not None and match.group(2) in ('CAT', 'SUB', 'PROD', 'DES')
     
-    def _process_category(self, cat_path, cat_match):
+    def _process_category(self, cat_path, match):
+        name, code = self._extract_name_and_code(match)
         return {
-            'name': cat_match.group(1).strip(),
-            'code': cat_match.group(2).strip(),
+            'name': name,
+            'code': code,
             'path': str(cat_path),
             'subcategories': self._scan_subcategories(cat_path),
             'products': self._scan_products(cat_path),
             'designs': self._scan_designs(cat_path)
         }
     
-    def _process_design(self, des_path, des_match):
+    def _process_design(self, des_path, match):
+        name, code = self._extract_name_and_code(match)
         design = {
-            'name': des_match.group(1).strip(),
-            'code': des_match.group(2).strip(),
+            'name': name,
+            'code': code,
             'path': str(des_path),
             'image': None,
             'file': None,
