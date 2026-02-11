@@ -27,10 +27,12 @@
     </t>
 
     <t t-name="e_design_import.Node">
-        <div t-attf-class="my-1 {{isError(node.code)?'has-error-descendants':''}}">
+        <t t-set="nodeError" t-value="isError(node.code)"/>
+        <t t-set="nodeDisabled" t-value="isDisabled(node.code)"/>
+        <div class="my-1" t-att-class="{nodeError:'has-error-descendants',nodeDisabled:'has-disabled-descendants'}">
             <div t-attf-class="item-header d-flex align-items-center p-{{padding ?? 3}} mb-2 
                                shadow-sm border-{{color ?? 'secondary'}} {{clickable ? 'cursor-pointer' : ''}}
-                               {{isError(node.code) ? 'bg-danger-subtle' : 'bg-' + color + '-subtle'}}"
+                               {{nodeError ? 'bg-danger-subtle' : 'bg-' + color + '-subtle'}}"
                  t-on-click="clickable ? () => this.toggleExpand(node.code) : ()=>{}">
                 
                 <t t-if="node.error and node.error_msg">
@@ -38,7 +40,15 @@
                         <i class="fa fa-exclamation-triangle"></i>
                     </span>
                 </t>
+                <!-- <div class="form-check me-3">
+                    <input type="checkbox" 
+                        class="form-check-input" 
+                        t-att-checked="!nodeError and !nodeDisabled"
+                        t-att-disabled="nodeError"
+                        t-on-change="()=>this.toggleDisabled(node.code)"/>
+                </div> -->
                 
+
                 <div class="ms-3 flex-grow-1">
                     <span t-att-class="title_class ?? 'fw-bold fs-6'" t-esc="node.name"/>
                     <span class="badge bg-secondary ms-2" t-esc="node.code"/>

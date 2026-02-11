@@ -104,8 +104,20 @@ export class ImportPreview extends Component {
         }
     }
 
+    toggleDisabled(code) {
+        if (this.state.disabled.has(code)) {
+            this.state.disabled.delete(code);
+        } else {
+            this.state.disabled.add(code);
+        }
+    }
+
     isExpanded(code) {
         return this.state.expanded.has(code);
+    }
+
+    isDisabled(code) {
+        return this.state.disabled.has(code);
     }
 
     isError(code) {
