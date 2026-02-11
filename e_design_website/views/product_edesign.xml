@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <record id="product_website_design_view_list" model="ir.ui.view">
+        <field name="name">view.product.edesign.list</field>
+        <field name="model">product.edesign</field>
+        <field name="inherit_id" ref="e_design.product_design_view_list"></field>
+        <field name="arch" type="xml">
+            <list position="inside">
+                <field name="ewebsite_published"></field>
+            </list>
+        </field>
+    </record>
+
     <record id="product_website_design_view_form" model="ir.ui.view">
         <field name="name">product.edesign.view.form</field>
         <field name="model">product.edesign</field>
