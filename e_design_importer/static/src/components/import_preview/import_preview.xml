@@ -121,7 +121,7 @@
                     <i class="fa fa-image" title="Image"/>
                 </span>
                 <span t-if="node.attachments?.length" class="badge bg-info text-light rounded-pill mx-1">
-                    <i class="fa fa-folder-o" t-attf-title="{{node.attachments.length}} Attachments"/>
+                    <t t-esc="node.attachments.length"/><i class="ms-1 fa fa-folder-o" t-attf-title="{{node.attachments.length}} Attachments"/>
                 </span>
             </t>
         </t>
