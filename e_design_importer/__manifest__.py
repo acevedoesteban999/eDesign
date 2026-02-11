@@ -1,11 +1,13 @@
 {
     'name': 'eDesignImporter',
-    'version': '18.0.0.0.0',
+    'version': '18.0.1.0.0',
     'category': '',
     'summary': '',
-    'depends': ['e_design', 'web'],
+    'depends': ['e_design', 'web', 'report_xlsx'],
     "data": [
         "security/ir.model.access.csv",
+        
+        "views/product_report_menus.xml",
         
         "views/menu_views.xml",
         "wizards/import_design_wizard.xml",
@@ -16,5 +18,5 @@
         ],
     },
     'installable': True,
-    'application': False,
+    'application': True,
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_export_codes_xlsx" model="ir.actions.report">
+        <field name="name">Codes</field>
+        <field name="model">product.template</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">e_design_importer.export_codes_xlsx</field>
+        <field name="report_file">export_codes</field>
+    </record>
+
+</odoo>

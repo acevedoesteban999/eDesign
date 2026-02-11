@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <menuitem 
-        id="menu_edesign_import" 
-        name="Design Importer" 
-        parent="e_design.menu_design_root" 
-        action="action_import_design_wizard" 
-        sequence="110"/>
+        id="menu_edesign_import_root" 
+        name="Importer" 
+        parent="e_design.menu_design_root"  
+        sequence="110">
+        <menuitem 
+            id="menu_edesign_import" 
+            name="Import Designs" 
+            action="action_import_design_wizard" 
+            sequence="10"/>
+
+        <menuitem 
+            id="menu_edesign_export_doedes" 
+            name="Export Codes" 
+            action="action_export_codes_xlsx" 
+            sequence="20"/>
+
+    </menuitem> 
+        
 </odoo>
