@@ -48,8 +48,18 @@
                 <field name="name"></field>
                 <field name="default_code"></field>
                 <field name="category_id"></field>
-                <!-- <field name="products_counter"></field> -->
             </list>
+        </field>
+    </record>
+
+    <record id="product_design_view_search" model="ir.ui.view">
+        <field name="name">product.edesign.view.search</field>
+        <field name="model">product.edesign</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name"/>
+                <field name="default_code"/>
+            </search>
         </field>
     </record>
 
