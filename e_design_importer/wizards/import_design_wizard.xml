@@ -8,8 +8,11 @@
                 <field name="state" invisible="1"/>
                 
                 <sheet>
+
                     <group invisible="state != 'select'">
-                        <field name="folder_path"/>
+                        <field name="import_type"></field>
+                        <field name="folder_path" invisible="import_type != 'folder'"/>
+                        <field name="zip_file" invisible="import_type != 'zip'"/>
                     </group>
                     
                     <div invisible="state != 'preview'">
@@ -20,7 +23,7 @@
                 </sheet>
                 
                 <footer>
-                    <button name="action_scan_folder" string="Scan Folder" type="object" class="btn-primary" invisible="state != 'select'"/>
+                    <button name="action_scan" string="Scan Folder" type="object" class="btn-primary" invisible="state != 'select'"/>
                     <button name="action_confirm_import" string="Confirm Import" type="object" class="btn-primary" invisible="state != 'preview'"/>
                     <button name="action_back" string="Back" type="object" class="btn-secondary" invisible="state != 'preview'"/>
                     <button string="Close" class="btn-primary" special="cancel" invisible="state != 'done'"/>

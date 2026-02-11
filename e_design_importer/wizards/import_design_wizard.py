@@ -5,28 +5,43 @@ from pathlib import Path
 from odoo import models, fields, api, _ , Command
 from odoo.exceptions import UserError
 
-from ..utils.utils import FolderScanner
-
+from ..utils.folder_scanner import FolderScanner
+from ..utils.zip_scanner import ZipScanner
 
 class ImportDesignWizard(models.TransientModel):
     _name = 'import.design.wizard'
     _description = 'Import Design Wizard'
     
     folder_path = fields.Char(string='Desktop Folder Path', required=True, default="E:\\Esteban\\Programacion\\Python\\Odoo\\Odoo18\\designs")
+    zip_file = fields.Binary("Zip File")
     preview_data = fields.Json(string='Preview Data', default={})
     disabled_data = fields.Json(string='Deisabled Data', default=[])
+    import_type = fields.Selection([
+        ('folder','folder'),
+        ('zip','zip'),
+    ],"Import Type")
     state = fields.Selection([
         ('select', 'Select Folder'),
         ('preview', 'Preview'),
     ], default='select')
     
-    def action_scan_folder(self):
+    def action_scan(self):
         self.ensure_one()
-        if not os.path.exists(self.folder_path):
-            raise UserError(_('Folder does not exist: %s') % self.folder_path)
+        if self.import_type == 'folder':
+            if not os.path.exists(self.folder_path):
+                raise UserError(_('Folder does not exist: %s') % self.folder_path)
         
-        scanner = FolderScanner(self.folder_path)
-        data = scanner.scan()
+            scanner = FolderScanner(self.folder_path)
+            data = scanner.scan()
+        
+        elif self.import_type == 'zip':
+            if not self.zip_file:
+                raise UserError(_('Please upload a ZIP file'))
+        
+            with ZipScanner(base64.b64decode(self.zip_file)) as scanner:
+                data = scanner.scan()
+        
+        
         
         def check_design(des,error=False):
             if not des:

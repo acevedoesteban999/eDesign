@@ -1,19 +1,36 @@
 import os
 import re
-from pathlib import Path
 import base64
+from abc import ABC, abstractmethod
 
-class FolderScanner:
-    def __init__(self, root_path: str):
-        self.root_path = Path(root_path)
-        self.marker_pattern = re.compile(r'^(.*?)\s*\((CAT|SUB|PROD|DES|DIS)-(.+?)\)\s*(.*?)$')
+
+class Scanner(ABC):
+    MARKER_PATTERN = re.compile(r'^(.*?)\s*\((CAT|SUB|PROD|DES|DIS)-(.+?)\)\s*(.*?)$')
+    VALID_MARKERS = ('CAT', 'SUB', 'PROD', 'DES')
+    
+    def __init__(self):
+        self.root_path = None
+        self.marker_pattern = self.MARKER_PATTERN
     
     def scan(self):
+        if not self.root_path:
+            raise RuntimeError("Scanner not initialized")
         return {
             'categories': self._scan_categories(self.root_path),
             'designs': self._scan_designs(self.root_path),
-            'products': self._scan_designs(self.root_path),
+            'products': self._scan_products(self.root_path),
         }
+    
+    @abstractmethod
+    def _cleanup(self):
+        pass
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self._cleanup()
+        return False
     
     def _extract_name_and_code(self, match):
         before = match.group(1).strip()
@@ -24,6 +41,10 @@ class FolderScanner:
         name = ' '.join(parts)
         
         return name, code
+    
+    def _has_special_marker(self, folder_name):
+        match = self.marker_pattern.match(folder_name)
+        return match is not None and match.group(2) in self.VALID_MARKERS
     
     def _scan_categories(self, path):
         categories = []
@@ -97,7 +118,7 @@ class FolderScanner:
                 continue
             
             match = self.marker_pattern.match(item.name)
-            if match and match.group(2) in ('DES'):
+            if match and match.group(2) == 'DES':
                 design = self._process_design(item, match)
                 designs.append(design)
             elif not self._has_special_marker(item.name):
@@ -105,10 +126,6 @@ class FolderScanner:
                 designs.extend(flattened)
         
         return designs
-    
-    def _has_special_marker(self, folder_name):
-        match = self.marker_pattern.match(folder_name)
-        return match is not None and match.group(2) in ('CAT', 'SUB', 'PROD', 'DES')
     
     def _process_category(self, cat_path, match):
         name, code = self._extract_name_and_code(match)
@@ -166,7 +183,7 @@ class FolderScanner:
             return None
         with open(path, 'rb') as f:
             return base64.b64encode(f.read()).decode('utf-8')
-        
+    
     @staticmethod
     def get_file_name(path):
         if not path or not os.path.exists(path):
