@@ -27,11 +27,12 @@
     </t>
 
     <t t-name="e_design_import.Node">
-        <div t-att-class="node_class">
-            <div t-attf-class="item-header d-flex align-items-center p-{{padding ?? 3}} mb-2 shadow-sm {{'bg-'+(has_error ? 'danger' : (color ? color : 'secondary'))+'-subtle'}} border-{{color ?? 'secondary'}} {{clickable ? 'cursor-pointer' : ''}}"
+        <div t-attf-class="my-1 {{isError(node.code)?'has-error-descendants':''}}">
+            <div t-attf-class="item-header d-flex align-items-center p-{{padding ?? 3}} mb-2 
+                               shadow-sm border-{{color ?? 'secondary'}} {{clickable ? 'cursor-pointer' : ''}}
+                               {{isError(node.code) ? 'bg-danger-subtle' : 'bg-' + color + '-subtle'}}"
                  t-on-click="clickable ? () => this.toggleExpand(node.code) : ()=>{}">
                 
-                <!-- Solo mostrar icono de error si el nodo ACTUAL tiene error -->
                 <t t-if="node.error and node.error_msg">
                     <span class="me-2 text-danger" t-att-title="node.error_msg">
                         <i class="fa fa-exclamation-triangle"></i>
@@ -71,10 +72,8 @@
     <t t-name="e_design_import.ProductNode">
         <t t-call="e_design_import.Node">
             <t t-set="node" t-value="node"/>
-            <t t-set="has_error" t-value="parent_error or node.error"/>
             <t t-set="color" t-value="'warning'"/>
             <t t-set="color_text" t-value="'dark'"/>
-            <t t-set="node_class" t-value="'product-item mb-2'"/>
             <t t-set="padding" t-value="2"/>
             <t t-set="title_class" t-value="'fw-medium'"/>
             <t t-set="clickable" t-value="!!node.designs?.length"/>
@@ -86,7 +85,6 @@
                     <t t-foreach="node.designs" t-as="design" t-key="design_index">
                         <t t-call="e_design_import.DesignNode">
                             <t t-set="node" t-value="design"/>
-                            <t t-set="parent_error" t-value="has_error"/>
                         </t>
                     </t>
                 </t>
@@ -97,10 +95,8 @@
     <t t-name="e_design_import.DesignNode">
         <t t-call="e_design_import.Node">
             <t t-set="node" t-value="node"/>
-            <t t-set="has_error" t-value="parent_error or node.error"/>
-            <t t-set="color" t-value="has_error ? 'danger' : 'success'"/>
+            <t t-set="color" t-value="'success'"/>
             <t t-set="color_text" t-value="'light'"/>
-            <t t-set="node_class" t-value="'design-item mb-1'"/>
             <t t-set="padding" t-value="2"/>
             <t t-set="clickable" t-value="false"/>
             <t t-set="has_children" t-value="false"/>
@@ -162,7 +158,6 @@
                                 <t t-set="node" t-value="cat"/>
                                 <t t-set="color" t-value="'primary'"/>
                                 <t t-set="color_text" t-value="'light'"/>
-                                <t t-set="node_class" t-value="'category-item'"/>
                                 <t t-set="clickable" t-value="true"/>
                                 <t t-set="has_children" t-value="true"/>
                                 <t t-set="count_badge" t-value="(cat.subcategories?.length || 0) + (cat.designs?.length || 0) + (cat.products?.length || 0)"/>
@@ -173,7 +168,6 @@
                                             <t t-set="node" t-value="sub"/>
                                             <t t-set="color" t-value="'info'"/>
                                             <t t-set="color_text" t-value="'light'"/>
-                                            <t t-set="node_class" t-value="'subcategory-item mb-2'"/>
                                             <t t-set="padding" t-value="2"/>
                                             <t t-set="title_class" t-value="'fw-semibold'"/>
                                             <t t-set="clickable" t-value="true"/>
@@ -181,7 +175,6 @@
                                             <t t-set="count_badge" t-value="(sub.designs?.length || 0) + (sub.products?.length || 0)"/>
                                             <t t-set="children_class" t-value="'ms-4 mt-2'"/>
                                             <t t-set="cat_or_sub_error" t-value="cat.error or sub.error"/>
-                                            <t t-set="has_error" t-value="cat_or_sub_error"/>
                                             <t t-set="children_render">
                                                 <t t-foreach="sub.products" t-as="prod" t-key="prod_index">
                                                     <t t-call="e_design_import.ProductNode">

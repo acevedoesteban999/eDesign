@@ -13,7 +13,11 @@ export class ImportPreview extends Component {
     setup() {
         this.state = useState({
             expanded: new Set(),
+            disabled : new Set(),
         });
+        this.errors = new Set()
+        this.getAllErrors()
+        this.state.disabled = this.errors
     }
 
     get orderedCounters() {
@@ -29,7 +33,41 @@ export class ImportPreview extends Component {
         return this.props.record.data[this.props.name].counters;
     }
 
-    getAllCodes() {
+    getAllErrors(){
+        let errors = new Set()
+        const data = this.previewData;
+
+        const nodeError = (node)=>{
+            if (node.error)
+                errors.add(node.code)
+        }
+
+        const errorDesigns = (des)=>{
+            nodeError(des)
+        }
+        const errorProducts = (prod)=>{
+            nodeError(prod);
+            (prod.designs || []).forEach(errorDesigns);
+        }
+        const errorCategories = (cat) => {
+            nodeError(cat);
+            (cat.subcategories || []).forEach(sub => {
+                nodeError(sub);
+                (sub.products || []).forEach(errorProducts);
+                (sub.designs || []).forEach(errorDesigns);
+            });
+            (cat.products || []).forEach(errorProducts);
+            (cat.designs || []).forEach(errorDesigns);
+        }
+
+        (data.categories || []).forEach(errorCategories);
+        (data.products || []).forEach(errorProducts);
+        (data.designs || []).forEach(errorDesigns);
+
+        this.errors = errors
+    }
+
+    getAllExpandCodes() {
         const codes = new Set();
         const data = this.previewData;
 
@@ -49,7 +87,7 @@ export class ImportPreview extends Component {
     }
 
     expandAll() {
-        const allCodes = this.getAllCodes();
+        const allCodes = this.getAllExpandCodes();
         this.state.expanded.clear();
         allCodes.forEach(code => this.state.expanded.add(code));
     }
@@ -68,6 +106,10 @@ export class ImportPreview extends Component {
 
     isExpanded(code) {
         return this.state.expanded.has(code);
+    }
+
+    isError(code) {
+        return this.errors.has(code);
     }
 }
 
