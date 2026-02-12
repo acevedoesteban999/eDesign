@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eDesignPos',
-    'version': '18.0.3.0.2',
+    'version': '18.0.3.0.3',
     'summary': """Integration POS-MRP with eDesign""",
     'description':"""
                     It allows you to view the designs of the product 

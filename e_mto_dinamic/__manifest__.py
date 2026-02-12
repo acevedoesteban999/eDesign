@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'eMtoDinamic',
-    'version': '18.0.1.0.1',
+    'version': '18.0.1.0.2',
     'summary': """ Create Dinamic Products for Dinamic Bill of Material """,
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_mto_dinamic',
