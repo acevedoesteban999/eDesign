@@ -27,6 +27,15 @@
                             <small t-esc="this.state.pos_order_pos_reference" class="h5"/>
                         </div>
                     </div>
+
+                    <div class="row justify-content-between">
+                        <div class="col-auto">
+                            <small class="fw-semibold">Picking</small>
+                        </div>
+                        <div class="col-auto">
+                            <small t-esc="this.state.picking_pos_mrp_name" class="h5"/>
+                        </div>
+                    </div>
                 </div>
             </t>
         </xpath>

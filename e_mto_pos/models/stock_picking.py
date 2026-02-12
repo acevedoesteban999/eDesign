@@ -21,8 +21,9 @@ class StockPicking(models.Model):
         mrp_pos_pikcing = mrp_pos_pikcing and mrp_pos_pikcing[0]
         if mrp_pos_pikcing:
             return {
-                'pos_order_pos_reference': mrp_pos_pikcing.pos_order_pos_reference,
-                'pos_order_tracking_number': mrp_pos_pikcing.pos_order_tracking_number
+                'pos_reference': order.pos_reference,
+                'tracking_number': order.tracking_number,
+                'picking_pos_mrp_name': order.picking_pos_mrp.name,
             }
         return False
     

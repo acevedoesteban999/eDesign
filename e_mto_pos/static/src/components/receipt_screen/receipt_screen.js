@@ -20,8 +20,9 @@ patch(ReceiptScreen.prototype,{
                 ); 
                 if(response){
                     this.state.show_mrp_picking = true
-                    this.state.pos_order_tracking_number = response.pos_order_tracking_number
-                    this.state.pos_order_pos_reference = response.pos_order_pos_reference
+                    this.state.pos_reference = response.pos_reference
+                    this.state.tracking_number = response.tracking_number
+                    this.state.picking_pos_mrp_name = response.picking_pos_mrp_name
                 }
             }
         });
