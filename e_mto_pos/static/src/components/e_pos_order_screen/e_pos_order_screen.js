@@ -8,25 +8,23 @@ patch( ePosOrderScreen.prototype,{
         this.dialog.add(ConfirmationDialog, {
             title: _t("Confirm Delivery ?"),
             body: _t("Are you sure that the customer wants to recive the picking?"),
-            confirm: () => this.ConfirmPicking(this.state.selectedPosOrder),
+            confirm: async () => this.ConfirmPicking(this.state.selectedPosOrder),
+            cancel: ()=>{}
         });
     },
 
-    async ConfirmPicking(pickingLine){
-        await this._confirmPicking(pickingLine)
-    },
+    async ConfirmPicking(pos_order){
 
-    async _confirmPicking(pickingLine) {
         await this.pos.data.call(
             "stock.picking",
             "confirm_picking",
             [],
-            {picking_id: pickingLine.id}
+            {picking_id: pos_order.picking_pos_mrp[0]}
         ); 
         this.notification.add(
             _t("Success confirmation for Delivery %s in POS order: %s")
-                .replace("%s", pickingLine.name)
-                .replace("%s", pickingLine.pos_order_pos_reference),
+                .replace("%s", pos_order.picking_pos_mrp[1])
+                .replace("%s", pos_order.pos_reference),
             {
                 type: "success",
                 title: _t("Success"),

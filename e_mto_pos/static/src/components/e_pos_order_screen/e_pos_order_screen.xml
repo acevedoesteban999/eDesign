@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
     <t t-name="e_mto_pos.ePosOrderScreen" t-inherit="e_pos_base.ePosOrderScreen" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('pads')]//div" position="before">
+            <t t-set="_assigned" t-value="this.state.selectedPosOrder.picking_pos_mrp_state == 'assigned'"/>
+        </xpath>
+
         <xpath expr="//button[hasclass('back-button')]" position="after">
             <button t-if="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
                 t-on-click="onConfirmPicking">
@@ -24,6 +28,14 @@
             </div>
         </xpath>
         <xpath expr="//div[hasclass('line-top-info')]" position="inside">
+            <div t-if="this.state.selectedPosOrder.picking_pos_mrp" class="row align-items-center justify-content-between flex-grow-1 w-100 w-md-auto">
+                <div class="col-auto">
+                    Picking:
+                </div>
+                <div class="col-auto">
+                    <span t-esc="this.state.selectedPosOrder.picking_pos_mrp[1]"/>
+                </div>
+            </div>
             <div t-if="this.state.selectedPosOrder.picking_pos_mrp_state" class="row align-items-center justify-content-between flex-grow-1 w-100 w-md-auto">
                 <div class="col-auto">
                     Picking State:
