@@ -7,7 +7,7 @@
     'author': 'acevedoesteban999@gmail.com',
     'website': 'https://github.com/acevedoesteban999/eAddons/blob/18.0/e_mto_pos',
     'category': 'Customizations',
-    'depends': ['pos_mrp','e_mto_base','e_pos_mrp_base'],
+    'depends': ['pos_mrp','e_mto_base','e_pos_mrp_base','e_pos_base'],
     'data': [
         "security/ir.model.access.csv",
         

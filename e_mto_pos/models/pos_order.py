@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _, Command
 from odoo.exceptions import UserError
-from datetime import timedelta
 
 class PosOrder(models.Model):
     _inherit = 'pos.order'
@@ -233,6 +232,15 @@ class PosOrder(models.Model):
                     state=', '.join(set(undelivered_pickings.mapped('state'))),
                     pickings=', '.join(undelivered_pickings.mapped('name'))
                 ))
+    
+    @api.model
+    def read_pos_order_lines(self, pos_order_id):
+        lines = super().read_pos_order_lines(pos_order_id)
+        
+        for line in  lines:
+            if line.get('id'):
+                line['has_create_mto_pos'] = self.env['pos.order.line'].browse(line['id']).product_id.has_create_mto_pos
+        return lines
     
 class PosOrderLine(models.Model):
     _inherit = "pos.order.line"

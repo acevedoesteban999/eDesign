@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="e_mto_pos.PickingScreen">
-        <div class="picking-screen screen h-100 bg-100">
+    <t t-name="e_pos_base.ePosOrderScreen">
+        <div class="screen h-100 bg-100">
             <div class="screen-full-width d-flex w-100 h-100">
                 <div t-if="!ui.isSmall || pos.ticket_screen_mobile_pane === 'left'" class="rightpane pane-border d-flex flex-column flex-grow-1 w-100 h-100 h-lg-100 bg-200 overflow-y-auto">
                     <div class="controls d-grid d-sm-flex align-items-center justify-content-between gap-2 gap-sm-3 p-2 bg-300">
                         <div class="buttons d-flex gap-2">
-                            <button class="discard btn btn-lg btn-light text-nowrap" t-on-click="() => this.closePickingScreen()">
+                            <button class="discard btn btn-lg btn-light text-nowrap" t-on-click="() => this.closePosOrderScreen()">
                                 <i class="oi oi-chevron-left"/>
                                 <span t-if="!ui.isSmall" class="ms-2">Back</span>
                             </button>
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <div class="orders overflow-y-auto flex-grow-1">
-                        <t t-if="this.state.filteredPickingList.length !== 0">
+                        <t t-if="this.state.filteredPosOrderList.length !== 0">
                             <div class="header-row d-flex text-bg-700 fw-bolder" t-att-class="{ 'd-none': ui.isSmall }">
                                 <div class="col p-2">Date</div>
                                 <div class="col p-2">Order Number</div>
@@ -37,49 +37,39 @@
                                 <div class="col p-2">Customer</div>
                                 <div class="col end p-2">State</div>
                             </div>
-                            <t t-if="!ui.isSmall" t-foreach="this.state.filteredPickingList" t-as="picking" t-key="picking.id">
-                                <div class="order-row" t-att-class="{ 'highlight bg-primary text-white': isHighlighted(picking) }"
-                                    t-on-click="() => this.onClickpicking(picking)" >
+                            <t t-if="!ui.isSmall" t-foreach="this.state.filteredPosOrderList" t-as="pos_order" t-key="pos_order_index">
+                                <div class="order-row" t-att-class="{ 'highlight bg-primary text-white': isHighlighted(pos_order) }"
+                                    t-on-click="() => this.onClickPosOrder(pos_order)" >
                                     <div class="col p-2">
-                                        <div><t t-esc="GetDate(picking.create_date)"></t></div>
+                                        <div><t t-esc="getDate(pos_order.create_date)"></t></div>
                                     </div>
                                     <div class="col p-2 ">
-                                        <div><t t-esc="picking.pos_order_pos_reference"></t></div>
+                                        <div><t t-esc="pos_order.pos_reference"></t></div>
                                     </div>
                                     <div class="col p-2 ">
-                                        <div><t t-esc="picking.pos_order_tracking_number"></t></div>
+                                        <div><t t-esc="pos_order.tracking_number"></t></div>
                                     </div>
                                     <div class="col p-2 ">
-                                        <div><t t-if="picking.partner_id" t-esc="picking.partner_id[1]"></t></div>
+                                        <div><t t-if="pos_order.partner_id" t-esc="pos_order.partner_id[1]"></t></div>
                                     </div>
                                     <div class="col end p-2">
-                                        <div class="ebadge badge-pill" t-att-class="{
-                                            'badge-secondary': picking.state == 'done',
-                                            'badge-warning': picking.state == 'waiting',
-                                            'badge-success':picking.state == 'assigned',
-                                            'badge-danger':picking.state == 'cancel',
-                                            }">
-                                            <t t-esc="GetState(picking.state)"/>
+                                        <div class="ebadge badge-pill" t-att-class="this.getStateDecoration(pos_order.state)">
+                                            <t t-esc="getStateText(pos_order.state)"/>
                                         </div>
                                     </div>
                                 </div>
                             </t>
-                            <t t-if="ui.isSmall" t-foreach="this.state.filteredPickingList" t-as="picking" t-key="picking.id">
-                                <div class="mobileOrderList order-row rounded-3" t-att-class="{ 'highlight bg-primary text-white': isHighlighted(picking) }"
-                                    t-on-click="() => this.onClickpicking(picking,true)" >
+                            <t t-if="ui.isSmall" t-foreach="this.state.filteredPosOrderList" t-as="pos_order" t-key="pos_order_index">
+                                <div class="mobileOrderList order-row rounded-3" t-att-class="{ 'highlight bg-primary text-white': isHighlighted(pos_order) }"
+                                    t-on-click="() => this.onClickPosOrder(pos_order,true)" >
                                     <div class="col p-2 d-flex justify-content-between align-items-center">
-                                        <div><t t-esc="picking.name"></t></div>
-                                        <div t-if="picking.partner_id"><t t-esc="picking.partner_id[1]"></t></div>
-                                        <div><t t-esc="GetDate(picking.create_date)"></t></div>
+                                        <div><t t-esc="pos_order.name"></t></div>
+                                        <div t-if="pos_order.partner_id"><t t-esc="pos_order.partner_id[1]"></t></div>
+                                        <div><t t-esc="getDate(pos_order.create_date)"></t></div>
                                     </div>
                                     <div class="col p-2 d-flex justify-content-between align-items-center">
-                                        <div class="ebadge badge-pill" t-att-class="{
-                                            'badge-secondary': picking.state == 'done',
-                                            'badge-warning': picking.state == 'waiting',
-                                            'badge-success':picking.state == 'assigned',
-                                            'badge-danger':picking.state == 'cancel',
-                                            }">
-                                            <t t-esc="GetState(picking.state)"/>
+                                        <div class="ebadge badge-pill" t-att-class="this.getStateDecoration(pos_order.state)">
+                                            <t t-esc="getStateText(pos_order.state)"/>
                                         </div>
                                     </div>
                                 </div>
@@ -88,24 +78,19 @@
                         <CenteredIcon
                             t-else=""
                             icon="this.pos.data.network.loading ? 'fa-spinner fa-spin' : 'fa-shopping-cart fa-4x'"
-                            text="this.pos.data.network.loading ? 'Loading...' : 'No picking found'"
+                            text="this.pos.data.network.loading ? 'Loading...' : 'No Pos Orders found'"
                             class="'h-100'"/>
                     </div>
                 </div>
-                <div t-if="this.state.selectedPicking and (!ui.isSmall || pos.ticket_screen_mobile_pane === 'right')" class="leftpane d-flex flex-column flex-grow-1 gap-2 w-100 h-100 h-lg-100 bg-200 p-2">
-                    <t t-if="this.state.pickingLines">
+                <div t-if="this.state.selectedPosOrder and (!ui.isSmall || pos.ticket_screen_mobile_pane === 'right')" class="leftpane d-flex flex-column flex-grow-1 gap-2 w-100 h-100 h-lg-100 bg-200 p-2">
+                    <t t-if="this.state.posOrderLines">
                         <div class="row">
                             <div class="col text-start">
-                                <span class="text-muted h4" t-esc="this.state.selectedPicking.name"/>
+                                <span class="text-muted h4" t-esc="this.state.selectedPosOrder.name"/>
                             </div>
                             <div class="col text-end">
-                                <div class="ebadge badge-pill" t-att-class="{
-                                    'badge-secondary': this.state.selectedPicking.state == 'done',
-                                    'badge-warning': this.state.selectedPicking.state == 'waiting',
-                                    'badge-success':this.state.selectedPicking.state == 'assigned',
-                                    'badge-danger':this.state.selectedPicking.state == 'cancel',
-                                    }">
-                                    <t t-esc="GetState(this.state.selectedPicking.state)"/>
+                                <div class="ebadge badge-pill" t-att-class="this.getStateDecoration(this.state.selectedPosOrder.state)">
+                                    <t t-esc="getStateText(this.state.selectedPosOrder.state)"/>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +100,7 @@
                                     Receipt Number: 
                                  </div>
                                 <div class="col-auto">
-                                    <span t-esc="this.state.selectedPicking.pos_order_tracking_number"/>
+                                    <span t-esc="this.state.selectedPosOrder.tracking_number"/>
                                 </div>
                             </div>
                             <div class="row align-items-center justify-content-between flex-grow-1 w-100 w-md-auto">
@@ -123,30 +108,30 @@
                                     Order Number:
                                 </div>
                                 <div class="col-auto">
-                                    <span t-esc="this.state.selectedPicking.pos_order_pos_reference"/>
+                                    <span t-esc="this.state.selectedPosOrder.pos_reference"/>
                                 </div>
                             </div>
-                            <div t-if="this.state.selectedPicking.partner_id" class="row align-items-center justify-content-between flex-grow-1 w-100 w-md-auto">
+                            <div t-if="this.state.selectedPosOrder.partner_id" class="row align-items-center justify-content-between flex-grow-1 w-100 w-md-auto">
                                 <div class="col-auto">
                                     Customer:
                                 </div>
                                 <div class="col-auto">
-                                    <span t-esc="this.state.selectedPicking.partner_id[1]"/>
+                                    <span t-esc="this.state.selectedPosOrder.partner_id[1]"/>
                                 </div>
                             </div>
                         </div>
                         
                         <div class="d-flex flex-column flex-grow-1 rounded-3 bg-white overflow-hidden">
                             <div class="order-container d-flex flex-column flex-grow-1 overflow-y-auto text-start">
-                                <t t-foreach="getPickingLineProps()" t-as="lineProps" t-key="lineProps_index">
+                                <t t-foreach="getPosOrderLineProps()" t-as="lineProps" t-key="lineProps_index">
                                     <Orderline line="lineProps.line" />
                                 </t>
                                 <div 
-                                    t-if="this.state.selectedPicking.pos_order_general_note"
+                                    t-if="this.state.selectedPosOrder.pos_order_general_note"
                                     class="mt-1 bg-opacity-75 p-2 border-bottom border-top border-opacity-75"
                                     >
                                     <b class="fw-bolder">General Note</b>
-                                    <t t-foreach="this.state.selectedPicking.pos_order_general_note.split('\n')" t-as="subNote" t-key="subNote_index">
+                                    <t t-foreach="this.state.selectedPosOrder.pos_order_general_note.split('\n')" t-as="subNote" t-key="subNote_index">
                                         <br/>• <t t-esc="subNote"/>
                                     </t>
                                 </div>
@@ -154,26 +139,26 @@
                         </div>
                         <div class="pads">
                             <div class="actionpad d-flex flex-column gap-2">
-                                <t t-set="_assigned" t-value="this.state.selectedPicking.state == 'assigned'"/>
+                                <t t-set="_assigned" t-value="this.state.selectedPosOrder.state == 'assigned'"/>
                                 <div t-if="ui.isSmall" class="d-flex gap-2">
                                     <button class="back-button btn btn-light btn-lg lh-lg" t-on-click="()=>this.switchPane()" t-att-class="{'w-100':!_assigned}">
                                         <i class="oi oi-chevron-left fa-fw" role="img" aria-label="Go Back" title="Go Back" />
                                     </button>
-                                    <button t-if="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
+                                    <!-- <button t-if="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
                                         t-on-click="onConfirmPicking">
                                         Confirm Delivery
-                                    </button>
+                                    </button> -->
                                 </div>
-                                <button t-elif="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
+                                <!-- <button t-elif="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
                                     t-on-click="onConfirmPicking">
                                     Confirm Delivery
-                                </button>
+                                </button> -->
                             </div>
                         </div>
                     </t>
                     <t t-else="">
                         <CenteredIcon icon="'fa-shopping-cart fa-4x'" text.translate="Select a Delivery" class="'bg-100 h-100'"/>
-                        <BackButton t-if="ui.isSmall" onClick="() => closePickingScreen()"/>
+                        <BackButton t-if="ui.isSmall" onClick="() => closePosOrderScreen()"/>
                     </t>
                 </div>
             </div>

@@ -1,20 +1,19 @@
 import { registry } from "@web/core/registry";
 import { useService } from "@web/core/utils/hooks";
-import { formatDateTime, parseDateTime } from "@web/core/l10n/dates";
+import { formatDateTime } from "@web/core/l10n/dates";
 import { _t } from "@web/core/l10n/translation";
-import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { BackButton } from "@point_of_sale/app/screens/product_screen/action_pad/back_button/back_button";
 import { CenteredIcon } from "@point_of_sale/app/generic_components/centered_icon/centered_icon";
 import { SearchBar } from "@point_of_sale/app/screens/ticket_screen/search_bar/search_bar";
 import { usePos } from "@point_of_sale/app/store/pos_hook";
-import { Component, onMounted, onWillStart, useState } from "@odoo/owl";
+import { Component, onMounted, useState } from "@odoo/owl";
 import { parseUTCString } from "@point_of_sale/utils";
 import { Orderline } from "@point_of_sale/app/generic_components/orderline/orderline";
 
 const NBR_BY_PAGE = 30;
 
-export class PickingScreen extends Component {
-    static template = "e_mto_pos.PickingScreen";
+export class ePosOrderScreen extends Component {
+    static template = "e_pos_base.ePosOrderScreen";
     static components = {
         CenteredIcon,
         SearchBar,
@@ -32,12 +31,12 @@ export class PickingScreen extends Component {
             nbrPage: 1,
             filter: this._defaultFilterDetails(),
             search: this._defaultSearchDetails(),
-            selectedPicking: null,
-            filteredPickingList:[],
-            pickingLines:[],
+            selectedPosOrder: null,
+            filteredPosOrderList:[],
+            posOrderLines:[],
         });
 
-        this.totalPickingCount = 0
+        this.totalPosOrderCount = 0
 
         onMounted(()=>{
             this.onFilterSelected(this.state.filter);
@@ -47,35 +46,28 @@ export class PickingScreen extends Component {
     
     async onFilterSelected(selectedFilter) {
         this.state.filter = selectedFilter;
-        await this._fetchPickings();
+        await this._fetchPosOrders();
     }
     
     async onSearch(search) {
         this.state.search = search;
         this.state.page = 1;
-        await this._fetchPickings();
+        await this._fetchPosOrders();
     }
 
-    async onClickpicking(clickedPicking,switchPane=false) {
-        this.state.selectedPicking = clickedPicking;
-        await this._fetchPickingLines(clickedPicking)
+    async onClickPosOrder(clickedOrder,switchPane=false) {
+        this.state.selectedPosOrder = clickedOrder;
+        await this._fetchposOrderLines(clickedOrder)
         if (switchPane)
             this.switchPane()
     }
 
-    onClickRefundOrderUid(orderUuid) {
-        const refundOrder = this.pos.models["pos.picking"].find((picking) => picking.uuid == orderUuid);
-        if (refundOrder) {
-            this._setOrder(refundOrder);
-        }
+    _isPosOrderSelected (pos_order){
+        return pos_order.id == this.state.selectedPosOrder?.id || null
     }
 
-    _isPickingSelected (picking){
-        return picking.id == this.state.selectedPicking?.id || null
-    }
-
-    getSelectedPickinglineId() {
-        return this.state.filteredPickingList.filter((p)=> this._isPickingSelected(p))
+    getSelectedPosOrderlineId() {
+        return this.state.filteredPosOrderList.filter((p)=> this._isPosOrderSelected(p))
     }
 
     activeOrderFilter(o) {
@@ -88,47 +80,49 @@ export class PickingScreen extends Component {
         this.pos.switchPaneTicketScreen();
     }
 
-    GetDate(date) {
+    getDate(date) {
         return formatDateTime(parseUTCString(date));
     }
 
-    getPartner(picking) {
-        return picking.get_partner_name();
+    getPartner(pos_order) {
+        return pos_order.get_partner_name();
     }
     
     
-    isHighlighted(picking) {
-        return this._isPickingSelected(picking) ;
+    isHighlighted(pos_order) {
+        return this._isPosOrderSelected(pos_order) ;
     }
     
-    closePickingScreen() {
+    closePosOrderScreen() {
         this.pos.showScreen("ProductScreen");
     }
-   
-    GetState(state){
-        return{
-            'waiting': _t("Waiting"),
-            'assigned': _t("Ready"),
-            'done': _t("Delivered"),
-            'cancel': _t("Cancel"),
-        
-        }[state]
+
+    _getStates() {
+        return {
+            'paid':     { text: _t("Paid"),     decoration: 'badge-success' },
+            'invoiced': { text: _t("Invoiced"), decoration: 'badge-info' },
+            'done':     { text: _t("Done"),     decoration: 'badge-secondary' },
+            'cancel':   { text: _t("Cancel"),   decoration: 'badge-danger' },
+        };
+    }
+    
+    getStateData(stateKey) {
+        return this._getStates()[stateKey] ?? { 
+            text: stateKey, 
+            decoration: 'badge-secondary' 
+        };
+    }
+    
+    getStateText(stateKey) {
+        return this.getStateData(stateKey).text;
+    }
+    
+    getStateDecoration(stateKey) {
+        return this.getStateData(stateKey).decoration;
     }
 
-
-    onConfirmPicking(){
-        this.dialog.add(ConfirmationDialog, {
-            title: _t("Confirm Delivery ?"),
-            body: _t("Are you sure that the customer wants to recive the picking?"),
-            confirm: () => this.ConfirmPicking(this.state.selectedPicking),
-        });
-    }
-    async ConfirmPicking(pickingLine){
-        await this._confirmPicking(pickingLine)
-    }
-
-    getPickingLineProps() {
-        return this.state.pickingLines.map(line => {
+    getPosOrderLineProps() {
+        return this.state.posOrderLines.map(line => {
             const { id, ...lineProps } = line;
             return {
                 line: lineProps
@@ -140,22 +134,21 @@ export class PickingScreen extends Component {
     async onNextPage() {
         if (this.state.page < this.getNbrPages()) {
             this.state.page += 1;
-            await this._fetchPickings();
+            await this._fetchPosOrders();
         }
     }
-
     async onPrevPage() {
         if (this.state.page > 1) {
             this.state.page -= 1;
-            await this._fetchPickings();
+            await this._fetchPosOrders();
         }
     }
 
     getNbrPages() {
-        return Math.ceil(this.totalPickingCount / NBR_BY_PAGE);
+        return Math.ceil(this.totalPosOrderCount / NBR_BY_PAGE);
     }
     getPageNumber() {
-        if (!this.totalPickingCount) {
+        if (!this.totalPosOrderCount) {
             return `1/1`;
         } else {
             return `${this.state.page}/${this.getNbrPages()}`;
@@ -186,23 +179,14 @@ export class PickingScreen extends Component {
             text: _t("All"),
             indented: true,
         });
-        states.set("assigned", {
-            text: _t("Ready"),
-            indented: true,
+        const _states = this._getStates();
+
+        Object.entries(_states).forEach(([key, stateData]) => {
+            states.set(key, {
+                text: stateData.text,
+                indented: true,
+            });
         });
-        states.set("waiting", {
-            text: _t("Waiting"),
-            indented: true,
-        });
-        states.set("done", {
-            text: _t("Delivered"),
-            indented: true,
-        });
-        states.set("cancel", {
-            text: _t("Cancel"),
-            indented: true,
-        });
-        
         return states;
     }
     
@@ -215,11 +199,11 @@ export class PickingScreen extends Component {
             },
             POS_ORDER_REFERENCE: {
                 displayName: _t("Order Number"),
-                modelField: "pos_order_pos_reference",
+                modelField: "pos_reference",
             },
             POS_TRACKING_NUMBER: {
                 displayName: _t("Receipt Number"),
-                modelField: "pos_order_tracking_number",
+                modelField: "tracking_number",
             },
             PARTNER_NAME: {
                 displayName: _t("Partner"),
@@ -237,11 +221,11 @@ export class PickingScreen extends Component {
         return {fieldName: "name",searchTerm: "",}
     }
     _defaultFilterDetails(){
-        return "assigned"
+        return "all"
     }
 
     //#region FETCH
-    _computeSyncedPickingsDomain() {
+    _computeSyncedPosOrderDomain() {
         
         const { fieldName, searchTerm } = this.state.search;
         const searchField = this._getSearchFields()?.[fieldName] ?? undefined;
@@ -257,12 +241,12 @@ export class PickingScreen extends Component {
         
     }
 
-    async _fetchPickings() {
-        const domain = this._computeSyncedPickingsDomain();
+    async _fetchPosOrders() {
+        const domain = this._computeSyncedPosOrderDomain();
         const offset = (this.state.page - 1) * NBR_BY_PAGE
-        const { PickingsInfo, totalPickingCount } = await this.pos.data.call(
-            "stock.picking",
-            "read_assigned_picking_ids",
+        const { data , totalCount } = await this.pos.data.call(
+            "pos.order",
+            "read_no_draft_pos_order_ids",
             [],
             {
                 domain,
@@ -271,40 +255,22 @@ export class PickingScreen extends Component {
             }
         );
 
-        this.totalPickingCount = totalPickingCount;
-        this.state.filteredPickingList = PickingsInfo
-        this.selectedPicking = null
+        this.totalPosOrderCount = totalCount;
+        this.state.filteredPosOrderList = data
+        this.selectedPosOrder = null
     }
 
-    async _fetchPickingLines(pickingLine) {
-        this.state.pickingLines  = await this.pos.data.call(
-            "stock.picking",
-            "read_picking_lines",
+    async _fetchposOrderLines(pos_order) {
+        this.state.posOrderLines  = await this.pos.data.call(
+            "pos.order",
+            "read_pos_order_lines",
             [],
-            {picking_id: pickingLine.id}
+            {pos_order_id: pos_order.id}
         ); 
     }
 
-    async _confirmPicking(pickingLine) {
-        await this.pos.data.call(
-            "stock.picking",
-            "confirm_picking",
-            [],
-            {picking_id: pickingLine.id}
-        ); 
-        this.notification.add(
-            _t("Success confirmation for Delivery %s in POS order: %s")
-                .replace("%s", pickingLine.name)
-                .replace("%s", pickingLine.pos_order_pos_reference),
-            {
-                type: "success",
-                title: _t("Success"),
-                autocloseDelay: 3000,
-            }
-        );
-        this.closePickingScreen();
-    }
+    
 }
 
 
-registry.category("pos_screens").add("PickingScreen", PickingScreen);
+registry.category("pos_screens").add("ePosOrderScreen", ePosOrderScreen);

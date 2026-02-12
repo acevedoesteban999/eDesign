@@ -5,11 +5,8 @@ import { _t } from "@web/core/l10n/translation";
 
 patch(ControlButtons.prototype, {
     
-    clickPicking() {
-        // const order = this.pos.get_order();
-        // const partner = order.get_partner();
-        // const searchDetails = partner ? { fieldName: "PARTNER", searchTerm: partner.name } : {};
-        this.pos.showScreen("PickingScreen");
+    clickPosOrders() {
+        this.pos.showScreen("ePosOrderScreen");
     }
 });
 

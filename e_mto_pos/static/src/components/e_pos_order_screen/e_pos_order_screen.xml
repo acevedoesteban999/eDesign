@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="e_mto_pos.ePosOrderScreen" t-inherit="e_pos_base.ePosOrderScreen" t-inherit-mode="extension">
+        <xpath expr="//button[hasclass('back-button')]" position="after">
+            <button t-if="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
+                t-on-click="onConfirmPicking">
+                Confirm Delivery
+            </button>
+        </xpath>
+        <xpath expr="//div[hasclass('actionpad')]" position="inside">
+            <button t-elif="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
+                t-on-click="onConfirmPicking">
+                Confirm Delivery
+            </button>
+        </xpath>
+    </t>
+</templates>
