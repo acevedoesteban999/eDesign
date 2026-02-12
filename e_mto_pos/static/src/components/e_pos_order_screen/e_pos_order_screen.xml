@@ -13,5 +13,28 @@
                 Confirm Delivery
             </button>
         </xpath>
+        <xpath expr="//div[hasclass('header-row')]" position="inside">
+            <div class="col end p-2">Picking State</div>
+        </xpath>
+        <xpath expr="//div[hasclass('order-row')]" position="inside">
+            <div class="col end p-2">
+                <div t-if="pos_order.picking_pos_mrp_state" class="ebadge badge-pill" t-att-class="this.getPickingStateDecoration(pos_order.picking_pos_mrp_state)">
+                    <t t-esc="getPickingStateText(pos_order.picking_pos_mrp_state)"/>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//div[hasclass('line-top-info')]" position="inside">
+            <div t-if="this.state.selectedPosOrder.picking_pos_mrp_state" class="row align-items-center justify-content-between flex-grow-1 w-100 w-md-auto">
+                <div class="col-auto">
+                    Picking State:
+                </div>
+                <div class="col-auto">
+                    <div  class="ebadge badge-pill" t-att-class="this.getPickingStateDecoration(this.state.selectedPosOrder.picking_pos_mrp_state)">
+                        <t t-esc="getPickingStateText(this.state.selectedPosOrder.picking_pos_mrp_state)"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+                                
     </t>
 </templates>

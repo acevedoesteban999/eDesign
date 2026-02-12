@@ -53,7 +53,7 @@
                                         <div><t t-if="pos_order.partner_id" t-esc="pos_order.partner_id[1]"></t></div>
                                     </div>
                                     <div class="col end p-2">
-                                        <div class="ebadge badge-pill" t-att-class="this.getStateDecoration(pos_order.state)">
+                                        <div t-if="pos_order.state" class="ebadge badge-pill" t-att-class="this.getStateDecoration(pos_order.state)">
                                             <t t-esc="getStateText(pos_order.state)"/>
                                         </div>
                                     </div>
@@ -68,7 +68,7 @@
                                         <div><t t-esc="getDate(pos_order.create_date)"></t></div>
                                     </div>
                                     <div class="col p-2 d-flex justify-content-between align-items-center">
-                                        <div class="ebadge badge-pill" t-att-class="this.getStateDecoration(pos_order.state)">
+                                        <div t-if="pos_order.state" class="ebadge badge-pill" t-att-class="this.getStateDecoration(pos_order.state)">
                                             <t t-esc="getStateText(pos_order.state)"/>
                                         </div>
                                     </div>
@@ -89,12 +89,12 @@
                                 <span class="text-muted h4" t-esc="this.state.selectedPosOrder.name"/>
                             </div>
                             <div class="col text-end">
-                                <div class="ebadge badge-pill" t-att-class="this.getStateDecoration(this.state.selectedPosOrder.state)">
+                                <div  t-if="this.state.selectedPosOrder.state" class="ebadge badge-pill" t-att-class="this.getStateDecoration(this.state.selectedPosOrder.state)">
                                     <t t-esc="getStateText(this.state.selectedPosOrder.state)"/>
                                 </div>
                             </div>
                         </div>
-                        <div class="py-2 px-3 rounded-3 bg-100">
+                        <div class="line-top-info py-2 px-3 rounded-3 bg-100">
                             <div class="row align-items-center justify-content-between flex-grow-1 w-100 w-md-auto">
                                 <div class="col-auto">
                                     Receipt Number: 
@@ -144,15 +144,7 @@
                                     <button class="back-button btn btn-light btn-lg lh-lg" t-on-click="()=>this.switchPane()" t-att-class="{'w-100':!_assigned}">
                                         <i class="oi oi-chevron-left fa-fw" role="img" aria-label="Go Back" title="Go Back" />
                                     </button>
-                                    <!-- <button t-if="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
-                                        t-on-click="onConfirmPicking">
-                                        Confirm Delivery
-                                    </button> -->
                                 </div>
-                                <!-- <button t-elif="_assigned" class="pay pay-order-button button btn btn-primary btn-lg py-3 d-flex align-items-center justify-content-center flex-fill"
-                                    t-on-click="onConfirmPicking">
-                                    Confirm Delivery
-                                </button> -->
                             </div>
                         </div>
                     </t>

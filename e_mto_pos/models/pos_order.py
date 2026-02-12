@@ -16,6 +16,17 @@ class PosOrder(models.Model):
         compute="_compute_mrp_production_ids"
     )
     
+    picking_pos_mrp = fields.Many2one('stock.picking',compute="_compute_picking_pos_mrp")
+    picking_pos_mrp_state = fields.Selection(related='picking_pos_mrp.state')
+    
+    def _compute_picking_pos_mrp(self):
+        for rec in self:
+            rec.picking_pos_mrp = False
+            if rec.picking_count:
+                mrp_pickings = rec.picking_ids.filtered_domain([('mrp_pos_ok','=',True)])
+                if len(mrp_pickings) == 1:
+                    rec.picking_pos_mrp = mrp_pickings[0]
+                
     def _compute_mrp_production_ids(self):
         for rec in self:
             rec.mrp_production_ids = [Command.link(mrp.id) for mrp in rec.lines.mrp_production_ids]
@@ -232,6 +243,13 @@ class PosOrder(models.Model):
                     state=', '.join(set(undelivered_pickings.mapped('state'))),
                     pickings=', '.join(undelivered_pickings.mapped('name'))
                 ))
+    
+    
+    def get_read_no_draft_pos_order_ids_fields(self):
+        fields = super().get_read_no_draft_pos_order_ids_fields()
+        self.picking_ids
+        if self.picking_count == 1: #self.picking_ids[0].mrp_pos_ok
+            return fields + ['picking_pos_mrp','picking_pos_mrp_state']
     
     @api.model
     def read_pos_order_lines(self, pos_order_id):

@@ -35,6 +35,31 @@ patch( ePosOrderScreen.prototype,{
         );
         this.closePosOrderScreen();
     },
+
+    _getPickingStates() {
+        return {
+            'waiting':     { text: _t("Waiting"),     decoration: 'badge-warning' },
+            'confirmed': { text: _t("Confirmed"), decoration: 'badge-info' },
+            'assigned':     { text: _t("Ready"),     decoration: 'badge-success' },
+            'done':     { text: _t("Done"),     decoration: 'badge-secondary' },
+            'cancel':   { text: _t("Cancel"),   decoration: 'badge-danger' },
+        };
+    },
+    
+    getPickingStateData(stateKey) {
+        return this._getPickingStates()[stateKey] ?? { 
+            text: stateKey, 
+            decoration: 'badge-secondary' 
+        };
+    },
+    
+    getPickingStateText(stateKey) {
+        return this.getPickingStateData(stateKey).text;
+    },
+    
+    getPickingStateDecoration(stateKey) {
+        return this.getPickingStateData(stateKey).decoration;
+    },
 })
 
 

@@ -5,7 +5,19 @@ from odoo.osv.expression import AND
 class PosOrder(models.Model):
     _inherit = 'pos.order'
 
-                
+    
+    def get_read_no_draft_pos_order_ids_fields(self):
+        return [
+            'id',
+            'name',
+            'create_date',
+            'state',
+            'pos_reference',
+            'tracking_number',
+            'general_note',
+            'partner_id',
+        ]
+    
     @api.model
     def read_no_draft_pos_order_ids(self, domain, limit, offset):
         _domain = [('state', 'not in', ['draft'])]
@@ -17,20 +29,8 @@ class PosOrder(models.Model):
             limit=limit, 
             offset=offset, 
             order='create_date desc'
-            ).read([
-                'id',
-                'name',
-                'create_date',
-                'state',
-                'pos_reference',
-                'tracking_number',
-                'general_note',
-                'partner_id',
-            ]
-        )
-        
-        
-         
+            ).read(self.get_read_no_draft_pos_order_ids_fields())
+
         return {
             'data': data, 
             'totalCount': self.search_count(_domain)}
